@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status pills (Pending/Approved/Rejected/Published/Draft/Confirmed/Open) seen throughout
+     Figs 51-77. Background colour is applied at runtime via ViewCompat.setBackgroundTintList
+     so one drawable serves every status. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/status_neutral_bg" />
+    <corners android:radius="100dp" />
+</shape>
