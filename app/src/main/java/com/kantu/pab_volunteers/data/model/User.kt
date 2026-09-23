@@ -1,6 +1,7 @@
 package com.kantu.pab_volunteers.data.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 
 data class User(
     @DocumentId
@@ -16,8 +17,14 @@ data class User(
     val profileComplete: Boolean = false,
     val joinedDate: Long = 0L
 ) {
+    // These are derived, so they must not be written to Firestore as fields.
+    @get:Exclude
     val fullName: String get() = "$firstName $lastName".trim()
+
+    @get:Exclude
     val programmeInterest: String get() = programmeInterests.joinToString(", ")
+
+    @get:Exclude
     val isAdmin: Boolean get() = role == ROLE_ADMIN
 
     companion object {

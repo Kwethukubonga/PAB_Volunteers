@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 
@@ -11,18 +12,25 @@ class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
     private val handler = Handler(Looper.getMainLooper())
-    private val goToWelcome = Runnable { AppNavGraph.goToWelcome(this) }
+
+    private val goNext = Runnable {
+        if (FirebaseAuthManager.isSignedIn) {
+            AppNavGraph.goToVolunteerMain(this)
+        } else {
+            AppNavGraph.goToWelcome(this)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        handler.postDelayed(goToWelcome, 900L)
+        handler.postDelayed(goNext, 900L)
     }
 
     override fun onDestroy() {
-        handler.removeCallbacks(goToWelcome)
+        handler.removeCallbacks(goNext)
         super.onDestroy()
     }
 }

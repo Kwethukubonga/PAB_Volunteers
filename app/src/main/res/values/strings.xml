@@ -26,6 +26,15 @@
     <string name="sign_in">Sign In</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="sign_in_with_email">Sign in with email</string>
+
+    <string name="auth_sign_in_title">Welcome Back</string>
+    <string name="auth_sign_in_subtitle">Sign in to your volunteer account</string>
+    <string name="auth_sign_in_action">Sign In</string>
+    <string name="auth_switch_to_create">New here? Create an account</string>
+    <string name="auth_create_title">Create Your Account</string>
+    <string name="auth_create_subtitle">Join the Philisa volunteer team</string>
+    <string name="auth_create_action">Create Account</string>
+    <string name="auth_switch_to_sign_in">Already have an account? Sign in</string>
     <string name="about_us_heading">About Us</string>
     <string name="about_us_title">Serving Lavender Hill Since 2008</string>
     <string name="about_us_body">Philisa Abafazi Bethu Women Centre SA is a non-profit women and family centre founded in 2008 in Lavender Hill, Cape Town, and now based in Steenberg. We support around 100 000 people across Lavender Hill and five surrounding informal settlements through programmes rooted in hope, healing, and humanity, because every life matters.</string>
