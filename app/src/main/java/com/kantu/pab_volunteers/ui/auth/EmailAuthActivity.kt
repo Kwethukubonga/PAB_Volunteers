@@ -26,7 +26,11 @@ class EmailAuthActivity : AppCompatActivity() {
             val email = binding.etEmail.text?.toString().orEmpty()
             val password = binding.etPassword.text?.toString().orEmpty()
             if (isCreateMode) {
-                viewModel.createAccount(email, password)
+                viewModel.createAccount(
+                    email,
+                    password,
+                    binding.etConfirmPassword.text?.toString().orEmpty()
+                )
             } else {
                 viewModel.signInWithEmail(email, password)
             }
@@ -39,6 +43,7 @@ class EmailAuthActivity : AppCompatActivity() {
         binding.tvSwitchMode.setOnClickListener {
             isCreateMode = !isCreateMode
             viewModel.clearMessages()
+            binding.etConfirmPassword.text?.clear()
             applyMode()
         }
 
@@ -53,12 +58,14 @@ class EmailAuthActivity : AppCompatActivity() {
             binding.btnPrimary.setText(R.string.auth_create_action)
             binding.tvSwitchMode.setText(R.string.auth_switch_to_sign_in)
             binding.tvForgotPassword.visibility = View.GONE
+            binding.tilConfirmPassword.visibility = View.VISIBLE
         } else {
             binding.tvTitle.setText(R.string.auth_sign_in_title)
             binding.tvSubtitle.setText(R.string.auth_sign_in_subtitle)
             binding.btnPrimary.setText(R.string.auth_sign_in_action)
             binding.tvSwitchMode.setText(R.string.auth_switch_to_create)
             binding.tvForgotPassword.visibility = View.VISIBLE
+            binding.tilConfirmPassword.visibility = View.GONE
         }
     }
 

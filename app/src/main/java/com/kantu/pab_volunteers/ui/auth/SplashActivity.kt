@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
+import com.kantu.pab_volunteers.navigation.AuthNavGraph
 
 class SplashActivity : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
 
     private val goNext = Runnable {
         if (FirebaseAuthManager.isSignedIn) {
-            AppNavGraph.goToVolunteerMain(this)
+            AuthNavGraph.goToProfileSetup(this)
         } else {
             AppNavGraph.goToWelcome(this)
         }
