@@ -34,8 +34,12 @@ class AuthViewModel : ViewModel() {
         run(authAction = { authRepository.signInWithEmail(email, password) })
     }
 
-    fun createAccount(email: String, password: String) {
+    fun createAccount(email: String, password: String, confirmPassword: String) {
         if (!validate(email, password)) return
+        if (password != confirmPassword) {
+            _errorMessage.value = "Passwords do not match"
+            return
+        }
         run(authAction = { authRepository.createAccountWithEmail(email, password) })
     }
 
