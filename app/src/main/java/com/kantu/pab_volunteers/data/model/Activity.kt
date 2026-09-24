@@ -1,6 +1,7 @@
 package com.kantu.pab_volunteers.data.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 
 // This is a volunteer opportunity, not an android.app.Activity.
 data class Activity(
@@ -21,7 +22,11 @@ data class Activity(
     val createdBy: String = "",
     val createdDate: Long = 0L
 ) {
+    // Derived, so they must not be written to Firestore as fields.
+    @get:Exclude
     val spotsRemaining: Int get() = (totalSpots - filledSpots).coerceAtLeast(0)
+
+    @get:Exclude
     val dateTimeLabel: String get() = "$date · $startTime - $endTime"
 
     companion object {

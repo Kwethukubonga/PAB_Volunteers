@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_header"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="88dp"
+        android:layout_height="88dp"
+        android:background="@drawable/bg_logo_badge"
+        android:contentDescription="@string/app_name"
+        android:padding="8dp"
+        android:src="@drawable/logo_philisa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:text="@string/org_name"
+        android:textColor="@color/text_on_purple"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/org_subtitle"
+        android:textColor="@color/text_on_purple_muted"
+        android:textSize="@dimen/text_body" />
+
+</LinearLayout>

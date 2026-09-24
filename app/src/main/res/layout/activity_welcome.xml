@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_hero_rally" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_hero_scrim" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_lg">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_logo_badge"
+            android:contentDescription="@string/app_name"
+            android:padding="6dp"
+            android:src="@drawable/logo_philisa" />
+
+        <TextView
+            android:id="@+id/tvWelcomeQuote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:text="@string/welcome_quote"
+            android:textAppearance="@style/TextAppearance.PAB.Display" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:text="@string/welcome_subtitle"
+            android:textColor="@color/text_on_purple_muted"
+            android:textSize="@dimen/text_subtitle" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnExplore"
+            style="@style/Widget.PAB.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:minHeight="@dimen/button_height"
+            android:text="@string/welcome_cta"
+            android:textColor="@color/text_on_purple" />
+
+    </LinearLayout>
+</FrameLayout>

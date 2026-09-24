@@ -1,5 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Brand purples (header gradients, primary actions) -->
+    <color name="purple_900">#3B0764</color>
+    <color name="purple_800">#4C1D95</color>
+    <color name="purple_700">#5B21B6</color>
+    <color name="purple_500">#7C3AED</color>
+    <color name="purple_100">#EDE9FE</color>
+
+    <!-- Surfaces -->
+    <color name="background_cream">#FDFBF5</color>
+    <color name="card_background">#FFFFFF</color>
+    <color name="divider">#E5E7EB</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Text -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_on_purple">#FFFFFF</color>
+    <color name="text_on_purple_muted">#D8B4FE</color>
+
+    <!-- Status pills -->
+    <color name="status_success_bg">#D1FAE5</color>
+    <color name="status_success_text">#059669</color>
+    <color name="status_pending_bg">#FEF3C7</color>
+    <color name="status_pending_text">#D97706</color>
+    <color name="status_error_bg">#FEE2E2</color>
+    <color name="status_error_text">#DC2626</color>
+    <color name="status_info_bg">#CFFAFE</color>
+    <color name="status_info_text">#0E7490</color>
+    <color name="status_neutral_bg">#F3F4F6</color>
+    <color name="status_neutral_text">#4B5563</color>
+
+    <!-- Stat tiles -->
+    <color name="tile_lavender">#EDE9FE</color>
+    <color name="tile_blue">#DBEAFE</color>
+    <color name="tile_green">#D1FAE5</color>
+    <color name="tile_pink">#FCE7F3</color>
 </resources>
