@@ -52,6 +52,10 @@
             android:name=".ui.volunteer.VolunteerMainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.admin.AdminMainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

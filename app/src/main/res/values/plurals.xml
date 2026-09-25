@@ -11,4 +11,9 @@
         <item quantity="other">%1$d updates from the team</item>
     </plurals>
 
+    <plurals name="registered_volunteers">
+        <item quantity="one">%1$d registered volunteer</item>
+        <item quantity="other">%1$d registered volunteers</item>
+    </plurals>
+
 </resources>

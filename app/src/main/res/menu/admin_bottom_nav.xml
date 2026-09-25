@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/adminOverviewFragment"
+        android:icon="@drawable/ic_admin_overview"
+        android:title="@string/nav_overview" />
+
+    <item
+        android:id="@+id/manageActivitiesFragment"
+        android:icon="@drawable/ic_activities"
+        android:title="@string/nav_activities" />
+
+    <item
+        android:id="@+id/manageVolunteersFragment"
+        android:icon="@drawable/ic_admin_volunteers"
+        android:title="@string/nav_volunteers" />
+
+    <item
+        android:id="@+id/manageAnnouncementsFragment"
+        android:icon="@drawable/ic_admin_posts"
+        android:title="@string/nav_posts" />
+
+</menu>

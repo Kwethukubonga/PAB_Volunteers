@@ -287,6 +287,22 @@
     <!-- Admin -->
     <string name="admin_portal_label">ADMIN PORTAL</string>
     <string name="admin_overview_title">Philisa Management</string>
+    <string name="signed_in_as">Signed in as %1$s</string>
+    <string name="stat_total_signups">Sign-ups</string>
+    <string name="recent_volunteers_heading">Recent Volunteers</string>
+    <string name="empty_no_volunteers">No volunteers registered yet.</string>
+    <string name="empty_no_activities_yet">No activities yet. Tap + to create one.</string>
+    <string name="empty_no_announcements_yet">No announcements yet. Tap + to post one.</string>
+    <string name="empty_no_signups">Nobody has signed up for this activity yet.</string>
+    <string name="activity_signups_title">Sign-Ups</string>
+    <string name="signups_summary">%1$d signed up · %2$d spots remaining</string>
+    <string name="volunteer_profile_title">Volunteer Profile</string>
+    <string name="action_view_signups_short">Sign-ups</string>
+    <string name="label_publish_now">Publish now</string>
+    <string name="label_joined">JOINED</string>
+    <string name="activity_saved">Activity saved.</string>
+    <string name="announcement_saved">Announcement saved.</string>
+    <string name="stats_saved">Impact stats saved.</string>
     <string name="applications_awaiting_review">%1$d volunteer applications awaiting review</string>
     <string name="stat_total_volunteers">Total Volunteers</string>
     <string name="stat_pending_review">%1$d pending review</string>
