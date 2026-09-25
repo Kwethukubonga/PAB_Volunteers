@@ -1,6 +1,5 @@
 package com.kantu.pab_volunteers.ui.auth
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -22,15 +21,13 @@ class WelcomeInfoActivity : AppCompatActivity() {
     private val googleLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode != Activity.RESULT_OK) {
-            setBusy(false)
-            return@registerForActivityResult
-        }
         googleSignIn.credentialFrom(result.data)
             .onSuccess { viewModel.signInWithGoogle(it) }
-            .onFailure {
+            .onFailure { error ->
                 setBusy(false)
-                Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
+                // Backing out of the picker is not an error worth reporting.
+                if ((error as? GoogleSignInError)?.isCancelled == true) return@onFailure
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
             }
     }
 
