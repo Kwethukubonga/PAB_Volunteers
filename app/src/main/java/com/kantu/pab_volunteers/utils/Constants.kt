@@ -16,5 +16,6 @@ object Constants {
 
     const val EXTRA_ACTIVITY_ID = "extra_activity_id"
     const val EXTRA_ANNOUNCEMENT_ID = "extra_announcement_id"
+    const val EXTRA_VOLUNTEER_ID = "extra_volunteer_id"
     const val EXTRA_SELECT_TAB = "extra_select_tab"
 }

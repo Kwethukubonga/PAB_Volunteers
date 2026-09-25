@@ -2,9 +2,8 @@ package com.kantu.pab_volunteers.navigation
 
 import android.app.Activity
 import android.content.Intent
-import android.widget.Toast
-import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.User
+import com.kantu.pab_volunteers.ui.admin.AdminMainActivity
 import com.kantu.pab_volunteers.ui.auth.EmailAuthActivity
 import com.kantu.pab_volunteers.ui.auth.WelcomeInfoActivity
 import com.kantu.pab_volunteers.ui.profile.ProfileDetailsActivity
@@ -30,13 +29,18 @@ object AuthNavGraph {
         activity.finish()
     }
 
+    fun goToAdminHome(activity: Activity) {
+        activity.startActivity(clearedTask(activity, AdminMainActivity::class.java))
+        activity.finish()
+    }
+
     /**
      * Volunteers and admins share one login. Where someone lands is decided by the role on their
      * Firestore record, and profile setup only runs for someone who has not finished it yet.
      */
     fun routeAfterSignIn(activity: Activity, user: User) {
         when {
-            user.isAdmin -> Toast.makeText(activity, R.string.admin_area_coming, Toast.LENGTH_LONG).show()
+            user.isAdmin -> goToAdminHome(activity)
             user.profileComplete -> goToVolunteerHome(activity)
             else -> goToProfileSetup(activity)
         }
