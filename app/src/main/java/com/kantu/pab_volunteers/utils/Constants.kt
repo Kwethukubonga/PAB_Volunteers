@@ -5,6 +5,7 @@ object Constants {
     const val COLLECTION_ACTIVITIES = "activities"
     const val COLLECTION_ANNOUNCEMENTS = "announcements"
     const val COLLECTION_IMPACT_STATS = "impactStats"
+    const val COLLECTION_SIGNUPS = "activitySignups"
 
     const val IMPACT_STATS_DOC_ID = "current"
 

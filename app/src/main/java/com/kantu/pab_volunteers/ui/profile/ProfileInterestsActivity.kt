@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityProfileInterestsBinding
+import com.kantu.pab_volunteers.navigation.AuthNavGraph
 import com.kantu.pab_volunteers.utils.Constants
 
 class ProfileInterestsActivity : AppCompatActivity() {
@@ -62,8 +63,8 @@ class ProfileInterestsActivity : AppCompatActivity() {
         }
         viewModel.saved.observe(this) { saved ->
             if (saved) {
-                Toast.makeText(this, R.string.profile_saved, Toast.LENGTH_LONG).show()
-                finish()
+                Toast.makeText(this, R.string.profile_saved, Toast.LENGTH_SHORT).show()
+                AuthNavGraph.goToVolunteerHome(this)
             }
         }
     }
