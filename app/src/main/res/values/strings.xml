@@ -201,6 +201,19 @@
 
     <!-- Volunteer Home -->
     <string name="greeting_morning">Good morning,</string>
+    <string name="greeting_afternoon">Good afternoon,</string>
+    <string name="greeting_evening">Good evening,</string>
+    <string name="action_see_all">See all</string>
+    <string name="empty_nothing_joined">You haven\'t joined an activity yet. Browse the Activities tab to find one.</string>
+    <string name="empty_no_open_activities">No open activities right now. Check back soon.</string>
+    <string name="status_joined">Joined</string>
+    <string name="status_full">Fully booked</string>
+    <string name="action_join_activity">Join this Activity</string>
+    <string name="action_leave_activity">Leave this Activity</string>
+    <string name="leave_confirm_title">Leave this activity?</string>
+    <string name="leave_confirm_message">Your spot goes back to the group so another volunteer can take it.</string>
+    <string name="action_yes_leave">Yes, leave</string>
+    <string name="sign_out_confirm_title">Sign out of Philisa Volunteers?</string>
     <string name="volunteer_id_label">Volunteer ID · %1$s</string>
     <string name="activities_scheduled_today">%1$d activities scheduled today</string>
     <string name="stat_assigned">Assigned</string>
