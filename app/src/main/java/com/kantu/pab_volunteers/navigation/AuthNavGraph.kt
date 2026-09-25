@@ -8,6 +8,7 @@ import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.ui.auth.EmailAuthActivity
 import com.kantu.pab_volunteers.ui.auth.WelcomeInfoActivity
 import com.kantu.pab_volunteers.ui.profile.ProfileDetailsActivity
+import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 
 object AuthNavGraph {
 
@@ -20,19 +21,30 @@ object AuthNavGraph {
     }
 
     fun goToProfileSetup(activity: Activity) {
-        val intent = Intent(activity, ProfileDetailsActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        }
-        activity.startActivity(intent)
+        activity.startActivity(clearedTask(activity, ProfileDetailsActivity::class.java))
         activity.finish()
     }
 
-    // Admins skip profile setup. Their home screen is still being built.
+    fun goToVolunteerHome(activity: Activity) {
+        activity.startActivity(clearedTask(activity, VolunteerMainActivity::class.java))
+        activity.finish()
+    }
+
+    /**
+     * Volunteers and admins share one login. Where someone lands is decided by the role on their
+     * Firestore record, and profile setup only runs for someone who has not finished it yet.
+     */
     fun routeAfterSignIn(activity: Activity, user: User) {
-        if (user.isAdmin) {
-            Toast.makeText(activity, R.string.admin_area_coming, Toast.LENGTH_LONG).show()
-        } else {
-            goToProfileSetup(activity)
+        when {
+            user.isAdmin -> Toast.makeText(activity, R.string.admin_area_coming, Toast.LENGTH_LONG).show()
+            user.profileComplete -> goToVolunteerHome(activity)
+            else -> goToProfileSetup(activity)
+        }
+    }
+
+    private fun clearedTask(activity: Activity, target: Class<*>): Intent {
+        return Intent(activity, target).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
     }
 }
