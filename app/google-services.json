@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "423569547664-o8s0k70dlip6ot73bk6qmvdq2auqahgi.apps.googleusercontent.com",
+          "client_id": "423569547664-afsic4f3o67b9r0h9tk2a2krhba2ve68.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.kantu.pab_volunteers",
-            "certificate_hash": "a7d7bbae546dc63a816377d6ccb0a6e51ea40f0a"
+            "certificate_hash": "94a22a3f066e30eef425b585a8a1a04512cc96e4"
           }
         },
         {
