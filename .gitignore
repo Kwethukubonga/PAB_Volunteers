@@ -11,7 +11,11 @@ Thumbs.db
 .cxx
 .kotlin
 
-# Signing keys must never be committed.
+# Release signing must never be committed.
 *.jks
 *.keystore
 keystore.properties
+
+# The shared debug key is the one exception. It is not a secret, and sharing it
+# means every teammate's debug build has the same fingerprint for Google sign in.
+!keystore/debug.keystore
