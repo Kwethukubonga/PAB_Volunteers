@@ -6,6 +6,7 @@ import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.ErrorMessages
 import kotlinx.coroutines.tasks.await
 
 class SignupRepository {
@@ -47,7 +48,7 @@ class SignupRepository {
         return try {
             if (getMySignup(activity.id, user.uid) != null) return Result.success(Unit)
             if (activity.spotsRemaining <= 0) {
-                return Result.failure(IllegalStateException("error_spots_full"))
+                return Result.failure(IllegalStateException(ErrorMessages.SPOTS_FULL))
             }
             val signup = ActivitySignup(
                 activityId = activity.id,
