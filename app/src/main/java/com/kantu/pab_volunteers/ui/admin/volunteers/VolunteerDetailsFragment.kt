@@ -52,6 +52,8 @@ class VolunteerDetailsFragment : Fragment() {
         viewModel.volunteers.observe(viewLifecycleOwner) {
             viewModel.volunteerById(uid)?.let { bind(it) }
         }
+        // Android can reopen this screen before the list has loaded.
+        viewModel.refreshIfEmpty()
     }
 
     private fun bind(user: User) {

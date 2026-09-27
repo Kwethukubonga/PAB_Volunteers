@@ -21,4 +21,14 @@
         <item quantity="other">%1$d registered volunteers</item>
     </plurals>
 
+    <plurals name="spots_left">
+        <item quantity="one">%1$d spot left</item>
+        <item quantity="other">%1$d spots left</item>
+    </plurals>
+
+    <plurals name="spots_available">
+        <item quantity="one">%1$d spot available</item>
+        <item quantity="other">%1$d spots available</item>
+    </plurals>
+
 </resources>

@@ -35,8 +35,4 @@ object AdminNavGraph {
             bundleOf(Constants.EXTRA_ANNOUNCEMENT_ID to announcementId)
         )
     }
-
-    fun toImpactStats(navController: NavController) {
-        navController.navigate(R.id.action_global_manageImpactStatsFragment)
-    }
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="opportunities_open">
+        <item quantity="one">%1$d geleentheid oop</item>
+        <item quantity="other">%1$d geleenthede oop</item>
+    </plurals>
+
+    <plurals name="favourites_saved">
+        <item quantity="one">%1$d geleentheid gestoor</item>
+        <item quantity="other">%1$d geleenthede gestoor</item>
+    </plurals>
+
+    <plurals name="announcements_count">
+        <item quantity="one">%1$d boodskap van die span</item>
+        <item quantity="other">%1$d boodskappe van die span</item>
+    </plurals>
+
+    <plurals name="registered_volunteers">
+        <item quantity="one">%1$d geregistreerde vrywilliger</item>
+        <item quantity="other">%1$d geregistreerde vrywilligers</item>
+    </plurals>
+
+    <plurals name="spots_left">
+        <item quantity="one">%1$d plek oor</item>
+        <item quantity="other">%1$d plekke oor</item>
+    </plurals>
+
+    <plurals name="spots_available">
+        <item quantity="one">%1$d plek beskikbaar</item>
+        <item quantity="other">%1$d plekke beskikbaar</item>
+    </plurals>
+
+</resources>

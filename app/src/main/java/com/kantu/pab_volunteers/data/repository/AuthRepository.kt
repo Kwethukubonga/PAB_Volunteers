@@ -2,8 +2,9 @@ package com.kantu.pab_volunteers.data.repository
 
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
+import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
-import com.kantu.pab_volunteers.utils.ErrorMessages
+import com.kantu.pab_volunteers.utils.AppError
 import kotlinx.coroutines.tasks.await
 
 class AuthRepository {
@@ -13,7 +14,7 @@ class AuthRepository {
     suspend fun signInWithEmail(email: String, password: String): Result<FirebaseUser> {
         return try {
             val result = auth.signInWithEmailAndPassword(email.trim(), password).await()
-            val user = result.user ?: return Result.failure(IllegalStateException(ErrorMessages.GENERIC))
+            val user = result.user ?: return Result.failure(AppError(R.string.error_generic))
             Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
@@ -23,7 +24,7 @@ class AuthRepository {
     suspend fun createAccountWithEmail(email: String, password: String): Result<FirebaseUser> {
         return try {
             val result = auth.createUserWithEmailAndPassword(email.trim(), password).await()
-            val user = result.user ?: return Result.failure(IllegalStateException(ErrorMessages.GENERIC))
+            val user = result.user ?: return Result.failure(AppError(R.string.error_generic))
             Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
@@ -33,7 +34,7 @@ class AuthRepository {
     suspend fun signInWithCredential(credential: AuthCredential): Result<FirebaseUser> {
         return try {
             val result = auth.signInWithCredential(credential).await()
-            val user = result.user ?: return Result.failure(IllegalStateException(ErrorMessages.GENERIC))
+            val user = result.user ?: return Result.failure(AppError(R.string.error_generic))
             Result.success(user)
         } catch (e: Exception) {
             Result.failure(e)
@@ -48,6 +49,4 @@ class AuthRepository {
             Result.failure(e)
         }
     }
-
-    fun signOut() = FirebaseAuthManager.signOut()
 }

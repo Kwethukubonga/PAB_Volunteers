@@ -62,11 +62,6 @@
             android:defaultValue="" />
     </fragment>
 
-    <fragment
-        android:id="@+id/manageImpactStatsFragment"
-        android:name="com.kantu.pab_volunteers.ui.admin.impact.ManageImpactStatsFragment"
-        android:label="@string/manage_impact_stats_title" />
-
     <action
         android:id="@+id/action_global_activityEditorFragment"
         app:destination="@id/activityEditorFragment" />
@@ -82,9 +77,5 @@
     <action
         android:id="@+id/action_global_announcementEditorFragment"
         app:destination="@id/announcementEditorFragment" />
-
-    <action
-        android:id="@+id/action_global_manageImpactStatsFragment"
-        app:destination="@id/manageImpactStatsFragment" />
 
 </navigation>

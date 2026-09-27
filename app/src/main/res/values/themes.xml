@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <style name="Theme.PAB_Volunteers" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/purple_700</item>
+    <!-- Colours come from values/colors.xml and values-night/colors.xml, so one theme covers both modes. -->
+    <style name="Base.Theme.PAB" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
         <item name="colorPrimaryDark">@color/purple_900</item>
         <item name="colorAccent">@color/purple_500</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSurface">@color/card_background</item>
+        <item name="colorOnSurface">@color/text_primary</item>
         <item name="android:windowBackground">@color/background_cream</item>
         <item name="android:statusBarColor">@color/purple_900</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <!-- Android 8.0 cannot show dark bar buttons, so its bar stays black. Newer versions: values-v27. -->
+        <item name="android:navigationBarColor">@android:color/black</item>
         <item name="materialButtonStyle">@style/Widget.PAB.Button.Primary</item>
         <item name="textInputStyle">@style/Widget.PAB.TextInputLayout</item>
         <item name="bottomNavigationStyle">@style/Widget.PAB.BottomNavigation</item>
     </style>
 
+    <style name="Theme.PAB_Volunteers" parent="Base.Theme.PAB" />
+
     <style name="Theme.PAB_Volunteers.Splash">
         <item name="android:windowBackground">@drawable/bg_gradient_header</item>
-        <item name="android:statusBarColor">@color/purple_900</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 

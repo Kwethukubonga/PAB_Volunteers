@@ -1,21 +1,21 @@
 package com.kantu.pab_volunteers.ui.volunteer.profile
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.kantu.pab_volunteers.R
-import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentProfileBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.DateUtils
@@ -94,7 +94,7 @@ class ProfileFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.sign_out_confirm_title)
             .setPositiveButton(R.string.action_sign_out) { _, _ ->
-                FirebaseAuthManager.signOut()
+                Session.signOut(requireActivity())
                 AppNavGraph.goToWelcome(requireActivity())
             }
             .setNegativeButton(R.string.action_cancel, null)

@@ -28,6 +28,9 @@ class AnnouncementEditorFragment : Fragment() {
     private val announcementId: String
         get() = arguments?.getString(Constants.EXTRA_ANNOUNCEMENT_ID).orEmpty()
 
+    private val isEditing: Boolean
+        get() = announcementId.isNotBlank()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,23 +46,37 @@ class AnnouncementEditorFragment : Fragment() {
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         binding.btnSave.setOnClickListener { save() }
 
-        existing = viewModel.announcementById(announcementId)
         binding.tvHeading.setText(
-            if (existing == null) R.string.new_announcement_title else R.string.edit_announcement_title
+            if (isEditing) R.string.edit_announcement_title else R.string.new_announcement_title
         )
-        existing?.let {
-            binding.etTitle.setText(it.title)
-            binding.etBody.setText(it.messageBody)
-            binding.switchPublished.isChecked = it.status == Announcement.STATUS_PUBLISHED
+
+        if (isEditing) {
+            // Wait for the announcement if Android reopened this screen before the list loaded.
+            var filled = false
+            viewModel.announcements.observe(viewLifecycleOwner) {
+                val found = viewModel.announcementById(announcementId)
+                if (found != null && !filled) {
+                    filled = true
+                    existing = found
+                    binding.etTitle.setText(found.title)
+                    binding.etBody.setText(found.messageBody)
+                    binding.switchPublished.isChecked =
+                        found.status == Announcement.STATUS_PUBLISHED
+                }
+                updateSaveEnabled()
+            }
+            viewModel.refreshIfEmpty()
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.isVisible = loading
-            binding.btnSave.isEnabled = !loading
+            updateSaveEnabled()
         }
         viewModel.message.observe(viewLifecycleOwner) { message ->
-            binding.tvMessage.isVisible = !message.isNullOrBlank()
-            binding.tvMessage.text = message.orEmpty()
+            if (message == null) return@observe
+            binding.tvMessage.isVisible = true
+            binding.tvMessage.text = message.resolve(requireContext())
+            viewModel.consumeMessage()
         }
         viewModel.saved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
@@ -83,6 +100,7 @@ class AnnouncementEditorFragment : Fragment() {
         binding.tvMessage.isVisible = false
 
         val current = existing
+        if (isEditing && current == null) return
         viewModel.saveAnnouncement(
             Announcement(
                 id = current?.id.orEmpty(),
@@ -97,6 +115,12 @@ class AnnouncementEditorFragment : Fragment() {
                 createdBy = current?.createdBy.orEmpty()
             )
         )
+    }
+
+    /** Saving is held back while busy, or while an existing announcement is still loading. */
+    private fun updateSaveEnabled() {
+        val loading = viewModel.isLoading.value == true
+        binding.btnSave.isEnabled = !loading && (!isEditing || existing != null)
     }
 
     override fun onDestroyView() {

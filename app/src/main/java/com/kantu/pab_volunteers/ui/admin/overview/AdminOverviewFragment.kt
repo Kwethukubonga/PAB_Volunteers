@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.ui.admin.overview
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,9 @@ import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.admin.volunteers.VolunteerAdapter
+import com.kantu.pab_volunteers.ui.auth.Session
+import com.kantu.pab_volunteers.ui.settings.SettingsActivity
+import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class AdminOverviewFragment : Fragment() {
@@ -67,11 +71,16 @@ class AdminOverviewFragment : Fragment() {
         ) { AdminNavGraph.toAnnouncementEditor(findNavController()) }
 
         setUpQuickAction(
-            binding.actionImpactStats.root,
-            R.drawable.ic_admin_overview,
-            R.string.action_manage_impact_stats,
-            R.string.action_manage_impact_stats_desc
-        ) { AdminNavGraph.toImpactStats(findNavController()) }
+            binding.actionSettings.root,
+            R.drawable.ic_settings,
+            R.string.action_settings,
+            R.string.action_settings_desc
+        ) {
+            startActivity(
+                Intent(requireContext(), SettingsActivity::class.java)
+                    .putExtra(Constants.EXTRA_IS_ADMIN, true)
+            )
+        }
 
         binding.tvAdminName.text = getString(
             R.string.signed_in_as,
@@ -88,7 +97,7 @@ class AdminOverviewFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.sign_out_confirm_title)
             .setPositiveButton(R.string.action_sign_out) { _, _ ->
-                FirebaseAuthManager.signOut()
+                Session.signOut(requireActivity())
                 AppNavGraph.goToWelcome(requireActivity())
             }
             .setNegativeButton(R.string.action_cancel, null)
@@ -111,7 +120,9 @@ class AdminOverviewFragment : Fragment() {
     private fun observeViewModel() {
         viewModel.volunteers.observe(viewLifecycleOwner) { volunteers ->
             binding.statVolunteers.tvStatValue.text = volunteers.size.toString()
-            val recent = volunteers.take(MAX_RECENT)
+        }
+        viewModel.recentVolunteers.observe(viewLifecycleOwner) { newestFirst ->
+            val recent = newestFirst.take(MAX_RECENT)
             adapter.submitList(recent)
             binding.rvRecentVolunteers.isVisible = recent.isNotEmpty()
             binding.tvEmptyVolunteers.isVisible = recent.isEmpty()

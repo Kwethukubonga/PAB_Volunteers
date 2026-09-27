@@ -84,6 +84,9 @@ class ActivitiesFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) = Unit
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
+        // The fragment outlives its view when a detail screen is opened, so re-select the tab
+        // it was on. Otherwise the first tab lights up over the other tab's list.
+        binding.tabs.getTabAt(if (showingFavourites) 1 else 0)?.select()
     }
 
     private fun render() {

@@ -79,6 +79,8 @@ class ScheduleFragment : Fragment() {
             override fun onTabUnselected(tab: TabLayout.Tab) = Unit
             override fun onTabReselected(tab: TabLayout.Tab) = Unit
         })
+        // Same reason as on Activities: keep the highlighted tab matched to the list shown.
+        binding.tabs.getTabAt(selectedTab)?.select()
     }
 
     private fun render() {

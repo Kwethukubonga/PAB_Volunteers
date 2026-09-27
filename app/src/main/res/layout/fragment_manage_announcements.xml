@@ -47,7 +47,7 @@
             android:contentDescription="@string/action_create_announcement"
             android:padding="@dimen/spacing_sm"
             android:src="@drawable/ic_add"
-            app:tint="@color/purple_700" />
+            app:tint="@color/accent" />
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -95,7 +95,8 @@
                         android:layout_height="40dp"
                         android:alpha="0.4"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_admin_posts" />
+                        android:src="@drawable/ic_admin_posts"
+                        app:tint="@color/text_secondary" />
 
                     <TextView
                         android:layout_width="wrap_content"

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityEmailAuthBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.utils.UiText
 
 class EmailAuthActivity : AppCompatActivity() {
 
@@ -85,12 +86,12 @@ class EmailAuthActivity : AppCompatActivity() {
         }
     }
 
-    private fun showMessage(message: String?, isError: Boolean) {
-        if (message.isNullOrBlank()) {
+    private fun showMessage(message: UiText?, isError: Boolean) {
+        if (message == null) {
             binding.tvMessage.visibility = View.GONE
             return
         }
-        binding.tvMessage.text = message
+        binding.tvMessage.text = message.resolve(this)
         binding.tvMessage.setTextColor(
             getColor(if (isError) R.color.status_error_text else R.color.status_success_text)
         )

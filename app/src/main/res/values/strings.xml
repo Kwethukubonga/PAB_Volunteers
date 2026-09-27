@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Philisa Volunteers</string>
+    <string name="app_name" translatable="false">Philisa Volunteers</string>
 
     <!-- Bottom navigation labels -->
     <string name="nav_home">Home</string>
@@ -11,19 +11,15 @@
     <string name="nav_overview">Overview</string>
     <string name="nav_volunteers">Volunteers</string>
     <string name="nav_posts">Posts</string>
-    <string name="nav_applied">Applied</string>
-    <string name="org_name">Philisa Abafazi Bethu</string>
-    <string name="org_subtitle">Women Centre SA</string>
-    <string name="org_tagline">"Bringing the Lavender Back to the Hills."</string>
+    <string name="org_name" translatable="false">Philisa Abafazi Bethu</string>
+    <string name="org_subtitle" translatable="false">Women Centre SA</string>
+    <string name="quote_mark" translatable="false">&#8220;</string>
+    <string name="org_tagline" translatable="false">"Bringing the Lavender Back to the Hills."</string>
 
     <!-- Welcome / Landing -->
     <string name="welcome_quote">"Working towards a future where women will be free."</string>
     <string name="welcome_subtitle">Join our volunteers supporting women, children, and families across Lavender Hill and Cape Town\'s surrounding communities.</string>
     <string name="welcome_cta">Explore Philisa Volunteers</string>
-    <string name="official_volunteer_app">Official Volunteer App</string>
-    <string name="become_a_volunteer">Become a Volunteer</string>
-    <string name="volunteer_login">Volunteer Login</string>
-    <string name="sign_in">Sign In</string>
     <string name="continue_with_google">Continue with Google</string>
     <string name="sign_in_with_email">Sign in with email</string>
 
@@ -38,98 +34,53 @@
 
     <string name="profile_setup_heading">Profile Setup</string>
     <string name="profile_step_1_of_2">Step 1 of 2</string>
+    <string name="profile_setup_not_you">Not you? Sign out</string>
     <string name="profile_step_2_of_2">Step 2 of 2</string>
-    <string name="hint_first_name">Nomsa</string>
-    <string name="hint_last_name">Dlamini</string>
-    <string name="hint_email">nomsa@email.com</string>
-    <string name="hint_phone">+27 71 234 5678</string>
+    <string name="hint_first_name" translatable="false">Nomsa</string>
+    <string name="hint_last_name" translatable="false">Dlamini</string>
+    <string name="hint_email" translatable="false">nomsa@email.com</string>
+    <string name="hint_phone" translatable="false">+27 71 234 5678</string>
     <string name="hint_choose_programme">Choose a programme</string>
     <string name="hint_area">e.g. Khayelitsha, Gugulethu</string>
     <string name="profile_setup_save">Save Profile</string>
     <string name="profile_saved">Profile saved</string>
-    <string name="admin_area_coming">Signed in as admin. The admin area is still being built.</string>
-    <string name="about_us_heading">About Us</string>
-    <string name="about_us_title">Serving Lavender Hill Since 2008</string>
-    <string name="about_us_body">Philisa Abafazi Bethu Women Centre SA is a non-profit women and family centre founded in 2008 in Lavender Hill, Cape Town, and now based in Steenberg. We support around 100 000 people across Lavender Hill and five surrounding informal settlements through programmes rooted in hope, healing, and humanity, because every life matters.</string>
-    <string name="about_us_image_desc">Volunteers and staff at the Philisa Abafazi Bethu centre</string>
 
     <!-- Our Programmes -->
     <string name="eyebrow_our_programmes">Our Programmes</string>
     <string name="programmes_heading">Where Volunteers Make Their Mark</string>
-    <string name="programmes_subheading">10 programmes. One mission. Countless lives changed.</string>
-    <string name="programme_seniors">Senior Programme</string>
-    <string name="programme_mens_cafe">Men\'s Café</string>
-    <string name="programme_baby_saver">Baby Saver</string>
-    <string name="programme_search_rescue">Search and Rescue Team</string>
-
-    <!-- Why Volunteer -->
-    <string name="eyebrow_why_volunteer">Why Volunteer?</string>
-    <string name="why_volunteer_heading">Why Volunteer with Philisa?</string>
-    <string name="why_1_title">Make a Real Difference</string>
-    <string name="why_1_body">Your time creates tangible impact for women, children, and families in Lavender Hill and the surrounding communities.</string>
-    <string name="why_2_title">Grow Your Skills</string>
-    <string name="why_2_body">Take part in hands-on community work that builds real, practical experience alongside our team.</string>
-    <string name="why_3_title">Join a Caring Community</string>
-    <string name="why_3_body">Work alongside a dedicated team united by hope, healing, and humanity.</string>
-    <string name="why_4_title">Be Part of the Change</string>
-    <string name="why_4_body">Help bring lasting change to a community facing real challenges, one family at a time.</string>
-    <string name="why_volunteer_image_desc">Volunteers joining hands together</string>
-
-    <!-- Impact area -->
-    <string name="impact_area_heading">Where We Work</string>
-    <string name="impact_area_body">Lavender Hill is home to around 100 000 people, including five informal settlements, many facing high unemployment and daily hardship. Since 2008, Philisa Abafazi Bethu has stood alongside this community, one family at a time.</string>
-    <string name="impact_area_stat_founded_value">2008</string>
-    <string name="impact_area_stat_founded_label">Founded</string>
-    <string name="impact_area_stat_people_value">100 000+</string>
-    <string name="impact_area_stat_people_label">People in our community</string>
-    <string name="impact_area_stat_programmes_value">10</string>
-    <string name="impact_area_stat_programmes_label">Programmes</string>
-
-    <!-- Final CTA -->
-    <string name="eyebrow_final_cta">Become a Volunteer</string>
-    <string name="final_cta_heading">Ready to Bring the Lavender Back?</string>
-    <string name="final_cta_body">Your journey begins with a single step. Join the volunteers who have chosen to serve their communities with Philisa Abafazi Bethu.</string>
-    <string name="final_cta_step_1">Complete online application</string>
-    <string name="final_cta_step_2">Wait to be approved</string>
-    <string name="final_cta_step_3">Begin your first activity</string>
-    <string name="final_cta_image_desc">Volunteers preparing community food parcels</string>
+    <string name="programme_seniors" translatable="false">Senior Programme</string>
+    <string name="programme_mens_cafe" translatable="false">Men\'s Café</string>
+    <string name="programme_baby_saver" translatable="false">Baby Saver</string>
+    <string name="programme_search_rescue" translatable="false">Search and Rescue Team</string>
 
     <!-- Volunteer testimonials -->
     <string name="eyebrow_testimonials">Volunteer Stories</string>
     <string name="testimonials_heading">Hear from Our Volunteers</string>
-    <string name="testimonial_1_name">Silke Sturm</string>
+    <string name="testimonial_1_name" translatable="false">Silke Sturm</string>
     <string name="testimonial_1_country">Germany</string>
-    <string name="testimonial_1_quote">"Philisa Abafazi Bethu\'s work accepts everyone as they are and encourages individual development. I have watched an organisation grow from Lucinda\'s garage into a wonderful women and family centre for almost 13 years now. It was not just an internship, it became family."</string>
-    <string name="testimonial_2_name">Carley Anderson</string>
+    <string name="testimonial_1_quote" translatable="false">"Philisa Abafazi Bethu\'s work accepts everyone as they are and encourages individual development. I have watched an organisation grow from Lucinda\'s garage into a wonderful women and family centre for almost 13 years now. It was not just an internship, it became family."</string>
+    <string name="testimonial_2_name" translatable="false">Carley Anderson</string>
     <string name="testimonial_2_country">USA</string>
-    <string name="testimonial_2_quote">"It is a remarkable feeling to walk into a new space and instantly feel welcomed and appreciated, and Lucinda and the whole PAB team invited us in with open arms. I could not be more thankful to have contributed, in even the smallest capacity, to PAB\'s passion-fuelled work."</string>
-    <string name="testimonial_3_name">Natalie Decker</string>
+    <string name="testimonial_2_quote" translatable="false">"It is a remarkable feeling to walk into a new space and instantly feel welcomed and appreciated, and Lucinda and the whole PAB team invited us in with open arms. I could not be more thankful to have contributed, in even the smallest capacity, to PAB\'s passion-fuelled work."</string>
+    <string name="testimonial_3_name" translatable="false">Natalie Decker</string>
     <string name="testimonial_3_country">USA</string>
-    <string name="testimonial_3_quote">"Shortly after starting, I felt so welcomed. Seeing how much Philisa Abafazi contributes to their community was an eye-opening experience. Volunteering with PAB gave me a whole new perspective of South Africa."</string>
-    <string name="testimonial_4_name">Michelle Mahina Schlachter</string>
+    <string name="testimonial_3_quote" translatable="false">"Shortly after starting, I felt so welcomed. Seeing how much Philisa Abafazi contributes to their community was an eye-opening experience. Volunteering with PAB gave me a whole new perspective of South Africa."</string>
+    <string name="testimonial_4_name" translatable="false">Michelle Mahina Schlachter</string>
     <string name="testimonial_4_country">Switzerland</string>
-    <string name="testimonial_4_quote">"I certainly do not regret having decided to get involved in PAB\'s projects and learn from the people of the Lavender Hill community. From day one they made me feel at home, and I am happy to say that I found a second home in Cape Town."</string>
+    <string name="testimonial_4_quote" translatable="false">"I certainly do not regret having decided to get involved in PAB\'s projects and learn from the people of the Lavender Hill community. From day one they made me feel at home, and I am happy to say that I found a second home in Cape Town."</string>
 
     <!-- Footer -->
-    <string name="footer_email">admin@philisaabafazi.org</string>
-    <string name="footer_address">55 Strauss Road, Steenberg 7965, Cape Town</string>
-    <string name="footer_phone">+27 21 565 0668</string>
-    <string name="footer_copyright">© 2026 Philisa Abafazi Bethu Women Centre SA</string>
+    <string name="footer_email" translatable="false">admin@philisaabafazi.org</string>
+    <string name="footer_address" translatable="false">55 Strauss Road, Steenberg 7965, Cape Town</string>
+    <string name="footer_phone" translatable="false">+27 21 565 0668</string>
+    <string name="footer_copyright" translatable="false">© 2026 Philisa Abafazi Bethu Women Centre SA</string>
 
-    <!-- Application flow -->
-    <string name="step_of_3">Step %1$d of 3</string>
-    <string name="apply_step1_title">Your Details</string>
+    <!-- Profile fields -->
     <string name="label_first_name">First Name</string>
     <string name="label_last_name">Last Name</string>
     <string name="label_email">Email Address</string>
     <string name="label_phone">Phone Number</string>
     <string name="label_area">Area / Township</string>
-    <string name="label_pronouns">Pronouns</string>
-    <string name="label_dob">Date of Birth</string>
-    <string name="pronoun_she_her">She / Her</string>
-    <string name="pronoun_he_him">He / Him</string>
-    <string name="pronoun_they_them">They / Them</string>
-    <string name="pronoun_prefer_not_to_say">Prefer not to say</string>
     <string name="action_continue">Continue</string>
     <string name="action_favourite">Favourite</string>
     <string name="tab_all_opportunities">All</string>
@@ -138,65 +89,19 @@
     <string name="empty_favourites">Nothing saved yet. Tap the heart on an opportunity to keep it here.</string>
     <string name="action_back">Back</string>
 
-    <string name="apply_step2_title">Your Interests</string>
     <string name="programme_interest_heading">Programme Interest</string>
     <string name="programme_interest_subheading">Select all the programmes you\'d like to be considered for</string>
-    <string name="programme_womens_empowerment">Women Empowerment</string>
-    <string name="programme_youth">Youth Programme</string>
-    <string name="programme_after_school">Afterschool Programmes</string>
-    <string name="programme_community_feeding">Community Feeding</string>
-    <string name="programme_safe_houses">Emergency Safe Houses</string>
-    <string name="programme_social_work">Social Work Services</string>
-    <string name="your_motivation_heading">Your Motivation</string>
-    <string name="your_motivation_hint">Tell us why you\'d like to volunteer</string>
-
-    <string name="apply_step3_title">Review &amp; Submit</string>
-    <string name="application_summary_heading">Application Summary</string>
-    <string name="summary_name">Name</string>
-    <string name="summary_pronouns">Pronouns</string>
-    <string name="summary_dob">Date of Birth</string>
-    <string name="summary_email">Email</string>
-    <string name="summary_phone">Phone</string>
-    <string name="summary_area">Area</string>
-    <string name="summary_programme">Programme(s)</string>
-    <string name="contact_documents_notice">Philisa Abafazi Bethu may contact you for more information, and may ask you to send a CV and Police Clearance.</string>
-    <string name="submit_info_notice">After submitting, you will receive a confirmation email. Our team reviews applications within 3–5 business days.</string>
-    <string name="consent_text">I confirm that the information I have provided is accurate and consent to Philisa Abafazi Bethu Women Centre SA processing this application.</string>
-    <string name="action_submit_application">Submit Application</string>
-
-    <string name="application_status_title">Application Status</string>
-    <string name="application_received">Application Received</string>
-    <string name="reference_label">Reference: %1$s</string>
-    <string name="status_under_review">Under Review</string>
-    <string name="status_approved">Approved</string>
-    <string name="status_rejected">Rejected</string>
-    <string name="status_pending">Pending</string>
-    <string name="timeline_submitted">Application Submitted</string>
-    <string name="timeline_verification">Document Verification</string>
-    <string name="timeline_coordinator_review">Coordinator Review</string>
-    <string name="timeline_approved">Application Approved</string>
-    <string name="action_done">Done</string>
+    <string name="programme_womens_empowerment" translatable="false">Women Empowerment</string>
+    <string name="programme_youth" translatable="false">Youth Programme</string>
+    <string name="programme_after_school" translatable="false">Afterschool Programmes</string>
+    <string name="programme_community_feeding" translatable="false">Community Feeding</string>
+    <string name="programme_safe_houses" translatable="false">Emergency Safe Houses</string>
+    <string name="programme_social_work" translatable="false">Social Work Services</string>
 
     <!-- Login -->
-    <string name="login_title">Volunteer Login</string>
-    <string name="login_subtitle">Sign in to your Philisa volunteer account</string>
-    <string name="admin_login_title">Admin Login</string>
-    <string name="admin_login_subtitle">Philisa Abafazi Bethu staff portal</string>
-    <string name="tab_volunteer">Volunteer</string>
-    <string name="tab_admin">Admin</string>
     <string name="label_password">Password</string>
     <string name="label_confirm_password">Confirm Password</string>
     <string name="forgot_password">Forgot Password?</string>
-    <string name="action_sign_in_volunteer">Sign In as Volunteer</string>
-    <string name="action_sign_in_admin">Sign In as Admin</string>
-    <string name="volunteer_login_notice">This app is for registered Philisa volunteers only. To register, apply through the app.</string>
-    <string name="admin_login_notice">Admin access is restricted to authorised Philisa Abafazi Bethu staff only. Unauthorised login attempts are logged.</string>
-    <string name="not_a_volunteer_yet">Not a volunteer yet? %1$s</string>
-    <string name="apply_here">Apply here</string>
-    <string name="action_send_reset_link">Send Reset Link</string>
-    <string name="reset_password_title">Reset Password</string>
-    <string name="reset_password_message">Enter the email address linked to your account. We\'ll send you a link to set a new password.</string>
-    <string name="reset_link_sent">If an account exists for that email, a reset link has been sent.</string>
 
     <!-- Volunteer Home -->
     <string name="greeting_morning">Good morning,</string>
@@ -214,72 +119,40 @@
     <string name="action_yes_leave">Yes, leave</string>
     <string name="sign_out_confirm_title">Sign out of Philisa Volunteers?</string>
     <string name="volunteer_id_label">Volunteer ID · %1$s</string>
-    <string name="activities_scheduled_today">%1$d activities scheduled today</string>
-    <string name="stat_assigned">Assigned</string>
     <string name="stat_today">Today</string>
     <string name="stat_completed">Completed</string>
-    <string name="todays_activities_heading">Today\'s Activities</string>
     <string name="coming_up_heading">Coming Up</string>
-    <string name="this_months_impact_heading">This Month\'s Impact</string>
-    <string name="impact_banner_text">%1$d families supported across Cape Town</string>
-    <string name="empty_no_activities_today">No activities scheduled today.</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Activities</string>
-    <string name="tab_apply">Apply</string>
-    <string name="tab_today">Today</string>
     <string name="tab_upcoming">Upcoming</string>
     <string name="tab_completed">Completed</string>
-    <string name="label_role">Role: %1$s</string>
-    <string name="spots_left">%1$d spots left</string>
     <string name="status_open">Open</string>
-    <string name="status_booked">Booked</string>
-    <string name="action_apply_for_activity">Apply for this Activity</string>
-    <string name="action_cancel_participation">Cancel My Participation</string>
     <string name="label_date_time">DATE &amp; TIME</string>
     <string name="label_location">LOCATION</string>
     <string name="label_volunteer_role">VOLUNTEER ROLE</string>
     <string name="label_spots_remaining">SPOTS REMAINING</string>
-    <string name="spots_available">%1$d spots available</string>
-    <string name="empty_no_activities">No activities in this category yet.</string>
-    <string name="cancel_confirm_title">Cancel participation?</string>
-    <string name="cancel_confirm_message">You\'ll give up your spot in this activity. This can\'t be undone.</string>
     <string name="action_keep_spot">Keep my spot</string>
-    <string name="action_yes_cancel">Yes, cancel</string>
 
     <!-- Schedule -->
     <string name="my_schedule_title">My Schedule</string>
     <string name="schedule_summary">%1$d upcoming · %2$d completed</string>
-    <string name="today_heading">Today</string>
-    <string name="this_week_heading">This Week</string>
-    <string name="empty_no_schedule">Nothing scheduled this week.</string>
+    <string name="empty_no_schedule">No upcoming activities yet. Join one from the Activities tab.</string>
 
     <!-- Community -->
     <string name="community_title">Community</string>
-    <string name="volunteer_of_the_month">Volunteer of the Month</string>
-    <string name="volunteer_of_month_line">%1$s · %2$s · %3$d activities</string>
-    <string name="stat_families_fed">Families Fed</string>
-    <string name="stat_youth_mentored">Youth Mentored</string>
-    <string name="stat_safe_house_intakes">Safe House Intakes</string>
-    <string name="stat_seniors_visited">Seniors Visited</string>
     <string name="announcements_heading">Announcements</string>
     <string name="empty_no_announcements">No announcements yet.</string>
 
     <!-- Profile -->
-    <string name="profile_title">Profile</string>
     <string name="stat_months">Months</string>
-    <string name="stat_activities">Activities</string>
     <string name="stat_upcoming">Upcoming</string>
     <string name="label_phone_caps">PHONE</string>
     <string name="label_email_caps">EMAIL</string>
     <string name="label_area_caps">AREA</string>
-    <string name="label_skills">SKILLS</string>
-    <string name="label_availability">AVAILABILITY</string>
     <string name="action_edit_profile">Edit Profile</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="edit_profile_title">Edit Profile</string>
-    <string name="label_skills_csv">Skills (comma separated)</string>
-    <string name="label_availability_csv">Availability (comma separated)</string>
     <string name="action_save_changes">Save Changes</string>
     <string name="profile_updated">Profile updated.</string>
 
@@ -301,46 +174,17 @@
     <string name="label_joined">JOINED</string>
     <string name="activity_saved">Activity saved.</string>
     <string name="announcement_saved">Announcement saved.</string>
-    <string name="stats_saved">Impact stats saved.</string>
-    <string name="applications_awaiting_review">%1$d volunteer applications awaiting review</string>
     <string name="stat_total_volunteers">Total Volunteers</string>
-    <string name="stat_pending_review">%1$d pending review</string>
     <string name="stat_published_activities">Published Activities</string>
-    <string name="stat_drafts">%1$d drafts</string>
-    <string name="stat_announcements">Announcements</string>
-    <string name="stat_activity_applications">Activity Applications</string>
-    <string name="stat_across_activities">across all activities</string>
-    <string name="recent_applications_heading">Recent Applications</string>
-    <string name="action_view_all_applications">View All Volunteer Applications</string>
     <string name="quick_actions_heading">Quick Actions</string>
     <string name="action_create_new_activity">Create New Activity</string>
     <string name="action_create_new_activity_desc">Publish a new volunteer opportunity</string>
     <string name="action_post_announcement">Post Announcement</string>
     <string name="action_post_announcement_desc">Send a message to all volunteers</string>
-    <string name="action_view_signups">View Activity Sign-Ups</string>
-    <string name="action_view_signups_desc">See who applied for each activity</string>
-    <string name="action_manage_impact_stats">Update Impact Stats</string>
-    <string name="action_manage_impact_stats_desc">Edit this month\'s community impact numbers</string>
 
     <!-- Manage Volunteers -->
     <string name="manage_volunteers_title">Manage Volunteers</string>
-    <string name="tab_all">All (%1$d)</string>
-    <string name="tab_pending">Pending (%1$d)</string>
-    <string name="tab_approved">Approved (%1$d)</string>
-    <string name="tab_rejected">Rejected (%1$d)</string>
-    <string name="applied_on">Applied %1$s</string>
-    <string name="volunteer_application_title">Volunteer Application</string>
-    <string name="label_area_row">AREA</string>
     <string name="label_programme_interest">PROGRAMME INTEREST</string>
-    <string name="label_applied">APPLIED</string>
-    <string name="action_reject">Reject</string>
-    <string name="action_approve">Approve</string>
-    <string name="approve_confirm_title">Approve this applicant?</string>
-    <string name="approve_confirm_message">%1$s will be sent an email to set their volunteer account password.</string>
-    <string name="reject_confirm_title">Reject this applicant?</string>
-    <string name="reject_confirm_message">This cannot be undone. %1$s will not be notified automatically.</string>
-    <string name="approval_success">Volunteer approved and account created.</string>
-    <string name="rejection_success">Application rejected.</string>
 
     <!-- Manage Activities -->
     <string name="manage_activities_title">Manage Activities</string>
@@ -358,7 +202,6 @@
     <string name="label_time">TIME</string>
     <string name="label_total_spots">TOTAL SPOTS</string>
     <string name="label_description">DESCRIPTION</string>
-    <string name="label_status">STATUS</string>
     <string name="action_save_activity">Save Activity</string>
     <string name="delete_activity_confirm_title">Delete this activity?</string>
     <string name="delete_activity_confirm_message">This will remove it permanently, including its sign-up records.</string>
@@ -368,61 +211,70 @@
     <string name="new_announcement_title">New Announcement</string>
     <string name="edit_announcement_title">Edit Announcement</string>
     <string name="label_message_body">MESSAGE BODY</string>
-    <string name="label_publish_status">PUBLISH STATUS</string>
     <string name="action_create_announcement">Create Announcement</string>
     <string name="action_save_announcement">Save Announcement</string>
     <string name="delete_announcement_confirm_title">Delete this announcement?</string>
 
-    <!-- Activity Applications -->
-    <string name="activity_applications_title">Activity Applications</string>
-    <string name="select_activity_label">SELECT ACTIVITY</string>
-    <string name="applicants_summary">%1$d applicants · %2$d confirmed · %3$d pending · %4$d spots remaining</string>
-    <string name="status_confirmed">Confirmed</string>
-    <string name="action_confirm">Confirm</string>
-    <string name="action_remove">Remove</string>
-    <string name="remove_applicant_confirm_title">Remove this applicant?</string>
-    <string name="remove_applicant_confirm_message">%1$s will lose their spot in this activity.</string>
-
-    <!-- Impact stats admin -->
-    <string name="manage_impact_stats_title">Impact Stats</string>
-    <string name="label_families_fed">Families Fed</string>
-    <string name="label_youth_mentored">Youth Mentored</string>
-    <string name="label_safe_house_intakes">Safe House Intakes</string>
-    <string name="label_seniors_visited">Seniors Visited</string>
-    <string name="label_volunteer_of_month">Volunteer of the Month</string>
-    <string name="label_activity_count">Activity Count</string>
-    <string name="action_save_stats">Save Stats</string>
-
     <!-- Generic -->
     <string name="action_edit">Edit</string>
-    <string name="action_ok">OK</string>
+    <string name="action_remove">Remove</string>
     <string name="action_cancel">Cancel</string>
-    <string name="action_retry">Retry</string>
-    <string name="loading">Loading…</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
     <string name="error_no_connection">Couldn\'t connect. Check your internet connection.</string>
+    <string name="error_too_many_tries">Too many tries. Wait a moment and try again.</string>
+    <string name="error_weak_password">Choose a stronger password.</string>
+    <string name="error_email_in_use">That email already has an account. Sign in instead.</string>
+    <string name="error_sign_in_again">Sign in again before you do that.</string>
+    <string name="error_permission_denied">You do not have permission to do that.</string>
+    <string name="error_session_ended">Your session has ended. Sign in again.</string>
+    <string name="error_record_missing">That record no longer exists.</string>
+    <string name="error_record_exists">That record already exists.</string>
+    <string name="error_not_signed_in">You are not signed in.</string>
+    <string name="error_account_load">Your account could not be loaded. Try again.</string>
+    <string name="error_activity_closed">This activity is no longer open.</string>
+    <string name="error_google_incomplete">Google sign in did not complete. Try again.</string>
+    <string name="error_google_not_registered">This build is not registered in Firebase. Add this machine\'s debug SHA-1 fingerprint.</string>
+    <string name="error_google_cancelled">Sign in cancelled</string>
+    <string name="error_google_failed">Google sign in failed (code %1$d)</string>
+    <string name="info_password_reset_sent">Password reset email sent</string>
 
     <!-- Validation -->
     <string name="error_field_required">This field is required</string>
+    <string name="error_enter_email">Enter your email address</string>
+    <string name="error_enter_email_first">Enter your email address first</string>
     <string name="error_invalid_email">Enter a valid email address</string>
+    <string name="error_password_short">Password must be at least 6 characters</string>
+    <string name="error_passwords_mismatch">Passwords do not match</string>
+    <string name="error_first_name">Enter your first name</string>
+    <string name="error_last_name">Enter your last name</string>
     <string name="error_invalid_phone">Enter a valid phone number</string>
-    <string name="error_select_one_programme">Please select a programme</string>
-    <string name="error_consent_required">Please confirm to submit your application</string>
+    <string name="error_area">Enter the area you are from</string>
+    <string name="error_select_one_programme">Choose at least one programme</string>
+    <string name="error_spots_below_taken">Spots cannot be fewer than the %1$d already taken.</string>
     <string name="error_login_failed">Incorrect email or password</string>
     <string name="error_account_not_found">No account found for that email</string>
-    <string name="error_wrong_role">This account isn\'t registered as %1$s</string>
     <string name="error_spots_full">This activity is fully booked</string>
     <string name="error_end_before_start">End time must be after the start time.</string>
     <string name="error_total_spots_invalid">Enter a number greater than 0</string>
 
-    <string name="empty_nothing_today">Nothing on today. Enjoy the rest.</string>
     <string name="empty_nothing_completed">No completed activities yet.</string>
 
     <string name="action_settings">Settings</string>
     <string name="settings_title">Settings</string>
+    <string name="action_settings_desc">Theme and language</string>
     <string name="settings_appearance">Appearance</string>
-    <string name="settings_dark_mode">Dark mode</string>
-    <string name="settings_dark_mode_desc">Use a darker theme across the app.</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_desc">Follow your phone, or always use light or dark.</string>
+    <string name="settings_theme_system">Phone</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_app_language">App language</string>
+    <string name="settings_language_desc">Choose the language used across the app.</string>
+    <!-- Each language is written in its own language, so people can find theirs. -->
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_xhosa" translatable="false">isiXhosa</string>
+    <string name="language_afrikaans" translatable="false">Afrikaans</string>
     <string name="settings_account">Account</string>
     <string name="settings_delete_account">Delete my account</string>
     <string name="settings_delete_account_desc">Removes your profile and your places on activities. This cannot be undone.</string>

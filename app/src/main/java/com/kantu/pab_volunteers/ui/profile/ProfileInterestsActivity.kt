@@ -54,10 +54,10 @@ class ProfileInterestsActivity : AppCompatActivity() {
             binding.btnFinish.isEnabled = !loading
         }
         viewModel.errorMessage.observe(this) { message ->
-            if (message.isNullOrBlank()) {
+            if (message == null) {
                 binding.tvMessage.visibility = View.GONE
             } else {
-                binding.tvMessage.text = message
+                binding.tvMessage.text = message.resolve(this)
                 binding.tvMessage.visibility = View.VISIBLE
             }
         }

@@ -113,7 +113,7 @@
                 android:layout_marginTop="@dimen/spacing_sm"
                 android:padding="@dimen/spacing_xs"
                 android:text="@string/forgot_password"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/accent"
                 android:textStyle="bold" />
 
             <TextView
@@ -148,7 +148,7 @@
                 android:gravity="center"
                 android:padding="@dimen/spacing_sm"
                 android:text="@string/auth_switch_to_create"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/accent"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -2,7 +2,6 @@ package com.kantu.pab_volunteers.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -68,7 +67,7 @@ class WelcomeInfoActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         viewModel.errorMessage.observe(this) { message ->
-            if (!message.isNullOrBlank()) {
+            if (message != null) {
                 setBusy(false)
                 AppMessage.show(binding.root, message)
             }

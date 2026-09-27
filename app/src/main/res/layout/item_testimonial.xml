@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="serif"
-            android:text="&#8220;"
+            android:text="@string/quote_mark"
             android:textColor="@color/text_on_purple_muted"
             android:textSize="36sp"
             android:textStyle="bold" />

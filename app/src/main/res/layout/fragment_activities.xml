@@ -38,12 +38,12 @@
         android:layout_height="wrap_content"
         android:background="@color/background_cream"
         app:tabGravity="start"
-        app:tabIndicatorColor="@color/purple_700"
+        app:tabIndicatorColor="@color/accent"
         app:tabIndicatorFullWidth="false"
         app:tabMode="fixed"
         app:tabPaddingEnd="@dimen/spacing_md"
         app:tabPaddingStart="@dimen/spacing_md"
-        app:tabSelectedTextColor="@color/purple_700"
+        app:tabSelectedTextColor="@color/accent"
         app:tabTextColor="@color/text_secondary" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -91,7 +91,8 @@
                         android:layout_height="40dp"
                         android:alpha="0.4"
                         android:contentDescription="@null"
-                        android:src="@drawable/ic_activities" />
+                        android:src="@drawable/ic_activities"
+                        app:tint="@color/text_secondary" />
 
                     <TextView
                         android:id="@+id/tvEmptyMessage"

@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestoreException
+import com.kantu.pab_volunteers.R
 
 /**
  * Turns anything thrown by Firebase into one short sentence the user can act on.
@@ -15,52 +16,55 @@ import com.google.firebase.firestore.FirebaseFirestoreException
  */
 object ErrorMessages {
 
-    const val SPOTS_FULL = "This activity is full."
-    const val NOT_SIGNED_IN = "You are not signed in."
-    const val OFFLINE = "No connection. Check your internet and try again."
-    const val GENERIC = "Something went wrong. Please try again."
+    val OFFLINE: UiText = UiText.Res(R.string.error_no_connection)
+    val GENERIC: UiText = UiText.Res(R.string.error_generic)
 
-    fun textFor(error: Throwable): String = when (error) {
-        is FirebaseNetworkException -> OFFLINE
+    fun textFor(error: Throwable): UiText {
+        // A transaction hands back whatever was thrown inside it, sometimes wrapped.
+        val appError = generateSequence(error) { it.cause }.firstOrNull { it is AppError }
+        if (appError is AppError) return UiText.Res(appError.messageRes, appError.args)
 
-        is FirebaseTooManyRequestsException -> "Too many tries. Wait a moment and try again."
+        return when (error) {
+            is FirebaseNetworkException -> OFFLINE
 
-        is FirebaseAuthWeakPasswordException ->
-            error.reason ?: "Choose a stronger password."
+            is FirebaseTooManyRequestsException -> UiText.Res(R.string.error_too_many_tries)
 
-        is FirebaseAuthUserCollisionException ->
-            "That email already has an account. Sign in instead."
+            // Must stay above the credentials case, because it is a kind of that exception.
+            is FirebaseAuthWeakPasswordException -> UiText.Res(R.string.error_weak_password)
 
-        is FirebaseAuthInvalidUserException ->
-            "No account was found for that email."
+            is FirebaseAuthUserCollisionException -> UiText.Res(R.string.error_email_in_use)
 
-        is FirebaseAuthInvalidCredentialsException ->
-            "That email or password is not correct."
+            is FirebaseAuthInvalidUserException -> UiText.Res(R.string.error_account_not_found)
 
-        is FirebaseAuthRecentLoginRequiredException ->
-            "Sign in again before you do that."
+            is FirebaseAuthInvalidCredentialsException ->
+                if (error.errorCode == "ERROR_INVALID_EMAIL") {
+                    UiText.Res(R.string.error_invalid_email)
+                } else {
+                    UiText.Res(R.string.error_login_failed)
+                }
 
-        is FirebaseFirestoreException -> forFirestore(error)
+            is FirebaseAuthRecentLoginRequiredException -> UiText.Res(R.string.error_sign_in_again)
 
-        else -> error.message?.takeIf { it.isNotBlank() } ?: GENERIC
+            is FirebaseFirestoreException -> forFirestore(error)
+
+            else -> GENERIC
+        }
     }
 
-    private fun forFirestore(error: FirebaseFirestoreException): String = when (error.code) {
+    private fun forFirestore(error: FirebaseFirestoreException): UiText = when (error.code) {
         FirebaseFirestoreException.Code.UNAVAILABLE,
         FirebaseFirestoreException.Code.DEADLINE_EXCEEDED -> OFFLINE
 
         FirebaseFirestoreException.Code.PERMISSION_DENIED ->
-            "You do not have permission to do that."
+            UiText.Res(R.string.error_permission_denied)
 
         FirebaseFirestoreException.Code.UNAUTHENTICATED ->
-            "Your session has ended. Sign in again."
+            UiText.Res(R.string.error_session_ended)
 
-        FirebaseFirestoreException.Code.NOT_FOUND ->
-            "That record no longer exists."
+        FirebaseFirestoreException.Code.NOT_FOUND -> UiText.Res(R.string.error_record_missing)
 
-        FirebaseFirestoreException.Code.ALREADY_EXISTS ->
-            "That record already exists."
+        FirebaseFirestoreException.Code.ALREADY_EXISTS -> UiText.Res(R.string.error_record_exists)
 
-        else -> error.message?.takeIf { it.isNotBlank() } ?: GENERIC
+        else -> GENERIC
     }
 }

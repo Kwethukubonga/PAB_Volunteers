@@ -199,6 +199,20 @@
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:text="@string/action_continue" />
 
+            <TextView
+                android:id="@+id/tvSignOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:background="?attr/selectableItemBackground"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:paddingHorizontal="@dimen/spacing_md"
+                android:text="@string/profile_setup_not_you"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

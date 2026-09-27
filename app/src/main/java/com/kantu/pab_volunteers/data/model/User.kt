@@ -23,9 +23,6 @@ data class User(
     val fullName: String get() = "$firstName $lastName".trim()
 
     @get:Exclude
-    val programmeInterest: String get() = programmeInterests.joinToString(", ")
-
-    @get:Exclude
     val isAdmin: Boolean get() = role == ROLE_ADMIN
 
     companion object {

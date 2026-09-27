@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.data.model.ActivitySignup
@@ -18,6 +19,9 @@ import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.UiText
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -64,8 +68,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _message = MutableLiveData<String?>()
-    val message: LiveData<String?> = _message
+    private val _message = MutableLiveData<UiText?>()
+    val message: LiveData<UiText?> = _message
 
     private val _profileSaved = MutableLiveData(false)
     val profileSaved: LiveData<Boolean> = _profileSaved
@@ -78,15 +82,19 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     private var signups: List<ActivitySignup> = emptyList()
     private var selectedActivityId: String = ""
+    private var refreshJob: Job? = null
 
+    /** A newer refresh replaces an older one, so a slow reply can never overwrite a fresh one. */
     fun refresh() {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        refreshJob?.cancel()
         _isLoading.value = true
-        viewModelScope.launch {
+        refreshJob = viewModelScope.launch {
             try {
                 _user.value = userRepository.getUser(uid)
                 signups = signupRepository.getMySignups(uid)
                 val published = activityRepository.getPublishedActivities()
+                val publishedById = published.associateBy { it.id }
                 val joinedIds = signups.map { it.activityId }.toSet()
                 val favouriteIds = _user.value?.favouriteActivityIds.orEmpty().toSet()
                 val now = DateUtils.now()
@@ -102,15 +110,20 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 _openActivities.value = open.map { rowFor(it) }
                 _favourites.value = open.filter { favouriteIds.contains(it.id) }.map { rowFor(it) }
 
-                val mine = published.filter { joinedIds.contains(it.id) }
-                val (finished, stillToCome) = mine.partition { it.endsAtMillis <= now }
-
-                _mySchedule.value = stillToCome
+                // Upcoming places only show while the activity is still published.
+                val stillToCome = published
+                    .filter { joinedIds.contains(it.id) && it.endsAtMillis > now }
                     .sortedBy { it.dateMillis }
-                    .map { rowFor(it) }
-                _scheduleCompleted.value = finished
+
+                // History comes from the sign-ups themselves, so an activity the admin later
+                // unpublishes or deletes still counts towards the volunteer's hours.
+                val finished = signups
+                    .map { signup -> publishedById[signup.activityId] ?: signup.asActivity() }
+                    .filter { it.endsAtMillis <= now }
                     .sortedByDescending { it.dateMillis }
-                    .map { rowFor(it) }
+
+                _mySchedule.value = stillToCome.map { rowFor(it) }
+                _scheduleCompleted.value = finished.map { rowFor(it) }
 
                 val startOfToday = DateUtils.startOfDay(now)
                 val endOfToday = startOfToday + DateUtils.DAY_MILLIS
@@ -126,6 +139,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                     _selectedActivity.value = activityById(selectedActivityId)
                         ?: activityRepository.getActivity(selectedActivityId)
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _message.value = ErrorMessages.textFor(e)
             }
@@ -137,11 +152,15 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun setFavourite(activityId: String, favourite: Boolean) {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
-        if (offline()) return
+        if (offline()) {
+            // Puts the heart back the way it was, since the change was not saved.
+            refresh()
+            return
+        }
         viewModelScope.launch {
             userRepository.setFavourite(uid, activityId, favourite)
-                .onSuccess { refresh() }
                 .onFailure { _message.value = ErrorMessages.textFor(it) }
+            refresh()
         }
     }
 
@@ -153,6 +172,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
         val minutes = completed.sumOf { DateUtils.lengthInMinutes(it.startTime, it.endTime) }
         return minutes / 60
     }
+
     /**
      * Detail screens can be opened before the lists are loaded (for example after the app is
      * restored from the background), so fall back to fetching the single record.
@@ -202,6 +222,9 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun leave(activityId: String) {
         val signup = signups.firstOrNull { it.activityId == activityId } ?: return
+        // A finished activity is part of the volunteer's history and cannot be left.
+        val activity = activityById(activityId) ?: signup.asActivity()
+        if (activity.endsAtMillis <= DateUtils.now()) return
         if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
@@ -230,22 +253,17 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
         programmeInterests: List<String>
     ) {
         val current = _user.value ?: return
-        when {
-            firstName.isBlank() -> {
-                _message.value = "Enter your first name"; return
-            }
-            lastName.isBlank() -> {
-                _message.value = "Enter your last name"; return
-            }
-            phone.length < 10 -> {
-                _message.value = "Enter a valid phone number"; return
-            }
-            area.isBlank() -> {
-                _message.value = "Enter the area you are from"; return
-            }
-            programmeInterests.isEmpty() -> {
-                _message.value = "Choose at least one programme"; return
-            }
+        val problem = when {
+            firstName.isBlank() -> R.string.error_first_name
+            lastName.isBlank() -> R.string.error_last_name
+            phone.length < 10 -> R.string.error_invalid_phone
+            area.isBlank() -> R.string.error_area
+            programmeInterests.isEmpty() -> R.string.error_select_one_programme
+            else -> null
+        }
+        if (problem != null) {
+            _message.value = UiText.Res(problem)
+            return
         }
 
         if (offline()) return

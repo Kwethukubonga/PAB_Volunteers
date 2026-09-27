@@ -47,7 +47,9 @@ class ActivityAdapter(
             0
         }
         holder.binding.progressSpots.progress = filledPercent.coerceIn(0, 100)
-        holder.binding.tvSpots.text = context.getString(R.string.spots_left, activity.spotsRemaining)
+        holder.binding.tvSpots.text = context.resources.getQuantityString(
+            R.plurals.spots_left, activity.spotsRemaining, activity.spotsRemaining
+        )
 
         val (labelRes, bgRes, textRes) = when {
             row.isJoined -> Triple(
@@ -67,10 +69,12 @@ class ActivityAdapter(
         holder.binding.btnFavourite.isVisible = onFavouriteToggled != null
         setHeart(holder, row.isFavourite)
         holder.binding.btnFavourite.setOnClickListener {
-            val nowFavourite = !items[holder.bindingAdapterPosition].isFavourite
+            // The row can be mid-animation with no position, which would crash the lookup.
+            val index = holder.bindingAdapterPosition
+            if (index == RecyclerView.NO_POSITION) return@setOnClickListener
+            val nowFavourite = !items[index].isFavourite
             // Flip straight away so the tap feels instant, the write happens behind it.
             items = items.toMutableList().also { list ->
-                val index = holder.bindingAdapterPosition
                 list[index] = list[index].copy(isFavourite = nowFavourite)
             }
             setHeart(holder, nowFavourite)

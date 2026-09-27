@@ -12,6 +12,30 @@ data class ActivitySignup(
     val volunteerName: String = "",
     val activityTitle: String = "",
     val programme: String = "",
+    val date: String = "",
     val dateMillis: Long = 0L,
+    val startTime: String = "",
+    val endTime: String = "",
+    val location: String = "",
     val signedUpDate: Long = 0L
-)
+) {
+    /**
+     * Enough of the activity to keep it in the volunteer's history, and in their hours,
+     * after an admin has unpublished or deleted it.
+     */
+    fun asActivity(): Activity = Activity(
+        id = activityId,
+        title = activityTitle,
+        programme = programme,
+        date = date,
+        dateMillis = dateMillis,
+        startTime = startTime,
+        endTime = endTime,
+        location = location
+    )
+
+    companion object {
+        /** One fixed id per person per activity, so the same place cannot be taken twice. */
+        fun idFor(activityId: String, userId: String) = "${activityId}_$userId"
+    }
+}

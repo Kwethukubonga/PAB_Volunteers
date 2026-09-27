@@ -5,11 +5,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.annotation.StringRes
+import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.UiText
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 
 class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
@@ -22,8 +26,8 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _errorMessage = MutableLiveData<String?>()
-    val errorMessage: LiveData<String?> = _errorMessage
+    private val _errorMessage = MutableLiveData<UiText?>()
+    val errorMessage: LiveData<UiText?> = _errorMessage
 
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
@@ -34,6 +38,8 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
             _isLoading.value = true
             try {
                 _user.value = userRepository.getUser(uid)
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _errorMessage.value = ErrorMessages.textFor(e)
             }
@@ -41,11 +47,12 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun validateDetails(firstName: String, lastName: String, phone: String, area: String): String? {
-        if (firstName.isBlank()) return "Enter your first name"
-        if (lastName.isBlank()) return "Enter your last name"
-        if (phone.length < 10) return "Enter a valid phone number"
-        if (area.isBlank()) return "Enter the area you are from"
+    @StringRes
+    fun validateDetails(firstName: String, lastName: String, phone: String, area: String): Int? {
+        if (firstName.isBlank()) return R.string.error_first_name
+        if (lastName.isBlank()) return R.string.error_last_name
+        if (phone.length < 10) return R.string.error_invalid_phone
+        if (area.isBlank()) return R.string.error_area
         return null
     }
 
@@ -57,7 +64,7 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
         programmeInterests: List<String>
     ) {
         if (programmeInterests.isEmpty()) {
-            _errorMessage.value = "Choose at least one programme"
+            _errorMessage.value = UiText.Res(R.string.error_select_one_programme)
             return
         }
         if (!Network.isOnline(getApplication())) {
@@ -66,7 +73,7 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
         }
         val existing = _user.value
         if (existing == null) {
-            _errorMessage.value = "Your account could not be loaded. Try again."
+            _errorMessage.value = UiText.Res(R.string.error_account_load)
             return
         }
 

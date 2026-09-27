@@ -24,7 +24,7 @@ class UserRepository {
                 val user = User(
                     uid = uid,
                     email = email,
-                    volunteerId = DateUtils.generateVolunteerId(),
+                    volunteerId = DateUtils.volunteerIdFor(uid),
                     profileComplete = false,
                     joinedDate = DateUtils.now()
                 )
@@ -58,10 +58,6 @@ class UserRepository {
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
-
-    suspend fun isProfileComplete(uid: String): Boolean {
-        return getUser(uid)?.profileComplete == true
     }
 
     // Used by the admin volunteers page.

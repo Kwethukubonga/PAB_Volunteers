@@ -24,7 +24,7 @@
             android:background="@drawable/bg_chip_soft"
             android:contentDescription="@null"
             android:padding="10dp"
-            app:tint="@color/purple_700"
+            app:tint="@color/accent"
             tools:src="@drawable/ic_add" />
 
         <LinearLayout

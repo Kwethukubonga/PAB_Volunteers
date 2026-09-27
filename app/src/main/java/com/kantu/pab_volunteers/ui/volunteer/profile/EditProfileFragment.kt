@@ -47,8 +47,11 @@ class EditProfileFragment : Fragment() {
             binding.btnSave.isEnabled = !loading
         }
         viewModel.message.observe(viewLifecycleOwner) { message ->
-            binding.tvMessage.isVisible = !message.isNullOrBlank()
-            binding.tvMessage.text = message.orEmpty()
+            if (message == null) return@observe
+            binding.tvMessage.isVisible = true
+            binding.tvMessage.text = message.resolve(requireContext())
+            // Cleared once shown, so Profile does not show it again as a pop-up afterwards.
+            viewModel.consumeMessage()
         }
         viewModel.profileSaved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
