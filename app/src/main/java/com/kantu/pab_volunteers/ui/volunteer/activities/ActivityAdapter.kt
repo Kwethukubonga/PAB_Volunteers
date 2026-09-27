@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.ItemActivityBinding
+import com.kantu.pab_volunteers.ui.profile.ProgrammeArt
 
 /** One row per activity, shown on Home, Activities and Schedule. */
 class ActivityAdapter(
@@ -29,6 +30,9 @@ class ActivityAdapter(
         val activity = row.activity
         val context = holder.itemView.context
 
+        holder.binding.ivProgrammePhoto.setImageResource(
+            ProgrammeArt.photoFor(context, activity.programme)
+        )
         holder.binding.tvProgramme.text = activity.programme
         holder.binding.tvTitle.text = activity.title
         holder.binding.tvDateTime.text = activity.dateTimeLabel

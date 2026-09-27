@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,6 +15,7 @@ import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentAdminOverviewBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
+import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.admin.volunteers.VolunteerAdapter
 
@@ -73,8 +75,21 @@ class AdminOverviewFragment : Fragment() {
             FirebaseAuthManager.currentUser?.email.orEmpty()
         )
 
+        binding.btnSignOut.setOnClickListener { confirmSignOut() }
+
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
         observeViewModel()
+    }
+
+    private fun confirmSignOut() {
+        AlertDialog.Builder(requireContext())
+            .setTitle(R.string.sign_out_confirm_title)
+            .setPositiveButton(R.string.action_sign_out) { _, _ ->
+                FirebaseAuthManager.signOut()
+                AppNavGraph.goToWelcome(requireActivity())
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
     }
 
     private fun setUpQuickAction(

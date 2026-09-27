@@ -43,6 +43,7 @@
     <string name="hint_last_name">Dlamini</string>
     <string name="hint_email">nomsa@email.com</string>
     <string name="hint_phone">+27 71 234 5678</string>
+    <string name="hint_choose_programme">Choose a programme</string>
     <string name="hint_area">e.g. Khayelitsha, Gugulethu</string>
     <string name="profile_setup_save">Save Profile</string>
     <string name="profile_saved">Profile saved</string>

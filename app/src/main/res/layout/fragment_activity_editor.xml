@@ -72,16 +72,25 @@
                 android:text="@string/label_programme" />
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.PAB.TextInputLayout.Filled"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_sm">
+                android:layout_marginTop="@dimen/spacing_sm"
+                app:boxBackgroundColor="@color/card_background"
+                app:boxCornerRadiusBottomEnd="@dimen/corner_radius_sm"
+                app:boxCornerRadiusBottomStart="@dimen/corner_radius_sm"
+                app:boxCornerRadiusTopEnd="@dimen/corner_radius_sm"
+                app:boxCornerRadiusTopStart="@dimen/corner_radius_sm"
+                app:boxStrokeColor="@color/divider"
+                app:hintEnabled="false">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <!-- Programmes come from the fixed list, so they cannot be typed wrong. -->
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/etProgramme"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords" />
+                    android:hint="@string/hint_choose_programme"
+                    android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -231,7 +240,7 @@
                     android:minLines="4" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.materialswitch.MaterialSwitch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchPublished"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
