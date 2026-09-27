@@ -18,6 +18,7 @@ import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.admin.volunteers.VolunteerAdapter
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class AdminOverviewFragment : Fragment() {
 
@@ -38,6 +39,8 @@ class AdminOverviewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         adapter = VolunteerAdapter(emptyList()) { user ->
             AdminNavGraph.toVolunteerDetails(findNavController(), user.uid)

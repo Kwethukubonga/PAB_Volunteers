@@ -1,6 +1,7 @@
 package com.kantu.pab_volunteers.ui.auth
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
@@ -8,6 +9,8 @@ import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.utils.ErrorMessages
+import com.kantu.pab_volunteers.utils.ThemePreference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -17,6 +20,8 @@ class SplashActivity : AppCompatActivity() {
     private val userRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Applied before any view is drawn so the saved choice survives a restart.
+        ThemePreference.applySaved(this)
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -33,17 +38,29 @@ class SplashActivity : AppCompatActivity() {
             AppNavGraph.goToWelcome(this)
             return
         }
-        // If the record can't be read (offline, for example) start from the top rather than
-        // dropping someone into a half-loaded home screen.
-        val user = runCatching { userRepository.getUser(uid) }.getOrNull()
-        if (user == null) {
-            AppNavGraph.goToWelcome(this)
-        } else {
-            AuthNavGraph.routeAfterSignIn(this, user)
+
+        // Tried twice because the first read often lands before the network is ready.
+        var result = runCatching { userRepository.getUser(uid) }
+        if (result.isFailure) {
+            delay(RETRY_MILLIS)
+            result = runCatching { userRepository.getUser(uid) }
         }
+
+        val user = result.getOrNull()
+        if (user != null) {
+            AuthNavGraph.routeAfterSignIn(this, user)
+            return
+        }
+
+        // Say why, otherwise being sent back to the start looks like the app is broken.
+        result.exceptionOrNull()?.let {
+            Toast.makeText(this, ErrorMessages.textFor(it), Toast.LENGTH_LONG).show()
+        }
+        AppNavGraph.goToWelcome(this)
     }
 
     private companion object {
         const val SPLASH_MILLIS = 900L
+        const val RETRY_MILLIS = 700L
     }
 }

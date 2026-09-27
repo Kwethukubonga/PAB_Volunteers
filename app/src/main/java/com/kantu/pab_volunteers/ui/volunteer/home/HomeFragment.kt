@@ -17,6 +17,7 @@ import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.community.AnnouncementAdapter
+import com.kantu.pab_volunteers.utils.observeMessages
 import java.util.Calendar
 
 class HomeFragment : Fragment() {
@@ -39,6 +40,8 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         activityAdapter = ActivityAdapter(emptyList()) { activity ->
             VolunteerNavGraph.toActivityDetails(findNavController(), activity.id)

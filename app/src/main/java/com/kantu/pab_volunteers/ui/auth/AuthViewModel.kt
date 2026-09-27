@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.AuthRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.utils.ErrorMessages
 import kotlinx.coroutines.launch
 
 class AuthViewModel : ViewModel() {
@@ -56,7 +57,7 @@ class AuthViewModel : ViewModel() {
             _isLoading.value = true
             authRepository.sendPasswordReset(email)
                 .onSuccess { _infoMessage.value = "Password reset email sent" }
-                .onFailure { _errorMessage.value = it.message }
+                .onFailure { _errorMessage.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
     }
@@ -70,7 +71,7 @@ class AuthViewModel : ViewModel() {
                     userRepository.createUserIfMissing(firebaseUser.uid, firebaseUser.email.orEmpty())
                     _signedInUser.value = userRepository.getUser(firebaseUser.uid)
                 }
-                .onFailure { _errorMessage.value = it.message }
+                .onFailure { _errorMessage.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
     }

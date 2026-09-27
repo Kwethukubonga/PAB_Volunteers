@@ -11,6 +11,7 @@ import com.kantu.pab_volunteers.databinding.FragmentAnnouncementDetailsBinding
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class AnnouncementDetailsFragment : Fragment() {
 
@@ -29,6 +30,8 @@ class AnnouncementDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 

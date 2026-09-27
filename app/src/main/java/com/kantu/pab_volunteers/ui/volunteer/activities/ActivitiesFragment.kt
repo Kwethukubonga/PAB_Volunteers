@@ -14,6 +14,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentActivitiesBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Opportunities to join, with a second tab for the ones a volunteer has saved. */
 class ActivitiesFragment : Fragment() {
@@ -39,6 +40,8 @@ class ActivitiesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         adapter = ActivityAdapter(
             items = emptyList(),

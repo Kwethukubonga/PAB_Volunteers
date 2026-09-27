@@ -1,8 +1,9 @@
 package com.kantu.pab_volunteers.ui.admin
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
@@ -15,13 +16,15 @@ import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
 import com.kantu.pab_volunteers.data.repository.ImpactStatsRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.utils.ErrorMessages
+import com.kantu.pab_volunteers.utils.Network
 import kotlinx.coroutines.launch
 
 /**
  * Shared by every admin tab so the volunteer, activity and announcement lists are loaded once
  * and stay in step as the admin moves between tabs.
  */
-class AdminViewModel : ViewModel() {
+class AdminViewModel(app: Application) : AndroidViewModel(app) {
 
     private val userRepository = UserRepository()
     private val activityRepository = ActivityRepository()
@@ -66,7 +69,7 @@ class AdminViewModel : ViewModel() {
                 _stats.value = impactStatsRepository.getStats()
                 _totalSignups.value = _activities.value.orEmpty().sumOf { it.filledSpots }
             } catch (e: Exception) {
-                _message.value = e.message
+                _message.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }
@@ -87,9 +90,9 @@ class AdminViewModel : ViewModel() {
     fun loadSignups(activityId: String) {
         viewModelScope.launch {
             _isLoading.value = true
-            _signupsForActivity.value =
-                runCatching { signupRepository.getSignupsForActivity(activityId) }
-                    .getOrDefault(emptyList())
+            runCatching { signupRepository.getSignupsForActivity(activityId) }
+                .onSuccess { _signupsForActivity.value = it }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
     }
@@ -98,6 +101,7 @@ class AdminViewModel : ViewModel() {
 
     fun saveActivity(activity: Activity) {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
             val result = if (activity.id.isBlank()) {
@@ -107,12 +111,13 @@ class AdminViewModel : ViewModel() {
             }
             result
                 .onSuccess { _saved.value = true }
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
 
     fun toggleActivityPublished(activity: Activity) {
+        if (offline()) return
         val newStatus = if (activity.status == Activity.STATUS_PUBLISHED) {
             Activity.STATUS_DRAFT
         } else {
@@ -120,15 +125,16 @@ class AdminViewModel : ViewModel() {
         }
         viewModelScope.launch {
             activityRepository.setPublishStatus(activity.id, newStatus)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
 
     fun deleteActivity(activityId: String) {
+        if (offline()) return
         viewModelScope.launch {
             activityRepository.deleteActivity(activityId)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
@@ -137,6 +143,7 @@ class AdminViewModel : ViewModel() {
 
     fun saveAnnouncement(announcement: Announcement) {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
             val result = if (announcement.id.isBlank()) {
@@ -146,12 +153,13 @@ class AdminViewModel : ViewModel() {
             }
             result
                 .onSuccess { _saved.value = true }
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
 
     fun toggleAnnouncementPublished(announcement: Announcement) {
+        if (offline()) return
         val newStatus = if (announcement.status == Announcement.STATUS_PUBLISHED) {
             Announcement.STATUS_DRAFT
         } else {
@@ -159,15 +167,16 @@ class AdminViewModel : ViewModel() {
         }
         viewModelScope.launch {
             announcementRepository.setPublishStatus(announcement.id, newStatus)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
 
     fun deleteAnnouncement(announcementId: String) {
+        if (offline()) return
         viewModelScope.launch {
             announcementRepository.deleteAnnouncement(announcementId)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
@@ -175,13 +184,21 @@ class AdminViewModel : ViewModel() {
     // ---- impact stats --------------------------------------------------
 
     fun saveStats(stats: ImpactStats) {
+        if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
             impactStatsRepository.saveStats(stats)
                 .onSuccess { _saved.value = true }
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
+    }
+
+    /** Reports the problem once and lets the caller stop. */
+    private fun offline(): Boolean {
+        if (Network.isOnline(getApplication())) return false
+        _message.value = ErrorMessages.OFFLINE
+        return true
     }
 
     /** Must be consumed right after acting on it, or the next editor opened pops straight back. */

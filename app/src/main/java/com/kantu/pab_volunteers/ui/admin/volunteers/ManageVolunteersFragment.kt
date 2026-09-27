@@ -13,6 +13,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentManageVolunteersBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.observeMessages
 
 /** A directory of registered volunteers. Viewing only: nobody can be removed from here. */
 class ManageVolunteersFragment : Fragment() {
@@ -34,6 +35,8 @@ class ManageVolunteersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         adapter = VolunteerAdapter(emptyList()) { user ->
             AdminNavGraph.toVolunteerDetails(findNavController(), user.uid)

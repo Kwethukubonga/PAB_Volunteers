@@ -1,8 +1,9 @@
 package com.kantu.pab_volunteers.ui.volunteer
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
@@ -15,13 +16,15 @@ import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.ErrorMessages
+import com.kantu.pab_volunteers.utils.Network
 import kotlinx.coroutines.launch
 
 /**
  * Shared by every volunteer tab so the list of activities, the user's sign-ups and the
  * announcements are loaded once and stay consistent as they move between tabs.
  */
-class VolunteerViewModel : ViewModel() {
+class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     private val userRepository = UserRepository()
     private val activityRepository = ActivityRepository()
@@ -54,6 +57,12 @@ class VolunteerViewModel : ViewModel() {
 
     private val _favourites = MutableLiveData<List<ActivityRow>>(emptyList())
     val favourites: LiveData<List<ActivityRow>> = _favourites
+
+    private val _scheduleToday = MutableLiveData<List<ActivityRow>>(emptyList())
+    val scheduleToday: LiveData<List<ActivityRow>> = _scheduleToday
+
+    private val _scheduleCompleted = MutableLiveData<List<ActivityRow>>(emptyList())
+    val scheduleCompleted: LiveData<List<ActivityRow>> = _scheduleCompleted
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -107,9 +116,24 @@ class VolunteerViewModel : ViewModel() {
                 _todayCount.value = mine.count { it.dateMillis in startOfToday until endOfToday }
                 _upcomingCount.value = mine.size
 
+                _scheduleToday.value = mine
+                    .filter { it.dateMillis in startOfToday until endOfToday }
+                    .map {
+                        ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
+                    }
+
                 val completed = signups.filter { it.dateMillis in 1 until startOfToday }
                 _completedCount.value = completed.size
                 _hoursCompleted.value = totalHours(completed, published)
+
+                // Past activities are matched back from the sign-up records.
+                val completedIds = completed.map { it.activityId }.toSet()
+                _scheduleCompleted.value = published
+                    .filter { completedIds.contains(it.id) }
+                    .sortedByDescending { it.dateMillis }
+                    .map {
+                        ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
+                    }
 
                 _announcements.value = announcementRepository.getPublishedAnnouncements()
 
@@ -119,7 +143,7 @@ class VolunteerViewModel : ViewModel() {
                         ?: activityRepository.getActivity(selectedActivityId)
                 }
             } catch (e: Exception) {
-                _message.value = e.message
+                _message.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }
@@ -129,10 +153,11 @@ class VolunteerViewModel : ViewModel() {
 
     fun setFavourite(activityId: String, favourite: Boolean) {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (offline()) return
         viewModelScope.launch {
             userRepository.setFavourite(uid, activityId, favourite)
                 .onSuccess { refresh() }
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
         }
     }
 
@@ -176,8 +201,9 @@ class VolunteerViewModel : ViewModel() {
         _selectedActivity.value = cached
         if (cached == null) {
             viewModelScope.launch {
-                _selectedActivity.value =
-                    runCatching { activityRepository.getActivity(activityId) }.getOrNull()
+                runCatching { activityRepository.getActivity(activityId) }
+                    .onSuccess { _selectedActivity.value = it }
+                    .onFailure { _message.value = ErrorMessages.textFor(it) }
                 if (signups.isEmpty()) refresh()
             }
         }
@@ -188,8 +214,9 @@ class VolunteerViewModel : ViewModel() {
         _selectedAnnouncement.value = cached
         if (cached == null) {
             viewModelScope.launch {
-                _selectedAnnouncement.value =
-                    runCatching { announcementRepository.getAnnouncement(announcementId) }.getOrNull()
+                runCatching { announcementRepository.getAnnouncement(announcementId) }
+                    .onSuccess { _selectedAnnouncement.value = it }
+                    .onFailure { _message.value = ErrorMessages.textFor(it) }
             }
         }
     }
@@ -202,20 +229,22 @@ class VolunteerViewModel : ViewModel() {
 
     fun join(activity: Activity) {
         val currentUser = _user.value ?: return
+        if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
             signupRepository.join(activity, currentUser)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
 
     fun leave(activityId: String) {
         val signup = signups.firstOrNull { it.activityId == activityId } ?: return
+        if (offline()) return
         _isLoading.value = true
         viewModelScope.launch {
             signupRepository.leave(signup)
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
     }
@@ -256,6 +285,8 @@ class VolunteerViewModel : ViewModel() {
             }
         }
 
+        if (offline()) return
+
         _isLoading.value = true
         _message.value = null
         viewModelScope.launch {
@@ -271,9 +302,16 @@ class VolunteerViewModel : ViewModel() {
                     _user.value = updated
                     _profileSaved.value = true
                 }
-                .onFailure { _message.value = it.message }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
+    }
+
+    /** Reports the problem once and lets the caller stop. */
+    private fun offline(): Boolean {
+        if (Network.isOnline(getApplication())) return false
+        _message.value = ErrorMessages.OFFLINE
+        return true
     }
 
     /** Clear after showing, so the same message doesn't reappear when a tab is revisited. */

@@ -1,6 +1,7 @@
 package com.kantu.pab_volunteers.ui.volunteer.profile
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +16,10 @@ import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentProfileBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class ProfileFragment : Fragment() {
 
@@ -36,6 +39,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
+
         binding.rowEmail.ivRowIcon.setImageResource(R.drawable.ic_email)
         binding.rowEmail.tvRowLabel.setText(R.string.label_email_caps)
         binding.rowPhone.ivRowIcon.setImageResource(R.drawable.ic_phone)
@@ -49,6 +54,9 @@ class ProfileFragment : Fragment() {
 
         binding.btnEditProfile.setOnClickListener {
             VolunteerNavGraph.toEditProfile(findNavController())
+        }
+        binding.btnSettings.setOnClickListener {
+            startActivity(Intent(requireContext(), SettingsActivity::class.java))
         }
         binding.btnSignOut.setOnClickListener { confirmSignOut() }
 
