@@ -111,7 +111,7 @@
 
                 <include android:id="@+id/actionPostAnnouncement" layout="@layout/item_quick_action" />
 
-                <include android:id="@+id/actionImpactStats" layout="@layout/item_quick_action" />
+                <include android:id="@+id/actionSettings" layout="@layout/item_quick_action" />
             </LinearLayout>
 
             <TextView

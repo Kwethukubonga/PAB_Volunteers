@@ -30,12 +30,16 @@ class ActivityEditorFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: AdminViewModel by activityViewModels()
 
-    private val isoDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    // Stored values, so they stay in plain digits whatever language the app is showing.
+    private val isoDate = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
     private var dateMillis = 0L
     private var existing: Activity? = null
 
     private val activityId: String
         get() = arguments?.getString(Constants.EXTRA_ACTIVITY_ID).orEmpty()
+
+    private val isEditing: Boolean
+        get() = activityId.isNotBlank()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,19 +62,36 @@ class ActivityEditorFragment : Fragment() {
         val programmeNames = programmeOptions.map { getString(it.nameRes) }
         binding.etProgramme.setSimpleItems(programmeNames.toTypedArray())
 
-        existing = viewModel.activityById(activityId)
         binding.tvHeading.setText(
-            if (existing == null) R.string.new_activity_title else R.string.edit_activity_title
+            if (isEditing) R.string.edit_activity_title else R.string.new_activity_title
         )
-        existing?.let { fillFrom(it) }
+
+        if (isEditing) {
+            // Android can reopen this screen before the list has loaded. Wait for the activity
+            // instead of showing an empty form, which would save as a duplicate.
+            var filled = false
+            viewModel.activities.observe(viewLifecycleOwner) {
+                val found = viewModel.activityById(activityId)
+                if (found != null && !filled) {
+                    filled = true
+                    existing = found
+                    fillFrom(found)
+                }
+                updateSaveEnabled()
+            }
+            viewModel.refreshIfEmpty()
+        }
 
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.isVisible = loading
-            binding.btnSave.isEnabled = !loading
+            updateSaveEnabled()
         }
         viewModel.message.observe(viewLifecycleOwner) { message ->
-            binding.tvMessage.isVisible = !message.isNullOrBlank()
-            binding.tvMessage.text = message.orEmpty()
+            if (message == null) return@observe
+            binding.tvMessage.isVisible = true
+            binding.tvMessage.text = message.resolve(requireContext())
+            // Cleared once shown, so it is not still there next time the editor opens.
+            viewModel.consumeMessage()
         }
         viewModel.saved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
@@ -79,6 +100,12 @@ class ActivityEditorFragment : Fragment() {
                 findNavController().popBackStack()
             }
         }
+    }
+
+    /** Saving is held back while busy, or while an existing activity is still loading. */
+    private fun updateSaveEnabled() {
+        val loading = viewModel.isLoading.value == true
+        binding.btnSave.isEnabled = !loading && (!isEditing || existing != null)
     }
 
     private fun fillFrom(activity: Activity) {
@@ -93,12 +120,17 @@ class ActivityEditorFragment : Fragment() {
         binding.etTotalSpots.setText(activity.totalSpots.toString())
         binding.etDescription.setText(activity.description)
         binding.switchPublished.isChecked = activity.status == Activity.STATUS_PUBLISHED
-        dateMillis = activity.dateMillis
+        // Older activities only stored the date as text. Without this, saving one would
+        // quietly move it to today.
+        dateMillis = activity.dateMillis.takeIf { it > 0 }
+            ?: runCatching { isoDate.parse(activity.date)?.time }.getOrNull()
+            ?: 0L
     }
 
     private fun pickDate() {
         val calendar = Calendar.getInstance()
         if (dateMillis > 0) calendar.timeInMillis = dateMillis
+        val today = DateUtils.startOfDay(DateUtils.now())
         DatePickerDialog(
             requireContext(),
             { _, year, month, day ->
@@ -110,18 +142,23 @@ class ActivityEditorFragment : Fragment() {
             calendar.get(Calendar.YEAR),
             calendar.get(Calendar.MONTH),
             calendar.get(Calendar.DAY_OF_MONTH)
-        ).show()
+        ).apply {
+            // Nothing new can be put in the past. An older activity being edited keeps its own day.
+            datePicker.minDate = if (dateMillis in 1 until today) dateMillis else today
+        }.show()
     }
 
     private fun pickTime(target: TextInputEditText) {
+        // Opens on the time already chosen, or on the current time for an empty field.
+        val chosen = DateUtils.minutesOfDay(target.text?.toString().orEmpty())
         val calendar = Calendar.getInstance()
         TimePickerDialog(
             requireContext(),
             { _, hour, minute ->
-                target.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, minute))
+                target.setText(String.format(Locale.ROOT, "%02d:%02d", hour, minute))
             },
-            calendar.get(Calendar.HOUR_OF_DAY),
-            calendar.get(Calendar.MINUTE),
+            chosen?.div(60) ?: calendar.get(Calendar.HOUR_OF_DAY),
+            chosen?.rem(60) ?: calendar.get(Calendar.MINUTE),
             true
         ).show()
     }
@@ -147,6 +184,8 @@ class ActivityEditorFragment : Fragment() {
             location.isBlank() -> getString(R.string.error_field_required)
             role.isBlank() -> getString(R.string.error_field_required)
             spots <= 0 -> getString(R.string.error_total_spots_invalid)
+            spots < (existing?.filledSpots ?: 0) ->
+                getString(R.string.error_spots_below_taken, existing?.filledSpots ?: 0)
             else -> null
         }
         if (error != null) {
@@ -157,6 +196,7 @@ class ActivityEditorFragment : Fragment() {
         binding.tvMessage.isVisible = false
 
         val current = existing
+        if (isEditing && current == null) return
         viewModel.saveActivity(
             Activity(
                 id = current?.id.orEmpty(),

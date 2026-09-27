@@ -46,21 +46,28 @@ class ActivitySignupsFragment : Fragment() {
         binding.rvSignups.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSignups.adapter = adapter
 
-        val activity = viewModel.activityById(activityId)
-        binding.tvActivityTitle.text = activity?.title.orEmpty()
-
+        // Watched rather than read once, so the header fills in if Android reopened this
+        // screen before the activity list had loaded.
+        viewModel.activities.observe(viewLifecycleOwner) { renderHeader() }
         viewModel.signupsForActivity.observe(viewLifecycleOwner) { signups ->
             adapter.submitList(signups)
             binding.rvSignups.isVisible = signups.isNotEmpty()
             binding.layoutEmpty.isVisible = signups.isEmpty()
-            binding.tvSummary.text = getString(
-                R.string.signups_summary,
-                signups.size,
-                activity?.spotsRemaining ?: 0
-            )
+            renderHeader()
         }
 
+        viewModel.refreshIfEmpty()
         viewModel.loadSignups(activityId)
+    }
+
+    private fun renderHeader() {
+        val activity = viewModel.activityById(activityId)
+        binding.tvActivityTitle.text = activity?.title.orEmpty()
+        binding.tvSummary.text = getString(
+            R.string.signups_summary,
+            viewModel.signupsForActivity.value.orEmpty().size,
+            activity?.spotsRemaining ?: 0
+        )
     }
 
     override fun onDestroyView() {

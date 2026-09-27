@@ -9,15 +9,16 @@ import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.data.model.Announcement
-import com.kantu.pab_volunteers.data.model.ImpactStats
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
-import com.kantu.pab_volunteers.data.repository.ImpactStatsRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.UiText
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 /**
@@ -29,20 +30,20 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val userRepository = UserRepository()
     private val activityRepository = ActivityRepository()
     private val announcementRepository = AnnouncementRepository()
-    private val impactStatsRepository = ImpactStatsRepository()
     private val signupRepository = SignupRepository()
 
+    // Only people who finished setting up their profile. The rest have no name to show.
     private val _volunteers = MutableLiveData<List<User>>(emptyList())
     val volunteers: LiveData<List<User>> = _volunteers
+
+    private val _recentVolunteers = MutableLiveData<List<User>>(emptyList())
+    val recentVolunteers: LiveData<List<User>> = _recentVolunteers
 
     private val _activities = MutableLiveData<List<Activity>>(emptyList())
     val activities: LiveData<List<Activity>> = _activities
 
     private val _announcements = MutableLiveData<List<Announcement>>(emptyList())
     val announcements: LiveData<List<Announcement>> = _announcements
-
-    private val _stats = MutableLiveData<ImpactStats?>()
-    val stats: LiveData<ImpactStats?> = _stats
 
     private val _totalSignups = MutableLiveData(0)
     val totalSignups: LiveData<Int> = _totalSignups
@@ -53,26 +54,39 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _message = MutableLiveData<String?>()
-    val message: LiveData<String?> = _message
+    private val _message = MutableLiveData<UiText?>()
+    val message: LiveData<UiText?> = _message
 
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
 
+    private var refreshJob: Job? = null
+    private var signupsJob: Job? = null
+
+    /** A newer refresh replaces an older one, so a slow reply can never overwrite a fresh one. */
     fun refresh() {
+        refreshJob?.cancel()
         _isLoading.value = true
-        viewModelScope.launch {
+        refreshJob = viewModelScope.launch {
             try {
-                _volunteers.value = userRepository.getAllVolunteers()
+                val registered = userRepository.getAllVolunteers().filter { it.profileComplete }
+                _volunteers.value = registered.sortedBy { it.fullName.lowercase() }
+                _recentVolunteers.value = registered.sortedByDescending { it.joinedDate }
                 _activities.value = activityRepository.getAllActivities()
                 _announcements.value = announcementRepository.getAllAnnouncements()
-                _stats.value = impactStatsRepository.getStats()
                 _totalSignups.value = _activities.value.orEmpty().sumOf { it.filledSpots }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _message.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }
+    }
+
+    /** Detail screens call this when Android has reopened them before the lists were loaded. */
+    fun refreshIfEmpty() {
+        if (_activities.value.isNullOrEmpty() && _volunteers.value.isNullOrEmpty()) refresh()
     }
 
     // ---- lookups -------------------------------------------------------
@@ -88,12 +102,18 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Read-only: the admin can see who is coming but cannot take anyone off an activity. */
     fun loadSignups(activityId: String) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            runCatching { signupRepository.getSignupsForActivity(activityId) }
-                .onSuccess { _signupsForActivity.value = it }
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
-            _isLoading.value = false
+        // Cleared first so the previous activity's list never flashes up.
+        _signupsForActivity.value = emptyList()
+        // Only the latest request counts, so a slow reply cannot fill in another activity's list.
+        signupsJob?.cancel()
+        signupsJob = viewModelScope.launch {
+            try {
+                _signupsForActivity.value = signupRepository.getSignupsForActivity(activityId)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                _message.value = ErrorMessages.textFor(e)
+            }
         }
     }
 
@@ -176,19 +196,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
         if (offline()) return
         viewModelScope.launch {
             announcementRepository.deleteAnnouncement(announcementId)
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
-            refresh()
-        }
-    }
-
-    // ---- impact stats --------------------------------------------------
-
-    fun saveStats(stats: ImpactStats) {
-        if (offline()) return
-        _isLoading.value = true
-        viewModelScope.launch {
-            impactStatsRepository.saveStats(stats)
-                .onSuccess { _saved.value = true }
                 .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
