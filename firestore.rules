@@ -22,6 +22,15 @@ service cloud.firestore {
       return request.resource.data.diff(resource.data).affectedKeys();
     }
 
+    function activityPath(activityId) {
+      return /databases/$(database)/documents/activities/$(activityId);
+    }
+
+    // Sign-ups are saved as activityId_userId, so one person can only hold one place.
+    function signupPath(activityId) {
+      return /databases/$(database)/documents/activitySignups/$(activityId + '_' + request.auth.uid);
+    }
+
     match /users/{userId} {
       // You can read yourself. Admins read everyone for the volunteers page.
       allow read: if isSelf(userId) || isAdmin();
@@ -30,22 +39,35 @@ service cloud.firestore {
       allow create: if isSelf(userId)
         && request.resource.data.role == 'volunteer';
 
-      // You may edit your own profile, but you may not promote yourself.
-      // Roles are changed by an admin, or by hand in the console.
-      allow update: if (isSelf(userId) && request.resource.data.role == resource.data.role)
+      // You may edit your own profile, but not your role, ID or join date.
+      // Roles are changed by hand in the Firebase console.
+      allow update: if (isSelf(userId)
+          && !changedKeys().hasAny(['email', 'role', 'volunteerId', 'joinedDate']))
         || isAdmin();
 
-      allow delete: if isAdmin();
+      // Only you can delete your account. Admins cannot remove volunteers.
+      allow delete: if isSelf(userId);
     }
 
     match /activities/{activityId} {
       allow read: if isSignedIn();
       allow create, delete: if isAdmin();
 
-      // Admins edit activities. Volunteers may only move the spot counter,
-      // which is what joining and leaving does.
+      // Admins edit activities. Volunteers may only move the spot counter by one,
+      // which is what joining and leaving does, and never past the limits.
       allow update: if isAdmin()
-        || (isSignedIn() && changedKeys().hasOnly(['filledSpots']));
+        || (isSignedIn()
+          && changedKeys().hasOnly(['filledSpots'])
+          && request.resource.data.filledSpots >= 0
+          && request.resource.data.filledSpots <= resource.data.totalSpots
+          && (
+            // Joining: the counter goes up only alongside your own new sign-up.
+            (request.resource.data.filledSpots == resource.data.filledSpots + 1
+              && !exists(signupPath(activityId))
+              && existsAfter(signupPath(activityId)))
+            // Leaving: the counter goes down by one.
+            || request.resource.data.filledSpots == resource.data.filledSpots - 1
+          ));
     }
 
     match /announcements/{announcementId} {
@@ -53,28 +75,34 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
-    match /impactStats/{docId} {
-      allow read: if isSignedIn();
-      allow write: if isAdmin();
-    }
-
     match /activitySignups/{signupId} {
       // Volunteers see their own places. Admins see who signed up for what.
-      allow read: if isAdmin()
+      // Joining first checks that your sign-up does not exist yet, so that read is allowed too.
+      allow get: if isAdmin()
+        || (isSignedIn() && resource == null && signupId.matches('.+_' + request.auth.uid))
         || (isSignedIn() && resource.data.userId == request.auth.uid);
 
-      // You can only sign yourself up.
-      allow create: if isSignedIn()
-        && request.resource.data.userId == request.auth.uid;
+      allow list: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
 
-      // Leaving deletes the record. Admins can remove someone too.
+      // You can only sign yourself up, once, to a published activity with space,
+      // and the activity's counter must go up in the same save.
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && signupId == request.resource.data.activityId + '_' + request.auth.uid
+        && get(activityPath(request.resource.data.activityId)).data.status == 'published'
+        && getAfter(activityPath(request.resource.data.activityId)).data.filledSpots
+          == get(activityPath(request.resource.data.activityId)).data.filledSpots + 1;
+
+      // Leaving deletes your own record. Admins can delete sign-ups only so that
+      // deleting an activity also clears its sign-ups.
       allow delete: if isAdmin()
         || (isSignedIn() && resource.data.userId == request.auth.uid);
 
       allow update: if false;
     }
 
-    // Anything not listed above is closed.
+    // Anything not listed above, including the old impactStats collection, is closed.
     match /{document=**} {
       allow read, write: if false;
     }

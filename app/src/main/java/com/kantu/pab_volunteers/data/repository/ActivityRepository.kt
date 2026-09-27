@@ -10,6 +10,7 @@ class ActivityRepository {
 
     private val db = FirestoreManager.db
     private fun activitiesCollection() = db.collection(Constants.COLLECTION_ACTIVITIES)
+    private fun signupsCollection() = db.collection(Constants.COLLECTION_SIGNUPS)
 
     suspend fun createActivity(activity: Activity, createdBy: String): Result<String> {
         return try {
@@ -21,9 +22,27 @@ class ActivityRepository {
         }
     }
 
+    /**
+     * Writes only the fields the editor changes. Saving the whole activity would put back
+     * the spot count from when the editor was opened, undoing anyone who joined meanwhile.
+     */
     suspend fun updateActivity(activity: Activity): Result<Unit> {
         return try {
-            activitiesCollection().document(activity.id).set(activity).await()
+            activitiesCollection().document(activity.id).update(
+                mapOf(
+                    "title" to activity.title,
+                    "programme" to activity.programme,
+                    "date" to activity.date,
+                    "dateMillis" to activity.dateMillis,
+                    "startTime" to activity.startTime,
+                    "endTime" to activity.endTime,
+                    "location" to activity.location,
+                    "volunteerRole" to activity.volunteerRole,
+                    "totalSpots" to activity.totalSpots,
+                    "description" to activity.description,
+                    "status" to activity.status
+                )
+            ).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -39,9 +58,17 @@ class ActivityRepository {
         }
     }
 
+    /** Removes the activity and every sign-up for it together, so none are left behind. */
     suspend fun deleteActivity(activityId: String): Result<Unit> {
         return try {
-            activitiesCollection().document(activityId).delete().await()
+            val signups = signupsCollection()
+                .whereEqualTo("activityId", activityId)
+                .get()
+                .await()
+            val batch = db.batch()
+            signups.documents.forEach { batch.delete(it.reference) }
+            batch.delete(activitiesCollection().document(activityId))
+            batch.commit().await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

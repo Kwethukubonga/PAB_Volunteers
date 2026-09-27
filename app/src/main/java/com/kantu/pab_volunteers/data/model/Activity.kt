@@ -31,8 +31,14 @@ data class Activity(
     @get:Exclude
     val endsAtMillis: Long get() = DateUtils.endOfActivity(dateMillis, startTime, endTime)
 
+    // Shown like every other date in the app, in the language picked in Settings.
+    // The stored text is only used for older records that have no dateMillis.
     @get:Exclude
-    val dateTimeLabel: String get() = "$date · $startTime - $endTime"
+    val dateTimeLabel: String
+        get() {
+            val day = if (dateMillis > 0) DateUtils.formatDate(dateMillis) else date
+            return "$day · $startTime - $endTime"
+        }
 
     companion object {
         const val STATUS_DRAFT = "draft"

@@ -4,30 +4,19 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
-import kotlin.random.Random
 
 object DateUtils {
 
     const val DAY_MILLIS = 24L * 60 * 60 * 1000
     private const val MINUTE_MILLIS = 60L * 1000
 
-    private val dayMonthYear = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
-    private val dayMonthYearTime = SimpleDateFormat("d MMM yyyy, HH:mm", Locale.getDefault())
-    private val fullDay = SimpleDateFormat("EEEE, d MMMM", Locale.getDefault())
-
     fun now(): Long = System.currentTimeMillis()
 
+    /** Built each time so month names follow the language picked in Settings. */
     fun formatDate(timestamp: Long): String {
         if (timestamp <= 0L) return ""
-        return dayMonthYear.format(Date(timestamp))
+        return SimpleDateFormat("d MMM yyyy", AppLanguage.locale()).format(Date(timestamp))
     }
-
-    fun formatDateTime(timestamp: Long): String {
-        if (timestamp <= 0L) return ""
-        return dayMonthYearTime.format(Date(timestamp))
-    }
-
-    fun formatFullDay(timestamp: Long): String = fullDay.format(Date(timestamp))
 
     // Midnight of the day containing this timestamp.
     fun startOfDay(timestamp: Long): Long {
@@ -68,17 +57,21 @@ object DateUtils {
         return day + end * MINUTE_MILLIS
     }
 
-    // Short volunteer ID, for example VOL-2026-084.
-    fun generateVolunteerId(): String {
-        val year = SimpleDateFormat("yyyy", Locale.getDefault()).format(Date())
-        return "VOL-$year-${Random.nextInt(100, 999)}"
+    /**
+     * Short volunteer ID, for example VOL-2026-K7Q3ZA. It is built from the account id, because
+     * a random three digit number gave two volunteers the same ID once there were a few dozen.
+     */
+    fun volunteerIdFor(uid: String): String {
+        val year = SimpleDateFormat("yyyy", Locale.ROOT).format(Date())
+        val suffix = uid.filter { it.isLetterOrDigit() }.take(6).uppercase(Locale.ROOT)
+        return "VOL-$year-$suffix"
     }
 
     fun monthsSince(joinedDate: Long): Int {
         if (joinedDate <= 0L) return 0
         val diffMillis = now() - joinedDate
         if (diffMillis <= 0) return 0
-        val days = diffMillis / (1000L * 60 * 60 * 24)
+        val days = diffMillis / DAY_MILLIS
         return (days / 30).toInt().coerceAtLeast(0)
     }
 }
