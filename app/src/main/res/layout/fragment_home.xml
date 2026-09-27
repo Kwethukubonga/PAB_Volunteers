@@ -109,6 +109,14 @@
                 <include
                     android:id="@+id/statCompleted"
                     layout="@layout/item_stat_tile" />
+
+                <Space
+                    android:layout_width="@dimen/spacing_sm"
+                    android:layout_height="1dp" />
+
+                <include
+                    android:id="@+id/statHours"
+                    layout="@layout/item_stat_tile" />
             </LinearLayout>
 
             <!-- My next activities -->

@@ -6,6 +6,11 @@
         <item quantity="other">%1$d opportunities open</item>
     </plurals>
 
+    <plurals name="favourites_saved">
+        <item quantity="one">%1$d opportunity saved</item>
+        <item quantity="other">%1$d opportunities saved</item>
+    </plurals>
+
     <plurals name="announcements_count">
         <item quantity="one">%1$d update from the team</item>
         <item quantity="other">%1$d updates from the team</item>

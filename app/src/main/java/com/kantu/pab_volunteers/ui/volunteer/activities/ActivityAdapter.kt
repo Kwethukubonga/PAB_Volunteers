@@ -3,6 +3,7 @@ package com.kantu.pab_volunteers.ui.volunteer.activities
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
@@ -10,8 +11,10 @@ import com.kantu.pab_volunteers.databinding.ItemActivityBinding
 import com.kantu.pab_volunteers.ui.profile.ProgrammeArt
 
 /** One row per activity, shown on Home, Activities and Schedule. */
+// onClick stays last so the existing trailing-lambda call sites keep working.
 class ActivityAdapter(
     private var items: List<ActivityRow>,
+    private val onFavouriteToggled: ((Activity, Boolean) -> Unit)? = null,
     private val onClick: (Activity) -> Unit
 ) : RecyclerView.Adapter<ActivityAdapter.ViewHolder>() {
 
@@ -61,7 +64,26 @@ class ActivityAdapter(
         holder.binding.tvStatus.background?.setTint(ContextCompat.getColor(context, bgRes))
         holder.binding.tvStatus.setTextColor(ContextCompat.getColor(context, textRes))
 
+        holder.binding.btnFavourite.isVisible = onFavouriteToggled != null
+        setHeart(holder, row.isFavourite)
+        holder.binding.btnFavourite.setOnClickListener {
+            val nowFavourite = !items[holder.bindingAdapterPosition].isFavourite
+            // Flip straight away so the tap feels instant, the write happens behind it.
+            items = items.toMutableList().also { list ->
+                val index = holder.bindingAdapterPosition
+                list[index] = list[index].copy(isFavourite = nowFavourite)
+            }
+            setHeart(holder, nowFavourite)
+            onFavouriteToggled?.invoke(activity, nowFavourite)
+        }
+
         holder.itemView.setOnClickListener { onClick(activity) }
+    }
+
+    private fun setHeart(holder: ViewHolder, isFavourite: Boolean) {
+        holder.binding.btnFavourite.setImageResource(
+            if (isFavourite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline
+        )
     }
 
     override fun getItemCount(): Int = items.size
@@ -75,5 +97,6 @@ class ActivityAdapter(
 /** An activity plus whether the signed-in volunteer already has a place on it. */
 data class ActivityRow(
     val activity: Activity,
-    val isJoined: Boolean = false
+    val isJoined: Boolean = false,
+    val isFavourite: Boolean = false
 )

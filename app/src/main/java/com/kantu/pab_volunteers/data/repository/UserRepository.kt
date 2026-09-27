@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.data.repository
 
+import com.google.firebase.firestore.FieldValue
 import com.kantu.pab_volunteers.data.firebase.FirestoreManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.utils.Constants
@@ -38,6 +39,21 @@ class UserRepository {
     suspend fun saveProfile(user: User): Result<Unit> {
         return try {
             usersCollection().document(user.uid).set(user.copy(profileComplete = true)).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Favourites live on the user's own record, so no extra read is needed to show them. */
+    suspend fun setFavourite(uid: String, activityId: String, favourite: Boolean): Result<Unit> {
+        return try {
+            val change = if (favourite) {
+                FieldValue.arrayUnion(activityId)
+            } else {
+                FieldValue.arrayRemove(activityId)
+            }
+            usersCollection().document(uid).update("favouriteActivityIds", change).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

@@ -12,6 +12,7 @@ data class User(
     val phone: String = "",
     val area: String = "",
     val programmeInterests: List<String> = emptyList(),
+    val favouriteActivityIds: List<String> = emptyList(),
     val role: String = ROLE_VOLUNTEER,
     val volunteerId: String = "",
     val profileComplete: Boolean = false,

@@ -55,6 +55,7 @@ class HomeFragment : Fragment() {
         binding.statToday.tvStatLabel.setText(R.string.stat_today)
         binding.statUpcoming.tvStatLabel.setText(R.string.stat_upcoming)
         binding.statCompleted.tvStatLabel.setText(R.string.stat_completed)
+        binding.statHours.tvStatLabel.setText(R.string.stat_hours)
 
         binding.btnSeeSchedule.setOnClickListener {
             (requireActivity() as VolunteerMainActivity).selectTab(R.id.scheduleFragment)
@@ -92,6 +93,9 @@ class HomeFragment : Fragment() {
         }
         viewModel.completedCount.observe(viewLifecycleOwner) {
             binding.statCompleted.tvStatValue.text = it.toString()
+        }
+        viewModel.hoursCompleted.observe(viewLifecycleOwner) {
+            binding.statHours.tvStatValue.text = it.toString()
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it

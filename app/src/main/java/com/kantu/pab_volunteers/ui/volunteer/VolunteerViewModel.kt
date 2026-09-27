@@ -49,6 +49,12 @@ class VolunteerViewModel : ViewModel() {
     private val _completedCount = MutableLiveData(0)
     val completedCount: LiveData<Int> = _completedCount
 
+    private val _hoursCompleted = MutableLiveData(0)
+    val hoursCompleted: LiveData<Int> = _hoursCompleted
+
+    private val _favourites = MutableLiveData<List<ActivityRow>>(emptyList())
+    val favourites: LiveData<List<ActivityRow>> = _favourites
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -79,18 +85,31 @@ class VolunteerViewModel : ViewModel() {
                 val startOfToday = DateUtils.startOfDay(DateUtils.now())
 
                 // Anything already past is history, so it never appears as something to join.
+                val favouriteIds = _user.value?.favouriteActivityIds.orEmpty().toSet()
+
                 val upcoming = published.filter { it.dateMillis >= startOfToday }
                 _openActivities.value = upcoming
                     .filterNot { joinedIds.contains(it.id) }
-                    .map { ActivityRow(it, isJoined = false) }
+                    .map { ActivityRow(it, isJoined = false, isFavourite = favouriteIds.contains(it.id)) }
 
                 val mine = upcoming.filter { joinedIds.contains(it.id) }
-                _mySchedule.value = mine.map { ActivityRow(it, isJoined = true) }
+                _mySchedule.value = mine.map {
+                    ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
+                }
+
+                _favourites.value = upcoming
+                    .filter { favouriteIds.contains(it.id) }
+                    .map {
+                        ActivityRow(it, isJoined = joinedIds.contains(it.id), isFavourite = true)
+                    }
 
                 val endOfToday = startOfToday + DAY_MILLIS
                 _todayCount.value = mine.count { it.dateMillis in startOfToday until endOfToday }
                 _upcomingCount.value = mine.size
-                _completedCount.value = signups.count { it.dateMillis in 1 until startOfToday }
+
+                val completed = signups.filter { it.dateMillis in 1 until startOfToday }
+                _completedCount.value = completed.size
+                _hoursCompleted.value = totalHours(completed, published)
 
                 _announcements.value = announcementRepository.getPublishedAnnouncements()
 
@@ -107,6 +126,45 @@ class VolunteerViewModel : ViewModel() {
     }
 
     fun isJoined(activityId: String): Boolean = signups.any { it.activityId == activityId }
+
+    fun setFavourite(activityId: String, favourite: Boolean) {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        viewModelScope.launch {
+            userRepository.setFavourite(uid, activityId, favourite)
+                .onSuccess { refresh() }
+                .onFailure { _message.value = it.message }
+        }
+    }
+
+    /**
+     * Hours come from the start and end time the admin set on each activity the
+     * volunteer attended. Anything unparseable simply counts as zero.
+     */
+    private fun totalHours(
+        completed: List<ActivitySignup>,
+        allActivities: List<Activity>
+    ): Int {
+        val byId = allActivities.associateBy { it.id }
+        val minutes = completed.sumOf { signup ->
+            val activity = byId[signup.activityId] ?: return@sumOf 0
+            minutesBetween(activity.startTime, activity.endTime)
+        }
+        return minutes / 60
+    }
+
+    private fun minutesBetween(start: String, end: String): Int {
+        val from = parseMinutes(start) ?: return 0
+        val to = parseMinutes(end) ?: return 0
+        return (to - from).coerceAtLeast(0)
+    }
+
+    private fun parseMinutes(time: String): Int? {
+        val parts = time.trim().split(":")
+        if (parts.size != 2) return null
+        val hour = parts[0].toIntOrNull() ?: return null
+        val minute = parts[1].toIntOrNull() ?: return null
+        return hour * 60 + minute
+    }
 
     /**
      * Detail screens can be opened before the lists are loaded (for example after the app is

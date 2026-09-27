@@ -132,6 +132,11 @@
     <string name="pronoun_they_them">They / Them</string>
     <string name="pronoun_prefer_not_to_say">Prefer not to say</string>
     <string name="action_continue">Continue</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="tab_all_opportunities">All</string>
+    <string name="tab_favourites">Favourites</string>
+    <string name="stat_hours">Hours</string>
+    <string name="empty_favourites">Nothing saved yet. Tap the heart on an opportunity to keep it here.</string>
     <string name="action_back">Back</string>
 
     <string name="apply_step2_title">Your Interests</string>
