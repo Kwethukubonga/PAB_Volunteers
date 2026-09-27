@@ -13,6 +13,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.ImpactStats
 import com.kantu.pab_volunteers.databinding.FragmentManageImpactStatsBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class ManageImpactStatsFragment : Fragment() {
 
@@ -33,6 +34,8 @@ class ManageImpactStatsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         binding.btnSave.setOnClickListener { save() }

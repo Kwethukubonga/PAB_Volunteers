@@ -14,6 +14,7 @@ import com.kantu.pab_volunteers.databinding.FragmentVolunteerDetailsBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.observeMessages
 
 /** A volunteer's profile as the admin sees it. Viewing only, with no actions on the person. */
 class VolunteerDetailsFragment : Fragment() {
@@ -33,6 +34,8 @@ class VolunteerDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 

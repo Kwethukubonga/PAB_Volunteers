@@ -13,9 +13,11 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentHomeBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.community.AnnouncementAdapter
+import com.kantu.pab_volunteers.utils.observeMessages
 import java.util.Calendar
 
 class HomeFragment : Fragment() {
@@ -39,6 +41,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
+
         activityAdapter = ActivityAdapter(emptyList()) { activity ->
             VolunteerNavGraph.toActivityDetails(findNavController(), activity.id)
         }
@@ -54,12 +58,13 @@ class HomeFragment : Fragment() {
         binding.statToday.tvStatLabel.setText(R.string.stat_today)
         binding.statUpcoming.tvStatLabel.setText(R.string.stat_upcoming)
         binding.statCompleted.tvStatLabel.setText(R.string.stat_completed)
+        binding.statHours.tvStatLabel.setText(R.string.stat_hours)
 
         binding.btnSeeSchedule.setOnClickListener {
-            findNavController().navigate(R.id.scheduleFragment)
+            (requireActivity() as VolunteerMainActivity).selectTab(R.id.scheduleFragment)
         }
         binding.btnSeeCommunity.setOnClickListener {
-            findNavController().navigate(R.id.communityFragment)
+            (requireActivity() as VolunteerMainActivity).selectTab(R.id.communityFragment)
         }
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
@@ -91,6 +96,9 @@ class HomeFragment : Fragment() {
         }
         viewModel.completedCount.observe(viewLifecycleOwner) {
             binding.statCompleted.tvStatValue.text = it.toString()
+        }
+        viewModel.hoursCompleted.observe(viewLifecycleOwner) {
+            binding.statHours.tvStatValue.text = it.toString()
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it

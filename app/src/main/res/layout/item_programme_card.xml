@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="164dp"
+    android:layout_height="116dp"
+    android:layout_marginEnd="@dimen/spacing_sm"
+    app:cardCornerRadius="@dimen/corner_radius_md"
+    app:cardElevation="0dp">
+
+    <ImageView
+        android:id="@+id/ivProgrammePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/img_programme_seniors" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_card_scrim" />
+
+    <TextView
+        android:id="@+id/tvProgrammeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:padding="@dimen/spacing_sm"
+        android:textColor="@color/text_on_purple"
+        android:textSize="@dimen/text_body"
+        android:textStyle="bold"
+        tools:text="Senior Programme" />
+
+</com.google.android.material.card.MaterialCardView>

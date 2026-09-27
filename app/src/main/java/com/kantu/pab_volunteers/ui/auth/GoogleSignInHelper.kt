@@ -33,7 +33,7 @@ class GoogleSignInHelper(private val activity: Activity) {
         return try {
             val account = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
             val idToken = account.idToken
-                ?: return Result.failure(IllegalStateException("Google did not return an ID token"))
+                ?: return Result.failure(IllegalStateException("Google sign in did not complete. Try again."))
             Result.success(GoogleAuthProvider.getCredential(idToken, null))
         } catch (e: ApiException) {
             Result.failure(GoogleSignInError(e.statusCode, describe(e.statusCode)))

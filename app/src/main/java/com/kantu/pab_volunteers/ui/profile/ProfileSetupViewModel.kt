@@ -1,15 +1,18 @@
 package com.kantu.pab_volunteers.ui.profile
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.utils.ErrorMessages
+import com.kantu.pab_volunteers.utils.Network
 import kotlinx.coroutines.launch
 
-class ProfileSetupViewModel : ViewModel() {
+class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
 
     private val userRepository = UserRepository()
 
@@ -32,7 +35,7 @@ class ProfileSetupViewModel : ViewModel() {
             try {
                 _user.value = userRepository.getUser(uid)
             } catch (e: Exception) {
-                _errorMessage.value = e.message ?: e.toString()
+                _errorMessage.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }
@@ -57,6 +60,10 @@ class ProfileSetupViewModel : ViewModel() {
             _errorMessage.value = "Choose at least one programme"
             return
         }
+        if (!Network.isOnline(getApplication())) {
+            _errorMessage.value = ErrorMessages.OFFLINE
+            return
+        }
         val existing = _user.value
         if (existing == null) {
             _errorMessage.value = "Your account could not be loaded. Try again."
@@ -75,7 +82,7 @@ class ProfileSetupViewModel : ViewModel() {
             )
             userRepository.saveProfile(updated)
                 .onSuccess { _saved.value = true }
-                .onFailure { _errorMessage.value = it.message ?: it.toString() }
+                .onFailure { _errorMessage.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
     }

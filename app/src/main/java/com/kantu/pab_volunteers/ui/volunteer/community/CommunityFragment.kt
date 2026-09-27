@@ -13,6 +13,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentCommunityBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Announcements from the Philisa team. */
 class CommunityFragment : Fragment() {
@@ -34,6 +35,8 @@ class CommunityFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         adapter = AnnouncementAdapter(emptyList()) { announcement ->
             VolunteerNavGraph.toAnnouncementDetails(findNavController(), announcement.id)

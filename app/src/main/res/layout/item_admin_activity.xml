@@ -88,33 +88,27 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSignups"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.PAB.Button.CardAction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/action_view_signups_short"
-                android:textAllCaps="false"
-                android:textColor="@color/purple_700" />
+                android:text="@string/action_view_signups_short" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTogglePublish"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.PAB.Button.CardAction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textAllCaps="false"
-                android:textColor="@color/purple_700"
+                android:layout_weight="1.2"
                 tools:text="Unpublish" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEdit"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
+                style="@style/Widget.PAB.Button.CardAction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/action_edit"
-                android:textAllCaps="false"
-                android:textColor="@color/purple_700" />
+                android:layout_weight="0.8"
+                android:text="@string/action_edit" />
 
             <ImageButton
                 android:id="@+id/btnDelete"

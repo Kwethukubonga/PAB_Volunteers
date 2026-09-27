@@ -1,16 +1,20 @@
 package com.kantu.pab_volunteers.ui.auth
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityWelcomeInfoBinding
+import com.kantu.pab_volunteers.databinding.ItemProgrammeCardBinding
 import com.kantu.pab_volunteers.databinding.ItemTestimonialBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.ui.profile.programmeOptions
+import com.kantu.pab_volunteers.utils.AppMessage
+import com.kantu.pab_volunteers.utils.ErrorMessages
 
 class WelcomeInfoActivity : AppCompatActivity() {
 
@@ -27,7 +31,7 @@ class WelcomeInfoActivity : AppCompatActivity() {
                 setBusy(false)
                 // Backing out of the picker is not an error worth reporting.
                 if ((error as? GoogleSignInError)?.isCancelled == true) return@onFailure
-                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+                AppMessage.show(binding.root, ErrorMessages.textFor(error))
             }
     }
 
@@ -47,15 +51,26 @@ class WelcomeInfoActivity : AppCompatActivity() {
             AuthNavGraph.goToEmailAuth(this)
         }
 
+        buildProgrammeStrip()
         bindTestimonials()
         observeViewModel()
+    }
+
+    private fun buildProgrammeStrip() {
+        val inflater = LayoutInflater.from(this)
+        programmeOptions.forEach { programme ->
+            val card = ItemProgrammeCardBinding.inflate(inflater, binding.programmeStrip, false)
+            card.ivProgrammePhoto.setImageResource(programme.photoRes)
+            card.tvProgrammeName.setText(programme.nameRes)
+            binding.programmeStrip.addView(card.root)
+        }
     }
 
     private fun observeViewModel() {
         viewModel.errorMessage.observe(this) { message ->
             if (!message.isNullOrBlank()) {
                 setBusy(false)
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+                AppMessage.show(binding.root, message)
             }
         }
         viewModel.signedInUser.observe(this) { user ->

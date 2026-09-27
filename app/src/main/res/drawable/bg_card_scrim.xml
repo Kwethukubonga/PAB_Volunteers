@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Darkens only the bottom of a photo so overlaid text stays readable
+     while the picture itself keeps its colour. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="90"
+        android:centerColor="#4D000000"
+        android:endColor="#00000000"
+        android:startColor="#D9000000" />
+</shape>

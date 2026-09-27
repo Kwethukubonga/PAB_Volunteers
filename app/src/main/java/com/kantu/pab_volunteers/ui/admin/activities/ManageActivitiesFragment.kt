@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentManageActivitiesBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class ManageActivitiesFragment : Fragment() {
 
@@ -35,6 +36,8 @@ class ManageActivitiesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         adapter = ManageActivityAdapter(
             items = emptyList(),

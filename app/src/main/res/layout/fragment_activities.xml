@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,6 +31,20 @@
             android:textAppearance="@style/TextAppearance.PAB.Body"
             tools:text="6 opportunities open" />
     </LinearLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_cream"
+        app:tabGravity="start"
+        app:tabIndicatorColor="@color/purple_700"
+        app:tabIndicatorFullWidth="false"
+        app:tabMode="fixed"
+        app:tabPaddingEnd="@dimen/spacing_md"
+        app:tabPaddingStart="@dimen/spacing_md"
+        app:tabSelectedTextColor="@color/purple_700"
+        app:tabTextColor="@color/text_secondary" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -79,6 +94,7 @@
                         android:src="@drawable/ic_activities" />
 
                     <TextView
+                        android:id="@+id/tvEmptyMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_md"

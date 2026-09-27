@@ -86,7 +86,7 @@
                     android:minLines="6" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.materialswitch.MaterialSwitch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchPublished"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

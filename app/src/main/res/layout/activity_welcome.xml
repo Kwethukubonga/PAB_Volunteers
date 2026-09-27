@@ -22,19 +22,10 @@
         android:orientation="vertical"
         android:padding="@dimen/spacing_lg">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/bg_logo_badge"
-            android:contentDescription="@string/app_name"
-            android:padding="6dp"
-            android:src="@drawable/logo_philisa" />
-
         <TextView
             android:id="@+id/tvWelcomeQuote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
             android:text="@string/welcome_quote"
             android:textAppearance="@style/TextAppearance.PAB.Display" />
 

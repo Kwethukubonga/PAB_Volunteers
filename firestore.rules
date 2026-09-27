@@ -1,0 +1,82 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Reads the caller's own user record to check their role.
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    match /users/{userId} {
+      // You can read yourself. Admins read everyone for the volunteers page.
+      allow read: if isSelf(userId) || isAdmin();
+
+      // First sign in creates your own record, and it must start as a volunteer.
+      allow create: if isSelf(userId)
+        && request.resource.data.role == 'volunteer';
+
+      // You may edit your own profile, but you may not promote yourself.
+      // Roles are changed by an admin, or by hand in the console.
+      allow update: if (isSelf(userId) && request.resource.data.role == resource.data.role)
+        || isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    match /activities/{activityId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+
+      // Admins edit activities. Volunteers may only move the spot counter,
+      // which is what joining and leaving does.
+      allow update: if isAdmin()
+        || (isSignedIn() && changedKeys().hasOnly(['filledSpots']));
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /impactStats/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /activitySignups/{signupId} {
+      // Volunteers see their own places. Admins see who signed up for what.
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      // You can only sign yourself up.
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid;
+
+      // Leaving deletes the record. Admins can remove someone too.
+      allow delete: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      allow update: if false;
+    }
+
+    // Anything not listed above is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

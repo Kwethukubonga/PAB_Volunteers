@@ -43,6 +43,7 @@
     <string name="hint_last_name">Dlamini</string>
     <string name="hint_email">nomsa@email.com</string>
     <string name="hint_phone">+27 71 234 5678</string>
+    <string name="hint_choose_programme">Choose a programme</string>
     <string name="hint_area">e.g. Khayelitsha, Gugulethu</string>
     <string name="profile_setup_save">Save Profile</string>
     <string name="profile_saved">Profile saved</string>
@@ -55,12 +56,11 @@
     <!-- Our Programmes -->
     <string name="eyebrow_our_programmes">Our Programmes</string>
     <string name="programmes_heading">Where Volunteers Make Their Mark</string>
-    <string name="programmes_subheading">11 programmes. One mission. Countless lives changed.</string>
+    <string name="programmes_subheading">10 programmes. One mission. Countless lives changed.</string>
     <string name="programme_seniors">Senior Programme</string>
     <string name="programme_mens_cafe">Men\'s Café</string>
     <string name="programme_baby_saver">Baby Saver</string>
-    <string name="programme_search_rescue">Search &amp; Rescue Team</string>
-    <string name="programme_young_minds">Philisa Young Minds Academy</string>
+    <string name="programme_search_rescue">Search and Rescue Team</string>
 
     <!-- Why Volunteer -->
     <string name="eyebrow_why_volunteer">Why Volunteer?</string>
@@ -82,7 +82,7 @@
     <string name="impact_area_stat_founded_label">Founded</string>
     <string name="impact_area_stat_people_value">100 000+</string>
     <string name="impact_area_stat_people_label">People in our community</string>
-    <string name="impact_area_stat_programmes_value">11</string>
+    <string name="impact_area_stat_programmes_value">10</string>
     <string name="impact_area_stat_programmes_label">Programmes</string>
 
     <!-- Final CTA -->
@@ -131,23 +131,22 @@
     <string name="pronoun_they_them">They / Them</string>
     <string name="pronoun_prefer_not_to_say">Prefer not to say</string>
     <string name="action_continue">Continue</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="tab_all_opportunities">All</string>
+    <string name="tab_favourites">Favourites</string>
+    <string name="stat_hours">Hours</string>
+    <string name="empty_favourites">Nothing saved yet. Tap the heart on an opportunity to keep it here.</string>
     <string name="action_back">Back</string>
 
     <string name="apply_step2_title">Your Interests</string>
     <string name="programme_interest_heading">Programme Interest</string>
     <string name="programme_interest_subheading">Select all the programmes you\'d like to be considered for</string>
-    <string name="programme_womens_empowerment">Women\'s Empowerment</string>
+    <string name="programme_womens_empowerment">Women Empowerment</string>
     <string name="programme_youth">Youth Programme</string>
-    <string name="programme_after_school">After-School Programme</string>
+    <string name="programme_after_school">Afterschool Programmes</string>
     <string name="programme_community_feeding">Community Feeding</string>
     <string name="programme_safe_houses">Emergency Safe Houses</string>
     <string name="programme_social_work">Social Work Services</string>
-    <string name="programme_womens_support_group">Women\'s Support Group</string>
-    <string name="programme_senior">Senior Programme</string>
-    <string name="programme_mens_cafe_apply">Men\'s Café</string>
-    <string name="programme_surfing">Surfing Programme</string>
-    <string name="programme_womens_safe_house">Women\'s Safe House</string>
-    <string name="programme_lgbtqia_safe_house">LGBTQIA+ Safe House</string>
     <string name="your_motivation_heading">Your Motivation</string>
     <string name="your_motivation_hint">Tell us why you\'d like to volunteer</string>
 
@@ -250,7 +249,7 @@
 
     <!-- Schedule -->
     <string name="my_schedule_title">My Schedule</string>
-    <string name="schedule_summary">%1$d activities today · %2$d this week</string>
+    <string name="schedule_summary">%1$d upcoming · %2$d completed</string>
     <string name="today_heading">Today</string>
     <string name="this_week_heading">This Week</string>
     <string name="empty_no_schedule">Nothing scheduled this week.</string>
@@ -413,5 +412,23 @@
     <string name="error_account_not_found">No account found for that email</string>
     <string name="error_wrong_role">This account isn\'t registered as %1$s</string>
     <string name="error_spots_full">This activity is fully booked</string>
+    <string name="error_end_before_start">End time must be after the start time.</string>
     <string name="error_total_spots_invalid">Enter a number greater than 0</string>
+
+    <string name="empty_nothing_today">Nothing on today. Enjoy the rest.</string>
+    <string name="empty_nothing_completed">No completed activities yet.</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_dark_mode">Dark mode</string>
+    <string name="settings_dark_mode_desc">Use a darker theme across the app.</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_delete_account">Delete my account</string>
+    <string name="settings_delete_account_desc">Removes your profile and your places on activities. This cannot be undone.</string>
+    <string name="delete_account_confirm_title">Delete your account?</string>
+    <string name="delete_account_confirm_body">Your profile, your places on activities and your saved opportunities will be permanently removed.</string>
+    <string name="action_delete">Delete</string>
+    <string name="delete_account_recent_login">For your security, sign in again before deleting your account.</string>
+    <string name="account_deleted">Your account has been deleted.</string>
 </resources>

@@ -16,6 +16,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityEditorBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import java.text.SimpleDateFormat
@@ -54,6 +55,9 @@ class ActivityEditorFragment : Fragment() {
         binding.etEndTime.setOnClickListener { pickTime(binding.etEndTime) }
         binding.btnSave.setOnClickListener { save() }
 
+        val programmeNames = programmeOptions.map { getString(it.nameRes) }
+        binding.etProgramme.setSimpleItems(programmeNames.toTypedArray())
+
         existing = viewModel.activityById(activityId)
         binding.tvHeading.setText(
             if (existing == null) R.string.new_activity_title else R.string.edit_activity_title
@@ -79,7 +83,8 @@ class ActivityEditorFragment : Fragment() {
 
     private fun fillFrom(activity: Activity) {
         binding.etTitle.setText(activity.title)
-        binding.etProgramme.setText(activity.programme)
+        // false stops the dropdown filtering itself down to the single saved value.
+        binding.etProgramme.setText(activity.programme, false)
         binding.etDate.setText(activity.date)
         binding.etStartTime.setText(activity.startTime)
         binding.etEndTime.setText(activity.endTime)
@@ -137,6 +142,8 @@ class ActivityEditorFragment : Fragment() {
             programme.isBlank() -> getString(R.string.error_field_required)
             date.isBlank() -> getString(R.string.error_field_required)
             startTime.isBlank() || endTime.isBlank() -> getString(R.string.error_field_required)
+            DateUtils.lengthInMinutes(startTime, endTime) <= 0 ->
+                getString(R.string.error_end_before_start)
             location.isBlank() -> getString(R.string.error_field_required)
             role.isBlank() -> getString(R.string.error_field_required)
             spots <= 0 -> getString(R.string.error_total_spots_invalid)

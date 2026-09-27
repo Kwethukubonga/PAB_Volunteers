@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityDetailsBinding
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.observeMessages
 
 class ActivityDetailsFragment : Fragment() {
 
@@ -36,6 +37,8 @@ class ActivityDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
