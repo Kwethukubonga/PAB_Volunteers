@@ -101,6 +101,8 @@
                     android:id="@+id/etPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:digits="0123456789+ "
+                    android:maxLength="18"
                     android:hint="@string/hint_phone"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
