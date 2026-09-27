@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="opportunities_open">
+        <item quantity="one">%1$d ithuba elivulekileyo</item>
+        <item quantity="other">%1$d amathuba avulekileyo</item>
+    </plurals>
+
+    <plurals name="favourites_saved">
+        <item quantity="one">%1$d ithuba eligciniweyo</item>
+        <item quantity="other">%1$d amathuba agciniweyo</item>
+    </plurals>
+
+    <plurals name="announcements_count">
+        <item quantity="one">%1$d isaziso esivela kwiqela</item>
+        <item quantity="other">%1$d izaziso ezivela kwiqela</item>
+    </plurals>
+
+    <plurals name="registered_volunteers">
+        <item quantity="one">%1$d ivolontiya elibhalisiweyo</item>
+        <item quantity="other">%1$d amavolontiya abhalisiweyo</item>
+    </plurals>
+
+    <plurals name="spots_left">
+        <item quantity="one">Kusele indawo e-%1$d</item>
+        <item quantity="other">Kusele iindawo ezi-%1$d</item>
+    </plurals>
+
+    <plurals name="spots_available">
+        <item quantity="one">Indawo e-%1$d iyafumaneka</item>
+        <item quantity="other">Iindawo ezi-%1$d ziyafumaneka</item>
+    </plurals>
+
+</resources>
