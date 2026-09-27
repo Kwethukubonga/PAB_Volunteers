@@ -25,23 +25,21 @@ class VolunteerMainActivity : AppCompatActivity() {
 
         // The detail screens are pushed on top of a tab, so the bar would look wrong there.
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNav.visibility = when (destination.id) {
-                R.id.homeFragment,
-                R.id.activitiesFragment,
-                R.id.scheduleFragment,
-                R.id.communityFragment,
-                R.id.profileFragment -> View.VISIBLE
-                else -> View.GONE
-            }
+            binding.bottomNav.visibility = if (destination.id in TABS) View.VISIBLE else View.GONE
         }
 
         onBackPressedDispatcher.addCallback(this) {
-            // From any other tab, Back returns to Home rather than leaving the app.
-            if (navController.currentDestination?.id != R.id.homeFragment) {
-                binding.bottomNav.selectedItemId = R.id.homeFragment
-            } else {
-                isEnabled = false
-                onBackPressedDispatcher.onBackPressed()
+            val current = navController.currentDestination?.id
+            when {
+                // On a detail screen, Back goes to the list it was opened from.
+                current !in TABS -> navController.popBackStack()
+                // From any other tab, Back returns to Home rather than leaving the app.
+                current != R.id.homeFragment ->
+                    binding.bottomNav.selectedItemId = R.id.homeFragment
+                else -> {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
             }
         }
     }
@@ -53,5 +51,15 @@ class VolunteerMainActivity : AppCompatActivity() {
      */
     fun selectTab(itemId: Int) {
         binding.bottomNav.selectedItemId = itemId
+    }
+
+    private companion object {
+        val TABS = setOf(
+            R.id.homeFragment,
+            R.id.activitiesFragment,
+            R.id.scheduleFragment,
+            R.id.communityFragment,
+            R.id.profileFragment
+        )
     }
 }

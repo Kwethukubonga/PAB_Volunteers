@@ -1,10 +1,10 @@
 package com.kantu.pab_volunteers.ui.volunteer.activities
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityDetailsBinding
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ActivityDetailsFragment : Fragment() {
@@ -25,6 +26,8 @@ class ActivityDetailsFragment : Fragment() {
 
     private val activityId: String
         get() = arguments?.getString(Constants.EXTRA_ACTIVITY_ID).orEmpty()
+
+    private var canJoin = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,7 +62,8 @@ class ActivityDetailsFragment : Fragment() {
         }
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.isVisible = loading
-            binding.btnJoin.isEnabled = !loading
+            // Both depend on loading and on the activity, so they are worked out together.
+            binding.btnJoin.isEnabled = !loading && canJoin
             binding.btnLeave.isEnabled = !loading
         }
 
@@ -75,16 +79,21 @@ class ActivityDetailsFragment : Fragment() {
         binding.rowLocation.tvRowValue.text = activity.location
         binding.rowRole.tvRowValue.text = activity.volunteerRole
         binding.rowSpots.tvRowValue.text =
-            getString(R.string.spots_available, activity.spotsRemaining)
+            resources.getQuantityString(
+                R.plurals.spots_available, activity.spotsRemaining, activity.spotsRemaining
+            )
         binding.tvDescription.text = activity.description
 
         bindStatus(activity, joined)
 
+        // A finished activity is history: it can no longer be joined or left.
+        val finished = activity.endsAtMillis <= DateUtils.now()
         val isFull = activity.spotsRemaining <= 0
-        binding.btnJoin.isVisible = !joined
-        binding.btnJoin.isEnabled = !isFull
+        canJoin = !isFull
+        binding.btnJoin.isVisible = !joined && !finished
+        binding.btnJoin.isEnabled = canJoin && viewModel.isLoading.value != true
         binding.btnJoin.setText(if (isFull) R.string.status_full else R.string.action_join_activity)
-        binding.btnLeave.isVisible = joined
+        binding.btnLeave.isVisible = joined && !finished
     }
 
     private fun bindStatus(activity: Activity, joined: Boolean) {
