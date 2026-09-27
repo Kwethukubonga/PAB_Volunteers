@@ -31,7 +31,7 @@
                 android:paddingTop="4dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="4dp"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/accent"
                 android:textSize="@dimen/text_caption"
                 android:textStyle="bold"
                 tools:text="Community Feeding" />
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_xs"
             android:textAppearance="@style/TextAppearance.PAB.Caption"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/accent"
             tools:text="12 / 20 spots filled" />
 
         <View

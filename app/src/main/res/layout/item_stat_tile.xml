@@ -14,7 +14,7 @@
         android:id="@+id/tvStatValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/purple_700"
+        android:textColor="@color/accent"
         android:textSize="@dimen/text_title"
         android:textStyle="bold"
         tools:text="4" />

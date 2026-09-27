@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_sm"
             android:textAppearance="@style/TextAppearance.PAB.Caption"
-            android:textColor="@color/purple_700"
+            android:textColor="@color/accent"
             tools:text="26 Oct 2026" />
 
         <View
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textAllCaps="false"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/accent"
                 tools:text="Unpublish" />
 
             <com.google.android.material.button.MaterialButton
@@ -89,7 +89,7 @@
                 android:layout_weight="1"
                 android:text="@string/action_edit"
                 android:textAllCaps="false"
-                android:textColor="@color/purple_700" />
+                android:textColor="@color/accent" />
 
             <ImageButton
                 android:id="@+id/btnDelete"

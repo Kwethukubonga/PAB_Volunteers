@@ -16,7 +16,7 @@
         android:background="@drawable/bg_chip_soft"
         android:contentDescription="@null"
         android:padding="8dp"
-        app:tint="@color/purple_700"
+        app:tint="@color/accent"
         tools:src="@drawable/ic_calendar" />
 
     <LinearLayout
