@@ -1,0 +1,11 @@
+{
+  "name": "pab-volunteers-seed",
+  "private": true,
+  "description": "Adds sample activities and announcements for each Philisa programme. See seed.js.",
+  "scripts": {
+    "preview": "node seed.js --dry-run"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  }
+}

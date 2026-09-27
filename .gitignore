@@ -19,3 +19,9 @@ keystore.properties
 # The shared debug key is the one exception. It is not a secret, and sharing it
 # means every teammate's debug build has the same fingerprint for Google sign in.
 !keystore/debug.keystore
+
+# Seed script: its packages, and the Firebase admin key it uses, which gives full database access.
+tools/seed/node_modules/
+*firebase-adminsdk*.json
+*service-account*.json
+*serviceAccount*.json
