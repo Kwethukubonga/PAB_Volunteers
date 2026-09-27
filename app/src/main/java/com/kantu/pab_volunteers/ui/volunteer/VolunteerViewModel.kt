@@ -58,9 +58,6 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
     private val _favourites = MutableLiveData<List<ActivityRow>>(emptyList())
     val favourites: LiveData<List<ActivityRow>> = _favourites
 
-    private val _scheduleToday = MutableLiveData<List<ActivityRow>>(emptyList())
-    val scheduleToday: LiveData<List<ActivityRow>> = _scheduleToday
-
     private val _scheduleCompleted = MutableLiveData<List<ActivityRow>>(emptyList())
     val scheduleCompleted: LiveData<List<ActivityRow>> = _scheduleCompleted
 
@@ -91,49 +88,36 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 signups = signupRepository.getMySignups(uid)
                 val published = activityRepository.getPublishedActivities()
                 val joinedIds = signups.map { it.activityId }.toSet()
-                val startOfToday = DateUtils.startOfDay(DateUtils.now())
-
-                // Anything already past is history, so it never appears as something to join.
                 val favouriteIds = _user.value?.favouriteActivityIds.orEmpty().toSet()
+                val now = DateUtils.now()
 
-                val upcoming = published.filter { it.dateMillis >= startOfToday }
-                _openActivities.value = upcoming
-                    .filterNot { joinedIds.contains(it.id) }
-                    .map { ActivityRow(it, isJoined = false, isFavourite = favouriteIds.contains(it.id)) }
+                fun rowFor(activity: Activity) = ActivityRow(
+                    activity = activity,
+                    isJoined = joinedIds.contains(activity.id),
+                    isFavourite = favouriteIds.contains(activity.id)
+                )
 
-                val mine = upcoming.filter { joinedIds.contains(it.id) }
-                _mySchedule.value = mine.map {
-                    ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
-                }
+                // Anything that has already finished drops out of what can still be joined.
+                val open = published.filter { it.endsAtMillis > now }
+                _openActivities.value = open.map { rowFor(it) }
+                _favourites.value = open.filter { favouriteIds.contains(it.id) }.map { rowFor(it) }
 
-                _favourites.value = upcoming
-                    .filter { favouriteIds.contains(it.id) }
-                    .map {
-                        ActivityRow(it, isJoined = joinedIds.contains(it.id), isFavourite = true)
-                    }
+                val mine = published.filter { joinedIds.contains(it.id) }
+                val (finished, stillToCome) = mine.partition { it.endsAtMillis <= now }
 
-                val endOfToday = startOfToday + DAY_MILLIS
-                _todayCount.value = mine.count { it.dateMillis in startOfToday until endOfToday }
-                _upcomingCount.value = mine.size
-
-                _scheduleToday.value = mine
-                    .filter { it.dateMillis in startOfToday until endOfToday }
-                    .map {
-                        ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
-                    }
-
-                val completed = signups.filter { it.dateMillis in 1 until startOfToday }
-                _completedCount.value = completed.size
-                _hoursCompleted.value = totalHours(completed, published)
-
-                // Past activities are matched back from the sign-up records.
-                val completedIds = completed.map { it.activityId }.toSet()
-                _scheduleCompleted.value = published
-                    .filter { completedIds.contains(it.id) }
+                _mySchedule.value = stillToCome
+                    .sortedBy { it.dateMillis }
+                    .map { rowFor(it) }
+                _scheduleCompleted.value = finished
                     .sortedByDescending { it.dateMillis }
-                    .map {
-                        ActivityRow(it, isJoined = true, isFavourite = favouriteIds.contains(it.id))
-                    }
+                    .map { rowFor(it) }
+
+                val startOfToday = DateUtils.startOfDay(now)
+                val endOfToday = startOfToday + DateUtils.DAY_MILLIS
+                _todayCount.value = stillToCome.count { it.dateMillis in startOfToday until endOfToday }
+                _upcomingCount.value = stillToCome.size
+                _completedCount.value = finished.size
+                _hoursCompleted.value = totalHours(finished)
 
                 _announcements.value = announcementRepository.getPublishedAnnouncements()
 
@@ -163,34 +147,12 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     /**
      * Hours come from the start and end time the admin set on each activity the
-     * volunteer attended. Anything unparseable simply counts as zero.
+     * volunteer attended. Anything unreadable simply counts as zero.
      */
-    private fun totalHours(
-        completed: List<ActivitySignup>,
-        allActivities: List<Activity>
-    ): Int {
-        val byId = allActivities.associateBy { it.id }
-        val minutes = completed.sumOf { signup ->
-            val activity = byId[signup.activityId] ?: return@sumOf 0
-            minutesBetween(activity.startTime, activity.endTime)
-        }
+    private fun totalHours(completed: List<Activity>): Int {
+        val minutes = completed.sumOf { DateUtils.lengthInMinutes(it.startTime, it.endTime) }
         return minutes / 60
     }
-
-    private fun minutesBetween(start: String, end: String): Int {
-        val from = parseMinutes(start) ?: return 0
-        val to = parseMinutes(end) ?: return 0
-        return (to - from).coerceAtLeast(0)
-    }
-
-    private fun parseMinutes(time: String): Int? {
-        val parts = time.trim().split(":")
-        if (parts.size != 2) return null
-        val hour = parts[0].toIntOrNull() ?: return null
-        val minute = parts[1].toIntOrNull() ?: return null
-        return hour * 60 + minute
-    }
-
     /**
      * Detail screens can be opened before the lists are loaded (for example after the app is
      * restored from the background), so fall back to fetching the single record.
@@ -250,7 +212,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun activityById(activityId: String): Activity? {
-        return (_openActivities.value.orEmpty() + _mySchedule.value.orEmpty())
+        return (_openActivities.value.orEmpty() + _mySchedule.value.orEmpty() +
+            _scheduleCompleted.value.orEmpty())
             .firstOrNull { it.activity.id == activityId }
             ?.activity
     }
@@ -321,9 +284,5 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun consumeProfileSaved() {
         _profileSaved.value = false
-    }
-
-    private companion object {
-        const val DAY_MILLIS = 24L * 60 * 60 * 1000
     }
 }

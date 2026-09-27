@@ -18,7 +18,7 @@ import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
 import com.kantu.pab_volunteers.utils.observeMessages
 
-/** The volunteer's own places, split into today, upcoming and completed. */
+/** The volunteer's own places, split into the ones still to come and the ones already done. */
 class ScheduleFragment : Fragment() {
 
     private var _binding: FragmentScheduleBinding? = null
@@ -27,8 +27,7 @@ class ScheduleFragment : Fragment() {
 
     private lateinit var adapter: ActivityAdapter
 
-    private var selectedTab = TAB_TODAY
-    private var todayRows: List<ActivityRow> = emptyList()
+    private var selectedTab = TAB_UPCOMING
     private var upcomingRows: List<ActivityRow> = emptyList()
     private var completedRows: List<ActivityRow> = emptyList()
 
@@ -55,10 +54,6 @@ class ScheduleFragment : Fragment() {
         setUpTabs()
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
-        viewModel.scheduleToday.observe(viewLifecycleOwner) { rows ->
-            todayRows = rows
-            render()
-        }
         viewModel.mySchedule.observe(viewLifecycleOwner) { rows ->
             upcomingRows = rows
             render()
@@ -73,7 +68,6 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun setUpTabs() {
-        binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tab_today))
         binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tab_upcoming))
         binding.tabs.addTab(binding.tabs.newTab().setText(R.string.tab_completed))
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -90,15 +84,12 @@ class ScheduleFragment : Fragment() {
     private fun render() {
         if (_binding == null) return
 
-        val rows = when (selectedTab) {
-            TAB_TODAY -> todayRows
-            TAB_UPCOMING -> upcomingRows
-            else -> completedRows
-        }
-        val emptyMessage = when (selectedTab) {
-            TAB_TODAY -> R.string.empty_nothing_today
-            TAB_UPCOMING -> R.string.empty_no_schedule
-            else -> R.string.empty_nothing_completed
+        val showingUpcoming = selectedTab == TAB_UPCOMING
+        val rows = if (showingUpcoming) upcomingRows else completedRows
+        val emptyMessage = if (showingUpcoming) {
+            R.string.empty_no_schedule
+        } else {
+            R.string.empty_nothing_completed
         }
 
         adapter.submitList(rows)
@@ -106,7 +97,7 @@ class ScheduleFragment : Fragment() {
         binding.layoutEmpty.isVisible = rows.isEmpty()
         binding.tvEmptyMessage.setText(emptyMessage)
         binding.tvSubtitle.text =
-            getString(R.string.schedule_summary, todayRows.size, upcomingRows.size)
+            getString(R.string.schedule_summary, upcomingRows.size, completedRows.size)
     }
 
     override fun onResume() {
@@ -120,7 +111,6 @@ class ScheduleFragment : Fragment() {
     }
 
     private companion object {
-        const val TAB_TODAY = 0
-        const val TAB_UPCOMING = 1
+        const val TAB_UPCOMING = 0
     }
 }

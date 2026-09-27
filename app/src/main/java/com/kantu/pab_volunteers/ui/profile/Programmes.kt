@@ -18,11 +18,6 @@ val programmeOptions = listOf(
         R.drawable.img_programme_after_school
     ),
     ProgrammeOption(
-        R.string.programme_young_minds,
-        R.drawable.ic_activities,
-        R.drawable.img_programme_after_school
-    ),
-    ProgrammeOption(
         R.string.programme_youth,
         R.drawable.ic_people,
         R.drawable.img_programme_youth

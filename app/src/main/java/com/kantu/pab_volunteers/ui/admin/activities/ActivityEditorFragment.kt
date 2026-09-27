@@ -142,6 +142,8 @@ class ActivityEditorFragment : Fragment() {
             programme.isBlank() -> getString(R.string.error_field_required)
             date.isBlank() -> getString(R.string.error_field_required)
             startTime.isBlank() || endTime.isBlank() -> getString(R.string.error_field_required)
+            DateUtils.lengthInMinutes(startTime, endTime) <= 0 ->
+                getString(R.string.error_end_before_start)
             location.isBlank() -> getString(R.string.error_field_required)
             role.isBlank() -> getString(R.string.error_field_required)
             spots <= 0 -> getString(R.string.error_total_spots_invalid)

@@ -56,12 +56,11 @@
     <!-- Our Programmes -->
     <string name="eyebrow_our_programmes">Our Programmes</string>
     <string name="programmes_heading">Where Volunteers Make Their Mark</string>
-    <string name="programmes_subheading">11 programmes. One mission. Countless lives changed.</string>
+    <string name="programmes_subheading">10 programmes. One mission. Countless lives changed.</string>
     <string name="programme_seniors">Senior Programme</string>
     <string name="programme_mens_cafe">Men\'s Café</string>
     <string name="programme_baby_saver">Baby Saver</string>
-    <string name="programme_search_rescue">Search &amp; Rescue Team</string>
-    <string name="programme_young_minds">Philisa Young Minds Academy</string>
+    <string name="programme_search_rescue">Search and Rescue Team</string>
 
     <!-- Why Volunteer -->
     <string name="eyebrow_why_volunteer">Why Volunteer?</string>
@@ -83,7 +82,7 @@
     <string name="impact_area_stat_founded_label">Founded</string>
     <string name="impact_area_stat_people_value">100 000+</string>
     <string name="impact_area_stat_people_label">People in our community</string>
-    <string name="impact_area_stat_programmes_value">11</string>
+    <string name="impact_area_stat_programmes_value">10</string>
     <string name="impact_area_stat_programmes_label">Programmes</string>
 
     <!-- Final CTA -->
@@ -142,18 +141,12 @@
     <string name="apply_step2_title">Your Interests</string>
     <string name="programme_interest_heading">Programme Interest</string>
     <string name="programme_interest_subheading">Select all the programmes you\'d like to be considered for</string>
-    <string name="programme_womens_empowerment">Women\'s Empowerment</string>
+    <string name="programme_womens_empowerment">Women Empowerment</string>
     <string name="programme_youth">Youth Programme</string>
-    <string name="programme_after_school">After-School Programme</string>
+    <string name="programme_after_school">Afterschool Programmes</string>
     <string name="programme_community_feeding">Community Feeding</string>
     <string name="programme_safe_houses">Emergency Safe Houses</string>
     <string name="programme_social_work">Social Work Services</string>
-    <string name="programme_womens_support_group">Women\'s Support Group</string>
-    <string name="programme_senior">Senior Programme</string>
-    <string name="programme_mens_cafe_apply">Men\'s Café</string>
-    <string name="programme_surfing">Surfing Programme</string>
-    <string name="programme_womens_safe_house">Women\'s Safe House</string>
-    <string name="programme_lgbtqia_safe_house">LGBTQIA+ Safe House</string>
     <string name="your_motivation_heading">Your Motivation</string>
     <string name="your_motivation_hint">Tell us why you\'d like to volunteer</string>
 
@@ -256,7 +249,7 @@
 
     <!-- Schedule -->
     <string name="my_schedule_title">My Schedule</string>
-    <string name="schedule_summary">%1$d activities today · %2$d this week</string>
+    <string name="schedule_summary">%1$d upcoming · %2$d completed</string>
     <string name="today_heading">Today</string>
     <string name="this_week_heading">This Week</string>
     <string name="empty_no_schedule">Nothing scheduled this week.</string>
@@ -419,6 +412,7 @@
     <string name="error_account_not_found">No account found for that email</string>
     <string name="error_wrong_role">This account isn\'t registered as %1$s</string>
     <string name="error_spots_full">This activity is fully booked</string>
+    <string name="error_end_before_start">End time must be after the start time.</string>
     <string name="error_total_spots_invalid">Enter a number greater than 0</string>
 
     <string name="empty_nothing_today">Nothing on today. Enjoy the rest.</string>

@@ -2,6 +2,7 @@ package com.kantu.pab_volunteers.data.model
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
+import com.kantu.pab_volunteers.utils.DateUtils
 
 // This is a volunteer opportunity, not an android.app.Activity.
 data class Activity(
@@ -25,6 +26,10 @@ data class Activity(
     // Derived, so they must not be written to Firestore as fields.
     @get:Exclude
     val spotsRemaining: Int get() = (totalSpots - filledSpots).coerceAtLeast(0)
+
+    // An activity counts as finished once this moment has passed.
+    @get:Exclude
+    val endsAtMillis: Long get() = DateUtils.endOfActivity(dateMillis, startTime, endTime)
 
     @get:Exclude
     val dateTimeLabel: String get() = "$date · $startTime - $endTime"
