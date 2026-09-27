@@ -203,7 +203,7 @@
     <string name="error_google_not_registered">Le build ayibhaliswanga kwiFirebase. Yongeza i-debug SHA-1 fingerprint yalo matshini.</string>
     <string name="error_google_cancelled">Ukungena kurhoxisiwe</string>
     <string name="error_google_failed">Ukungena ngeGoogle kuhlulekile (ikhowudi %1$d)</string>
-    <string name="info_password_reset_sent">I-imeyile yokutshintsha igama lokugqithisa ithunyelwe</string>
+    <string name="info_password_reset_sent">Ukuba le imeyile inegama lokugqithisa, ikhonkco lokulitshintsha liyeza. Jonga nakwifolda ye-spam. Ubhalise ngeGoogle? Sebenzisa u-Qhubeka ngeGoogle.</string>
 
     <!-- Validation -->
     <string name="error_field_required">Le ndawo iyafuneka</string>
@@ -214,7 +214,7 @@
     <string name="error_passwords_mismatch">Amagama okugqithisa awafani</string>
     <string name="error_first_name">Faka igama lakho</string>
     <string name="error_last_name">Faka ifani yakho</string>
-    <string name="error_invalid_phone">Faka inombolo yefowuni esebenzayo</string>
+    <string name="error_invalid_phone">Faka inombolo yeselfowuni yaseMzantsi Afrika, efana no-082 123 4567, okanye inombolo yamanye amazwe eqala ngo-+</string>
     <string name="error_area">Faka indawo ohlala kuyo</string>
     <string name="error_select_one_programme">Khetha ubuncinane inkqubo enye</string>
     <string name="error_spots_below_taken">Iindawo azinakuba ngaphantsi kwe-%1$d esele zithathiwe.</string>
@@ -228,7 +228,7 @@
 
     <string name="action_settings">Iisetingi</string>
     <string name="settings_title">Iisetingi</string>
-    <string name="action_settings_desc">Umbala nolwimi</string>
+    <string name="action_settings_desc">Umbala, ulwimi nezaziso</string>
     <string name="settings_appearance">Inkangeleko</string>
     <string name="settings_theme">Umbala</string>
     <string name="settings_theme_desc">Landela ifowuni yakho, okanye usebenzise ukukhanya okanye ubumnyama rhoqo.</string>
@@ -246,4 +246,24 @@
     <string name="action_delete">Cima</string>
     <string name="delete_account_recent_login">Ukuze ukhuseleke, ngena kwakhona phambi kokucima iakhawunti yakho.</string>
     <string name="account_deleted">Iakhawunti yakho icinyiwe.</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Izaziso zefowuni</string>
+    <string name="settings_notify_activities">Imisebenzi emitsha</string>
+    <string name="settings_notify_activities_desc">Xa kuthunyelwa umsebenzi omtsha.</string>
+    <string name="settings_notify_announcements">Izaziso</string>
+    <string name="settings_notify_announcements_desc">Xa iqela lePhilisa lithumela isaziso.</string>
+    <string name="settings_notify_full">Umsebenzi ugcwele</string>
+    <string name="settings_notify_full_desc">Xa zonke iindawo zomsebenzi zithathiwe.</string>
+    <string name="settings_notifications_blocked">Izaziso zale app zicinyiwe kwifowuni yakho.</string>
+    <string name="settings_notifications_turn_on">Vula izaziso</string>
+    <string name="channel_activities">Imisebenzi emitsha</string>
+    <string name="channel_activities_desc">Imisebenzi emitsha yokuvolontiya onokuyijoyina.</string>
+    <string name="channel_announcements">Izaziso</string>
+    <string name="channel_announcements_desc">Iindaba ezivela kwiqela lePhilisa.</string>
+    <string name="channel_full">Imisebenzi egcweleyo</string>
+    <string name="channel_full_desc">Imisebenzi apho zonke iindawo zithathiwe.</string>
+    <string name="notify_new_activity">Umsebenzi omtsha: %1$s</string>
+    <string name="notify_activity_full">Umsebenzi ugcwele: %1$s</string>
+    <string name="notify_open_to_see">Vula i-app ukuze uzibone.</string>
 </resources>

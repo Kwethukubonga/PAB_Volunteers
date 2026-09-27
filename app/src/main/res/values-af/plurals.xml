@@ -31,4 +31,24 @@
         <item quantity="other">%1$d plekke beskikbaar</item>
     </plurals>
 
+    <plurals name="notify_new_activities">
+        <item quantity="one">%1$d nuwe aktiwiteit om by aan te sluit</item>
+        <item quantity="other">%1$d nuwe aktiwiteite om by aan te sluit</item>
+    </plurals>
+
+    <plurals name="notify_new_announcements">
+        <item quantity="one">%1$d nuwe aankondiging</item>
+        <item quantity="other">%1$d nuwe aankondigings</item>
+    </plurals>
+
+    <plurals name="notify_activities_full">
+        <item quantity="one">%1$d aktiwiteit is nou vol</item>
+        <item quantity="other">%1$d aktiwiteite is nou vol</item>
+    </plurals>
+
+    <plurals name="notify_all_spots_taken">
+        <item quantity="one">Die %1$d plek is gevul.</item>
+        <item quantity="other">Al %1$d plekke is gevul.</item>
+    </plurals>
+
 </resources>

@@ -203,7 +203,7 @@
     <string name="error_google_not_registered">Hierdie bou is nie in Firebase geregistreer nie. Voeg hierdie masjien se debug SHA-1-vingerafdruk by.</string>
     <string name="error_google_cancelled">Aanmelding gekanselleer</string>
     <string name="error_google_failed">Google-aanmelding het misluk (kode %1$d)</string>
-    <string name="info_password_reset_sent">E-pos om jou wagwoord terug te stel is gestuur</string>
+    <string name="info_password_reset_sent">As hierdie e-pos \'n rekening met \'n wagwoord het, is \'n skakel om dit terug te stel op pad. Kyk ook in jou gemorspos. Het jy met Google aangemeld? Gebruik dan eerder Gaan voort met Google.</string>
 
     <!-- Validation -->
     <string name="error_field_required">Hierdie veld is verpligtend</string>
@@ -214,7 +214,7 @@
     <string name="error_passwords_mismatch">Wagwoorde stem nie ooreen nie</string>
     <string name="error_first_name">Voer jou voornaam in</string>
     <string name="error_last_name">Voer jou van in</string>
-    <string name="error_invalid_phone">Voer \'n geldige telefoonnommer in</string>
+    <string name="error_invalid_phone">Voer \'n Suid-Afrikaanse selfoonnommer in, soos 082 123 4567, of \'n internasionale nommer wat met + begin</string>
     <string name="error_area">Voer die gebied in waar jy vandaan kom</string>
     <string name="error_select_one_programme">Kies ten minste een program</string>
     <string name="error_spots_below_taken">Plekke kan nie minder wees as die %1$d wat reeds geneem is nie.</string>
@@ -228,7 +228,7 @@
 
     <string name="action_settings">Instellings</string>
     <string name="settings_title">Instellings</string>
-    <string name="action_settings_desc">Tema en taal</string>
+    <string name="action_settings_desc">Tema, taal en kennisgewings</string>
     <string name="settings_appearance">Voorkoms</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_desc">Volg jou foon, of gebruik altyd lig of donker.</string>
@@ -246,4 +246,24 @@
     <string name="action_delete">Skrap</string>
     <string name="delete_account_recent_login">Meld vir jou veiligheid weer aan voordat jy jou rekening skrap.</string>
     <string name="account_deleted">Jou rekening is geskrap.</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Kennisgewings</string>
+    <string name="settings_notify_activities">Nuwe aktiwiteite</string>
+    <string name="settings_notify_activities_desc">Wanneer \'n nuwe aktiwiteit geplaas word.</string>
+    <string name="settings_notify_announcements">Aankondigings</string>
+    <string name="settings_notify_announcements_desc">Wanneer die Philisa-span \'n boodskap plaas.</string>
+    <string name="settings_notify_full">Aktiwiteit vol</string>
+    <string name="settings_notify_full_desc">Wanneer al die plekke op \'n aktiwiteit gevul is.</string>
+    <string name="settings_notifications_blocked">Kennisgewings vir hierdie toepassing is op jou foon afgeskakel.</string>
+    <string name="settings_notifications_turn_on">Skakel kennisgewings aan</string>
+    <string name="channel_activities">Nuwe aktiwiteite</string>
+    <string name="channel_activities_desc">Nuwe vrywilligeraktiwiteite waarby jy kan aansluit.</string>
+    <string name="channel_announcements">Aankondigings</string>
+    <string name="channel_announcements_desc">Boodskappe van die Philisa-span.</string>
+    <string name="channel_full">Vol aktiwiteite</string>
+    <string name="channel_full_desc">Aktiwiteite waar al die plekke gevul is.</string>
+    <string name="notify_new_activity">Nuwe aktiwiteit: %1$s</string>
+    <string name="notify_activity_full">Aktiwiteit vol: %1$s</string>
+    <string name="notify_open_to_see">Maak die toepassing oop om hulle te sien.</string>
 </resources>
