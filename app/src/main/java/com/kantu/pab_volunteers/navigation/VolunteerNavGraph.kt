@@ -24,8 +24,4 @@ object VolunteerNavGraph {
     fun toEditProfile(navController: NavController) {
         navController.navigate(R.id.action_global_editProfileFragment)
     }
-
-    fun toActivitiesTab(navController: NavController) {
-        navController.navigate(R.id.activitiesFragment)
-    }
 }

@@ -3,28 +3,36 @@ package com.kantu.pab_volunteers.utils
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 
-/** Remembers the dark mode choice and applies it. */
+/** Remembers the light or dark choice. Until one is made the app follows the phone. */
 object ThemePreference {
 
+    const val MODE_SYSTEM = "system"
+    const val MODE_LIGHT = "light"
+    const val MODE_DARK = "dark"
+
     private const val PREFS = "pab_settings"
-    private const val KEY_DARK_MODE = "dark_mode"
+    private const val KEY_THEME_MODE = "theme_mode"
 
-    fun isDarkMode(context: Context): Boolean =
-        prefs(context).getBoolean(KEY_DARK_MODE, false)
+    fun mode(context: Context): String =
+        prefs(context).getString(KEY_THEME_MODE, MODE_SYSTEM) ?: MODE_SYSTEM
 
-    fun setDarkMode(context: Context, enabled: Boolean) {
-        prefs(context).edit().putBoolean(KEY_DARK_MODE, enabled).apply()
-        apply(enabled)
+    fun setMode(context: Context, mode: String) {
+        prefs(context).edit().putString(KEY_THEME_MODE, mode).apply()
+        apply(mode)
     }
 
-    /** Called on start up so the saved choice survives a restart. */
+    /** Called when the app process starts so the saved choice survives a restart. */
     fun applySaved(context: Context) {
-        apply(isDarkMode(context))
+        apply(mode(context))
     }
 
-    private fun apply(enabled: Boolean) {
+    private fun apply(mode: String) {
         AppCompatDelegate.setDefaultNightMode(
-            if (enabled) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+            when (mode) {
+                MODE_LIGHT -> AppCompatDelegate.MODE_NIGHT_NO
+                MODE_DARK -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
         )
     }
 

@@ -41,7 +41,7 @@ class InterestAdapter(
         val context = holder.itemView.context
         holder.binding.ivCheck.isVisible = isSelected
         holder.binding.cardInterest.strokeColor = context.getColor(
-            if (isSelected) R.color.purple_700 else R.color.divider
+            if (isSelected) R.color.accent else R.color.divider
         )
         // strokeWidth is in pixels, so it has to come from a dimension.
         holder.binding.cardInterest.strokeWidth = context.resources.getDimensionPixelSize(
