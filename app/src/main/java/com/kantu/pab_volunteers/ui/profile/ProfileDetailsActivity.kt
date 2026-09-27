@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import com.kantu.pab_volunteers.databinding.ActivityProfileDetailsBinding
+import com.kantu.pab_volunteers.navigation.AppNavGraph
+import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.utils.Constants
 
 class ProfileDetailsActivity : AppCompatActivity() {
@@ -21,6 +24,12 @@ class ProfileDetailsActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
         binding.btnContinue.setOnClickListener { goToInterests() }
 
+        // Lets someone who picked the wrong account start over instead of being stuck here.
+        binding.tvSignOut.setOnClickListener {
+            Session.signOut(this)
+            AppNavGraph.goToWelcome(this)
+        }
+
         observeViewModel()
         viewModel.loadProfile()
     }
@@ -32,11 +41,8 @@ class ProfileDetailsActivity : AppCompatActivity() {
         val area = binding.etArea.text?.toString().orEmpty().trim()
 
         val error = viewModel.validateDetails(firstName, lastName, phone, area)
-        if (error != null) {
-            showMessage(error)
-            return
-        }
-        showMessage(null)
+        showMessage(error)
+        if (error != null) return
 
         val intent = Intent(this, ProfileInterestsActivity::class.java).apply {
             putExtra(Constants.EXTRA_FIRST_NAME, firstName)
@@ -58,13 +64,19 @@ class ProfileDetailsActivity : AppCompatActivity() {
                 binding.etArea.setText(user.area)
             }
         }
+        viewModel.errorMessage.observe(this) { message ->
+            if (message != null) {
+                binding.tvMessage.text = message.resolve(this)
+                binding.tvMessage.visibility = View.VISIBLE
+            }
+        }
     }
 
-    private fun showMessage(message: String?) {
-        if (message.isNullOrBlank()) {
+    private fun showMessage(@StringRes message: Int?) {
+        if (message == null) {
             binding.tvMessage.visibility = View.GONE
         } else {
-            binding.tvMessage.text = message
+            binding.tvMessage.setText(message)
             binding.tvMessage.visibility = View.VISIBLE
         }
     }
