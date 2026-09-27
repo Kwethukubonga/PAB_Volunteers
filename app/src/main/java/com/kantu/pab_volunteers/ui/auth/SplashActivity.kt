@@ -9,8 +9,8 @@ import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.ErrorMessages
-import com.kantu.pab_volunteers.utils.ThemePreference
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -20,9 +20,8 @@ class SplashActivity : AppCompatActivity() {
     private val userRepository = UserRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Applied before any view is drawn so the saved choice survives a restart.
-        ThemePreference.applySaved(this)
         super.onCreate(savedInstanceState)
+        AppLanguage.applyDefaultOnce(this)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -54,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Say why, otherwise being sent back to the start looks like the app is broken.
         result.exceptionOrNull()?.let {
-            Toast.makeText(this, ErrorMessages.textFor(it), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, ErrorMessages.textFor(it).resolve(this), Toast.LENGTH_LONG).show()
         }
         AppNavGraph.goToWelcome(this)
     }
