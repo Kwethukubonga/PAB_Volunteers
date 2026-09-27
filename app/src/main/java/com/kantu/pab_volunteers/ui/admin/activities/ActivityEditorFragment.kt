@@ -218,9 +218,17 @@ class ActivityEditorFragment : Fragment() {
                     Activity.STATUS_DRAFT
                 },
                 createdBy = current?.createdBy.orEmpty(),
-                createdDate = current?.createdDate ?: 0L
+                createdDate = current?.createdDate ?: 0L,
+                publishedAt = publishedAtFor(current)
             )
         )
+    }
+
+    /** Keeps the original publish time, unless this save is the one that publishes it. */
+    private fun publishedAtFor(current: Activity?): Long = when {
+        !binding.switchPublished.isChecked -> current?.publishedAt ?: 0L
+        current?.status == Activity.STATUS_PUBLISHED -> current?.publishedAt ?: 0L
+        else -> DateUtils.now()
     }
 
     override fun onDestroyView() {

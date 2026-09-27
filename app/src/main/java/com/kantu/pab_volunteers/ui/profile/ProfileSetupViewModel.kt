@@ -12,6 +12,7 @@ import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.PhoneNumber
 import com.kantu.pab_volunteers.utils.UiText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -51,7 +52,7 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
     fun validateDetails(firstName: String, lastName: String, phone: String, area: String): Int? {
         if (firstName.isBlank()) return R.string.error_first_name
         if (lastName.isBlank()) return R.string.error_last_name
-        if (phone.length < 10) return R.string.error_invalid_phone
+        if (!PhoneNumber.isValid(phone)) return R.string.error_invalid_phone
         if (area.isBlank()) return R.string.error_area
         return null
     }
@@ -83,7 +84,7 @@ class ProfileSetupViewModel(app: Application) : AndroidViewModel(app) {
             val updated = existing.copy(
                 firstName = firstName,
                 lastName = lastName,
-                phone = phone,
+                phone = PhoneNumber.tidy(phone),
                 area = area,
                 programmeInterests = programmeInterests
             )

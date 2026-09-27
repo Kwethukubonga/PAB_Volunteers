@@ -31,4 +31,24 @@
         <item quantity="other">Iindawo ezi-%1$d ziyafumaneka</item>
     </plurals>
 
+    <plurals name="notify_new_activities">
+        <item quantity="one">%1$d umsebenzi omtsha onokuwujoyina</item>
+        <item quantity="other">%1$d imisebenzi emitsha onokuyijoyina</item>
+    </plurals>
+
+    <plurals name="notify_new_announcements">
+        <item quantity="one">%1$d isaziso esitsha</item>
+        <item quantity="other">%1$d izaziso ezitsha</item>
+    </plurals>
+
+    <plurals name="notify_activities_full">
+        <item quantity="one">%1$d umsebenzi ugcwele ngoku</item>
+        <item quantity="other">%1$d imisebenzi igcwele ngoku</item>
+    </plurals>
+
+    <plurals name="notify_all_spots_taken">
+        <item quantity="one">Indawo e-%1$d ithathiwe.</item>
+        <item quantity="other">Zonke iindawo ezi-%1$d zithathiwe.</item>
+    </plurals>
+
 </resources>

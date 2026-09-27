@@ -12,6 +12,7 @@ import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.AuthRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.UiText
 import kotlinx.coroutines.CancellationException
@@ -58,9 +59,14 @@ class AuthViewModel : ViewModel() {
             _errorMessage.value = UiText.Res(R.string.error_enter_email_first)
             return
         }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches()) {
+            _errorMessage.value = UiText.Res(R.string.error_invalid_email)
+            return
+        }
         viewModelScope.launch {
             _isLoading.value = true
-            authRepository.sendPasswordReset(email)
+            _errorMessage.value = null
+            authRepository.sendPasswordReset(email, AppLanguage.current())
                 .onSuccess { _infoMessage.value = UiText.Res(R.string.info_password_reset_sent) }
                 .onFailure { _errorMessage.value = ErrorMessages.textFor(it) }
             _isLoading.value = false

@@ -21,7 +21,9 @@ data class Activity(
     val description: String = "",
     val status: String = STATUS_DRAFT,
     val createdBy: String = "",
-    val createdDate: Long = 0L
+    val createdDate: Long = 0L,
+    // When it last went from hidden to published. Notifications look for anything newer.
+    val publishedAt: Long = 0L
 ) {
     // Derived, so they must not be written to Firestore as fields.
     @get:Exclude

@@ -41,8 +41,10 @@ class AuthRepository {
         }
     }
 
-    suspend fun sendPasswordReset(email: String): Result<Unit> {
+    // The email is written in the language picked in Settings.
+    suspend fun sendPasswordReset(email: String, languageCode: String): Result<Unit> {
         return try {
+            auth.setLanguageCode(languageCode)
             auth.sendPasswordResetEmail(email.trim()).await()
             Result.success(Unit)
         } catch (e: Exception) {

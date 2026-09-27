@@ -112,9 +112,17 @@ class AnnouncementEditorFragment : Fragment() {
                 } else {
                     Announcement.STATUS_DRAFT
                 },
-                createdBy = current?.createdBy.orEmpty()
+                createdBy = current?.createdBy.orEmpty(),
+                publishedAt = publishedAtFor(current)
             )
         )
+    }
+
+    /** Keeps the original publish time, unless this save is the one that publishes it. */
+    private fun publishedAtFor(current: Announcement?): Long = when {
+        !binding.switchPublished.isChecked -> current?.publishedAt ?: 0L
+        current?.status == Announcement.STATUS_PUBLISHED -> current?.publishedAt ?: 0L
+        else -> DateUtils.now()
     }
 
     /** Saving is held back while busy, or while an existing announcement is still loading. */

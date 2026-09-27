@@ -21,7 +21,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppLanguage.applyDefaultOnce(this)
+        AppLanguage.applyOnLaunch(this)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -47,7 +47,7 @@ class SplashActivity : AppCompatActivity() {
 
         val user = result.getOrNull()
         if (user != null) {
-            AuthNavGraph.routeAfterSignIn(this, user)
+            AuthNavGraph.routeAfterSignIn(this, user, intent.extras)
             return
         }
 

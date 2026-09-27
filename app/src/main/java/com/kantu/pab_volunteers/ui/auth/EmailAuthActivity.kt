@@ -74,6 +74,8 @@ class EmailAuthActivity : AppCompatActivity() {
         viewModel.isLoading.observe(this) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
             binding.btnPrimary.isEnabled = !loading
+            // Stops a second tap sending another reset email while the first is on its way.
+            binding.tvForgotPassword.isEnabled = !loading
         }
         viewModel.errorMessage.observe(this) { message ->
             showMessage(message, isError = true)

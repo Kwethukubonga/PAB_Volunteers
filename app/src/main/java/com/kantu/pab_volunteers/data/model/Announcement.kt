@@ -9,7 +9,9 @@ data class Announcement(
     val messageBody: String = "",
     val date: Long = 0L,
     val status: String = STATUS_DRAFT,
-    val createdBy: String = ""
+    val createdBy: String = "",
+    // When it last went from hidden to published. Notifications look for anything newer.
+    val publishedAt: Long = 0L
 ) {
     companion object {
         const val STATUS_DRAFT = "draft"

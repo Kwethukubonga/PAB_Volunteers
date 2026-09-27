@@ -4,14 +4,20 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityVolunteerMainBinding
+import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
+import com.kantu.pab_volunteers.notifications.UpdatesWorker
+import com.kantu.pab_volunteers.utils.Constants
 
 class VolunteerMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVolunteerMainBinding
+    private val notificationPrompt = NotificationPermissionPrompt(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +47,22 @@ class VolunteerMainActivity : AppCompatActivity() {
                     onBackPressedDispatcher.onBackPressed()
                 }
             }
+        }
+
+        UpdatesWorker.schedule(this)
+        if (savedInstanceState == null) {
+            openFromNotification(navController)
+            notificationPrompt.askOnce()
+        }
+    }
+
+    // Opened by tapping a notification: go straight to the activity or announcement it was about.
+    private fun openFromNotification(navController: NavController) {
+        intent.getStringExtra(Constants.EXTRA_ACTIVITY_ID)?.let {
+            VolunteerNavGraph.toActivityDetails(navController, it)
+        }
+        intent.getStringExtra(Constants.EXTRA_ANNOUNCEMENT_ID)?.let {
+            VolunteerNavGraph.toAnnouncementDetails(navController, it)
         }
     }
 

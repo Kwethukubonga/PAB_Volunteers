@@ -72,6 +72,14 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    bundle {
+        language {
+            // The language is picked inside the app, so every translation has to be installed,
+            // not only the one matching the phone's language.
+            enableSplit = false
+        }
+    }
 }
 
 dependencies {
@@ -88,6 +96,7 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)

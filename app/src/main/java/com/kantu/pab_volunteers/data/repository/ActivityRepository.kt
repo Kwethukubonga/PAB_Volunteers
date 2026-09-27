@@ -14,7 +14,12 @@ class ActivityRepository {
 
     suspend fun createActivity(activity: Activity, createdBy: String): Result<String> {
         return try {
-            val toSave = activity.copy(createdBy = createdBy, createdDate = DateUtils.now())
+            val now = DateUtils.now()
+            val toSave = activity.copy(
+                createdBy = createdBy,
+                createdDate = now,
+                publishedAt = if (activity.status == Activity.STATUS_PUBLISHED) now else 0L
+            )
             val ref = activitiesCollection().add(toSave).await()
             Result.success(ref.id)
         } catch (e: Exception) {
@@ -40,7 +45,8 @@ class ActivityRepository {
                     "volunteerRole" to activity.volunteerRole,
                     "totalSpots" to activity.totalSpots,
                     "description" to activity.description,
-                    "status" to activity.status
+                    "status" to activity.status,
+                    "publishedAt" to activity.publishedAt
                 )
             ).await()
             Result.success(Unit)
@@ -51,7 +57,9 @@ class ActivityRepository {
 
     suspend fun setPublishStatus(activityId: String, status: String): Result<Unit> {
         return try {
-            activitiesCollection().document(activityId).update("status", status).await()
+            val changes = mutableMapOf<String, Any>("status" to status)
+            if (status == Activity.STATUS_PUBLISHED) changes["publishedAt"] = DateUtils.now()
+            activitiesCollection().document(activityId).update(changes).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -87,6 +95,25 @@ class ActivityRepository {
             .await()
             .toObjects(Activity::class.java)
             .sortedBy { it.dateMillis }
+    }
+
+    // Only activities published after [since], so the background check reads very little.
+    suspend fun getPublishedSince(since: Long): List<Activity> {
+        return activitiesCollection()
+            .whereGreaterThan("publishedAt", since)
+            .get()
+            .await()
+            .toObjects(Activity::class.java)
+            .filter { it.status == Activity.STATUS_PUBLISHED }
+    }
+
+    // Activities on or after [dayStart], used to spot ones that have just filled up.
+    suspend fun getActivitiesFrom(dayStart: Long): List<Activity> {
+        return activitiesCollection()
+            .whereGreaterThanOrEqualTo("dateMillis", dayStart)
+            .get()
+            .await()
+            .toObjects(Activity::class.java)
     }
 
     suspend fun getAllActivities(): List<Activity> {

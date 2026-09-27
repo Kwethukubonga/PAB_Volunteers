@@ -19,6 +19,7 @@ import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.PhoneNumber
 import com.kantu.pab_volunteers.utils.UiText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -256,7 +257,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
         val problem = when {
             firstName.isBlank() -> R.string.error_first_name
             lastName.isBlank() -> R.string.error_last_name
-            phone.length < 10 -> R.string.error_invalid_phone
+            !PhoneNumber.isValid(phone) -> R.string.error_invalid_phone
             area.isBlank() -> R.string.error_area
             programmeInterests.isEmpty() -> R.string.error_select_one_programme
             else -> null
@@ -274,7 +275,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
             val updated = current.copy(
                 firstName = firstName,
                 lastName = lastName,
-                phone = phone,
+                phone = PhoneNumber.tidy(phone),
                 area = area,
                 programmeInterests = programmeInterests
             )

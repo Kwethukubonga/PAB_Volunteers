@@ -13,7 +13,12 @@ class AnnouncementRepository {
 
     suspend fun createAnnouncement(announcement: Announcement, createdBy: String): Result<String> {
         return try {
-            val toSave = announcement.copy(createdBy = createdBy, date = DateUtils.now())
+            val now = DateUtils.now()
+            val toSave = announcement.copy(
+                createdBy = createdBy,
+                date = now,
+                publishedAt = if (announcement.status == Announcement.STATUS_PUBLISHED) now else 0L
+            )
             val ref = announcementsCollection().add(toSave).await()
             Result.success(ref.id)
         } catch (e: Exception) {
@@ -32,7 +37,9 @@ class AnnouncementRepository {
 
     suspend fun setPublishStatus(announcementId: String, status: String): Result<Unit> {
         return try {
-            announcementsCollection().document(announcementId).update("status", status).await()
+            val changes = mutableMapOf<String, Any>("status" to status)
+            if (status == Announcement.STATUS_PUBLISHED) changes["publishedAt"] = DateUtils.now()
+            announcementsCollection().document(announcementId).update(changes).await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)
@@ -60,6 +67,16 @@ class AnnouncementRepository {
             .await()
             .toObjects(Announcement::class.java)
             .sortedByDescending { it.date }
+    }
+
+    // Only announcements published after [since], so the background check reads very little.
+    suspend fun getPublishedSince(since: Long): List<Announcement> {
+        return announcementsCollection()
+            .whereGreaterThan("publishedAt", since)
+            .get()
+            .await()
+            .toObjects(Announcement::class.java)
+            .filter { it.status == Announcement.STATUS_PUBLISHED }
     }
 
     suspend fun getAllAnnouncements(): List<Announcement> {
