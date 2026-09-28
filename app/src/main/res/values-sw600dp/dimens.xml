@@ -16,4 +16,5 @@
     <dimen name="avatar_size_sm">56dp</dimen>
     <dimen name="button_height">60dp</dimen>
     <dimen name="announcement_image_height">400dp</dimen>
+    <dimen name="card_gutter">6dp</dimen>
 </resources>

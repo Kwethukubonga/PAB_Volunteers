@@ -25,6 +25,8 @@
     <!-- Widest a content column gets. Phones are narrower than this, so it only
          takes effect on tablets, where a full width row looks stretched. -->
     <dimen name="content_max_width">640dp</dimen>
+    <!-- Breathing room either side of a card. Only matters once cards sit two abreast. -->
+    <dimen name="card_gutter">0dp</dimen>
     <!-- Picture on an announcement. Tall enough to read at a glance. -->
     <dimen name="announcement_image_height">280dp</dimen>
     <dimen name="stroke_normal">1dp</dimen>

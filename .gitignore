@@ -31,3 +31,6 @@ firestore-tests/node_modules/
 firestore-tests/.firebase/
 firebase-debug.log
 firestore-debug.log
+
+# Report documents live outside the repo.
+docs/
