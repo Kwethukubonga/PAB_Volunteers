@@ -59,6 +59,40 @@
             android:textColor="@color/accent"
             tools:text="26 Oct 2026" />
 
+        <ImageView
+            android:id="@+id/ivImage"
+            android:layout_width="match_parent"
+            android:layout_height="130dp"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:contentDescription="@string/label_image_optional"
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:contentDescription="@string/action_thumbs_up"
+                android:src="@drawable/ic_thumb_up"
+                app:tint="@color/purple_700" />
+
+            <TextView
+                android:id="@+id/tvThumbsUpCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:textAppearance="@style/TextAppearance.PAB.Caption"
+                android:textColor="@color/purple_700"
+                tools:text="4 thumbs up" />
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/stroke_normal"

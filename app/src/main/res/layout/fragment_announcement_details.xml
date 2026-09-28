@@ -51,6 +51,25 @@
                 tools:text="October Community Kitchen Needs You" />
         </LinearLayout>
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardImage"
+            style="@style/Widget.PAB.Card"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/ivImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/label_image_optional"
+                android:scaleType="centerCrop" />
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:id="@+id/tvBody"
             android:layout_width="match_parent"
@@ -60,6 +79,42 @@
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_body"
             tools:text="Round off October with our Community Feeding programme's kitchen day." />
+
+        <LinearLayout
+            android:id="@+id/layoutThumbsUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginBottom="@dimen/spacing_xl"
+            android:background="@drawable/bg_chip_soft"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/spacing_md"
+            android:paddingTop="@dimen/spacing_sm"
+            android:paddingEnd="@dimen/spacing_md"
+            android:paddingBottom="@dimen/spacing_sm">
+
+            <ImageView
+                android:id="@+id/ivThumbsUp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:contentDescription="@string/action_thumbs_up"
+                android:src="@drawable/ic_thumb_up_outline"
+                app:tint="@color/purple_700" />
+
+            <TextView
+                android:id="@+id/tvThumbsUpCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:textColor="@color/purple_700"
+                android:textSize="@dimen/text_body"
+                android:textStyle="bold"
+                tools:text="4 thumbs up" />
+        </LinearLayout>
 
     </LinearLayout>
 

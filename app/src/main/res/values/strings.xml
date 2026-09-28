@@ -213,6 +213,17 @@
     <string name="label_message_body">MESSAGE BODY</string>
     <string name="action_create_announcement">Create Announcement</string>
     <string name="action_save_announcement">Save Announcement</string>
+    <string name="label_image_optional">PICTURE (OPTIONAL)</string>
+    <string name="action_add_image">Add a picture</string>
+    <string name="action_change_image">Change picture</string>
+    <string name="uploading_image">Uploading picture…</string>
+    <string name="image_key_missing">No picture service key is set on this build.</string>
+    <string name="error_image_not_set_up">No picture service is set up on this build.</string>
+    <string name="error_image_unreadable">That picture could not be opened.</string>
+    <string name="error_image_preset">The picture service is not set up for uploads from the app yet.</string>
+    <string name="error_image_upload">The picture could not be uploaded (code %1$d).</string>
+    <string name="action_thumbs_up">Thumbs up</string>
+    <string name="thumbs_up_summary">%1$d thumbs up</string>
     <string name="delete_announcement_confirm_title">Delete this announcement?</string>
 
     <!-- Generic -->

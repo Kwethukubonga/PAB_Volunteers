@@ -16,6 +16,16 @@ val keystoreProperties = Properties().apply {
 }
 val hasReleaseKeystore = keystoreProperties.containsKey("storeFile")
 
+// The image host details live in local.properties so they never land in the repo.
+val localPropertiesFile = rootProject.file("local.properties")
+val localProperties = Properties().apply {
+    if (localPropertiesFile.exists()) {
+        localPropertiesFile.inputStream().use { load(it) }
+    }
+}
+val cloudinaryCloudName = localProperties.getProperty("cloudinary.cloud.name").orEmpty()
+val cloudinaryUploadPreset = localProperties.getProperty("cloudinary.upload.preset").orEmpty()
+
 android {
     namespace = "com.kantu.pab_volunteers"
     compileSdk = 34
@@ -26,6 +36,9 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "CLOUDINARY_CLOUD_NAME", "\"$cloudinaryCloudName\"")
+        buildConfigField("String", "CLOUDINARY_UPLOAD_PRESET", "\"$cloudinaryUploadPreset\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -71,6 +84,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     bundle {

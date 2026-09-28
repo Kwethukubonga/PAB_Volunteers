@@ -266,4 +266,15 @@
     <string name="notify_new_activity">Nuwe aktiwiteit: %1$s</string>
     <string name="notify_activity_full">Aktiwiteit vol: %1$s</string>
     <string name="notify_open_to_see">Maak die toepassing oop om hulle te sien.</string>
+    <string name="label_image_optional">PRENT (OPSIONEEL)</string>
+    <string name="action_add_image">Voeg \'n prent by</string>
+    <string name="action_change_image">Verander prent</string>
+    <string name="uploading_image">Prent word opgelaai…</string>
+    <string name="image_key_missing">Geen prentdiens is op hierdie weergawe opgestel nie.</string>
+    <string name="action_thumbs_up">Duim op</string>
+    <string name="thumbs_up_summary">%1$d duim op</string>
+    <string name="error_image_not_set_up">Geen prentdiens is op hierdie weergawe opgestel nie.</string>
+    <string name="error_image_unreadable">Daardie prent kon nie oopgemaak word nie.</string>
+    <string name="error_image_preset">Die prentdiens is nog nie vir oplaai vanaf die app opgestel nie.</string>
+    <string name="error_image_upload">Die prent kon nie opgelaai word nie (kode %1$d).</string>
 </resources>

@@ -266,4 +266,15 @@
     <string name="notify_new_activity">Umsebenzi omtsha: %1$s</string>
     <string name="notify_activity_full">Umsebenzi ugcwele: %1$s</string>
     <string name="notify_open_to_see">Vula i-app ukuze uzibone.</string>
+    <string name="label_image_optional">UMFANEKISO (AWUNYANZELEKANGA)</string>
+    <string name="action_add_image">Faka umfanekiso</string>
+    <string name="action_change_image">Tshintsha umfanekiso</string>
+    <string name="uploading_image">Umfanekiso uyathunyelwa…</string>
+    <string name="image_key_missing">Akukho nkonzo yemifanekiso emiselweyo kolu hlelo.</string>
+    <string name="action_thumbs_up">Ukuthanda</string>
+    <string name="thumbs_up_summary">%1$d bayathanda</string>
+    <string name="error_image_not_set_up">Akukho nkonzo yemifanekiso emiselweyo kolu hlelo.</string>
+    <string name="error_image_unreadable">Lo mfanekiso awukwazanga kuvulwa.</string>
+    <string name="error_image_preset">Inkonzo yemifanekiso ayikamiselwa ukuthumela kusuka kwi-app.</string>
+    <string name="error_image_upload">Umfanekiso awukwazanga kuthunyelwa (ikhowudi %1$d).</string>
 </resources>

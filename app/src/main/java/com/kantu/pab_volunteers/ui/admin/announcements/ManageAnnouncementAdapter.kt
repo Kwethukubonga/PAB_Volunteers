@@ -3,7 +3,9 @@ package com.kantu.pab_volunteers.ui.admin.announcements
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.databinding.ItemAdminAnnouncementBinding
@@ -33,6 +35,17 @@ class ManageAnnouncementAdapter(
         holder.binding.tvTitle.text = announcement.title
         holder.binding.tvBody.text = announcement.messageBody
         holder.binding.tvDate.text = DateUtils.formatDate(announcement.date)
+
+        holder.binding.tvThumbsUpCount.text =
+            context.getString(R.string.thumbs_up_summary, announcement.thumbsUpCount)
+
+        holder.binding.ivImage.isVisible = announcement.hasImage
+        if (announcement.hasImage) {
+            Glide.with(holder.itemView)
+                .load(announcement.imageUrl)
+                .centerCrop()
+                .into(holder.binding.ivImage)
+        }
 
         val published = announcement.status == Announcement.STATUS_PUBLISHED
         val (labelRes, bgRes, textRes) = if (published) {
