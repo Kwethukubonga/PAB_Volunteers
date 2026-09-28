@@ -939,6 +939,19 @@ node seed.js --key <path to key file> --remove   # removes them again
 | Run lint | `gradlew.bat lintDebug` | `./gradlew lintDebug` |
 | Run security rules tests | `cd firestore-tests && npm install && npm test` | same |
 
+### 14.6 Test Accounts
+
+Use these accounts to try both sides of the app without signing up:
+
+| Role | Email | Password |
+|------|-------|----------|
+| Administrator | `kwethu1@gmail.com` | `Kwethu1@gmail.com` |
+| Volunteer | `kwethu2@gmail.com` | `Kwethu2@gmail.com` |
+
+- Sign in with **Sign in with email** on the Welcome screen.
+- The administrator account opens the admin area. The volunteer account opens the volunteer area.
+
+
 ---
 
 ## 15. Project Structure
