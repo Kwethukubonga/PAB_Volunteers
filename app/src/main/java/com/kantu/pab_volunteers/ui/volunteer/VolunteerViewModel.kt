@@ -151,6 +151,17 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun isJoined(activityId: String): Boolean = signups.any { it.activityId == activityId }
 
+    /** The card already flipped, so this only records the change. */
+    fun toggleThumbsUp(announcement: Announcement, thumbsUp: Boolean) {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (offline()) return
+        viewModelScope.launch {
+            announcementRepository.setThumbsUp(announcement.id, uid, thumbsUp)
+                .onSuccess { refresh() }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+        }
+    }
+
     fun setFavourite(activityId: String, favourite: Boolean) {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
         if (offline()) {

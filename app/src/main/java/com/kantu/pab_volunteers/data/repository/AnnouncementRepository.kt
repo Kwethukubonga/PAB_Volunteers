@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.data.repository
 
+import com.google.firebase.firestore.FieldValue
 import com.kantu.pab_volunteers.data.firebase.FirestoreManager
 import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.utils.Constants
@@ -26,9 +27,41 @@ class AnnouncementRepository {
         }
     }
 
+    /**
+     * Only the fields the admin edits are written, so thumbs ups added while the
+     * editor was open are not wiped.
+     */
     suspend fun updateAnnouncement(announcement: Announcement): Result<Unit> {
         return try {
-            announcementsCollection().document(announcement.id).set(announcement).await()
+            announcementsCollection().document(announcement.id).update(
+                mapOf(
+                    "title" to announcement.title,
+                    "messageBody" to announcement.messageBody,
+                    "imageUrl" to announcement.imageUrl,
+                    "status" to announcement.status
+                )
+            ).await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    /** Adds or removes one volunteer from the thumbs up list. */
+    suspend fun setThumbsUp(
+        announcementId: String,
+        userId: String,
+        thumbsUp: Boolean
+    ): Result<Unit> {
+        return try {
+            val change = if (thumbsUp) {
+                FieldValue.arrayUnion(userId)
+            } else {
+                FieldValue.arrayRemove(userId)
+            }
+            announcementsCollection().document(announcementId)
+                .update("thumbsUpBy", change)
+                .await()
             Result.success(Unit)
         } catch (e: Exception) {
             Result.failure(e)

@@ -31,6 +31,27 @@ service cloud.firestore {
       return /databases/$(database)/documents/activitySignups/$(activityId + '_' + request.auth.uid);
     }
 
+    // The thumbs up list before and after the change. Older announcements have none yet.
+    function thumbsUpBefore() {
+      return resource.data.get('thumbsUpBy', []);
+    }
+
+    function thumbsUpAfter() {
+      return request.resource.data.get('thumbsUpBy', []);
+    }
+
+    // True only when the caller added or removed themselves, and nobody else.
+    function ownThumbsUpOnly() {
+      return (thumbsUpAfter().hasAll(thumbsUpBefore())
+          && thumbsUpAfter().size() == thumbsUpBefore().size() + 1
+          && request.auth.uid in thumbsUpAfter()
+          && !(request.auth.uid in thumbsUpBefore()))
+        || (thumbsUpBefore().hasAll(thumbsUpAfter())
+          && thumbsUpAfter().size() == thumbsUpBefore().size() - 1
+          && request.auth.uid in thumbsUpBefore()
+          && !(request.auth.uid in thumbsUpAfter()));
+    }
+
     match /users/{userId} {
       // You can read yourself. Admins read everyone for the volunteers page.
       allow read: if isSelf(userId) || isAdmin();
@@ -72,7 +93,12 @@ service cloud.firestore {
 
     match /announcements/{announcementId} {
       allow read: if isSignedIn();
-      allow write: if isAdmin();
+      allow create, delete: if isAdmin();
+
+      // Admins write announcements. Volunteers may only add or take away their
+      // own thumbs up, and may not touch anything else.
+      allow update: if isAdmin()
+        || (isSignedIn() && changedKeys().hasOnly(['thumbsUpBy']) && ownThumbsUpOnly());
     }
 
     match /activitySignups/{signupId} {

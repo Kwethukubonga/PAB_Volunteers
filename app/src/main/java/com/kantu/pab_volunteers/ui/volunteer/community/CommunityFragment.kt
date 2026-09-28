@@ -10,6 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
+import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.databinding.FragmentCommunityBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
@@ -38,7 +39,13 @@ class CommunityFragment : Fragment() {
 
         observeMessages(viewModel.message) { viewModel.consumeMessage() }
 
-        adapter = AnnouncementAdapter(emptyList()) { announcement ->
+        adapter = AnnouncementAdapter(
+            items = emptyList(),
+            currentUserId = FirebaseAuthManager.currentUser?.uid.orEmpty(),
+            onThumbsUp = { announcement, thumbsUp ->
+                viewModel.toggleThumbsUp(announcement, thumbsUp)
+            }
+        ) { announcement ->
             VolunteerNavGraph.toAnnouncementDetails(findNavController(), announcement.id)
         }
         binding.rvAnnouncements.layoutManager = LinearLayoutManager(requireContext())
@@ -47,7 +54,10 @@ class CommunityFragment : Fragment() {
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
         viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
-            adapter.submitList(announcements)
+            adapter.submitList(
+                announcements,
+                FirebaseAuthManager.currentUser?.uid.orEmpty()
+            )
             binding.rvAnnouncements.isVisible = announcements.isNotEmpty()
             binding.layoutEmpty.isVisible = announcements.isEmpty()
             binding.tvSubtitle.text = resources.getQuantityString(
