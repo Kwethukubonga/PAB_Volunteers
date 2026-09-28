@@ -1,0 +1,136 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isSelf(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Reads the caller's own user record to check their role.
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    function activityPath(activityId) {
+      return /databases/$(database)/documents/activities/$(activityId);
+    }
+
+    // Sign-ups are saved as activityId_userId, so one person can only hold one place.
+    function signupPath(activityId) {
+      return /databases/$(database)/documents/activitySignups/$(activityId + '_' + request.auth.uid);
+    }
+
+    // The thumbs up list before and after the change. Older announcements have none yet.
+    function thumbsUpBefore() {
+      return resource.data.get('thumbsUpBy', []);
+    }
+
+    function thumbsUpAfter() {
+      return request.resource.data.get('thumbsUpBy', []);
+    }
+
+    // True only when the caller added or removed themselves, and nobody else.
+    function ownThumbsUpOnly() {
+      return (thumbsUpAfter().hasAll(thumbsUpBefore())
+          && thumbsUpAfter().size() == thumbsUpBefore().size() + 1
+          && request.auth.uid in thumbsUpAfter()
+          && !(request.auth.uid in thumbsUpBefore()))
+        || (thumbsUpBefore().hasAll(thumbsUpAfter())
+          && thumbsUpAfter().size() == thumbsUpBefore().size() - 1
+          && request.auth.uid in thumbsUpBefore()
+          && !(request.auth.uid in thumbsUpAfter()));
+    }
+
+    match /users/{userId} {
+      // You can read yourself. Admins read everyone for the volunteers page.
+      allow read: if isSelf(userId) || isAdmin();
+
+      // First sign in creates your own record, and it must start as a volunteer.
+      allow create: if isSelf(userId)
+        && request.resource.data.role == 'volunteer';
+
+      // You may edit your own profile, but not your role, ID or join date.
+      // Roles are changed by hand in the Firebase console.
+      allow update: if (isSelf(userId)
+          && !changedKeys().hasAny(['email', 'role', 'volunteerId', 'joinedDate']))
+        || isAdmin();
+
+      // Only you can delete your account. Admins cannot remove volunteers.
+      allow delete: if isSelf(userId);
+    }
+
+    match /activities/{activityId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+
+      // Admins edit activities. Volunteers may only move the spot counter by one,
+      // which is what joining and leaving does, and never past the limits.
+      allow update: if isAdmin()
+        || (isSignedIn()
+          && changedKeys().hasOnly(['filledSpots'])
+          && request.resource.data.filledSpots >= 0
+          && request.resource.data.filledSpots <= resource.data.totalSpots
+          && (
+            // Joining: the counter goes up only alongside your own new sign-up.
+            (request.resource.data.filledSpots == resource.data.filledSpots + 1
+              && !exists(signupPath(activityId))
+              && existsAfter(signupPath(activityId)))
+            // Leaving: the counter goes down by one.
+            || request.resource.data.filledSpots == resource.data.filledSpots - 1
+          ));
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow create, delete: if isAdmin();
+
+      // Admins write announcements. Volunteers may only add or take away their
+      // own thumbs up, and may not touch anything else.
+      allow update: if isAdmin()
+        || (isSignedIn() && changedKeys().hasOnly(['thumbsUpBy']) && ownThumbsUpOnly());
+    }
+
+    match /activitySignups/{signupId} {
+      // Volunteers see their own places. Admins see who signed up for what.
+      // Joining first checks that your sign-up does not exist yet, so that read is allowed too.
+      allow get: if isAdmin()
+        || (isSignedIn() && resource == null && signupId.matches('.+_' + request.auth.uid))
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      allow list: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      // You can only sign yourself up, once, to a published activity with space,
+      // and the activity's counter must go up in the same save.
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid
+        && signupId == request.resource.data.activityId + '_' + request.auth.uid
+        && get(activityPath(request.resource.data.activityId)).data.status == 'published'
+        && getAfter(activityPath(request.resource.data.activityId)).data.filledSpots
+          == get(activityPath(request.resource.data.activityId)).data.filledSpots + 1;
+
+      // Leaving deletes your own record. Admins can delete sign-ups only so that
+      // deleting an activity also clears its sign-ups.
+      allow delete: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      allow update: if false;
+    }
+
+    // Anything not listed above, including the old impactStats collection, is closed.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

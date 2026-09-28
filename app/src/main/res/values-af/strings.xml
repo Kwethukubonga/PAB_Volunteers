@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Afrikaans. Names, programmes and contact details stay as they are in values/strings.xml. -->
+<resources>
+    <!-- Bottom navigation labels -->
+    <string name="nav_home">Tuis</string>
+    <string name="nav_activities">Aktiwiteite</string>
+    <string name="nav_schedule">Skedule</string>
+    <string name="nav_community">Gemeenskap</string>
+    <string name="nav_profile">Profiel</string>
+    <string name="nav_overview">Oorsig</string>
+    <string name="nav_volunteers">Vrywilligers</string>
+    <string name="nav_posts">Plasings</string>
+
+    <!-- Welcome / Landing -->
+    <string name="welcome_quote">"Ons werk aan \'n toekoms waar vroue vry sal wees."</string>
+    <string name="welcome_subtitle">Sluit aan by ons vrywilligers wat vroue, kinders en gesinne in Lavender Hill en die omliggende gemeenskappe van Kaapstad ondersteun.</string>
+    <string name="welcome_cta">Verken Philisa Volunteers</string>
+    <string name="continue_with_google">Gaan voort met Google</string>
+    <string name="sign_in_with_email">Meld aan met e-pos</string>
+
+    <string name="auth_sign_in_title">Welkom terug</string>
+    <string name="auth_sign_in_subtitle">Meld aan om voort te gaan</string>
+    <string name="auth_sign_in_action">Meld aan</string>
+    <string name="auth_switch_to_create">Nuut hier? Skep \'n rekening</string>
+    <string name="auth_create_title">Skep jou rekening</string>
+    <string name="auth_create_subtitle">Skep jou rekening om te begin</string>
+    <string name="auth_create_action">Skep rekening</string>
+    <string name="auth_switch_to_sign_in">Het jy reeds \'n rekening? Meld aan</string>
+
+    <string name="profile_setup_heading">Profielopstelling</string>
+    <string name="profile_step_1_of_2">Stap 1 van 2</string>
+    <string name="profile_setup_not_you">Nie jy nie? Meld af</string>
+    <string name="profile_step_2_of_2">Stap 2 van 2</string>
+    <string name="hint_choose_programme">Kies \'n program</string>
+    <string name="hint_area">bv. Khayelitsha, Gugulethu</string>
+    <string name="profile_setup_save">Stoor profiel</string>
+    <string name="profile_saved">Profiel gestoor</string>
+
+    <!-- Our Programmes -->
+    <string name="eyebrow_our_programmes">Ons programme</string>
+    <string name="programmes_heading">Waar vrywilligers \'n verskil maak</string>
+
+    <!-- Volunteer testimonials -->
+    <string name="eyebrow_testimonials">Vrywilligerstories</string>
+    <string name="testimonials_heading">Hoor van ons vrywilligers</string>
+    <string name="testimonial_1_country">Duitsland</string>
+    <string name="testimonial_2_country">VSA</string>
+    <string name="testimonial_3_country">VSA</string>
+    <string name="testimonial_4_country">Switserland</string>
+
+    <!-- Profile fields -->
+    <string name="label_first_name">Voornaam</string>
+    <string name="label_last_name">Van</string>
+    <string name="label_email">E-posadres</string>
+    <string name="label_phone">Telefoonnommer</string>
+    <string name="label_area">Gebied / Woonbuurt</string>
+    <string name="action_continue">Gaan voort</string>
+    <string name="action_favourite">Gunsteling</string>
+    <string name="tab_all_opportunities">Alles</string>
+    <string name="tab_favourites">Gunstelinge</string>
+    <string name="stat_hours">Ure</string>
+    <string name="empty_favourites">Nog niks gestoor nie. Tik die hartjie op \'n geleentheid om dit hier te hou.</string>
+    <string name="action_back">Terug</string>
+
+    <string name="programme_interest_heading">Programbelangstelling</string>
+    <string name="programme_interest_subheading">Kies al die programme waarvoor jy oorweeg wil word</string>
+
+    <!-- Login -->
+    <string name="label_password">Wagwoord</string>
+    <string name="label_confirm_password">Bevestig wagwoord</string>
+    <string name="forgot_password">Wagwoord vergeet?</string>
+
+    <!-- Volunteer Home -->
+    <string name="greeting_morning">Goeiemôre,</string>
+    <string name="greeting_afternoon">Goeiemiddag,</string>
+    <string name="greeting_evening">Goeienaand,</string>
+    <string name="action_see_all">Sien alles</string>
+    <string name="empty_nothing_joined">Jy het nog nie by \'n aktiwiteit aangesluit nie. Kyk op die Aktiwiteite-oortjie om een te vind.</string>
+    <string name="empty_no_open_activities">Geen oop aktiwiteite op die oomblik nie. Kyk later weer.</string>
+    <string name="status_joined">Aangesluit</string>
+    <string name="status_full">Volbespreek</string>
+    <string name="action_join_activity">Sluit by hierdie aktiwiteit aan</string>
+    <string name="action_leave_activity">Verlaat hierdie aktiwiteit</string>
+    <string name="leave_confirm_title">Verlaat hierdie aktiwiteit?</string>
+    <string name="leave_confirm_message">Jou plek gaan terug na die groep sodat \'n ander vrywilliger dit kan neem.</string>
+    <string name="action_yes_leave">Ja, verlaat</string>
+    <string name="sign_out_confirm_title">Meld af van Philisa Volunteers?</string>
+    <string name="volunteer_id_label">Vrywilliger-ID · %1$s</string>
+    <string name="stat_today">Vandag</string>
+    <string name="stat_completed">Voltooi</string>
+    <string name="coming_up_heading">Wat kom</string>
+
+    <!-- Activities -->
+    <string name="my_activities_title">Aktiwiteite</string>
+    <string name="tab_upcoming">Komende</string>
+    <string name="tab_completed">Voltooi</string>
+    <string name="status_open">Oop</string>
+    <string name="label_date_time">DATUM &amp; TYD</string>
+    <string name="label_location">LIGGING</string>
+    <string name="label_volunteer_role">VRYWILLIGERROL</string>
+    <string name="label_spots_remaining">PLEKKE OOR</string>
+    <string name="action_keep_spot">Hou my plek</string>
+
+    <!-- Schedule -->
+    <string name="my_schedule_title">My skedule</string>
+    <string name="schedule_summary">%1$d komende · %2$d voltooi</string>
+    <string name="empty_no_schedule">Nog geen komende aktiwiteite nie. Sluit by een aan op die Aktiwiteite-oortjie.</string>
+
+    <!-- Community -->
+    <string name="community_title">Gemeenskap</string>
+    <string name="announcements_heading">Aankondigings</string>
+    <string name="empty_no_announcements">Nog geen aankondigings nie.</string>
+
+    <!-- Profile -->
+    <string name="stat_months">Maande</string>
+    <string name="stat_upcoming">Komende</string>
+    <string name="label_phone_caps">TELEFOON</string>
+    <string name="label_email_caps">E-POS</string>
+    <string name="label_area_caps">GEBIED</string>
+    <string name="action_edit_profile">Wysig profiel</string>
+    <string name="action_sign_out">Meld af</string>
+    <string name="edit_profile_title">Wysig profiel</string>
+    <string name="action_save_changes">Stoor veranderinge</string>
+    <string name="profile_updated">Profiel opgedateer.</string>
+
+    <!-- Admin -->
+    <string name="admin_portal_label">ADMINPORTAAL</string>
+    <string name="admin_overview_title">Philisa-bestuur</string>
+    <string name="signed_in_as">Aangemeld as %1$s</string>
+    <string name="stat_total_signups">Inskrywings</string>
+    <string name="recent_volunteers_heading">Onlangse vrywilligers</string>
+    <string name="empty_no_volunteers">Nog geen vrywilligers geregistreer nie.</string>
+    <string name="empty_no_activities_yet">Nog geen aktiwiteite nie. Tik + om een te skep.</string>
+    <string name="empty_no_announcements_yet">Nog geen aankondigings nie. Tik + om een te plaas.</string>
+    <string name="empty_no_signups">Niemand het nog vir hierdie aktiwiteit ingeskryf nie.</string>
+    <string name="activity_signups_title">Inskrywings</string>
+    <string name="signups_summary">%1$d ingeskryf · %2$d plekke oor</string>
+    <string name="volunteer_profile_title">Vrywilligerprofiel</string>
+    <string name="action_view_signups_short">Inskrywings</string>
+    <string name="label_publish_now">Publiseer nou</string>
+    <string name="label_joined">AANGESLUIT</string>
+    <string name="activity_saved">Aktiwiteit gestoor.</string>
+    <string name="announcement_saved">Aankondiging gestoor.</string>
+    <string name="stat_total_volunteers">Totale vrywilligers</string>
+    <string name="stat_published_activities">Gepubliseerde aktiwiteite</string>
+    <string name="quick_actions_heading">Vinnige aksies</string>
+    <string name="action_create_new_activity">Skep nuwe aktiwiteit</string>
+    <string name="action_create_new_activity_desc">Publiseer \'n nuwe vrywilligersgeleentheid</string>
+    <string name="action_post_announcement">Plaas aankondiging</string>
+    <string name="action_post_announcement_desc">Stuur \'n boodskap aan alle vrywilligers</string>
+
+    <!-- Manage Volunteers -->
+    <string name="manage_volunteers_title">Bestuur vrywilligers</string>
+    <string name="label_programme_interest">PROGRAMBELANGSTELLING</string>
+
+    <!-- Manage Activities -->
+    <string name="manage_activities_title">Bestuur aktiwiteite</string>
+    <string name="published_drafts_summary">%1$d gepubliseer · %2$d konsepte</string>
+    <string name="status_published">Gepubliseer</string>
+    <string name="status_draft">Konsep</string>
+    <string name="action_publish">Publiseer</string>
+    <string name="action_unpublish">Versteek</string>
+    <string name="spots_filled">%1$d / %2$d plekke gevul</string>
+    <string name="new_activity_title">Nuwe aktiwiteit</string>
+    <string name="edit_activity_title">Wysig aktiwiteit</string>
+    <string name="label_title">TITEL</string>
+    <string name="label_programme">PROGRAM</string>
+    <string name="label_date">DATUM</string>
+    <string name="label_time">TYD</string>
+    <string name="label_total_spots">TOTALE PLEKKE</string>
+    <string name="label_description">BESKRYWING</string>
+    <string name="action_save_activity">Stoor aktiwiteit</string>
+    <string name="delete_activity_confirm_title">Skrap hierdie aktiwiteit?</string>
+    <string name="delete_activity_confirm_message">Dit word permanent verwyder, saam met sy inskrywings.</string>
+
+    <!-- Manage Announcements -->
+    <string name="manage_announcements_title">Aankondigings</string>
+    <string name="new_announcement_title">Nuwe aankondiging</string>
+    <string name="edit_announcement_title">Wysig aankondiging</string>
+    <string name="label_message_body">BOODSKAP</string>
+    <string name="action_create_announcement">Skep aankondiging</string>
+    <string name="action_save_announcement">Stoor aankondiging</string>
+    <string name="delete_announcement_confirm_title">Skrap hierdie aankondiging?</string>
+
+    <!-- Generic -->
+    <string name="action_edit">Wysig</string>
+    <string name="action_remove">Verwyder</string>
+    <string name="action_cancel">Kanselleer</string>
+    <string name="error_generic">Iets het verkeerd geloop. Probeer asseblief weer.</string>
+    <string name="error_no_connection">Kon nie koppel nie. Kontroleer jou internetverbinding.</string>
+    <string name="error_too_many_tries">Te veel pogings. Wag \'n oomblik en probeer weer.</string>
+    <string name="error_weak_password">Kies \'n sterker wagwoord.</string>
+    <string name="error_email_in_use">Daardie e-pos het reeds \'n rekening. Meld eerder aan.</string>
+    <string name="error_sign_in_again">Meld weer aan voordat jy dit doen.</string>
+    <string name="error_permission_denied">Jy het nie toestemming om dit te doen nie.</string>
+    <string name="error_session_ended">Jou sessie het verval. Meld weer aan.</string>
+    <string name="error_record_missing">Daardie rekord bestaan nie meer nie.</string>
+    <string name="error_record_exists">Daardie rekord bestaan reeds.</string>
+    <string name="error_not_signed_in">Jy is nie aangemeld nie.</string>
+    <string name="error_account_load">Jou rekening kon nie gelaai word nie. Probeer weer.</string>
+    <string name="error_activity_closed">Hierdie aktiwiteit is nie meer oop nie.</string>
+    <string name="error_google_incomplete">Google-aanmelding is nie voltooi nie. Probeer weer.</string>
+    <string name="error_google_not_registered">Hierdie bou is nie in Firebase geregistreer nie. Voeg hierdie masjien se debug SHA-1-vingerafdruk by.</string>
+    <string name="error_google_cancelled">Aanmelding gekanselleer</string>
+    <string name="error_google_failed">Google-aanmelding het misluk (kode %1$d)</string>
+    <string name="info_password_reset_sent">As hierdie e-pos \'n rekening met \'n wagwoord het, is \'n skakel om dit terug te stel op pad. Kyk ook in jou gemorspos. Het jy met Google aangemeld? Gebruik dan eerder Gaan voort met Google.</string>
+
+    <!-- Validation -->
+    <string name="error_field_required">Hierdie veld is verpligtend</string>
+    <string name="error_enter_email">Voer jou e-posadres in</string>
+    <string name="error_enter_email_first">Voer eers jou e-posadres in</string>
+    <string name="error_invalid_email">Voer \'n geldige e-posadres in</string>
+    <string name="error_enter_password">Voer jou wagwoord in</string>
+    <string name="error_password_short">Wagwoord moet ten minste 8 karakters lank wees</string>
+    <string name="error_password_symbol">Wagwoord moet \'n simbool bevat, soos ! of #</string>
+    <string name="error_passwords_mismatch">Wagwoorde stem nie ooreen nie</string>
+    <string name="error_first_name">Voer jou voornaam in</string>
+    <string name="error_last_name">Voer jou van in</string>
+    <string name="error_invalid_phone">Voer \'n Suid-Afrikaanse selfoonnommer in, soos 082 123 4567, of \'n internasionale nommer wat met + begin</string>
+    <string name="error_area">Voer die gebied in waar jy vandaan kom</string>
+    <string name="error_select_one_programme">Kies ten minste een program</string>
+    <string name="error_spots_below_taken">Plekke kan nie minder wees as die %1$d wat reeds geneem is nie.</string>
+    <string name="error_login_failed">Verkeerde e-pos of wagwoord</string>
+    <string name="error_account_not_found">Geen rekening vir daardie e-pos gevind nie</string>
+    <string name="error_spots_full">Hierdie aktiwiteit is volbespreek</string>
+    <string name="error_end_before_start">Die eindtyd moet ná die begintyd wees.</string>
+    <string name="error_total_spots_invalid">Voer \'n getal groter as 0 in</string>
+
+    <string name="empty_nothing_completed">Nog geen voltooide aktiwiteite nie.</string>
+
+    <string name="action_settings">Instellings</string>
+    <string name="settings_title">Instellings</string>
+    <string name="action_settings_desc">Tema, taal en kennisgewings</string>
+    <string name="settings_appearance">Voorkoms</string>
+    <string name="settings_theme">Tema</string>
+    <string name="settings_theme_desc">Volg jou foon, of gebruik altyd lig of donker.</string>
+    <string name="settings_theme_system">Foon</string>
+    <string name="settings_theme_light">Lig</string>
+    <string name="settings_theme_dark">Donker</string>
+    <string name="settings_language">Taal</string>
+    <string name="settings_app_language">Toepassingstaal</string>
+    <string name="settings_language_desc">Kies die taal wat regdeur die toepassing gebruik word.</string>
+    <string name="settings_account">Rekening</string>
+    <string name="settings_delete_account">Skrap my rekening</string>
+    <string name="settings_delete_account_desc">Verwyder jou profiel en jou plekke op aktiwiteite. Dit kan nie ontdoen word nie.</string>
+    <string name="delete_account_confirm_title">Skrap jou rekening?</string>
+    <string name="delete_account_confirm_body">Jou profiel, jou plekke op aktiwiteite en jou gestoorde geleenthede sal permanent verwyder word.</string>
+    <string name="action_delete">Skrap</string>
+    <string name="delete_account_recent_login">Meld vir jou veiligheid weer aan voordat jy jou rekening skrap.</string>
+    <string name="account_deleted">Jou rekening is geskrap.</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Kennisgewings</string>
+    <string name="settings_notify_activities">Nuwe aktiwiteite</string>
+    <string name="settings_notify_activities_desc">Wanneer \'n nuwe aktiwiteit geplaas word.</string>
+    <string name="settings_notify_announcements">Aankondigings</string>
+    <string name="settings_notify_announcements_desc">Wanneer die Philisa-span \'n boodskap plaas.</string>
+    <string name="settings_notify_full">Aktiwiteit vol</string>
+    <string name="settings_notify_full_desc">Wanneer al die plekke op \'n aktiwiteit gevul is.</string>
+    <string name="settings_notifications_blocked">Kennisgewings vir hierdie toepassing is op jou foon afgeskakel.</string>
+    <string name="settings_notifications_turn_on">Skakel kennisgewings aan</string>
+    <string name="channel_activities">Nuwe aktiwiteite</string>
+    <string name="channel_activities_desc">Nuwe vrywilligeraktiwiteite waarby jy kan aansluit.</string>
+    <string name="channel_announcements">Aankondigings</string>
+    <string name="channel_announcements_desc">Boodskappe van die Philisa-span.</string>
+    <string name="channel_full">Vol aktiwiteite</string>
+    <string name="channel_full_desc">Aktiwiteite waar al die plekke gevul is.</string>
+    <string name="notify_new_activity">Nuwe aktiwiteit: %1$s</string>
+    <string name="notify_activity_full">Aktiwiteit vol: %1$s</string>
+    <string name="notify_open_to_see">Maak die toepassing oop om hulle te sien.</string>
+    <string name="label_image_optional">PRENT (OPSIONEEL)</string>
+    <string name="action_add_image">Voeg \'n prent by</string>
+    <string name="action_change_image">Verander prent</string>
+    <string name="uploading_image">Prent word opgelaai…</string>
+    <string name="image_key_missing">Geen prentdiens is op hierdie weergawe opgestel nie.</string>
+    <string name="action_thumbs_up">Duim op</string>
+    <string name="thumbs_up_summary">%1$d duim op</string>
+    <string name="error_image_not_set_up">Geen prentdiens is op hierdie weergawe opgestel nie.</string>
+    <string name="error_image_unreadable">Daardie prent kon nie oopgemaak word nie.</string>
+    <string name="error_image_preset">Die prentdiens is nog nie vir oplaai vanaf die app opgestel nie.</string>
+    <string name="error_image_upload">Die prent kon nie opgelaai word nie (kode %1$d).</string>
+</resources>

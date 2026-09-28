@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="opportunities_open">
+        <item quantity="one">%1$d opportunity open</item>
+        <item quantity="other">%1$d opportunities open</item>
+    </plurals>
+
+    <plurals name="favourites_saved">
+        <item quantity="one">%1$d opportunity saved</item>
+        <item quantity="other">%1$d opportunities saved</item>
+    </plurals>
+
+    <plurals name="announcements_count">
+        <item quantity="one">%1$d update from the team</item>
+        <item quantity="other">%1$d updates from the team</item>
+    </plurals>
+
+    <plurals name="registered_volunteers">
+        <item quantity="one">%1$d registered volunteer</item>
+        <item quantity="other">%1$d registered volunteers</item>
+    </plurals>
+
+    <plurals name="spots_left">
+        <item quantity="one">%1$d spot left</item>
+        <item quantity="other">%1$d spots left</item>
+    </plurals>
+
+    <plurals name="spots_available">
+        <item quantity="one">%1$d spot available</item>
+        <item quantity="other">%1$d spots available</item>
+    </plurals>
+
+    <plurals name="notify_new_activities">
+        <item quantity="one">%1$d new activity to join</item>
+        <item quantity="other">%1$d new activities to join</item>
+    </plurals>
+
+    <plurals name="notify_new_announcements">
+        <item quantity="one">%1$d new announcement</item>
+        <item quantity="other">%1$d new announcements</item>
+    </plurals>
+
+    <plurals name="notify_activities_full">
+        <item quantity="one">%1$d activity is now full</item>
+        <item quantity="other">%1$d activities are now full</item>
+    </plurals>
+
+    <plurals name="notify_all_spots_taken">
+        <item quantity="one">Its %1$d spot has been taken.</item>
+        <item quantity="other">All %1$d spots have been taken.</item>
+    </plurals>
+
+</resources>

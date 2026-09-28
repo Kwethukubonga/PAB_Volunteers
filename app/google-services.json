@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "423569547664",
+    "project_id": "pab-volunteers",
+    "storage_bucket": "pab-volunteers.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423569547664:android:d59abc27e4c3e233c49315",
+        "android_client_info": {
+          "package_name": "com.kantu.pab_volunteers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423569547664-afsic4f3o67b9r0h9tk2a2krhba2ve68.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kantu.pab_volunteers",
+            "certificate_hash": "94a22a3f066e30eef425b585a8a1a04512cc96e4"
+          }
+        },
+        {
+          "client_id": "423569547664-hfjhdqmg39o8rt2ndldg5r6nm2i2p7ak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaOuefgINkrXjijK9vJkwK0N_kv7ZPVKE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423569547664-hfjhdqmg39o8rt2ndldg5r6nm2i2p7ak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

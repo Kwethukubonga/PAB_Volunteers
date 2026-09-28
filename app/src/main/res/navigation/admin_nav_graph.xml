@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/adminOverviewFragment">
+
+    <fragment
+        android:id="@+id/adminOverviewFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.overview.AdminOverviewFragment"
+        android:label="@string/nav_overview" />
+
+    <fragment
+        android:id="@+id/manageActivitiesFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.activities.ManageActivitiesFragment"
+        android:label="@string/nav_activities" />
+
+    <fragment
+        android:id="@+id/manageVolunteersFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.volunteers.ManageVolunteersFragment"
+        android:label="@string/nav_volunteers" />
+
+    <fragment
+        android:id="@+id/manageAnnouncementsFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.announcements.ManageAnnouncementsFragment"
+        android:label="@string/nav_posts" />
+
+    <fragment
+        android:id="@+id/activityEditorFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.activities.ActivityEditorFragment"
+        android:label="@string/new_activity_title">
+        <argument
+            android:name="extra_activity_id"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/activitySignupsFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.activities.ActivitySignupsFragment"
+        android:label="@string/activity_signups_title">
+        <argument
+            android:name="extra_activity_id"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/volunteerDetailsFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.volunteers.VolunteerDetailsFragment"
+        android:label="@string/volunteer_profile_title">
+        <argument
+            android:name="extra_volunteer_id"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/announcementEditorFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.announcements.AnnouncementEditorFragment"
+        android:label="@string/new_announcement_title">
+        <argument
+            android:name="extra_announcement_id"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_activityEditorFragment"
+        app:destination="@id/activityEditorFragment" />
+
+    <action
+        android:id="@+id/action_global_activitySignupsFragment"
+        app:destination="@id/activitySignupsFragment" />
+
+    <action
+        android:id="@+id/action_global_volunteerDetailsFragment"
+        app:destination="@id/volunteerDetailsFragment" />
+
+    <action
+        android:id="@+id/action_global_announcementEditorFragment"
+        app:destination="@id/announcementEditorFragment" />
+
+</navigation>

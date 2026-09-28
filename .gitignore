@@ -11,7 +11,26 @@ Thumbs.db
 .cxx
 .kotlin
 
-# Signing keys must never be committed.
+# Release signing must never be committed.
 *.jks
 *.keystore
 keystore.properties
+
+# The shared debug key is the one exception. It is not a secret, and sharing it
+# means every teammate's debug build has the same fingerprint for Google sign in.
+!keystore/debug.keystore
+
+# Seed script: its packages, and the Firebase admin key it uses, which gives full database access.
+tools/seed/node_modules/
+*firebase-adminsdk*.json
+*service-account*.json
+*serviceAccount*.json
+
+# Security rules tests: their packages and the emulator scratch files.
+firestore-tests/node_modules/
+firestore-tests/.firebase/
+firebase-debug.log
+firestore-debug.log
+
+# Report documents live outside the repo.
+docs/

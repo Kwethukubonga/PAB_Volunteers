@@ -1,0 +1,7 @@
+# Copy these lines into your own local.properties, which is never committed.
+# Android Studio writes sdk.dir for you.
+
+# Free account at https://cloudinary.com. Without these the picture button is switched off.
+# Both come from the Cloudinary dashboard. The preset must be set to Unsigned.
+cloudinary.cloud.name=YOUR_CLOUD_NAME
+cloudinary.upload.preset=YOUR_UNSIGNED_PRESET

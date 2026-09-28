@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dark navigation bar buttons on the light bar, light ones in dark mode. -->
+    <style name="Theme.PAB_Volunteers" parent="Base.Theme.PAB">
+        <item name="android:navigationBarColor">@color/card_background</item>
+        <item name="android:windowLightNavigationBar">@bool/light_system_bars</item>
+    </style>
+
+</resources>

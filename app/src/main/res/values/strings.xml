@@ -1,3 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PAB_Volunteers</string>
+    <string name="app_name" translatable="false">Philisa Volunteers</string>
+
+    <!-- Bottom navigation labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_activities">Activities</string>
+    <string name="nav_schedule">Schedule</string>
+    <string name="nav_community">Community</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_overview">Overview</string>
+    <string name="nav_volunteers">Volunteers</string>
+    <string name="nav_posts">Posts</string>
+    <string name="org_name" translatable="false">Philisa Abafazi Bethu</string>
+    <string name="org_subtitle" translatable="false">Women Centre SA</string>
+    <string name="quote_mark" translatable="false">&#8220;</string>
+    <string name="org_tagline" translatable="false">"Bringing the Lavender Back to the Hills."</string>
+
+    <!-- Welcome / Landing -->
+    <string name="welcome_quote">"Working towards a future where women will be free."</string>
+    <string name="welcome_subtitle">Join our volunteers supporting women, children, and families across Lavender Hill and Cape Town\'s surrounding communities.</string>
+    <string name="welcome_cta">Explore Philisa Volunteers</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="sign_in_with_email">Sign in with email</string>
+
+    <string name="auth_sign_in_title">Welcome Back</string>
+    <string name="auth_sign_in_subtitle">Sign in to continue</string>
+    <string name="auth_sign_in_action">Sign In</string>
+    <string name="auth_switch_to_create">New here? Create an account</string>
+    <string name="auth_create_title">Create Your Account</string>
+    <string name="auth_create_subtitle">Create your account to get started</string>
+    <string name="auth_create_action">Create Account</string>
+    <string name="auth_switch_to_sign_in">Already have an account? Sign in</string>
+
+    <string name="profile_setup_heading">Profile Setup</string>
+    <string name="profile_step_1_of_2">Step 1 of 2</string>
+    <string name="profile_setup_not_you">Not you? Sign out</string>
+    <string name="profile_step_2_of_2">Step 2 of 2</string>
+    <string name="hint_first_name" translatable="false">Nomsa</string>
+    <string name="hint_last_name" translatable="false">Dlamini</string>
+    <string name="hint_email" translatable="false">nomsa@email.com</string>
+    <string name="hint_phone" translatable="false">+27 71 234 5678</string>
+    <string name="hint_choose_programme">Choose a programme</string>
+    <string name="hint_area">e.g. Khayelitsha, Gugulethu</string>
+    <string name="profile_setup_save">Save Profile</string>
+    <string name="profile_saved">Profile saved</string>
+
+    <!-- Our Programmes -->
+    <string name="eyebrow_our_programmes">Our Programmes</string>
+    <string name="programmes_heading">Where Volunteers Make Their Mark</string>
+    <string name="programme_seniors" translatable="false">Senior Programme</string>
+    <string name="programme_mens_cafe" translatable="false">Men\'s Café</string>
+    <string name="programme_baby_saver" translatable="false">Baby Saver</string>
+    <string name="programme_search_rescue" translatable="false">Search and Rescue Team</string>
+
+    <!-- Volunteer testimonials -->
+    <string name="eyebrow_testimonials">Volunteer Stories</string>
+    <string name="testimonials_heading">Hear from Our Volunteers</string>
+    <string name="testimonial_1_name" translatable="false">Silke Sturm</string>
+    <string name="testimonial_1_country">Germany</string>
+    <string name="testimonial_1_quote" translatable="false">"Philisa Abafazi Bethu\'s work accepts everyone as they are and encourages individual development. I have watched an organisation grow from Lucinda\'s garage into a wonderful women and family centre for almost 13 years now. It was not just an internship, it became family."</string>
+    <string name="testimonial_2_name" translatable="false">Carley Anderson</string>
+    <string name="testimonial_2_country">USA</string>
+    <string name="testimonial_2_quote" translatable="false">"It is a remarkable feeling to walk into a new space and instantly feel welcomed and appreciated, and Lucinda and the whole PAB team invited us in with open arms. I could not be more thankful to have contributed, in even the smallest capacity, to PAB\'s passion-fuelled work."</string>
+    <string name="testimonial_3_name" translatable="false">Natalie Decker</string>
+    <string name="testimonial_3_country">USA</string>
+    <string name="testimonial_3_quote" translatable="false">"Shortly after starting, I felt so welcomed. Seeing how much Philisa Abafazi contributes to their community was an eye-opening experience. Volunteering with PAB gave me a whole new perspective of South Africa."</string>
+    <string name="testimonial_4_name" translatable="false">Michelle Mahina Schlachter</string>
+    <string name="testimonial_4_country">Switzerland</string>
+    <string name="testimonial_4_quote" translatable="false">"I certainly do not regret having decided to get involved in PAB\'s projects and learn from the people of the Lavender Hill community. From day one they made me feel at home, and I am happy to say that I found a second home in Cape Town."</string>
+
+    <!-- Footer -->
+    <string name="footer_email" translatable="false">admin@philisaabafazi.org</string>
+    <string name="footer_address" translatable="false">55 Strauss Road, Steenberg 7965, Cape Town</string>
+    <string name="footer_phone" translatable="false">+27 21 565 0668</string>
+    <string name="footer_copyright" translatable="false">© 2026 Philisa Abafazi Bethu Women Centre SA</string>
+
+    <!-- Profile fields -->
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
+    <string name="label_email">Email Address</string>
+    <string name="label_phone">Phone Number</string>
+    <string name="label_area">Area / Township</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_favourite">Favourite</string>
+    <string name="tab_all_opportunities">All</string>
+    <string name="tab_favourites">Favourites</string>
+    <string name="stat_hours">Hours</string>
+    <string name="empty_favourites">Nothing saved yet. Tap the heart on an opportunity to keep it here.</string>
+    <string name="action_back">Back</string>
+
+    <string name="programme_interest_heading">Programme Interest</string>
+    <string name="programme_interest_subheading">Select all the programmes you\'d like to be considered for</string>
+    <string name="programme_womens_empowerment" translatable="false">Women Empowerment</string>
+    <string name="programme_youth" translatable="false">Youth Programme</string>
+    <string name="programme_after_school" translatable="false">Afterschool Programmes</string>
+    <string name="programme_community_feeding" translatable="false">Community Feeding</string>
+    <string name="programme_safe_houses" translatable="false">Emergency Safe Houses</string>
+    <string name="programme_social_work" translatable="false">Social Work Services</string>
+
+    <!-- Login -->
+    <string name="label_password">Password</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="forgot_password">Forgot Password?</string>
+
+    <!-- Volunteer Home -->
+    <string name="greeting_morning">Good morning,</string>
+    <string name="greeting_afternoon">Good afternoon,</string>
+    <string name="greeting_evening">Good evening,</string>
+    <string name="action_see_all">See all</string>
+    <string name="empty_nothing_joined">You haven\'t joined an activity yet. Browse the Activities tab to find one.</string>
+    <string name="empty_no_open_activities">No open activities right now. Check back soon.</string>
+    <string name="status_joined">Joined</string>
+    <string name="status_full">Fully booked</string>
+    <string name="action_join_activity">Join this Activity</string>
+    <string name="action_leave_activity">Leave this Activity</string>
+    <string name="leave_confirm_title">Leave this activity?</string>
+    <string name="leave_confirm_message">Your spot goes back to the group so another volunteer can take it.</string>
+    <string name="action_yes_leave">Yes, leave</string>
+    <string name="sign_out_confirm_title">Sign out of Philisa Volunteers?</string>
+    <string name="volunteer_id_label">Volunteer ID · %1$s</string>
+    <string name="stat_today">Today</string>
+    <string name="stat_completed">Completed</string>
+    <string name="coming_up_heading">Coming Up</string>
+
+    <!-- Activities -->
+    <string name="my_activities_title">Activities</string>
+    <string name="tab_upcoming">Upcoming</string>
+    <string name="tab_completed">Completed</string>
+    <string name="status_open">Open</string>
+    <string name="label_date_time">DATE &amp; TIME</string>
+    <string name="label_location">LOCATION</string>
+    <string name="label_volunteer_role">VOLUNTEER ROLE</string>
+    <string name="label_spots_remaining">SPOTS REMAINING</string>
+    <string name="action_keep_spot">Keep my spot</string>
+
+    <!-- Schedule -->
+    <string name="my_schedule_title">My Schedule</string>
+    <string name="schedule_summary">%1$d upcoming · %2$d completed</string>
+    <string name="empty_no_schedule">No upcoming activities yet. Join one from the Activities tab.</string>
+
+    <!-- Community -->
+    <string name="community_title">Community</string>
+    <string name="announcements_heading">Announcements</string>
+    <string name="empty_no_announcements">No announcements yet.</string>
+
+    <!-- Profile -->
+    <string name="stat_months">Months</string>
+    <string name="stat_upcoming">Upcoming</string>
+    <string name="label_phone_caps">PHONE</string>
+    <string name="label_email_caps">EMAIL</string>
+    <string name="label_area_caps">AREA</string>
+    <string name="action_edit_profile">Edit Profile</string>
+    <string name="action_sign_out">Sign Out</string>
+    <string name="edit_profile_title">Edit Profile</string>
+    <string name="action_save_changes">Save Changes</string>
+    <string name="profile_updated">Profile updated.</string>
+
+    <!-- Admin -->
+    <string name="admin_portal_label">ADMIN PORTAL</string>
+    <string name="admin_overview_title">Philisa Management</string>
+    <string name="signed_in_as">Signed in as %1$s</string>
+    <string name="stat_total_signups">Sign-ups</string>
+    <string name="recent_volunteers_heading">Recent Volunteers</string>
+    <string name="empty_no_volunteers">No volunteers registered yet.</string>
+    <string name="empty_no_activities_yet">No activities yet. Tap + to create one.</string>
+    <string name="empty_no_announcements_yet">No announcements yet. Tap + to post one.</string>
+    <string name="empty_no_signups">Nobody has signed up for this activity yet.</string>
+    <string name="activity_signups_title">Sign-Ups</string>
+    <string name="signups_summary">%1$d signed up · %2$d spots remaining</string>
+    <string name="volunteer_profile_title">Volunteer Profile</string>
+    <string name="action_view_signups_short">Sign-ups</string>
+    <string name="label_publish_now">Publish now</string>
+    <string name="label_joined">JOINED</string>
+    <string name="activity_saved">Activity saved.</string>
+    <string name="announcement_saved">Announcement saved.</string>
+    <string name="stat_total_volunteers">Total Volunteers</string>
+    <string name="stat_published_activities">Published Activities</string>
+    <string name="quick_actions_heading">Quick Actions</string>
+    <string name="action_create_new_activity">Create New Activity</string>
+    <string name="action_create_new_activity_desc">Publish a new volunteer opportunity</string>
+    <string name="action_post_announcement">Post Announcement</string>
+    <string name="action_post_announcement_desc">Send a message to all volunteers</string>
+
+    <!-- Manage Volunteers -->
+    <string name="manage_volunteers_title">Manage Volunteers</string>
+    <string name="label_programme_interest">PROGRAMME INTEREST</string>
+
+    <!-- Manage Activities -->
+    <string name="manage_activities_title">Manage Activities</string>
+    <string name="published_drafts_summary">%1$d published · %2$d drafts</string>
+    <string name="status_published">Published</string>
+    <string name="status_draft">Draft</string>
+    <string name="action_publish">Publish</string>
+    <string name="action_unpublish">Unpublish</string>
+    <string name="spots_filled">%1$d / %2$d spots filled</string>
+    <string name="new_activity_title">New Activity</string>
+    <string name="edit_activity_title">Edit Activity</string>
+    <string name="label_title">TITLE</string>
+    <string name="label_programme">PROGRAMME</string>
+    <string name="label_date">DATE</string>
+    <string name="label_time">TIME</string>
+    <string name="label_total_spots">TOTAL SPOTS</string>
+    <string name="label_description">DESCRIPTION</string>
+    <string name="action_save_activity">Save Activity</string>
+    <string name="delete_activity_confirm_title">Delete this activity?</string>
+    <string name="delete_activity_confirm_message">This will remove it permanently, including its sign-up records.</string>
+
+    <!-- Manage Announcements -->
+    <string name="manage_announcements_title">Announcements</string>
+    <string name="new_announcement_title">New Announcement</string>
+    <string name="edit_announcement_title">Edit Announcement</string>
+    <string name="label_message_body">MESSAGE BODY</string>
+    <string name="action_create_announcement">Create Announcement</string>
+    <string name="action_save_announcement">Save Announcement</string>
+    <string name="label_image_optional">PICTURE (OPTIONAL)</string>
+    <string name="action_add_image">Add a picture</string>
+    <string name="action_change_image">Change picture</string>
+    <string name="uploading_image">Uploading picture…</string>
+    <string name="image_key_missing">No picture service key is set on this build.</string>
+    <string name="error_image_not_set_up">No picture service is set up on this build.</string>
+    <string name="error_image_unreadable">That picture could not be opened.</string>
+    <string name="error_image_preset">The picture service is not set up for uploads from the app yet.</string>
+    <string name="error_image_upload">The picture could not be uploaded (code %1$d).</string>
+    <string name="action_thumbs_up">Thumbs up</string>
+    <string name="thumbs_up_summary">%1$d thumbs up</string>
+    <string name="delete_announcement_confirm_title">Delete this announcement?</string>
+
+    <!-- Generic -->
+    <string name="action_edit">Edit</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="error_no_connection">Couldn\'t connect. Check your internet connection.</string>
+    <string name="error_too_many_tries">Too many tries. Wait a moment and try again.</string>
+    <string name="error_weak_password">Choose a stronger password.</string>
+    <string name="error_email_in_use">That email already has an account. Sign in instead.</string>
+    <string name="error_sign_in_again">Sign in again before you do that.</string>
+    <string name="error_permission_denied">You do not have permission to do that.</string>
+    <string name="error_session_ended">Your session has ended. Sign in again.</string>
+    <string name="error_record_missing">That record no longer exists.</string>
+    <string name="error_record_exists">That record already exists.</string>
+    <string name="error_not_signed_in">You are not signed in.</string>
+    <string name="error_account_load">Your account could not be loaded. Try again.</string>
+    <string name="error_activity_closed">This activity is no longer open.</string>
+    <string name="error_google_incomplete">Google sign in did not complete. Try again.</string>
+    <string name="error_google_not_registered">This build is not registered in Firebase. Add this machine\'s debug SHA-1 fingerprint.</string>
+    <string name="error_google_cancelled">Sign in cancelled</string>
+    <string name="error_google_failed">Google sign in failed (code %1$d)</string>
+    <string name="info_password_reset_sent">If this email has an account with a password, a reset link is on its way. Check your spam folder too. Signed up with Google? Use Continue with Google instead.</string>
+
+    <!-- Validation -->
+    <string name="error_field_required">This field is required</string>
+    <string name="error_enter_email">Enter your email address</string>
+    <string name="error_enter_email_first">Enter your email address first</string>
+    <string name="error_invalid_email">Enter a valid email address</string>
+    <string name="error_enter_password">Enter your password</string>
+    <string name="error_password_short">Password must be at least 8 characters</string>
+    <string name="error_password_symbol">Password must include a symbol, like ! or #</string>
+    <string name="error_passwords_mismatch">Passwords do not match</string>
+    <string name="error_first_name">Enter your first name</string>
+    <string name="error_last_name">Enter your last name</string>
+    <string name="error_invalid_phone">Enter a South African cellphone number, like 082 123 4567, or an international number starting with +</string>
+    <string name="error_area">Enter the area you are from</string>
+    <string name="error_select_one_programme">Choose at least one programme</string>
+    <string name="error_spots_below_taken">Spots cannot be fewer than the %1$d already taken.</string>
+    <string name="error_login_failed">Incorrect email or password</string>
+    <string name="error_account_not_found">No account found for that email</string>
+    <string name="error_spots_full">This activity is fully booked</string>
+    <string name="error_end_before_start">End time must be after the start time.</string>
+    <string name="error_total_spots_invalid">Enter a number greater than 0</string>
+
+    <string name="empty_nothing_completed">No completed activities yet.</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="settings_title">Settings</string>
+    <string name="action_settings_desc">Theme, language and notifications</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_theme_desc">Follow your phone, or always use light or dark.</string>
+    <string name="settings_theme_system">Phone</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_app_language">App language</string>
+    <string name="settings_language_desc">Choose the language used across the app.</string>
+    <!-- Each language is written in its own language, so people can find theirs. -->
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_xhosa" translatable="false">isiXhosa</string>
+    <string name="language_afrikaans" translatable="false">Afrikaans</string>
+    <string name="settings_account">Account</string>
+    <string name="settings_delete_account">Delete my account</string>
+    <string name="settings_delete_account_desc">Removes your profile and your places on activities. This cannot be undone.</string>
+    <string name="delete_account_confirm_title">Delete your account?</string>
+    <string name="delete_account_confirm_body">Your profile, your places on activities and your saved opportunities will be permanently removed.</string>
+    <string name="action_delete">Delete</string>
+    <string name="delete_account_recent_login">For your security, sign in again before deleting your account.</string>
+    <string name="account_deleted">Your account has been deleted.</string>
+
+    <!-- Notifications -->
+    <string name="settings_notifications">Notifications</string>
+    <string name="settings_notify_activities">New activities</string>
+    <string name="settings_notify_activities_desc">When a new activity is posted.</string>
+    <string name="settings_notify_announcements">Announcements</string>
+    <string name="settings_notify_announcements_desc">When the Philisa team posts an update.</string>
+    <string name="settings_notify_full">Activity full</string>
+    <string name="settings_notify_full_desc">When every spot on an activity has been taken.</string>
+    <string name="settings_notifications_blocked">Notifications for this app are turned off on your phone.</string>
+    <string name="settings_notifications_turn_on">Turn on notifications</string>
+    <string name="channel_activities">New activities</string>
+    <string name="channel_activities_desc">New volunteer activities you can join.</string>
+    <string name="channel_announcements">Announcements</string>
+    <string name="channel_announcements_desc">Updates from the Philisa team.</string>
+    <string name="channel_full">Full activities</string>
+    <string name="channel_full_desc">Activities where every spot has been taken.</string>
+    <string name="notify_new_activity">New activity: %1$s</string>
+    <string name="notify_activity_full">Activity full: %1$s</string>
+    <string name="notify_open_to_see">Open the app to see them.</string>
 </resources>

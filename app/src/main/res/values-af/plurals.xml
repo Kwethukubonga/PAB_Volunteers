@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <plurals name="opportunities_open">
+        <item quantity="one">%1$d geleentheid oop</item>
+        <item quantity="other">%1$d geleenthede oop</item>
+    </plurals>
+
+    <plurals name="favourites_saved">
+        <item quantity="one">%1$d geleentheid gestoor</item>
+        <item quantity="other">%1$d geleenthede gestoor</item>
+    </plurals>
+
+    <plurals name="announcements_count">
+        <item quantity="one">%1$d boodskap van die span</item>
+        <item quantity="other">%1$d boodskappe van die span</item>
+    </plurals>
+
+    <plurals name="registered_volunteers">
+        <item quantity="one">%1$d geregistreerde vrywilliger</item>
+        <item quantity="other">%1$d geregistreerde vrywilligers</item>
+    </plurals>
+
+    <plurals name="spots_left">
+        <item quantity="one">%1$d plek oor</item>
+        <item quantity="other">%1$d plekke oor</item>
+    </plurals>
+
+    <plurals name="spots_available">
+        <item quantity="one">%1$d plek beskikbaar</item>
+        <item quantity="other">%1$d plekke beskikbaar</item>
+    </plurals>
+
+    <plurals name="notify_new_activities">
+        <item quantity="one">%1$d nuwe aktiwiteit om by aan te sluit</item>
+        <item quantity="other">%1$d nuwe aktiwiteite om by aan te sluit</item>
+    </plurals>
+
+    <plurals name="notify_new_announcements">
+        <item quantity="one">%1$d nuwe aankondiging</item>
+        <item quantity="other">%1$d nuwe aankondigings</item>
+    </plurals>
+
+    <plurals name="notify_activities_full">
+        <item quantity="one">%1$d aktiwiteit is nou vol</item>
+        <item quantity="other">%1$d aktiwiteite is nou vol</item>
+    </plurals>
+
+    <plurals name="notify_all_spots_taken">
+        <item quantity="one">Die %1$d plek is gevul.</item>
+        <item quantity="other">Al %1$d plekke is gevul.</item>
+    </plurals>
+
+</resources>
