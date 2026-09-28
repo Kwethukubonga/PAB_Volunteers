@@ -73,7 +73,7 @@
                 android:layout_marginBottom="@dimen/spacing_md"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:shadowColor="#99000000"
+                android:shadowColor="@color/text_shadow"
                 android:shadowDx="0"
                 android:shadowDy="1"
                 android:shadowRadius="4"

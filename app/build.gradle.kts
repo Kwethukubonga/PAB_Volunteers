@@ -65,7 +65,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             if (hasReleaseKeystore) {
                 signingConfig = signingConfigs.getByName("release")
@@ -80,6 +81,14 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+    }
+
+    testOptions {
+        unitTests {
+            // Firebase exception types touch android.text.TextUtils, which is not real in a
+            // plain JVM test. Without this every one of them throws instead of being built.
+            isReturnDefaultValues = true
+        }
     }
 
     buildFeatures {

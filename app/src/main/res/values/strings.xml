@@ -254,7 +254,9 @@
     <string name="error_enter_email">Enter your email address</string>
     <string name="error_enter_email_first">Enter your email address first</string>
     <string name="error_invalid_email">Enter a valid email address</string>
-    <string name="error_password_short">Password must be at least 6 characters</string>
+    <string name="error_enter_password">Enter your password</string>
+    <string name="error_password_short">Password must be at least 8 characters</string>
+    <string name="error_password_symbol">Password must include a symbol, like ! or #</string>
     <string name="error_passwords_mismatch">Passwords do not match</string>
     <string name="error_first_name">Enter your first name</string>
     <string name="error_last_name">Enter your last name</string>

@@ -35,4 +35,6 @@
 
     <!-- Stat tiles -->
     <color name="tile_lavender">#EDE9FE</color>
+    <!-- Drop shadow behind text sitting on a photo. -->
+    <color name="text_shadow">#99000000</color>
 </resources>

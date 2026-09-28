@@ -1,0 +1,137 @@
+name: Android CI
+
+# Runs on every push to a shared branch and on every pull request into them,
+# so nothing reaches develop or master without the checks passing.
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+  workflow_dispatch:
+
+concurrency:
+  # A new push replaces a run that is still going for the same branch.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Add the picture service details
+        run: |
+          echo "cloudinary.cloud.name=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> local.properties
+          echo "cloudinary.upload.preset=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> local.properties
+
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --no-daemon
+
+      - name: Keep the test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-report
+          path: app/build/reports/tests/testDebugUnitTest/
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Add the picture service details
+        run: |
+          echo "cloudinary.cloud.name=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> local.properties
+          echo "cloudinary.upload.preset=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> local.properties
+
+      # Lint errors fail the build. Missing translations are one of them, which is how
+      # an untranslated string gets caught before it reaches a release.
+      - name: Run lint
+        run: ./gradlew lintDebug --no-daemon
+
+      - name: Keep the lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-debug.html
+
+  rules:
+    name: Security rules tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      # These run against the Firestore emulator, so they prove the real rules file
+      # refuses what it should without touching the live database.
+      - name: Install the test tools
+        working-directory: firestore-tests
+        run: npm ci
+
+      - name: Run the rules tests
+        working-directory: firestore-tests
+        run: npm test
+
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    # Only worth building once the checks above are green.
+    needs: [test, lint, rules]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Add the picture service details
+        run: |
+          echo "cloudinary.cloud.name=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> local.properties
+          echo "cloudinary.upload.preset=${{ secrets.CLOUDINARY_UPLOAD_PRESET }}" >> local.properties
+
+      - name: Build the debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Publish the APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: pab-volunteers-debug
+          path: app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30
