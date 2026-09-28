@@ -17,15 +17,16 @@ Developed by **Team KANTU** for **Philisa Abafazi Bethu**
 7. [Features](#7-features)
 8. [Technology Stack](#8-technology-stack)
 9. [System Architecture](#9-system-architecture)
-10. [Design Patterns](#10-design-patterns)
-11. [Data Model](#11-data-model)
-12. [Security and Privacy](#12-security-and-privacy)
-13. [Getting Started](#13-getting-started)
-14. [Project Structure](#14-project-structure)
-15. [DevOps and Development Workflow](#15-devops-and-development-workflow)
-16. [Running Costs](#16-running-costs)
-17. [Project Status and Future Work](#17-project-status-and-future-work)
-18. [The Team](#18-the-team)
+10. [Integrations and the API Layer](#10-integrations-and-the-api-layer)
+11. [Design Patterns](#11-design-patterns)
+12. [Data Model](#12-data-model)
+13. [Security and Privacy](#13-security-and-privacy)
+14. [Getting Started](#14-getting-started)
+15. [Project Structure](#15-project-structure)
+16. [DevOps and Development Workflow](#16-devops-and-development-workflow)
+17. [Running Costs](#17-running-costs)
+18. [Project Status and Future Work](#18-project-status-and-future-work)
+19. [The Team](#19-the-team)
 
 ---
 
@@ -51,6 +52,7 @@ Anyone who wants to get involved can create an account, fill in a short two-step
 
 - Is available in **English, isiXhosa and Afrikaans**
 - Supports **light and dark mode**
+- Adapts to **phones and tablets**, in portrait and landscape
 - Keeps working when the phone loses signal
 
 This README covers the background to the project, its requirements, how the app is built, and how to get it running on your own machine.
@@ -153,7 +155,7 @@ Philisa Volunteers solves these problems by giving volunteers and staff one app 
 
 ## 5. Non-Functional Requirements
 
-### 5.1 Accessibility
+### 5.1 Languages and Themes
 
 *The app should be usable by people with different levels of digital experience and language preferences.*
 
@@ -161,7 +163,24 @@ Philisa Volunteers solves these problems by giving volunteers and staff one app 
 - Clear labels and simple bottom navigation
 - Light and dark themes
 
-### 5.2 Usability
+### 5.2 Responsiveness and Screen Sizes
+
+*The app should adapt smoothly to phones and tablets, in portrait and landscape.*
+
+- **Tablet layouts:** dedicated layouts make use of the extra space on larger screens.
+- **Landscape:** the Welcome screen has its own landscape layout.
+- **Two-column lists:** lists switch to two columns on a tablet.
+- **One set of layouts:** this is done with Android's alternate resource folders, not duplicated layouts. One set of layouts serves every screen size, so a change only has to be made once.
+
+### 5.3 Accessibility Standards
+
+*The app should meet Android's accessibility guidelines.*
+
+- **Touch targets:** every button and tappable control is at least **48dp**, Android's recommended minimum.
+- **Text scaling:** all text scales with the phone's font size setting, and the app still works at the largest size.
+- **Languages and themes:** English, isiXhosa and Afrikaans, with light and dark mode (see 5.1).
+
+### 5.4 Usability
 
 *Users should be able to use the app without training.*
 
@@ -169,14 +188,14 @@ Philisa Volunteers solves these problems by giving volunteers and staff one app 
 - Friendly messages on empty screens, for example *"You haven't joined an activity yet"*
 - A confirmation step before leaving an activity or deleting an account
 
-### 5.3 Reliability
+### 5.5 Reliability
 
 *The app should keep working when the connection drops, without losing information.*
 
 - Firestore's offline cache lets volunteers see their data without signal
 - Joining an activity uses a database transaction, so two people can never take the last spot
 
-### 5.4 Performance
+### 5.6 Performance
 
 *Screens and key actions should respond quickly.*
 
@@ -184,26 +203,26 @@ Philisa Volunteers solves these problems by giving volunteers and staff one app 
 - Lists use RecyclerView
 - Pull-to-refresh on list screens
 
-### 5.5 Availability
+### 5.7 Availability
 
 *The system should be available when volunteers need it.*
 
 - Firebase is a managed Google Cloud service
 - Target of **99.9% uptime**
 
-### 5.6 Scalability
+### 5.8 Scalability
 
 *The app should grow with PAB without needing to be rebuilt.*
 
 - A layered, modular code structure
 - A database that scales automatically
 
-### 5.7 Security
+### 5.9 Security
 
 *Personal information must be protected, and access restricted by role.*
 
 - Firebase Security Rules on every collection
-- The rules are tested automatically against the Firestore emulator
+- **25 security rules tests** run automatically against the Firestore emulator on every push
 
 ---
 
@@ -497,38 +516,217 @@ The app is organised into layers, so each part has one job and changes in one pl
 
 ---
 
-## 10. Design Patterns
+## 10. Integrations and the API Layer
 
-### 10.1 Repository
+The app connects to three external services. All of them are reached through the data layer, so no screen ever talks to a network service directly.
+
+### 10.1 External Services
+
+| Service | What It Does | How We Connect |
+|---------|--------------|----------------|
+| Cloudinary | Hosts announcement pictures | REST API over HTTPS, with our own client |
+| Firebase Authentication | Sign-in, Google Sign-In, password reset | Official Android SDK |
+| Cloud Firestore | Stores every record, plus the offline cache | Official Android SDK |
+
+**Why we use the SDKs for Firebase:**
+
+- They give us an offline cache, automatic retries and token refresh without extra code.
+- Raw REST calls would have meant more code and worse behaviour on a poor connection.
+- This matters for volunteers in areas with unreliable signal.
+
+### 10.2 The Repository Layer (Internal API)
+
+- Six repositories expose **32 operations**. Together, these are the app's internal API.
+- Screens and ViewModels only ever call these operations.
+- All operations are `suspend` functions, so nothing freezes the screen.
+
+**Every operation follows the same rule:**
+
+| Type of Operation | Returns | Why |
+|-------------------|---------|-----|
+| Writes (anything that changes data) | `Result<T>` | The caller has to handle a possible failure |
+| Reads | The value, or `null` if nothing is there | Simple to use |
+
+```kotlin
+// Writes return Result, so failure must be handled
+suspend fun join(activity: Activity, user: User): Result<Unit>
+suspend fun createActivity(activity: Activity, createdBy: String): Result<String>
+
+// Reads return the value, or null
+suspend fun getUser(uid: String): User?
+suspend fun getPublishedActivities(): List<Activity>
+```
+
+**Why this matters:** announcement pictures were first hosted with a different provider, which started refusing our uploads. Because screens call an uploader, not a specific provider, switching to Cloudinary only changed **one file**. No screen or ViewModel had to change.
+
+### 10.3 The Cloudinary REST Client
+
+Announcement pictures are uploaded through Cloudinary's REST API. We wrote the client ourselves in `data/remote/ImageUploader.kt`, instead of using a library, so every part of the request is clear.
+
+| Part | Detail |
+|------|--------|
+| Endpoint | `POST https://api.cloudinary.com/v1_1/{cloud_name}/image/upload` |
+| Content type | `application/x-www-form-urlencoded` |
+| Request body | The picture as a base64 data URI, plus the `upload_preset` |
+| Success | HTTP 200–299 |
+| Response used | `secure_url`, the HTTPS link to the stored picture |
+| Timeouts | 30 seconds to connect, 30 seconds to read |
+
+```kotlin
+val code = connection.responseCode
+val stream = if (code in 200..299) connection.inputStream else connection.errorStream
+val response = stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+
+if (code !in 200..299) throw failureFor(response, code)
+return JSONObject(response).getString("secure_url")
+```
+
+- The status code decides whether to read the success or the error response.
+- Upload preset problems get their own message. Other errors keep Cloudinary's own wording, so the reason isn't lost.
+- Firestore only stores the returned link. The picture itself never goes into the database.
+
+**Why the upload is unsigned:**
+
+- A signed upload needs Cloudinary's secret key.
+- Anything inside an APK can be extracted by whoever downloads it.
+- So we use an unsigned upload preset instead. No secret ships with the app, and what uploads are allowed to do is controlled on Cloudinary's side.
+
+### 10.4 Error Handling
+
+Each service reports errors differently. All of them are translated in one place, `utils/ErrorMessages.kt`, into a clear message the user can act on.
+
+| Error | What the User Sees |
+|-------|--------------------|
+| Firestore `UNAVAILABLE` or `DEADLINE_EXCEEDED` | A "no connection" message |
+| Firestore `PERMISSION_DENIED` | A clear permission message |
+| Wrong password | "Incorrect email or password" |
+| Email already registered | "That email already has an account" |
+| Failed transaction, e.g. activity full | The real reason, found inside the wrapped error |
+
+**Other details:**
+
+- **Offline writes:** the app checks the connection before saving. Firestore quietly queues writes while offline, so without this check a save would seem to hang forever.
+- **Correct language:** messages are stored as string resources and only turned into words by the screen that shows them, so errors appear in the language the user chose.
+- **Tested:** 11 unit tests cover this mapping, including one that checks every error leads to a real message.
+
+---
+
+## 11. Design Patterns
+
+### 11.1 Repository
 
 - **Used in:** `AuthRepository`, `UserRepository`, `ActivityRepository`, `SignupRepository`, `AnnouncementRepository`, `AccountRepository`
 - **Why:** keeps all Firebase code in one place. Screens never call Firestore directly, so the database could change without rewriting the UI.
 
-### 10.2 MVVM (Model–View–ViewModel)
+### 11.2 MVVM (Model–View–ViewModel)
 
 - **Used in:** `VolunteerViewModel`, `AdminViewModel`, `AuthViewModel`, `ProfileSetupViewModel`
 - **Why:** separates what the screen shows from how the data is loaded, and keeps state when the phone is rotated.
 
-### 10.3 Observer
+### 11.3 Observer
 
 - **Used in:** LiveData in the ViewModels
 - **Why:** screens update automatically when the data they are watching changes.
 
-### 10.4 Singleton
+### 11.4 Singleton
 
 - **Used in:** `FirestoreManager`, `FirebaseAuthManager`, `AppLanguage`, `ThemePreference`
 - **Why:** one shared database connection and one place for app settings.
 
-### 10.5 Adapter
+### 11.5 Adapter
 
 - **Used in:** `ActivityAdapter`, `AnnouncementAdapter`, `VolunteerAdapter`, `SignupAdapter` and others
 - **Why:** turns lists of data into rows on screen.
 
 ---
 
-## 11. Data Model
+## 12. Data Model
 
-### 11.1 Firestore Collections
+### 12.1 Entity Relationship Diagram
+
+The diagram below shows the four Firestore collections, their primary keys (PK), foreign keys (FK) and how they relate, using crow's foot notation. GitHub draws it automatically.
+
+```mermaid
+erDiagram
+    USERS ||--o{ ACTIVITY_SIGNUPS : "signs up"
+    ACTIVITIES ||--o{ ACTIVITY_SIGNUPS : "is joined through"
+    USERS ||--o{ ACTIVITIES : "creates (admin)"
+    USERS ||--o{ ANNOUNCEMENTS : "posts (admin)"
+    USERS }o--o{ ANNOUNCEMENTS : "gives thumbs up"
+    USERS }o--o{ ACTIVITIES : "saves as favourite"
+
+    USERS {
+        string uid PK
+        string firstName
+        string lastName
+        string email
+        string phone
+        string area
+        list programmeInterests
+        list favouriteActivityIds FK
+        string role
+        string volunteerId
+        boolean profileComplete
+        long joinedDate
+    }
+
+    ACTIVITIES {
+        string id PK
+        string title
+        string programme
+        string date
+        long dateMillis
+        string startTime
+        string endTime
+        string location
+        string volunteerRole
+        int totalSpots
+        int filledSpots
+        string description
+        string status
+        string createdBy FK
+        long createdDate
+        long publishedAt
+    }
+
+    ACTIVITY_SIGNUPS {
+        string id PK "activityId_userId"
+        string activityId FK
+        string userId FK
+        string volunteerName
+        string activityTitle
+        string programme
+        string date
+        long dateMillis
+        string startTime
+        string endTime
+        string location
+        long signedUpDate
+    }
+
+    ANNOUNCEMENTS {
+        string id PK
+        string title
+        string messageBody
+        string imageUrl
+        long date
+        string status
+        string createdBy FK
+        long publishedAt
+        list thumbsUpBy FK
+    }
+```
+
+| Relationship | Cardinality | Meaning |
+|--------------|-------------|---------|
+| Users → Activity Signups | One to many | A volunteer can join many activities |
+| Activities → Activity Signups | One to many | An activity can have many volunteers, up to `totalSpots` |
+| Users → Activities | One to many | An admin creates many activities |
+| Users → Announcements | One to many | An admin posts many announcements |
+| Users ↔ Announcements | Many to many | Volunteers give thumbs up, stored in `thumbsUpBy` |
+| Users ↔ Activities | Many to many | Volunteers save favourites, stored in `favouriteActivityIds` |
+
+### 12.2 Collections and Fields
 
 | Collection | What It Stores |
 |------------|----------------|
@@ -586,7 +784,7 @@ The app is organised into layers, so each part has one job and changes in one pl
 | `createdBy`, `publishedAt` | String / Number | Who posted it and when |
 | `thumbsUpBy` | List | Volunteers who gave it a thumbs up |
 
-### 11.2 Design Decisions
+### 12.3 Design Decisions
 
 **1. Sign-up IDs are `activityId_userId`**
 
@@ -613,7 +811,7 @@ The app is organised into layers, so each part has one job and changes in one pl
 - `fullName`, `isAdmin` and `spotsRemaining` are worked out in the app.
 - They are never saved to Firestore, so they can't get out of sync.
 
-### 11.3 Status Values
+### 12.4 Status Values
 
 | Field | Possible Values |
 |-------|-----------------|
@@ -623,9 +821,9 @@ The app is organised into layers, so each part has one job and changes in one pl
 
 ---
 
-## 12. Security and Privacy
+## 13. Security and Privacy
 
-### 12.1 Firebase Security Rules
+### 13.1 Firebase Security Rules
 
 All access is controlled by `firestore.rules`.
 
@@ -656,9 +854,9 @@ All access is controlled by `firestore.rules`.
 - Volunteers see their own places.
 - Admins see who signed up for what.
 
-### 12.2 Other Measures
+### 13.2 Other Measures
 
-- **Rules testing:** the rules are tested against the Firebase emulator on every push.
+- **Rules testing:** 25 automated tests run against the Firebase emulator on every push. They prove, for example, that a volunteer can't make themselves an admin or edit anyone else's profile.
 - **Passwords:** at least 8 characters, including a symbol.
 - **Account deletion:**
   - Users can delete their own account and data at any time, in line with POPIA.
@@ -671,9 +869,9 @@ All access is controlled by `firestore.rules`.
 
 ---
 
-## 13. Getting Started
+## 14. Getting Started
 
-### 13.1 What You Will Need
+### 14.1 What You Will Need
 
 - Android Studio (latest stable version)
 - JDK 17
@@ -681,32 +879,46 @@ All access is controlled by `firestore.rules`.
 - Git
 - Node.js 20 (only needed to run the security rules tests or the seed script)
 
-### 13.2 Setting Up the Project
+### 14.2 Setting Up the Project
 
-1. Clone the repository and switch to the `develop` branch, which holds the latest working code:
+**Step 1: Clone the repository**
+
+Switch to the `develop` branch, which holds the latest working code.
+
 ```bash
-   git clone https://github.com/Kwethukubonga/PAB_Volunteers.git
-   cd PAB_Volunteers
-   git checkout develop
+git clone https://github.com/Kwethukubonga/PAB_Volunteers.git
+cd PAB_Volunteers
+git checkout develop
 ```
-2. Open the `PAB_Volunteers` folder in Android Studio.
-3. Copy `local.properties.example` to `local.properties` and add the Cloudinary details (ask a team member):
+
+**Step 2: Open the project**
+
+Open the `PAB_Volunteers` folder in Android Studio.
+
+**Step 3: Add the Cloudinary details**
+
+Copy `local.properties.example` to `local.properties`, then add the Cloudinary details (ask a team member for them).
+
 ```properties
-   cloudinary.cloud.name=YOUR_CLOUD_NAME
-   cloudinary.upload.preset=YOUR_UPLOAD_PRESET
+cloudinary.cloud.name=YOUR_CLOUD_NAME
+cloudinary.upload.preset=YOUR_UPLOAD_PRESET
 ```
-   The app still runs without these, but picture uploads on announcements won't work.
-4. Wait for Gradle to sync, then choose a device and click **Run**.
 
-The Firebase configuration (`google-services.json`) and a shared debug keystore are already included, so Google Sign-In works on every team member's debug build.
+The app still runs without these, but picture uploads on announcements won't work.
 
-### 13.3 Creating an Admin Account
+**Step 4: Run the app**
+
+Wait for Gradle to sync, then choose a device and click **Run**.
+
+> **Note:** The Firebase configuration (`google-services.json`) and a shared debug keystore are already included, so Google Sign-In works on every team member's debug build.
+
+### 14.3 Creating an Admin Account
 
 1. Sign up in the app as normal.
 2. In the Firebase console, go to **Firestore > users**, find your record, and change `role` from `volunteer` to `admin`.
 3. Sign out and sign back in to open the admin area.
 
-### 13.4 Adding Sample Data
+### 14.4 Adding Sample Data
 
 The seed script adds one sample activity and one announcement for each PAB programme. You'll need a Firebase service account key, which must **never** be committed.
 
@@ -718,7 +930,7 @@ node seed.js --key <path to key file>  # adds the samples
 node seed.js --key <path to key file> --remove   # removes them again
 ```
 
-### 13.5 Useful Commands
+### 14.5 Useful Commands
 
 | Task | Windows | macOS / Linux |
 |------|---------|---------------|
@@ -729,7 +941,7 @@ node seed.js --key <path to key file> --remove   # removes them again
 
 ---
 
-## 14. Project Structure
+## 15. Project Structure
 
 ```
 PAB_Volunteers/
@@ -754,7 +966,7 @@ PAB_Volunteers/
 │       │   │   └── settings/           # Theme, language, notifications, delete account
 │       │   ├── utils/                  # Language, theme, dates, phone numbers, errors
 │       │   └── PabApplication.kt
-│       ├── main/res/                   # Layouts, drawables, strings (en, xh, af), themes
+│       ├── main/res/                   # Layouts (incl. tablet and landscape), strings (en, xh, af), themes
 │       └── test/                       # Unit tests
 ├── firestore-tests/                    # Security rules tests (Firebase emulator)
 ├── tools/seed/                         # Sample data script
@@ -767,9 +979,9 @@ PAB_Volunteers/
 
 ---
 
-## 15. DevOps and Development Workflow
+## 16. DevOps and Development Workflow
 
-### 15.1 Branching Strategy
+### 16.1 Branching Strategy
 
 | Branch | Purpose |
 |--------|---------|
@@ -781,15 +993,15 @@ PAB_Volunteers/
  feature/* ─► Pull Request ─► CI checks ─► Peer review ─► develop ─► master
 ```
 
-### 15.2 Continuous Integration
+### 16.2 Continuous Integration
 
 GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 
 | Step | Job | What It Does |
 |:----:|-----|--------------|
-| 1 | Unit tests | Runs the unit tests and saves a report |
+| 1 | Unit tests | Runs all 66 unit tests and saves a report |
 | 1 | Lint | Checks the code for errors, including missing translations |
-| 1 | Rules | Tests the Firestore security rules |
+| 1 | Rules | Runs all 25 security rules tests |
 | 2 | Build APK | Builds the app, once all three checks pass |
 
 - Jobs in step 1 run at the same time.
@@ -797,18 +1009,28 @@ GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 - A new push cancels any run still going for the same branch.
 - Cloudinary details come from GitHub Secrets, so they never appear in the code.
 
-### 15.3 Testing
+### 16.3 Testing
 
-**Unit tests**
+The project has **91 automated tests**, and all of them run on every push.
+
+| Type | Number of Tests | Runs On |
+|------|:---------------:|---------|
+| Unit tests | 66 | Every push (JUnit) |
+| Security rules tests | 25 | Every push (Firebase emulator) |
+| **Total** | **91** | |
+
+**Unit tests cover:**
 
 - Data models
-- Utilities
-- Phone number validation
+- Utilities, including phone number validation
+- Error handling (11 tests, see section 10.4)
 
-**Security rules tests**
+**Security rules tests prove, for example, that:**
 
-- Users can only read and change what they should.
-- For example, a volunteer can't make themselves an admin.
+- A volunteer can't make themselves an admin
+- A volunteer can't change another person's profile
+- A volunteer can't change their own email, volunteer ID or join date
+- A volunteer can only read their own record, while an admin can read everyone's
 
 **Device testing**
 
@@ -819,13 +1041,26 @@ GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 
 - PAB representatives will test the app before release.
 
+### 16.4 Hosting and Distribution
+
+The app will be shared through a simple download page on **Firebase Hosting**, so PAB can send volunteers a link to install it.
+
+- **Download page:** *link to be added once live*
+- **Status:** in progress
+
+**Before publishing a build:**
+
+1. **Create a release keystore.** Register its SHA-1 fingerprint in the Firebase console, or Google Sign-In won't work on the hosted build.
+2. **Work around the `.apk` block.** Firebase Hosting's free plan blocks files ending in `.apk`. Serve the file under a different extension, with a `Content-Disposition` header, so it still downloads with the correct `.apk` filename.
+
 ---
 
-## 16. Running Costs
+## 17. Running Costs
 
 | Item | Service | Estimated Cost |
 |------|---------|----------------|
-| Android distribution | Google Play Console | US$25 once-off (approximately R460) |
+| App download page | Firebase Hosting | R0 on the free plan |
+| Google Play (optional, later) | Google Play Console | US$25 once-off (approximately R460) |
 | Authentication | Firebase Authentication | R0 within free limits |
 | Database | Cloud Firestore | R0 within free limits |
 | Picture hosting | Cloudinary | R0 on the free plan |
@@ -833,9 +1068,9 @@ GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 
 ---
 
-## 17. Project Status and Future Work
+## 18. Project Status and Future Work
 
-### 17.1 Current Status
+### 18.1 Current Status
 
 | Area | Status |
 |------|:------:|
@@ -848,11 +1083,14 @@ GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 | English, isiXhosa and Afrikaans | ✔ Complete |
 | Light and dark mode | ✔ Complete |
 | Firestore Security Rules and rules tests | ✔ Complete |
+| Tablet, landscape and accessibility support | ✔ Complete |
+| 91 automated tests | ✔ Complete |
 | GitHub Actions pipeline | ✔ Complete |
+| Release build and hosted download page (Firebase Hosting) | ⏳ In progress |
 | User Acceptance Testing with PAB | ☐ Planned |
-| Release build and Google Play distribution | ☐ Planned |
+| Google Play distribution | ☐ Planned |
 
-### 17.2 Possible Future Improvements
+### 18.2 Possible Future Improvements
 
 - Instant push notifications through Firebase Cloud Messaging, instead of checking every 15 minutes.
 - WhatsApp or SMS reminders for volunteers.
@@ -860,7 +1098,7 @@ GitHub Actions runs on every push and Pull Request to `master` and `develop`.
 
 ---
 
-## 18. The Team
+## 19. The Team
 
 Philisa Volunteers is being developed by **Team KANTU**:
 
