@@ -21,8 +21,8 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
                 android:background="@drawable/bg_icon_button"
                 android:contentDescription="@string/action_back"
                 android:padding="@dimen/spacing_sm"

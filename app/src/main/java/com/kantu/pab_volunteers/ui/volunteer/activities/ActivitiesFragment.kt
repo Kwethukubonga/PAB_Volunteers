@@ -14,6 +14,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentActivitiesBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Opportunities to join, with a second tab for the ones a volunteer has saved. */
@@ -52,7 +53,7 @@ class ActivitiesFragment : Fragment() {
                 viewModel.setFavourite(activity.id, favourite)
             }
         )
-        binding.rvActivities.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvActivities.layoutManager = ListLayout.forCards(requireContext())
         binding.rvActivities.adapter = adapter
 
         setUpTabs()

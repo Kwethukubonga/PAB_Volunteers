@@ -21,8 +21,8 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
                 android:background="@drawable/bg_icon_button"
                 android:contentDescription="@string/action_back"
                 android:padding="@dimen/spacing_sm"
@@ -51,14 +51,27 @@
                 tools:text="October Community Kitchen Needs You" />
         </LinearLayout>
 
+        <!-- The message comes first, so the picture supports what was said rather than
+             pushing it below the fold. -->
+        <TextView
+            android:id="@+id/tvBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_lg"
+            android:lineSpacingMultiplier="1.4"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            tools:text="Round off October with our Community Feeding programme's kitchen day." />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardImage"
             style="@style/Widget.PAB.Card"
+            app:contentPadding="0dp"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/announcement_image_height"
             android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginTop="@dimen/spacing_lg"
             android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -69,16 +82,6 @@
                 android:contentDescription="@string/label_image_optional"
                 android:scaleType="centerCrop" />
         </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:id="@+id/tvBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_lg"
-            android:lineSpacingMultiplier="1.4"
-            android:textColor="@color/text_primary"
-            android:textSize="@dimen/text_body"
-            tools:text="Round off October with our Community Feeding programme's kitchen day." />
 
         <LinearLayout
             android:id="@+id/layoutThumbsUp"

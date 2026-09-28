@@ -8,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentHomeBinding
@@ -17,6 +16,7 @@ import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.community.AnnouncementAdapter
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 import java.util.Calendar
 
@@ -46,13 +46,13 @@ class HomeFragment : Fragment() {
         activityAdapter = ActivityAdapter(emptyList()) { activity ->
             VolunteerNavGraph.toActivityDetails(findNavController(), activity.id)
         }
-        binding.rvComingUp.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvComingUp.layoutManager = ListLayout.forCards(requireContext())
         binding.rvComingUp.adapter = activityAdapter
 
         announcementAdapter = AnnouncementAdapter(emptyList()) { announcement ->
             VolunteerNavGraph.toAnnouncementDetails(findNavController(), announcement.id)
         }
-        binding.rvAnnouncements.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAnnouncements.layoutManager = ListLayout.forCards(requireContext())
         binding.rvAnnouncements.adapter = announcementAdapter
 
         binding.statToday.tvStatLabel.setText(R.string.stat_today)

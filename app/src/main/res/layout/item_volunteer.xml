@@ -5,6 +5,8 @@
     style="@style/Widget.PAB.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_gutter"
+    android:layout_marginEnd="@dimen/card_gutter"
     android:layout_marginBottom="@dimen/spacing_sm"
     android:clickable="true"
     android:focusable="true"

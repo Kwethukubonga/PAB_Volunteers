@@ -5,6 +5,8 @@
     style="@style/Widget.PAB.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_gutter"
+    android:layout_marginEnd="@dimen/card_gutter"
     android:layout_marginBottom="@dimen/spacing_md"
     android:clickable="true"
     android:focusable="true"
@@ -54,8 +56,8 @@
 
             <ImageButton
                 android:id="@+id/btnFavourite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
                 android:layout_gravity="top|end"
                 android:layout_margin="@dimen/spacing_sm"
                 android:background="@drawable/bg_icon_button"

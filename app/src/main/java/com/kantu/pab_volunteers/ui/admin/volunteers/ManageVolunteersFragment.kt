@@ -13,6 +13,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentManageVolunteersBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** A directory of registered volunteers. Viewing only: nobody can be removed from here. */
@@ -41,7 +42,7 @@ class ManageVolunteersFragment : Fragment() {
         adapter = VolunteerAdapter(emptyList()) { user ->
             AdminNavGraph.toVolunteerDetails(findNavController(), user.uid)
         }
-        binding.rvItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvItems.layoutManager = ListLayout.forCards(requireContext())
         binding.rvItems.adapter = adapter
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }

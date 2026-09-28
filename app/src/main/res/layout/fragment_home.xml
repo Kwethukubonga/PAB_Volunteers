@@ -80,15 +80,23 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Stats -->
-            <LinearLayout
+            <!-- Stats. Capped and centred, so four tiles do not stretch across a tablet. -->
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_lg"
                 android:layout_marginTop="@dimen/spacing_lg"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/spacing_lg">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_max="@dimen/content_max_width">
 
                 <include
                     android:id="@+id/statToday"
@@ -118,6 +126,7 @@
                     android:id="@+id/statHours"
                     layout="@layout/item_stat_tile" />
             </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <!-- My next activities -->
             <LinearLayout
