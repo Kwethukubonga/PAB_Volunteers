@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentManageActivitiesBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ManageActivitiesFragment : Fragment() {
@@ -46,7 +47,7 @@ class ManageActivitiesFragment : Fragment() {
             onEdit = { AdminNavGraph.toActivityEditor(findNavController(), it.id) },
             onDelete = { confirmDelete(it) }
         )
-        binding.rvItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvItems.layoutManager = ListLayout.forCards(requireContext())
         binding.rvItems.adapter = adapter
 
         binding.btnAdd.setOnClickListener {

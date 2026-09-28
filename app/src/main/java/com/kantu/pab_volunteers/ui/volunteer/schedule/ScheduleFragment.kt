@@ -16,6 +16,7 @@ import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** The volunteer's own places, split into the ones still to come and the ones already done. */
@@ -48,7 +49,7 @@ class ScheduleFragment : Fragment() {
         adapter = ActivityAdapter(emptyList()) { activity ->
             VolunteerNavGraph.toActivityDetails(findNavController(), activity.id)
         }
-        binding.rvSchedule.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvSchedule.layoutManager = ListLayout.forCards(requireContext())
         binding.rvSchedule.adapter = adapter
 
         setUpTabs()

@@ -21,8 +21,8 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
                 android:background="@drawable/bg_icon_button"
                 android:contentDescription="@string/action_back"
                 android:padding="@dimen/spacing_sm"
@@ -96,6 +96,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardImage"
                 style="@style/Widget.PAB.Card"
+            app:contentPadding="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
                 android:layout_marginTop="@dimen/spacing_sm"

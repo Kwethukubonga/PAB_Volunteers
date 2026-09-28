@@ -14,6 +14,7 @@ import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.databinding.FragmentCommunityBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Announcements from the Philisa team. */
@@ -48,7 +49,7 @@ class CommunityFragment : Fragment() {
         ) { announcement ->
             VolunteerNavGraph.toAnnouncementDetails(findNavController(), announcement.id)
         }
-        binding.rvAnnouncements.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvAnnouncements.layoutManager = ListLayout.forCards(requireContext())
         binding.rvAnnouncements.adapter = adapter
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }

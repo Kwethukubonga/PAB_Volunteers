@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.databinding.FragmentManageAnnouncementsBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ManageAnnouncementsFragment : Fragment() {
@@ -45,7 +46,7 @@ class ManageAnnouncementsFragment : Fragment() {
             onEdit = { AdminNavGraph.toAnnouncementEditor(findNavController(), it.id) },
             onDelete = { confirmDelete(it) }
         )
-        binding.rvItems.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvItems.layoutManager = ListLayout.forCards(requireContext())
         binding.rvItems.adapter = adapter
 
         binding.btnAdd.setOnClickListener {

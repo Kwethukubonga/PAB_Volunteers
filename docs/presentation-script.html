@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>PAB Volunteers — Presentation Script</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 10pt; line-height: 1.42; color: #1a1a22; margin: 0;
+  }
+  h1 { font-size: 26pt; margin: 0 0 4pt; color: #4c1d95; letter-spacing: -0.5pt; }
+  h2 {
+    font-size: 14pt; margin: 0 0 10pt; color: #4c1d95;
+    border-bottom: 2.5pt solid #4c1d95; padding-bottom: 4pt;
+  }
+  h3 { font-size: 11.5pt; margin: 14pt 0 5pt; color: #111; }
+  p { margin: 0 0 7pt; }
+  ul, ol { margin: 0 0 8pt; padding-left: 16pt; }
+  li { margin-bottom: 3pt; }
+  table { width: 100%; border-collapse: collapse; margin: 6pt 0 10pt; font-size: 9.5pt; }
+  th { background: #4c1d95; color: #fff; text-align: left; padding: 5pt 7pt; font-weight: 600; }
+  td { border-bottom: 0.5pt solid #d8d8e0; padding: 5pt 7pt; vertical-align: top; }
+  tr:nth-child(even) td { background: #faf9fd; }
+
+  .cover { page-break-after: always; padding-top: 30mm; }
+  .cover .sub { font-size: 13pt; color: #555; margin-bottom: 26pt; }
+  .cover .meta { font-size: 10.5pt; color: #333; }
+  .cover .meta strong { display: inline-block; width: 90pt; color: #4c1d95; }
+
+  .section { page-break-inside: avoid; margin-bottom: 12pt; }
+  .section-head {
+    background: #f3f0fb; border-left: 4pt solid #4c1d95;
+    padding: 6pt 9pt; margin-bottom: 8pt;
+  }
+  .section-head .who { font-size: 13pt; font-weight: 700; color: #4c1d95; }
+  .section-head .time { float: right; font-size: 9.5pt; color: #666; font-weight: 600; }
+  .section-head .marks { font-size: 9pt; color: #666; margin-top: 2pt; }
+
+  .screen {
+    background: #1a1a22; color: #e8e8f0; padding: 7pt 9pt;
+    font-size: 9pt; margin-bottom: 8pt; border-radius: 3pt;
+  }
+  .screen strong { color: #c4b5fd; }
+
+  .say { border-left: 3pt solid #c4b5fd; padding: 2pt 0 2pt 10pt; margin-bottom: 8pt; }
+  .say p { font-style: italic; color: #2a2a35; margin-bottom: 5pt; }
+
+  .note {
+    background: #fff8e6; border: 0.5pt solid #e6c860;
+    padding: 7pt 9pt; margin: 8pt 0; font-size: 9.5pt;
+  }
+  .warn {
+    background: #fdeaea; border: 0.5pt solid #e08080;
+    padding: 7pt 9pt; margin: 8pt 0; font-size: 9.5pt;
+  }
+  .note strong, .warn strong { color: #7a2020; }
+
+  .pagebreak { page-break-before: always; }
+  code {
+    background: #f0eef7; padding: 1pt 3pt; border-radius: 2pt;
+    font-family: Consolas, monospace; font-size: 9pt;
+  }
+  .checklist { font-size: 9.5pt; }
+  .checklist li { margin-bottom: 4pt; }
+  footer { margin-top: 14pt; font-size: 8.5pt; color: #888; text-align: center; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1>Philisa Abafazi Bethu<br>Volunteer App</h1>
+  <p class="sub">Task 2 &mdash; Presentation Script &amp; Running Order</p>
+  <p class="meta"><strong>Module</strong> INSY7315 &mdash; Information Systems 3E, Work Integrated Learning</p>
+  <p class="meta"><strong>Client</strong> Philisa Abafazi Bethu Women Centre SA, Lavender Hill, Cape Town</p>
+  <p class="meta"><strong>Team</strong> Kwethu, Tlhogi, Ash</p>
+  <p class="meta"><strong>Runtime</strong> 11 minutes</p>
+  <p class="meta"><strong>Platform</strong> Native Android, Kotlin, Firebase</p>
+
+  <div class="note" style="margin-top: 26pt;">
+    <strong>How to use this.</strong> The italic lines are what to say. They are written to be
+    spoken, not read out word for word &mdash; learn the shape of each one and use your own
+    words on the day. The dark boxes say what must be on screen while you speak. Every section
+    names the rubric row it is aimed at, so if you run short on time you know what you are
+    giving up.
+  </div>
+</div>
+
+<h2>Before you record</h2>
+
+<p>Do all of this first. Half of these take a minute and losing marks to any of them would be
+painful.</p>
+
+<ul class="checklist">
+  <li><strong>Sign in on the emulator</strong> as a volunteer, and have a second device or account signed in as admin. Switching accounts on camera wastes 40 seconds.</li>
+  <li><strong>Seed the data.</strong> Run the seed script so Activities and Community are full. Empty lists look like an unfinished app.</li>
+  <li><strong>Create the Resizable emulator</strong> (Device Manager &rarr; Resizable Experimental). It has a Display Mode dropdown for Phone / Unfolded / Tablet, so you can switch live on camera.</li>
+  <li><strong>Open your tabs in advance:</strong> the GitHub repo, the Actions tab with a green run, the Pull Requests tab, the Firebase console on the Rules page, and Android Studio.</li>
+  <li><strong>Turn off notifications</strong> on the recording machine. A Slack popup mid-demo reads as unprofessional.</li>
+  <li><strong>Check the mic.</strong> Poor audio is the single most common reason presentations lose marks on the Communication row.</li>
+  <li><strong>Do one dry run</strong> with the timer visible. Aim to finish 30 seconds early.</li>
+</ul>
+
+<div class="warn">
+  <strong>Two gaps to close before filming.</strong>
+  <br><br>
+  <strong>1. Ash has no commits.</strong> The repository history shows two contributors: Tlhogi
+  (24 commits) and Kwethu (22). The GitHub &amp; Version Control row is worth 10 marks and a
+  marker who opens the contributors graph will see two names for a team of three. Get Ash's work
+  committed under Ash's own account before submission, even if it is documentation, the ERD, or
+  the test plan. Do not have someone else commit it for them.
+  <br><br>
+  <strong>2. There is no hosting yet.</strong> The Technical Demo row's top band asks for a
+  &ldquo;client-ready hosted solution&rdquo;. Right now there is no Firebase Hosting set up for this
+  project. Put the signed APK on Firebase Hosting with a download page before you record, and show
+  the live URL in Section 7. Without it the demo is capped below the top band.
+</div>
+
+<h2>Running order</h2>
+
+<table>
+  <tr><th style="width:34pt">Time</th><th style="width:52pt">Who</th><th>Section</th><th style="width:150pt">Rubric row it targets</th></tr>
+  <tr><td>0:00</td><td>Ash</td><td>Opening &mdash; the client and the problem</td><td>Communication (10)</td></tr>
+  <tr><td>0:45</td><td>Ash</td><td>Requirements alignment</td><td>Requirements Alignment (5)</td></tr>
+  <tr><td>1:30</td><td>Tlhogi</td><td>Architecture &amp; system design</td><td>Architecture &amp; System Design (15)</td></tr>
+  <tr><td>3:15</td><td>Kwethu</td><td>Demo 1 &mdash; the volunteer journey</td><td>Technical Demo (20)</td></tr>
+  <tr><td>5:15</td><td>Tlhogi</td><td>Demo 2 &mdash; admin, and the image API</td><td>Technical Demo (20), APIs (20)</td></tr>
+  <tr><td>6:45</td><td>Ash</td><td>Responsiveness &amp; accessibility</td><td>Responsiveness (15)</td></tr>
+  <tr><td>7:45</td><td>Kwethu</td><td>Security, proven not claimed</td><td>Security (20), Architecture (15)</td></tr>
+  <tr><td>9:00</td><td>Kwethu</td><td>GitHub, testing and the pipeline</td><td>GitHub (10), CI/CD (20)</td></tr>
+  <tr><td>10:30</td><td>All</td><td>Hosting and close</td><td>Technical Demo (20)</td></tr>
+</table>
+
+<p>The demo sections are the longest on purpose. Technical Demo &amp; Implementation is the
+heaviest single row on the presentation sheet at 20 marks, and a smooth demo is also the
+evidence a marker trusts most.</p>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">0:00 &ndash; 0:45</span>
+    <div class="who">1. Opening &mdash; Ash</div>
+    <div class="marks">Targets: Presentation &amp; Communication (10 marks)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The app's welcome page, still. Do not move the mouse while talking.</div>
+
+  <div class="say">
+    <p>&ldquo;Good day. We are Kwethu, Tlhogi and Ash, and we built a volunteer management app
+    for Philisa Abafazi Bethu Women Centre SA.&rdquo;</p>
+    <p>&ldquo;Philisa is a non-profit in Lavender Hill, Cape Town. They have run since 2008 and
+    they support around a hundred thousand people across Lavender Hill and five surrounding
+    informal settlements, through ten programmes.&rdquo;</p>
+    <p>&ldquo;Their problem was simple to describe and hard to live with. Volunteers were being
+    coordinated by phone and by WhatsApp. Nobody had a single view of who was coming to what, and
+    the team had no reliable way to reach their volunteers at once.&rdquo;</p>
+    <p>&ldquo;What we will show you is a native Android app, built in Kotlin on Firebase, that is
+    running now. Ash will cover the requirements, Tlhogi the architecture, and then we will
+    demonstrate it.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    Say the client's name properly and say what they do before anything technical. The
+    Communication row rewards a presentation that sounds like it was made <em>for someone</em>.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">0:45 &ndash; 1:30</span>
+    <div class="who">2. Requirements alignment &mdash; Ash</div>
+    <div class="marks">Targets: Requirements Alignment (5 marks)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> A single slide with two columns. Left: what the client asked for. Right: the feature that answers it.</div>
+
+  <div class="say">
+    <p>&ldquo;We took four requirements from the client and mapped each one to something you can
+    open in the app.&rdquo;</p>
+    <p>&ldquo;They needed volunteers to sign themselves up without staff doing admin. So there is
+    no approval queue at all &mdash; anyone signs in with Google or email, sets up a profile, and
+    they are in.&rdquo;</p>
+    <p>&ldquo;They needed to see who is coming to an activity. The admin opens an activity and
+    sees the list of volunteers with their contact details.&rdquo;</p>
+    <p>&ldquo;They needed to reach everyone at once. That is announcements, with an optional
+    picture, and volunteers can react so the team can see what is landing.&rdquo;</p>
+    <p>&ldquo;And they work across three language communities, so the whole app is in English,
+    isiXhosa and Afrikaans.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    The top band wants requirements mapped to features and a justification of how the solution
+    solves the client's problem. The phrase <em>&ldquo;no approval queue, because staff time was
+    the bottleneck&rdquo;</em> is a justification, not just a feature list. Say that kind of thing.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">1:30 &ndash; 3:15</span>
+    <div class="who">3. Architecture &amp; system design &mdash; Tlhogi</div>
+    <div class="marks">Targets: Architecture &amp; System Design (15 marks), Database (20), Data Flow (20)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> Your architecture diagram, then the ERD. Then briefly the Android Studio project tree showing <code>data/model</code>, <code>data/repository</code>, <code>data/remote</code>, <code>ui</code>, <code>utils</code>.</div>
+
+  <div class="say">
+    <p>&ldquo;The app is MVVM with a repository layer. Screens never talk to Firebase. A fragment
+    talks to a ViewModel, the ViewModel talks to a repository, and only the repository knows
+    Firestore exists.&rdquo;</p>
+    <p>&ldquo;That is why we could swap our image provider without touching a single screen. More
+    on that later.&rdquo;</p>
+    <p>&ldquo;The database is Firestore, five collections: users, activities, announcements,
+    activitySignups and the sign-up relationships between them.&rdquo;</p>
+    <p>&ldquo;The important design decision is here. A sign-up document is not given a random ID.
+    Its ID is the activity ID and the user ID joined together. That makes it structurally
+    impossible for one volunteer to hold two places on the same activity &mdash; not unlikely,
+    impossible, because the second write would target the same document.&rdquo;</p>
+    <p>&ldquo;And joining runs in a Firestore transaction. It reads the activity fresh from the
+    server, checks it is still published and still has space, then writes the sign-up and
+    increments the counter together. Either both land or neither does. Two volunteers cannot both
+    take the last spot.&rdquo;</p>
+    <p>&ldquo;On DevOps, every push runs a pipeline in GitHub Actions. Kwethu will show it.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    The top band is &ldquo;expert-level technical defense; deep insight into API design, security
+    mitigation and robust DevOps strategy&rdquo;. The deterministic ID and the transaction are the
+    two strongest things you can say in this whole presentation. Slow down for them.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">3:15 &ndash; 5:15</span>
+    <div class="who">4. Demo 1, the volunteer journey &mdash; Kwethu</div>
+    <div class="marks">Targets: Technical Demo (20 marks), UX &amp; Feedback (10), Visual Design (10)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The emulator, full screen, already signed in as a volunteer.</div>
+
+  <p><strong>Move in this order and do not narrate every tap.</strong></p>
+
+  <ol>
+    <li><strong>Home.</strong> Greeting, volunteer ID, the four stat tiles, Coming Up, Announcements.</li>
+    <li><strong>Activities &rarr; open one &rarr; Join.</strong> Watch the spot counter drop and the status become Joined.</li>
+    <li><strong>Schedule.</strong> The activity is now under Upcoming. Tap Completed to show history and hours.</li>
+    <li><strong>Favourite an activity</strong> from the heart, then the Favourites tab.</li>
+    <li><strong>Community.</strong> Thumbs up an announcement, and let the count move.</li>
+    <li><strong>Profile &rarr; Settings.</strong> Toggle dark mode. Let it redraw on camera.</li>
+    <li><strong>Settings &rarr; Language.</strong> Switch to isiXhosa, show one screen, switch back.</li>
+  </ol>
+
+  <div class="say">
+    <p>&ldquo;This is the volunteer side. Everything you are seeing is live against Firestore, not
+    mock data.&rdquo;</p>
+    <p>&ldquo;When I join, notice the counter drops immediately &mdash; that is the transaction
+    Tlhogi described, writing the sign-up and the count together.&rdquo;</p>
+    <p>&ldquo;The thumbs up fills straight away, before the server has answered, and the write
+    happens behind it. If it fails the app tells you why rather than silently doing
+    nothing.&rdquo;</p>
+    <p>&ldquo;Dark mode and three languages are both real settings, not mock-ups.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    Dark mode and the language switch are worth doing on camera because they are visibly
+    <em>working software</em>. They feed Visual Design and UX as well as the demo row.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">5:15 &ndash; 6:45</span>
+    <div class="who">5. Demo 2, admin and the image API &mdash; Tlhogi</div>
+    <div class="marks">Targets: Technical Demo (20 marks), APIs (20), Data Flow (20)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The emulator signed in as an admin. Have a picture ready in the gallery.</div>
+
+  <ol>
+    <li><strong>Admin overview.</strong> Volunteer count, published activities, total sign-ups.</li>
+    <li><strong>Volunteers.</strong> Open one and show their details and programme interests.</li>
+    <li><strong>Activities &rarr; open the one Kwethu just joined &rarr; sign-ups list.</strong> Kwethu's name is there. This is the moment the two halves of the demo connect.</li>
+    <li><strong>New announcement.</strong> Type a title and body, <strong>attach a picture</strong>, publish.</li>
+    <li><strong>Back to the volunteer device.</strong> The announcement is there, with the picture.</li>
+  </ol>
+
+  <div class="say">
+    <p>&ldquo;Here is the admin side, and this is the same activity Kwethu joined a minute ago.
+    His name is on the sign-up list. Nothing was refreshed by hand.&rdquo;</p>
+    <p>&ldquo;Now the picture. This is a third-party REST API, Cloudinary. The app shrinks the
+    photo, sends it as an unsigned upload, and gets back a URL. Firestore only ever stores that
+    URL, never the image itself.&rdquo;</p>
+    <p>&ldquo;Unsigned matters. A signed upload needs an API secret, and anything inside an APK
+    can be pulled out by anyone who downloads it. So there is no secret in the app at all &mdash;
+    the upload preset on the Cloudinary side controls what is allowed.&rdquo;</p>
+    <p>&ldquo;We originally used a different provider and it started refusing our uploads. Because
+    the app talks to an uploader interface rather than to that provider, swapping it was one file
+    and no screen changed.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    The APIs row wants &ldquo;integrates external services&rdquo; and &ldquo;excellent error
+    management&rdquo;. The provider-swap story is genuine evidence of good API design, and it
+    actually happened, so you can defend it under questioning.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">6:45 &ndash; 7:45</span>
+    <div class="who">6. Responsiveness &amp; accessibility &mdash; Ash</div>
+    <div class="marks">Targets: Responsiveness &amp; Accessibility (15 marks)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The Resizable emulator, on the Activities screen.</div>
+
+  <ol>
+    <li><strong>Rotate to landscape</strong> (Ctrl+F11). Pause. Rotate back.</li>
+    <li><strong>Open the Welcome screen and rotate.</strong> This is a genuinely different layout, not a reflow.</li>
+    <li><strong>Switch Display Mode to Tablet.</strong> The card lists go to two columns.</li>
+    <li><strong>Settings &rarr; Display &rarr; Font size,</strong> drag to largest, return to the app.</li>
+  </ol>
+
+  <div class="say">
+    <p>&ldquo;The layouts adapt across phone, landscape and tablet.&rdquo;</p>
+    <p>&ldquo;This is not thirty-six duplicated layouts. Sizing comes from alternate resource
+    folders, so one set of layouts serves every screen and there is nothing to keep in
+    sync.&rdquo;</p>
+    <p>&ldquo;On a tablet the lists become two columns, because one card stretched across a
+    ten-inch screen just looks wrong.&rdquo;</p>
+    <p>&ldquo;The Welcome screen has its own landscape layout, because there the button needed to
+    move rather than shrink.&rdquo;</p>
+    <p>&ldquo;And accessibility. All text is in scalable units, so at the largest system font size
+    the app still works &mdash; you can see it reflow. Every tappable control meets the
+    forty-eight density-pixel minimum from the Android accessibility guidance.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    Rotate slower than feels natural. Layout changes happen in a few frames and a marker watching
+    once can miss the point entirely.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">7:45 &ndash; 9:00</span>
+    <div class="who">7. Security, proven not claimed &mdash; Kwethu</div>
+    <div class="marks">Targets: Security (20 marks), Architecture &amp; System Design (15)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The Firebase console Rules page, then a terminal running the rules tests, then the passing output.</div>
+
+  <div class="say">
+    <p>&ldquo;Security is enforced by Firestore rules, not by the app. That distinction matters,
+    because an attacker does not have to use our app &mdash; they can talk to the database
+    directly.&rdquo;</p>
+    <p>&ldquo;A volunteer reads only their own record. An admin reads everyone. A volunteer cannot
+    change their own role, their email, their volunteer ID or their join date. Only you can delete
+    your own account, and an admin cannot delete you.&rdquo;</p>
+    <p>&ldquo;On announcements, a volunteer can add and remove their own thumbs up and nothing
+    else. Not somebody else's, not the title, and they cannot pad the count with made-up
+    IDs.&rdquo;</p>
+    <p>&ldquo;But we do not want you to take that on trust, so we test it.&rdquo;</p>
+    <p><em>[run the tests]</em> &ldquo;These run our real rules file against the Firestore
+    emulator. Twenty-five tests. Every red permission-denied line you see is the rules correctly
+    refusing an attack.&rdquo;</p>
+    <p>&ldquo;No secrets are in the repository either. The signing key and the image service
+    credentials are kept out of version control, and the release build is minified.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    Running the tests live is the difference between &ldquo;strong security practices&rdquo; and
+    &ldquo;comprehensive security, advanced mitigation&rdquo;. If you are worried about live
+    demos, record this bit separately and cut it in.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">9:00 &ndash; 10:30</span>
+    <div class="who">8. GitHub, testing and the pipeline &mdash; Kwethu</div>
+    <div class="marks">Targets: GitHub &amp; Version Control (10 marks), CI/CD (20), Programming Skills (25)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> GitHub &rarr; the branch list, then a merged PR, then Actions with a green run expanded to show the four jobs.</div>
+
+  <div class="say">
+    <p>&ldquo;We used Gitflow. Master is the stable branch, develop is what we integrate into, and
+    every feature has its own branch named for the person and the feature.&rdquo;</p>
+    <p>&ldquo;Nothing reaches develop without a pull request. Here is one &mdash; you can see the
+    commits, the review and the merge.&rdquo;</p>
+    <p>&ldquo;On every push and every pull request, this pipeline runs. Four jobs. Unit tests, lint,
+    and the security rules tests all run in parallel, and the APK is only built if all three
+    pass.&rdquo;</p>
+    <p>&ldquo;Sixty-six unit tests cover the date and time rules, the models and the error
+    handling. Twenty-five more test the security rules against the emulator. Ninety-one automated
+    tests in total, and a failing test blocks the merge.&rdquo;</p>
+    <p>&ldquo;Every run publishes the test report, the lint report and a downloadable APK.&rdquo;</p>
+  </div>
+
+  <div class="note">
+    Expand the workflow run so the four job boxes are visible. That picture alone is most of the
+    CI/CD row's top band: &ldquo;advanced pipeline configuration; comprehensive automated test
+    suite&rdquo;.
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">
+    <span class="time">10:30 &ndash; 11:00</span>
+    <div class="who">9. Hosting and close &mdash; all three</div>
+    <div class="marks">Targets: Technical Demo (20 marks), Communication (10)</div>
+  </div>
+
+  <div class="screen"><strong>On screen:</strong> The live hosted download page, then the app installing from it.</div>
+
+  <div class="say">
+    <p><strong>Kwethu:</strong> &ldquo;The app is hosted. This is the live download page, and this
+    is it installing on a real device. Philisa can hand this link to a volunteer today.&rdquo;</p>
+    <p><strong>Tlhogi:</strong> &ldquo;What is next is push notifications for new announcements,
+    and repeating activities so the team does not re-create the same weekly kitchen day.&rdquo;</p>
+    <p><strong>Ash:</strong> &ldquo;Thank you for watching. We are happy to take questions.&rdquo;</p>
+  </div>
+
+  <div class="warn">
+    <strong>If hosting is not ready by filming day,</strong> do not fake it. Show the APK building
+    in the pipeline and say the hosted download is the next step. A marker who clicks a dead link
+    will trust nothing else you showed.
+  </div>
+</div>
+
+<h2 style="margin-top:18pt">Questions you should be ready for</h2>
+
+<table>
+  <tr><th style="width:38%">If they ask</th><th>Answer with</th></tr>
+  <tr>
+    <td>Why Firebase and not a REST API with SQL?</td>
+    <td>A three-person team with no budget and no server to run. Firestore gives authentication, a database and security rules enforced server-side. The security rules <em>are</em> our data integrity constraints, and Cloudinary is a REST API we integrate with.</td>
+  </tr>
+  <tr>
+    <td>How do you stop two people taking the last spot?</td>
+    <td>A Firestore transaction. It reads the activity fresh from the server, and writes the sign-up and the counter together. The rules also refuse a counter change that is not accompanied by the matching sign-up.</td>
+  </tr>
+  <tr>
+    <td>What stops a volunteer making themselves an admin?</td>
+    <td>The rules refuse any update that changes the role field. There is a test for exactly that, and it runs on every push.</td>
+  </tr>
+  <tr>
+    <td>Is the API key in the app safe?</td>
+    <td>There is no secret in the app. The Cloudinary preset is unsigned, so the limits live on their side. Our signing key and credentials are gitignored.</td>
+  </tr>
+  <tr>
+    <td>What was the hardest bug?</td>
+    <td>An end time entered as 04:00 instead of 16:00 made an activity look finished before it started, and hours came out as zero. Now the app refuses an end time that is not after the start, and falls back safely on old data. There are unit tests for both.</td>
+  </tr>
+  <tr>
+    <td>How did you split the work?</td>
+    <td>Be honest and specific. Name the branches.</td>
+  </tr>
+</table>
+
+<h2 style="margin-top:14pt">Delivery notes</h2>
+
+<ul class="checklist">
+  <li><strong>Hand over by name.</strong> &ldquo;Tlhogi will take you through the architecture.&rdquo; It reads as a team rather than three separate videos.</li>
+  <li><strong>Do not read this script on camera.</strong> Markers can hear it. Learn the shape of each section.</li>
+  <li><strong>Say the number.</strong> &ldquo;Ninety-one automated tests&rdquo; lands harder than &ldquo;we wrote tests&rdquo;.</li>
+  <li><strong>Silence while something loads is fine.</strong> Filling it with &ldquo;um, so this is just loading&rdquo; is what costs marks.</li>
+  <li><strong>Never apologise for the app on camera.</strong> If something breaks, carry on and mention it afterwards if it matters.</li>
+  <li><strong>Watch it back once</strong> before submitting, with the rubric next to you.</li>
+</ul>
+
+<footer>Philisa Abafazi Bethu Volunteer App &mdash; INSY7315 Task 2 presentation script</footer>
+
+</body>
+</html>

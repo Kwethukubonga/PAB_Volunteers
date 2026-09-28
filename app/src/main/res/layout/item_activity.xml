@@ -54,8 +54,8 @@
 
             <ImageButton
                 android:id="@+id/btnFavourite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/touch_target_min"
+                android:layout_height="@dimen/touch_target_min"
                 android:layout_gravity="top|end"
                 android:layout_margin="@dimen/spacing_sm"
                 android:background="@drawable/bg_icon_button"
