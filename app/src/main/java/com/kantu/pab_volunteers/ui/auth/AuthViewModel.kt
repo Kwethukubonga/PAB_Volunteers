@@ -43,6 +43,7 @@ class AuthViewModel : ViewModel() {
 
     fun createAccount(email: String, password: String, confirmPassword: String) {
         if (!validate(email, password)) return
+        if (!validateNewPassword(password)) return
         if (password != confirmPassword) {
             _errorMessage.value = UiText.Res(R.string.error_passwords_mismatch)
             return
@@ -117,8 +118,25 @@ class AuthViewModel : ViewModel() {
             _errorMessage.value = UiText.Res(R.string.error_invalid_email)
             return false
         }
-        if (password.length < 6) {
+        if (password.isBlank()) {
+            _errorMessage.value = UiText.Res(R.string.error_enter_password)
+            return false
+        }
+        return true
+    }
+
+    /**
+     * Only new passwords are judged this hard. Signing in must not re-check strength, or
+     * anyone who joined before this rule could never get back in. These match the policy
+     * Firebase enforces, so the person is told here instead of being refused afterwards.
+     */
+    private fun validateNewPassword(password: String): Boolean {
+        if (password.length < MIN_PASSWORD_LENGTH) {
             _errorMessage.value = UiText.Res(R.string.error_password_short)
+            return false
+        }
+        if (password.none { !it.isLetterOrDigit() }) {
+            _errorMessage.value = UiText.Res(R.string.error_password_symbol)
             return false
         }
         return true
@@ -127,5 +145,9 @@ class AuthViewModel : ViewModel() {
     fun clearMessages() {
         _errorMessage.value = null
         _infoMessage.value = null
+    }
+
+    private companion object {
+        const val MIN_PASSWORD_LENGTH = 8
     }
 }

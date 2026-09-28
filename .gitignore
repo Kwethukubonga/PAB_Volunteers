@@ -25,3 +25,9 @@ tools/seed/node_modules/
 *firebase-adminsdk*.json
 *service-account*.json
 *serviceAccount*.json
+
+# Security rules tests: their packages and the emulator scratch files.
+firestore-tests/node_modules/
+firestore-tests/.firebase/
+firebase-debug.log
+firestore-debug.log

@@ -22,6 +22,7 @@ import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.PhoneNumber
 import com.kantu.pab_volunteers.utils.UiText
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.async
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -92,9 +93,16 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
         _isLoading.value = true
         refreshJob = viewModelScope.launch {
             try {
-                _user.value = userRepository.getUser(uid)
-                signups = signupRepository.getMySignups(uid)
-                val published = activityRepository.getPublishedActivities()
+                // None of these four reads depend on each other, so they go out together
+                // instead of one after the other.
+                val userLoad = async { userRepository.getUser(uid) }
+                val signupsLoad = async { signupRepository.getMySignups(uid) }
+                val activitiesLoad = async { activityRepository.getPublishedActivities() }
+                val announcementsLoad = async { announcementRepository.getPublishedAnnouncements() }
+
+                _user.value = userLoad.await()
+                signups = signupsLoad.await()
+                val published = activitiesLoad.await()
                 val publishedById = published.associateBy { it.id }
                 val joinedIds = signups.map { it.activityId }.toSet()
                 val favouriteIds = _user.value?.favouriteActivityIds.orEmpty().toSet()
@@ -133,7 +141,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 _completedCount.value = finished.size
                 _hoursCompleted.value = totalHours(finished)
 
-                _announcements.value = announcementRepository.getPublishedAnnouncements()
+                val announcements: List<Announcement> = announcementsLoad.await()
+                _announcements.value = announcements
 
                 // Keep an open detail screen in step with the data it is showing.
                 if (selectedActivityId.isNotBlank()) {

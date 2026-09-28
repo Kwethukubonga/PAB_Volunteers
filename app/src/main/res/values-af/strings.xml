@@ -210,7 +210,9 @@
     <string name="error_enter_email">Voer jou e-posadres in</string>
     <string name="error_enter_email_first">Voer eers jou e-posadres in</string>
     <string name="error_invalid_email">Voer \'n geldige e-posadres in</string>
-    <string name="error_password_short">Wagwoord moet ten minste 6 karakters lank wees</string>
+    <string name="error_enter_password">Voer jou wagwoord in</string>
+    <string name="error_password_short">Wagwoord moet ten minste 8 karakters lank wees</string>
+    <string name="error_password_symbol">Wagwoord moet \'n simbool bevat, soos ! of #</string>
     <string name="error_passwords_mismatch">Wagwoorde stem nie ooreen nie</string>
     <string name="error_first_name">Voer jou voornaam in</string>
     <string name="error_last_name">Voer jou van in</string>

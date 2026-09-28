@@ -210,7 +210,9 @@
     <string name="error_enter_email">Faka idilesi yakho ye-imeyile</string>
     <string name="error_enter_email_first">Faka idilesi yakho ye-imeyile kuqala</string>
     <string name="error_invalid_email">Faka idilesi ye-imeyile esebenzayo</string>
-    <string name="error_password_short">Igama lokugqithisa kufuneka libe noonobumba aba-6 ubuncinane</string>
+    <string name="error_enter_password">Faka igama lakho lokugqithisa</string>
+    <string name="error_password_short">Igama lokugqithisa kufuneka libe noonobumba aba-8 ubuncinane</string>
+    <string name="error_password_symbol">Igama lokugqithisa kufuneka libe nophawu, umzekelo ! okanye #</string>
     <string name="error_passwords_mismatch">Amagama okugqithisa awafani</string>
     <string name="error_first_name">Faka igama lakho</string>
     <string name="error_last_name">Faka ifani yakho</string>
