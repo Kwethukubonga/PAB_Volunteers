@@ -30,6 +30,11 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # Windows does not track the executable bit, so a re-added gradlew can lose it
+      # and Linux then refuses to run it.
+      - name: Make gradlew runnable
+        run: chmod +x gradlew
+
       - name: Add the picture service details
         run: |
           echo "cloudinary.cloud.name=${{ secrets.CLOUDINARY_CLOUD_NAME }}" >> local.properties
@@ -59,6 +64,11 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      # Windows does not track the executable bit, so a re-added gradlew can lose it
+      # and Linux then refuses to run it.
+      - name: Make gradlew runnable
+        run: chmod +x gradlew
 
       - name: Add the picture service details
         run: |
@@ -120,6 +130,11 @@ jobs:
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
+
+      # Windows does not track the executable bit, so a re-added gradlew can lose it
+      # and Linux then refuses to run it.
+      - name: Make gradlew runnable
+        run: chmod +x gradlew
 
       - name: Add the picture service details
         run: |
