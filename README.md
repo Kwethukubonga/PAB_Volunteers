@@ -1,7 +1,5 @@
 # Philisa Volunteers
 
-**Android Application – Project README**
-
 Developed by **Team KANTU** for **Philisa Abafazi Bethu**
 
 ---
