@@ -9,65 +9,54 @@ Developed by **Team KANTU** for **Philisa Abafazi Bethu**
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
-2. [About Philisa Abafazi Bethu](#2-about-philisa-abafazi-bethu)
-3. [Background and Requirements Gathering](#3-background-and-requirements-gathering)
-4. [Functional Requirements](#4-functional-requirements)
-5. [Non-Functional Requirements](#5-non-functional-requirements)
-6. [User Roles and Permissions](#6-user-roles-and-permissions)
-7. [Features](#7-features)
-8. [Technology Stack](#8-technology-stack)
-9. [System Architecture](#9-system-architecture)
-10. [Integrations and the API Layer](#10-integrations-and-the-api-layer)
-11. [Design Patterns](#11-design-patterns)
-12. [Data Model](#12-data-model)
-13. [Security and Privacy](#13-security-and-privacy)
-14. [Getting Started](#14-getting-started)
-15. [Project Structure](#15-project-structure)
-16. [DevOps and Development Workflow](#16-devops-and-development-workflow)
-17. [Running Costs](#17-running-costs)
-18. [Project Status and Future Work](#18-project-status-and-future-work)
+2. [Background](#2-background)
+3. [Functional Requirements](#3-functional-requirements)
+4. [Non-Functional Requirements](#4-non-functional-requirements)
+5. [User Roles and Permissions](#5-user-roles-and-permissions)
+6. [Features](#6-features)
+7. [Technology Stack](#7-technology-stack)
+8. [System Architecture](#8-system-architecture)
+9. [Integrations and the API Layer](#9-integrations-and-the-api-layer)
+10. [Data Model](#10-data-model)
+11. [Security and Privacy](#11-security-and-privacy)
+12. [Getting Started](#12-getting-started)
+13. [Project Structure](#13-project-structure)
+14. [DevOps, Testing and Hosting](#14-devops-testing-and-hosting)
+15. [Running Costs](#15-running-costs)
+16. [Project Status and Future Work](#16-project-status-and-future-work)
+17. [AI Usage Declaration](#17-ai-usage-declaration)
+18. [Attendance](#18-attendance)
 19. [The Team](#19-the-team)
 
 ---
 
 ## 1. Introduction
 
-Philisa Volunteers is an Android application that brings the volunteer experience at Philisa Abafazi Bethu (PAB) into one place.
+Philisa Volunteers is an Android app that brings volunteering at Philisa Abafazi Bethu (PAB) into one place. Anyone can sign up and start volunteering straight away, with no approval step.
 
-Anyone who wants to get involved can create an account, fill in a short two-step profile, and start volunteering straight away. There is no waiting for approval.
+- **Volunteers** find activities, join or leave them, track their hours and read announcements.
+- **PAB staff** post activities and announcements, and see who is coming.
+- The app is available in **English, isiXhosa and Afrikaans**, supports light and dark mode, adapts to phones and tablets, and keeps working when the signal drops.
 
-**Volunteers can:**
+### 1.1 Demo Video
 
-- Browse opportunities and join or leave activities
-- Keep track of their schedule and hours
-- Stay up to date with announcements from PAB
+*Unlisted YouTube link: to be added once uploaded.*
 
-**PAB staff can:**
+### 1.2 Test Accounts
 
-- Manage volunteers
-- Publish activities
-- Post announcements
+| Role | Email | Password |
+|------|-------|----------|
+| Administrator | `Kwethu1@gmail.com` | `Kwethu1@gmail.com` |
+| Administrator | `Tlhogikgatshe1@gmail.com` | `Password123.` |
+| Volunteer | Create your own in the app | Any password with 8+ characters and a symbol |
 
-**The app also:**
-
-- Is available in **English, isiXhosa and Afrikaans**
-- Supports **light and dark mode**
-- Adapts to **phones and tablets**, in portrait and landscape
-- Keeps working when the phone loses signal
-
-This README covers the background to the project, its requirements, how the app is built, and how to get it running on your own machine.
+> **Note:** These are test accounts only. Please don't enter real personal details.
 
 ---
 
-## 2. About Philisa Abafazi Bethu
+## 2. Background
 
-Philisa Abafazi Bethu, which means *"Heal Our Women"* in isiXhosa, is a non-profit organisation founded in 2008.
-
-- **Started in:** Lavender Hill, Cape Town
-- **Now based in:** Steenberg, Cape Town
-- **Supports:** women, children and families
-
-The app lists ten PAB programmes that volunteers can support:
+PAB, meaning *"Heal Our Women"* in isiXhosa, was founded in 2008 in Lavender Hill and is now based in Steenberg, Cape Town. It supports women, children and families through ten programmes:
 
 | # | Programme | # | Programme |
 |---|-----------|---|-----------|
@@ -77,450 +66,178 @@ The app lists ten PAB programmes that volunteers can support:
 | 4 | Baby Saver | 9 | Search and Rescue Team |
 | 5 | Emergency Safe Houses | 10 | Social Work Services |
 
-Volunteers are a big part of what makes this work possible, and this app was built with them in mind.
-
----
-
-## 3. Background and Requirements Gathering
-
-### 3.1 How the Requirements Were Gathered
-
-The requirements came from working directly with PAB over several meetings and site visits, rather than from what we assumed would be useful.
+### 2.1 How the Requirements Were Gathered
 
 | Date | Engagement | Outcome |
 |------|------------|---------|
-| 19 May 2026 | Site visit and online meeting with the director | Saw PAB's work first-hand |
+| 19 May 2026 | Site visit and online meeting with the director | Saw the safe houses, Baby Saver, children's programmes and feeding garden |
 | 27 July 2026 | In-person meeting with the director | PAB shared its wish list of digital solutions |
 | 4 August 2026 | Presented three project ideas | PAB chose the idea that included this app |
 
-**During the site visit, the team saw:**
+### 2.2 The Problem
 
-- The safe houses
-- The Baby Saver
-- The children's programmes
-- The community feeding garden
-
-**We also researched existing volunteer apps:**
-
-- Volunteero
-- Thina
-- Bloomerang Volunteer
-
-These were used as a reference only. The final requirements are based on PAB's own needs.
-
-### 3.2 The Problem
-
-**Problem 1: Applying is inconvenient**
-
-- *Currently:* volunteer applications are PDF forms sent by email.
-- *Impact:* this can discourage people from getting involved.
-
-**Problem 2: No central place for information**
-
-- *Currently:* there is nowhere to see upcoming programmes, events and opportunities.
-- *Impact:* regular volunteers find it hard to stay informed.
-
-**Problem 3: No tool for staff**
-
-- *Currently:* staff can't track volunteers, share opportunities and communicate in one place.
-- *Impact:* managing volunteers takes more time and effort than it should.
-
-Philisa Volunteers solves these problems by giving volunteers and staff one app for the whole volunteer journey.
+| Problem | Today | Our Answer |
+|---------|-------|------------|
+| Applying is slow | PDF forms sent by email | Sign up in the app and start straight away |
+| No central place for information | Volunteers miss activities and news | Activities, schedule and announcements in one app |
+| No tool for staff | Tracking volunteers takes time | An admin area to post activities and see who's coming |
 
 ---
 
-## 4. Functional Requirements
+## 3. Functional Requirements
 
 | ID | Requirement | Role | Status |
 |----|-------------|------|:------:|
-| PV-FR01 | Anyone must be able to create an account with email and password, or with their Google account. | Visitor | ✔ |
-| PV-FR02 | New users must complete a two-step profile, then become a volunteer immediately. | Visitor | ✔ |
-| PV-FR03 | Users must be able to sign in securely and reset a forgotten password by email. | All | ✔ |
-| PV-FR04 | Volunteers must be able to browse published opportunities and open one to see its full details. | Volunteer | ✔ |
-| PV-FR05 | Volunteers must be able to join an activity, as long as spots are still available. | Volunteer | ✔ |
-| PV-FR06 | Volunteers must be able to leave an activity they joined, which gives the spot back. | Volunteer | ✔ |
-| PV-FR07 | Volunteers must be able to see their activities as Upcoming and Completed, and view them on a schedule. | Volunteer | ✔ |
-| PV-FR08 | Volunteers must be able to save opportunities as favourites. | Volunteer | ✔ |
-| PV-FR09 | Volunteers must be able to read announcements from PAB and give them a thumbs up. | Volunteer | ✔ |
-| PV-FR10 | Volunteers must receive notifications about new activities and announcements. | Volunteer | ✔ |
-| PV-FR11 | Volunteers must be able to view and edit their profile, and delete their account. | Volunteer | ✔ |
-| PV-FR12 | Administrators must be taken to a separate admin area when they sign in. | Administrator | ✔ |
-| PV-FR13 | Administrators must be able to view all volunteers and their details. | Administrator | ✔ |
-| PV-FR14 | Administrators must be able to create, edit, publish, unpublish and delete activities. | Administrator | ✔ |
-| PV-FR15 | Administrators must be able to see who has signed up for each activity. | Administrator | ✔ |
-| PV-FR16 | Administrators must be able to create, publish and delete announcements, with an optional picture. | Administrator | ✔ |
-| PV-FR17 | Administrators must be notified when an activity becomes fully booked. | Administrator | ✔ |
+| PV-FR01 | Create an account with email and password, or with Google. | Visitor | ✔ |
+| PV-FR02 | Complete a two-step profile and become a volunteer immediately. | Visitor | ✔ |
+| PV-FR03 | Sign in securely and reset a forgotten password by email. | All | ✔ |
+| PV-FR04 | Browse published opportunities and view their full details. | Volunteer | ✔ |
+| PV-FR05 | Join an activity while spots are available. | Volunteer | ✔ |
+| PV-FR06 | Leave an activity, which gives the spot back. | Volunteer | ✔ |
+| PV-FR07 | See activities as Upcoming and Completed, and on a schedule. | Volunteer | ✔ |
+| PV-FR08 | Save opportunities as favourites. | Volunteer | ✔ |
+| PV-FR09 | Read announcements and give them a thumbs up. | Volunteer | ✔ |
+| PV-FR10 | Receive notifications about new activities and announcements. | Volunteer | ✔ |
+| PV-FR11 | View and edit their profile, and delete their account. | Volunteer | ✔ |
+| PV-FR12 | Be taken to a separate admin area on sign-in. | Administrator | ✔ |
+| PV-FR13 | View all volunteers and their details. | Administrator | ✔ |
+| PV-FR14 | Create, edit, publish, hide and delete activities. | Administrator | ✔ |
+| PV-FR15 | See who has signed up for each activity. | Administrator | ✔ |
+| PV-FR16 | Create and publish announcements, with an optional picture. | Administrator | ✔ |
+| PV-FR17 | Be notified when an activity is fully booked. | Administrator | ✔ |
 
 ---
 
-## 5. Non-Functional Requirements
+## 4. Non-Functional Requirements
 
-### 5.1 Languages and Themes
-
-*The app should be usable by people with different levels of digital experience and language preferences.*
-
-- Available in English, isiXhosa and Afrikaans
-- Clear labels and simple bottom navigation
-- Light and dark themes
-
-### 5.2 Responsiveness and Screen Sizes
-
-*The app should adapt smoothly to phones and tablets, in portrait and landscape.*
-
-- **Tablet layouts:** dedicated layouts make use of the extra space on larger screens.
-- **Landscape:** the Welcome screen has its own landscape layout.
-- **Two-column lists:** lists switch to two columns on a tablet.
-- **One set of layouts:** this is done with Android's alternate resource folders, not duplicated layouts. One set of layouts serves every screen size, so a change only has to be made once.
-
-### 5.3 Accessibility Standards
-
-*The app should meet Android's accessibility guidelines.*
-
-- **Touch targets:** every button and tappable control is at least **48dp**, Android's recommended minimum.
-- **Text scaling:** all text scales with the phone's font size setting, and the app still works at the largest size.
-- **Languages and themes:** English, isiXhosa and Afrikaans, with light and dark mode (see 5.1).
-
-### 5.4 Usability
-
-*Users should be able to use the app without training.*
-
-- A short two-step sign-up
-- Friendly messages on empty screens, for example *"You haven't joined an activity yet"*
-- A confirmation step before leaving an activity or deleting an account
-
-### 5.5 Reliability
-
-*The app should keep working when the connection drops, without losing information.*
-
-- Firestore's offline cache lets volunteers see their data without signal
-- Joining an activity uses a database transaction, so two people can never take the last spot
-
-### 5.6 Performance
-
-*Screens and key actions should respond quickly.*
-
-- Images are loaded and cached with Glide
-- Lists use RecyclerView
-- Pull-to-refresh on list screens
-
-### 5.7 Availability
-
-*The system should be available when volunteers need it.*
-
-- Firebase is a managed Google Cloud service
-- Target of **99.9% uptime**
-
-### 5.8 Scalability
-
-*The app should grow with PAB without needing to be rebuilt.*
-
-- A layered, modular code structure
-- A database that scales automatically
-
-### 5.9 Security
-
-*Personal information must be protected, and access restricted by role.*
-
-- Firebase Security Rules on every collection
-- **25 security rules tests** run automatically against the Firestore emulator on every push
+| Category | How the App Meets It |
+|----------|----------------------|
+| **Responsiveness** | Tablet layouts, a landscape Welcome screen and two-column lists on tablets. Built with Android's alternate resource folders, so one set of layouts serves every screen size. |
+| **Accessibility** | Every tappable control is at least **48dp**. All text scales with the phone's font size and still works at the largest setting. Three languages, light and dark mode. |
+| **Usability** | A short two-step sign-up, friendly empty-screen messages, and a confirmation before leaving an activity or deleting an account. |
+| **Reliability** | Firestore's offline cache keeps recently loaded data readable without signal. Joining is a single database transaction, so two people can never take the last spot. |
+| **Performance** | Images are cached with Glide, lists use RecyclerView, and list screens support pull-to-refresh. |
+| **Security** | Firebase Security Rules on every collection, proven by 25 automated tests (see section 11). |
 
 ---
 
-## 6. User Roles and Permissions
-
-### 6.1 User Roles
-
-There is no approval step. As soon as a new user completes their profile, they become a volunteer.
+## 5. User Roles and Permissions
 
 | Role | Who | How the Role Is Given |
 |------|-----|-----------------------|
-| Visitor | Opened the app, no account yet | – |
-| Volunteer | Created an account and completed their profile | Automatically, on sign-up |
-| Administrator | Authorised PAB staff member | Set by hand in the Firebase console |
+| Volunteer | Anyone who signs up and completes their profile | Automatically |
+| Administrator | Authorised PAB staff | By hand in the Firebase console, never from inside the app |
 
-> **Note:** Every new account starts as a volunteer. To make someone an admin, change their `role` to `admin` in the Firebase console. This can't be done from inside the app.
+Both roles use the same sign-in and are taken to their own area. These permissions are enforced by the Security Rules, not just the screens:
 
-### 6.2 Permission Matrix
-
-These permissions are enforced by the Firebase Security Rules, not just by the app's screens.
-
-| Action | Visitor | Volunteer | Administrator |
-|--------|:-------:|:---------:|:-------------:|
-| View the welcome and About PAB screens | ✔ | ✔ | ✔ |
-| Create an account | ✔ | – | – |
-| Read and edit own profile | – | ✔ | ✔ |
-| Change own role, volunteer ID, email or join date | – | ✘ | ✔ (via console) |
-| Read other volunteers' profiles | – | ✘ | ✔ |
-| Browse activities and announcements | – | ✔ | ✔ |
-| Join or leave an activity | – | ✔ | – |
-| Give an announcement a thumbs up | – | ✔ | ✔ |
-| See who signed up for an activity | – | Own sign-ups only | ✔ |
-| Create, edit, publish or delete activities | – | ✘ | ✔ |
-| Create, publish or delete announcements | – | ✘ | ✔ |
-| Delete own account | – | ✔ | ✔ |
-| Delete another user's account | – | ✘ | ✘ |
+| Action | Volunteer | Administrator |
+|--------|:---------:|:-------------:|
+| Read and edit own profile | ✔ | ✔ |
+| Change own role, volunteer ID, email or join date | ✘ | Console only |
+| Read other volunteers' profiles | ✘ | ✔ (view only) |
+| Join or leave an activity | ✔ | – |
+| See who signed up for an activity | Own sign-ups only | ✔ |
+| Create, edit or delete activities and announcements | ✘ | ✔ |
+| Delete own account | ✔ | – |
+| Delete another user's account | ✘ | ✘ |
 
 ---
 
-## 7. Features
+## 6. Features
 
-### 7.1 Getting Started (Visitors)
+### 6.1 Volunteers
 
-The first time someone opens the app, they go through these screens:
+| Tab | What It Does |
+|-----|--------------|
+| **Home** | Today's activities, what's coming up, and stats (today, upcoming, completed, hours) |
+| **Activities** | Browse or save favourites, see spots left, and join or leave in one tap |
+| **Schedule** | Upcoming and completed activities. Completed ones count towards hours. |
+| **Community** | Announcements from PAB, with pictures and a thumbs up |
+| **Profile** | Details, volunteer ID and stats. Edit any time. |
 
-1. **Splash:** checks whether the user is already signed in.
-2. **Welcome:** introduces PAB, with two options:
-   - Continue with Google
-   - Sign in with email
-3. **About PAB:** PAB's work, programmes, volunteer stories and contact details.
-4. **Email sign-in / sign-up:**
-   - Create an account or sign in
-   - Forgot password option
-   - Passwords need at least 8 characters, including a symbol
-5. **Profile setup, step 1 of 2:**
-   - First and last name
-   - South African cellphone number
-   - Area or township
-6. **Profile setup, step 2 of 2:** choose the programmes they're interested in.
+### 6.2 Administrators
 
-### 7.2 Volunteers
+| Tab | What It Does |
+|-----|--------------|
+| **Overview** | Totals, recent volunteers and quick actions |
+| **Activities** | Create, edit, publish, hide or delete activities, and see who signed up |
+| **Volunteers** | View everyone's details. View-only by design: admins can't remove volunteers. |
+| **Posts** | Create and publish announcements, with an optional picture |
 
-Volunteers use a bottom navigation bar with five tabs.
+### 6.3 Everyone
 
-**Home**
-
-- A greeting based on the time of day
-- Today's activities
-- Stats: today, completed and hours
-- What's coming up
-
-**Activities**
-
-- Browse **All** opportunities or just **Favourites**
-- Open an activity to see its details and spots remaining
-- **Join** or **Leave** an activity
-- My Activities, split into **Upcoming** and **Completed**
-
-**Schedule**
-
-- Upcoming and completed activities, in date order
-
-**Community**
-
-- Announcements from PAB, with pictures
-- Give an announcement a thumbs up
-
-**Profile**
-
-- Personal details and volunteer ID
-- Stats
-- Edit profile or sign out
-
-### 7.3 Administrators
-
-Administrators have their own bottom navigation bar with four tabs.
-
-**Overview**
-
-- Total volunteers, total sign-ups and published activities
-- Recent volunteers
-- Quick actions: create an activity or post an announcement
-
-**Volunteers**
-
-- A list of all registered volunteers
-- A details screen for each volunteer
-
-**Activities**
-
-- Create, edit and delete activities
-- Publish or unpublish activities
-- See how many spots are filled and who has signed up
-
-**Posts**
-
-- Create, edit and delete announcements
-- Publish or unpublish announcements
-- Add an optional picture
-- See the thumbs-up count
-
-### 7.4 Settings
-
-Available to everyone who is signed in:
-
-| Setting | Options |
-|---------|---------|
-| Theme | Follow the phone, Light, Dark |
-| Language | English, isiXhosa, Afrikaans |
-| Notifications | New activities, Announcements, Activity full (admins) |
-| Account | Delete my account |
-
-- The chosen language is also used for notifications and password-reset emails.
-- Deleting an account removes the profile and gives the volunteer's places back.
-
-### 7.5 Notifications
-
-- A background worker checks Firestore for anything new.
-- It runs roughly every 15 minutes while the phone is connected.
-- New items are shown in the matching notification channel.
-
-| Channel | Who Receives It | When |
-|---------|-----------------|------|
-| New activities | Volunteers | A new activity is published |
-| Announcements | Volunteers | PAB posts a new announcement |
-| Full activities | Administrators | Every spot on an activity has been taken |
+- **Sign-in:** Google or email, with password reset.
+- **Settings:** theme (phone, light or dark), language, notification choices, and delete account (volunteers).
+- **Notifications:** a background check about every 15 minutes. Volunteers hear about new activities and announcements. Admins hear when an activity is full.
+- **Offline:** recently loaded data stays readable. Joining or saving needs a connection, and the app says so.
 
 ---
 
-## 8. Technology Stack
-
-### 8.1 Technologies
+## 7. Technology Stack
 
 | Area | Technology |
 |------|------------|
-| Platform | Native Android (minimum SDK 26 / Android 8.0; target and compile SDK 34) |
-| Language | Kotlin 2.0.20 (JVM target 17) |
-| Build system | Gradle (Kotlin DSL), Android Gradle Plugin 8.5.2, version catalog |
-| User interface | XML layouts, Material Components, ConstraintLayout, RecyclerView, SwipeRefreshLayout, View Binding |
-| Navigation | Jetpack Navigation Component (separate graphs for auth, volunteer and admin) |
-| Architecture components | ViewModel, LiveData, Kotlin Coroutines |
-| Authentication | Firebase Authentication (email/password and Google Sign-In) |
-| Database | Cloud Firestore with persistent offline cache |
-| Image hosting | Cloudinary (announcement pictures) |
-| Image loading | Glide |
-| Background work | WorkManager |
-| Testing | JUnit unit tests; Firestore Security Rules tests with the Firebase emulator (Node.js) |
-| CI | GitHub Actions |
+| Platform | Native Android: minimum SDK 26 (Android 8.0), target SDK 34 |
+| Language | Kotlin 2.0.20 |
+| User interface | XML layouts, Material Components, View Binding, Jetpack Navigation |
+| Architecture | MVVM with ViewModel, LiveData and Kotlin Coroutines |
+| Backend | Firebase Authentication and Cloud Firestore, with Security Rules |
+| Pictures | Cloudinary uploads, Glide loading |
+| Notifications | WorkManager |
+| Testing and CI | JUnit, Firestore emulator rules tests (Node.js), Android Lint, GitHub Actions |
 
-### 8.2 Why We Chose Firebase
-
-1. **Offline support**
-   - Many volunteers work in areas with unreliable signal, such as Lavender Hill, Steenberg and Khayelitsha.
-   - Firestore's cache means the app still shows data offline.
-2. **Built-in security**
-   - Security Rules control who can read and change each record, directly in the database.
-3. **Simple sign-in**
-   - Handles email/password, Google Sign-In and password-reset emails.
-4. **Low running costs**
-   - The free tier allows 50,000 reads, 20,000 writes and 20,000 deletes per day.
-   - This comfortably covers PAB's expected usage.
-
-### 8.3 Alternatives Considered
-
-**Azure SQL / PostgreSQL**
-
-- *Strengths:* strong data integrity and structured schemas
-- *Why not:* fixed hosting costs of around R280 to R450 a month
-- *Why not:* no built-in offline syncing for mobile
-- *Why not:* more database administration
-
-**MongoDB Atlas**
-
-- *Strengths:* flexible documents and powerful queries
-- *Why not:* higher entry-tier costs
-- *Why not:* more complex mobile syncing than Firebase
+**Why Firebase:** it works offline in areas with weak signal, enforces security in the database itself, handles Google sign-in and password resets, and stays within the free tier at PAB's size.
 
 ---
 
-## 9. System Architecture
+## 8. System Architecture
 
-### 9.1 Layered Architecture
-
-The app is organised into layers, so each part has one job and changes in one place don't ripple through the whole app.
+### 8.1 Layered Architecture
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
-│  UI LAYER                                          ui/        │
-│  Activities & Fragments (auth, volunteer, admin, profile,    │
-│  settings) · RecyclerView Adapters · View Binding            │
+│  UI LAYER (ui/)                                              │
+│  Activities and Fragments · RecyclerView Adapters            │
 ├──────────────────────────────────────────────────────────────┤
 │  VIEWMODEL LAYER                                             │
 │  AuthViewModel · ProfileSetupViewModel · VolunteerViewModel  │
 │  · AdminViewModel                                            │
 ├──────────────────────────────────────────────────────────────┤
-│  DATA LAYER                                        data/      │
-│  Repositories: Auth · Account · User · Activity ·            │
-│  Signup · Announcement                                       │
-│  Models: User · Activity · ActivitySignup · Announcement     │
+│  DATA LAYER (data/)                                          │
+│  Repositories: Auth · Account · User · Activity · Signup ·   │
+│  Announcement                                                │
 ├──────────────────────────────────────────────────────────────┤
 │  SERVICES                                                    │
-│  FirebaseAuthManager · FirestoreManager · ImageUploader      │
-│  (Cloudinary) · UpdatesWorker (WorkManager)                  │
+│  Firebase Auth · Firestore · Cloudinary · WorkManager        │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**UI layer** (`ui/`)
+Screens never talk to Firebase directly. They go through a ViewModel, which calls a repository.
 
-- Screens, lists and user input
-- Split into `auth`, `volunteer`, `admin`, `profile` and `settings`
-
-**ViewModel layer**
-
-- Holds each screen's state
-- Calls the repositories
-- Keeps data when the phone is rotated
-
-**Data layer** (`data/repository`, `data/model`)
-
-- Repositories are the only classes that talk to Firebase
-- Models match the Firestore documents
-
-**Services** (`data/firebase`, `data/remote`, `notifications/`)
-
-- Firebase set-up
-- Picture uploads
-- Background notifications
-
-**Utilities** (`utils/`)
-
-- Language and theme
-- Dates and phone number validation
-- Error messages and network checks
-
-### 9.2 Navigation
+### 8.2 Navigation
 
 | Graph | Screens |
 |-------|---------|
 | `AuthNavGraph` | Splash, Welcome, About PAB, Sign-in, Profile setup |
 | `VolunteerNavGraph` | Home, Activities, Schedule, Community, Profile |
 | `AdminNavGraph` | Overview, Volunteers, Activities, Posts |
-| `AppNavGraph` | Chooses which of the graphs above to show |
+| `AppNavGraph` | Chooses a graph based on sign-in, profile completion and role |
 
-`AppNavGraph` decides based on:
+### 8.3 Design Patterns
 
-- Whether the user is signed in
-- Whether they have finished their profile
-- Whether they are an admin
-
-### 9.3 How Data Flows Through the App
-
-```
-        ┌──────────────────────────────┐
-        │   Philisa Volunteers (App)   │
-        │   UI ─► ViewModel ─► Repo    │
-        └───┬──────────┬───────────┬───┘
-            │          │           │
-   sign-in  │  reads & │  picture  │
-            ▼  writes  ▼  uploads  ▼
-  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐
-  │   Firebase   │ │    Cloud     │ │  Cloudinary  │
-  │     Auth     │ │  Firestore   │ │              │
-  └──────────────┘ └──────▲───────┘ └──────────────┘
-                          │ checks for new items
-                          │ (about every 15 min)
-                 ┌────────┴────────┐
-                 │  UpdatesWorker  │──► Local notifications
-                 │  (WorkManager)  │
-                 └─────────────────┘
-```
+| Pattern | Where It Is Used | Why |
+|---------|------------------|-----|
+| Repository | The six repositories | Keeps all Firebase code in one place |
+| MVVM | The four ViewModels | Separates screens from data loading, and survives screen rotation |
+| Observer | LiveData | Screens update automatically when data changes |
+| Singleton | `FirestoreManager`, `AppLanguage`, `ThemePreference` | One shared database connection and one place for settings |
+| Adapter | `ActivityAdapter`, `AnnouncementAdapter` and others | Turns lists of data into rows on screen |
 
 ---
 
-## 10. Integrations and the API Layer
+## 9. Integrations and the API Layer
 
-The app connects to three external services. All of them are reached through the data layer, so no screen ever talks to a network service directly.
-
-### 10.1 External Services
+### 9.1 External Services
 
 | Service | What It Does | How We Connect |
 |---------|--------------|----------------|
@@ -528,48 +245,34 @@ The app connects to three external services. All of them are reached through the
 | Firebase Authentication | Sign-in, Google Sign-In, password reset | Official Android SDK |
 | Cloud Firestore | Stores every record, plus the offline cache | Official Android SDK |
 
-**Why we use the SDKs for Firebase:**
+We use the Firebase SDKs rather than raw REST calls because they provide the offline cache, automatic retries and token refresh, which matter on an unreliable connection.
 
-- They give us an offline cache, automatic retries and token refresh without extra code.
-- Raw REST calls would have meant more code and worse behaviour on a poor connection.
-- This matters for volunteers in areas with unreliable signal.
+### 9.2 The Repository Layer (Internal API)
 
-### 10.2 The Repository Layer (Internal API)
-
-- Six repositories expose **32 operations**. Together, these are the app's internal API.
-- Screens and ViewModels only ever call these operations.
-- All operations are `suspend` functions, so nothing freezes the screen.
-
-**Every operation follows the same rule:**
+Six repositories expose **32 operations**, and these are the only way screens reach data. All are `suspend` functions, so nothing freezes the screen.
 
 | Type of Operation | Returns | Why |
 |-------------------|---------|-----|
-| Writes (anything that changes data) | `Result<T>` | The caller has to handle a possible failure |
-| Reads | The value, or `null` if nothing is there | Simple to use |
+| Writes | `Result<T>` | The caller has to handle a possible failure |
+| Reads | The value, or `null` | Simple to use |
 
 ```kotlin
-// Writes return Result, so failure must be handled
 suspend fun join(activity: Activity, user: User): Result<Unit>
-suspend fun createActivity(activity: Activity, createdBy: String): Result<String>
-
-// Reads return the value, or null
-suspend fun getUser(uid: String): User?
 suspend fun getPublishedActivities(): List<Activity>
 ```
 
-**Why this matters:** announcement pictures were first hosted with a different provider, which started refusing our uploads. Because screens call an uploader, not a specific provider, switching to Cloudinary only changed **one file**. No screen or ViewModel had to change.
+When our first picture provider started refusing uploads, switching to Cloudinary changed **one file**. No screen or ViewModel had to change.
 
-### 10.3 The Cloudinary REST Client
+### 9.3 The Cloudinary REST Client
 
-Announcement pictures are uploaded through Cloudinary's REST API. We wrote the client ourselves in `data/remote/ImageUploader.kt`, instead of using a library, so every part of the request is clear.
+Written by hand in `data/remote/ImageUploader.kt`, so every part of the request is explicit.
 
 | Part | Detail |
 |------|--------|
 | Endpoint | `POST https://api.cloudinary.com/v1_1/{cloud_name}/image/upload` |
 | Content type | `application/x-www-form-urlencoded` |
 | Request body | The picture as a base64 data URI, plus the `upload_preset` |
-| Success | HTTP 200–299 |
-| Response used | `secure_url`, the HTTPS link to the stored picture |
+| Success | HTTP 200–299, returning `secure_url` |
 | Timeouts | 30 seconds to connect, 30 seconds to read |
 
 ```kotlin
@@ -581,19 +284,12 @@ if (code !in 200..299) throw failureFor(response, code)
 return JSONObject(response).getString("secure_url")
 ```
 
-- The status code decides whether to read the success or the error response.
-- Upload preset problems get their own message. Other errors keep Cloudinary's own wording, so the reason isn't lost.
-- Firestore only stores the returned link. The picture itself never goes into the database.
+- Firestore only stores the returned link, never the picture itself.
+- Uploads are **unsigned**, so no Cloudinary secret ships inside the APK, where anyone could extract it.
 
-**Why the upload is unsigned:**
+### 9.4 Error Handling
 
-- A signed upload needs Cloudinary's secret key.
-- Anything inside an APK can be extracted by whoever downloads it.
-- So we use an unsigned upload preset instead. No secret ships with the app, and what uploads are allowed to do is controlled on Cloudinary's side.
-
-### 10.4 Error Handling
-
-Each service reports errors differently. All of them are translated in one place, `utils/ErrorMessages.kt`, into a clear message the user can act on.
+All errors are translated in one place, `utils/ErrorMessages.kt`, into a message the user can act on, in their chosen language.
 
 | Error | What the User Sees |
 |-------|--------------------|
@@ -603,48 +299,14 @@ Each service reports errors differently. All of them are translated in one place
 | Email already registered | "That email already has an account" |
 | Failed transaction, e.g. activity full | The real reason, found inside the wrapped error |
 
-**Other details:**
-
-- **Offline writes:** the app checks the connection before saving. Firestore quietly queues writes while offline, so without this check a save would seem to hang forever.
-- **Correct language:** messages are stored as string resources and only turned into words by the screen that shows them, so errors appear in the language the user chose.
-- **Tested:** 11 unit tests cover this mapping, including one that checks every error leads to a real message.
+- The app checks the connection before saving. Firestore quietly queues offline writes, so without this check a save would seem to hang.
+- 11 unit tests cover this mapping.
 
 ---
 
-## 11. Design Patterns
+## 10. Data Model
 
-### 11.1 Repository
-
-- **Used in:** `AuthRepository`, `UserRepository`, `ActivityRepository`, `SignupRepository`, `AnnouncementRepository`, `AccountRepository`
-- **Why:** keeps all Firebase code in one place. Screens never call Firestore directly, so the database could change without rewriting the UI.
-
-### 11.2 MVVM (Model–View–ViewModel)
-
-- **Used in:** `VolunteerViewModel`, `AdminViewModel`, `AuthViewModel`, `ProfileSetupViewModel`
-- **Why:** separates what the screen shows from how the data is loaded, and keeps state when the phone is rotated.
-
-### 11.3 Observer
-
-- **Used in:** LiveData in the ViewModels
-- **Why:** screens update automatically when the data they are watching changes.
-
-### 11.4 Singleton
-
-- **Used in:** `FirestoreManager`, `FirebaseAuthManager`, `AppLanguage`, `ThemePreference`
-- **Why:** one shared database connection and one place for app settings.
-
-### 11.5 Adapter
-
-- **Used in:** `ActivityAdapter`, `AnnouncementAdapter`, `VolunteerAdapter`, `SignupAdapter` and others
-- **Why:** turns lists of data into rows on screen.
-
----
-
-## 12. Data Model
-
-### 12.1 Entity Relationship Diagram
-
-The diagram below shows the four Firestore collections, their primary keys (PK), foreign keys (FK) and how they relate, using crow's foot notation. GitHub draws it automatically.
+### 10.1 Entity Relationship Diagram
 
 ```mermaid
 erDiagram
@@ -674,7 +336,6 @@ erDiagram
         string id PK
         string title
         string programme
-        string date
         long dateMillis
         string startTime
         string endTime
@@ -685,7 +346,6 @@ erDiagram
         string description
         string status
         string createdBy FK
-        long createdDate
         long publishedAt
     }
 
@@ -695,11 +355,7 @@ erDiagram
         string userId FK
         string volunteerName
         string activityTitle
-        string programme
-        string date
         long dateMillis
-        string startTime
-        string endTime
         string location
         long signedUpDate
     }
@@ -709,7 +365,6 @@ erDiagram
         string title
         string messageBody
         string imageUrl
-        long date
         string status
         string createdBy FK
         long publishedAt
@@ -720,170 +375,48 @@ erDiagram
 | Relationship | Cardinality | Meaning |
 |--------------|-------------|---------|
 | Users → Activity Signups | One to many | A volunteer can join many activities |
-| Activities → Activity Signups | One to many | An activity can have many volunteers, up to `totalSpots` |
-| Users → Activities | One to many | An admin creates many activities |
-| Users → Announcements | One to many | An admin posts many announcements |
-| Users ↔ Announcements | Many to many | Volunteers give thumbs up, stored in `thumbsUpBy` |
-| Users ↔ Activities | Many to many | Volunteers save favourites, stored in `favouriteActivityIds` |
+| Activities → Activity Signups | One to many | An activity has many volunteers, up to `totalSpots` |
+| Users → Activities / Announcements | One to many | An admin creates many of each |
+| Users ↔ Announcements | Many to many | Thumbs up, stored in `thumbsUpBy` |
+| Users ↔ Activities | Many to many | Favourites, stored in `favouriteActivityIds` |
 
-### 12.2 Collections and Fields
+### 10.2 Design Decisions
 
-| Collection | What It Stores |
-|------------|----------------|
-| `users` | Each person's profile |
-| `activities` | Volunteer opportunities created by admins |
-| `activitySignups` | A volunteer's place on an activity |
-| `announcements` | Posts from PAB to volunteers |
-
-**`users` fields**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `firstName`, `lastName` | String | Volunteer's name |
-| `email`, `phone` | String | Contact details |
-| `area` | String | Area or township |
-| `programmeInterests` | List | Programmes they chose during sign-up |
-| `favouriteActivityIds` | List | Saved opportunities |
-| `role` | String | `volunteer` or `admin` |
-| `volunteerId` | String | Volunteer ID shown on their profile |
-| `profileComplete` | Boolean | Whether sign-up is finished |
-| `joinedDate` | Number | When they joined |
-
-**`activities` fields**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `title`, `description` | String | What the activity is |
-| `programme` | String | Which PAB programme it belongs to |
-| `date`, `dateMillis` | String / Number | Activity date |
-| `startTime`, `endTime` | String | Activity times |
-| `location` | String | Where it takes place |
-| `volunteerRole` | String | What volunteers will do |
-| `totalSpots`, `filledSpots` | Number | Capacity and spots taken |
-| `status` | String | `draft` or `published` |
-| `createdBy`, `createdDate`, `publishedAt` | String / Number | Who created it and when |
-
-**`activitySignups` fields**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `activityId`, `userId` | String | Links the volunteer to the activity |
-| `volunteerName` | String | Shown to admins |
-| `activityTitle`, `programme`, `location` | String | Copied from the activity |
-| `date`, `dateMillis`, `startTime`, `endTime` | String / Number | Copied from the activity |
-| `signedUpDate` | Number | When they joined |
-
-**`announcements` fields**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `title`, `messageBody` | String | The announcement |
-| `imageUrl` | String | Optional picture (empty if none) |
-| `date` | Number | Announcement date |
-| `status` | String | `draft` or `published` |
-| `createdBy`, `publishedAt` | String / Number | Who posted it and when |
-| `thumbsUpBy` | List | Volunteers who gave it a thumbs up |
-
-### 12.3 Design Decisions
-
-**1. Sign-up IDs are `activityId_userId`**
-
-- One fixed ID per person per activity.
-- The same spot can never be taken twice.
-
-**2. Joining uses a Firestore transaction**
-
-- The activity is re-read from the server and the spot is taken in one step.
-- Two people can't take the last spot at the same time.
-
-**3. Sign-ups copy the activity's details**
-
-- The title, date and location are saved with the sign-up.
-- Volunteers keep their history and hours, even if the activity is later deleted.
-
-**4. Leaving an activity deletes the sign-up**
-
-- There's no approval status, so there's nothing to keep.
-- The spot goes straight back to the group.
-
-**5. Some values are calculated, not stored**
-
-- `fullName`, `isAdmin` and `spotsRemaining` are worked out in the app.
-- They are never saved to Firestore, so they can't get out of sync.
-
-### 12.4 Status Values
-
-| Field | Possible Values |
-|-------|-----------------|
-| `role` | `volunteer`, `admin` |
-| Activity `status` | `draft`, `published` |
-| Announcement `status` | `draft`, `published` |
+| Decision | Reason |
+|----------|--------|
+| Sign-up IDs are `activityId_userId` | The same person can never take two spots on one activity |
+| Joining is a Firestore transaction | Two people can't take the last spot at the same time |
+| Sign-ups copy the activity's details | Volunteers keep their history and hours, even if the activity is deleted |
+| Leaving deletes the sign-up | There's no approval status, so the spot simply goes back |
+| `role` is `volunteer` or `admin`; activities and announcements are `draft` or `published` | Keeps states simple |
 
 ---
 
-## 13. Security and Privacy
+## 11. Security and Privacy
 
-### 13.1 Firebase Security Rules
+**Firestore Security Rules** (`firestore.rules`) protect every collection, not just the screens:
 
-All access is controlled by `firestore.rules`.
-
-**`users`**
-
-- Users can read their own record. Admins can read everyone's.
-- A new record must start with the role `volunteer`.
-- Users can edit their own profile, but not their `role`, `volunteerId`, `email` or `joinedDate`.
-- Only the user can delete their own account.
-
-**`activities`**
-
-- Any signed-in user can read.
-- Only admins can create, edit or delete.
-- Volunteers can only change the spot counter:
-  - by one at a time
-  - together with their own sign-up
-  - never below 0 or above the total
-
-**`announcements`**
-
-- Any signed-in user can read.
-- Only admins can create, edit or delete.
+- Volunteers can only read and edit their own profile, and can't change their role, volunteer ID, email or join date.
+- Every new account must start as a `volunteer`.
+- Only admins can create or change activities and announcements.
+- Joining changes the spot count by exactly one, together with the volunteer's own sign-up, and never above the total.
 - Volunteers can only add or remove their own thumbs up.
 
-**`activitySignups`**
+**Other measures:**
 
-- Volunteers see their own places.
-- Admins see who signed up for what.
-
-### 13.2 Other Measures
-
-- **Rules testing:** 25 automated tests run against the Firebase emulator on every push. They prove, for example, that a volunteer can't make themselves an admin or edit anyone else's profile.
-- **Passwords:** at least 8 characters, including a symbol.
-- **Account deletion:**
-  - Users can delete their own account and data at any time, in line with POPIA.
-  - Firebase asks them to sign in again first.
-- **Secrets:**
-  - Cloudinary keys are kept in `local.properties`.
-  - Release signing details are kept in `keystore.properties`.
-  - Neither file is committed to Git.
-- **Offline data:** the cache only holds data the user is allowed to read.
+- **Tested:** 25 rules tests run against the Firestore emulator on every push.
+- **Delete my account** removes the volunteer's data and gives their spots back, in line with POPIA. It requires a recent sign-in.
+- **Passwords** need at least 8 characters, including a symbol.
+- **Safe house locations** are never shown in the app.
+- **Secrets** (Cloudinary details, release signing keys, Firebase admin keys) are kept out of Git.
 
 ---
 
-## 14. Getting Started
+## 12. Getting Started
 
-### 14.1 What You Will Need
+**You need:** Android Studio, JDK 17, and an Android 8.0+ phone or emulator.
 
-- Android Studio (latest stable version)
-- JDK 17
-- An emulator or Android device running Android 8.0 or later
-- Git
-- Node.js 20 (only needed to run the security rules tests or the seed script)
-
-### 14.2 Setting Up the Project
-
-**Step 1: Clone the repository**
-
-Switch to the `develop` branch, which holds the latest working code.
+**Step 1: Clone the repository and use the `develop` branch**
 
 ```bash
 git clone https://github.com/Kwethukubonga/PAB_Volunteers.git
@@ -891,240 +424,162 @@ cd PAB_Volunteers
 git checkout develop
 ```
 
-**Step 2: Open the project**
+**Step 2: Add the Cloudinary details**
 
-Open the `PAB_Volunteers` folder in Android Studio.
+Copy `local.properties.example` to `local.properties` and add the details (ask a team member). Without them the app still runs, but picture uploads won't.
 
-**Step 3: Add the Cloudinary details**
+**Step 3: Run the app**
 
-Copy `local.properties.example` to `local.properties`, then add the Cloudinary details (ask a team member for them).
+Open the folder in Android Studio, let Gradle sync, and press **Run**.
 
-```properties
-cloudinary.cloud.name=YOUR_CLOUD_NAME
-cloudinary.upload.preset=YOUR_UPLOAD_PRESET
-```
+> **Note:** `google-services.json` and a shared debug key are included, so Google sign-in works on every team member's debug build.
 
-The app still runs without these, but picture uploads on announcements won't work.
+**Making an admin:** sign up in the app, change that user's `role` in the Firestore `users` collection from `volunteer` to `admin`, and sign in again.
 
-**Step 4: Run the app**
-
-Wait for Gradle to sync, then choose a device and click **Run**.
-
-> **Note:** The Firebase configuration (`google-services.json`) and a shared debug keystore are already included, so Google Sign-In works on every team member's debug build.
-
-### 14.3 Creating an Admin Account
-
-1. Sign up in the app as normal.
-2. In the Firebase console, go to **Firestore > users**, find your record, and change `role` from `volunteer` to `admin`.
-3. Sign out and sign back in to open the admin area.
-
-### 14.4 Adding Sample Data
-
-The seed script adds one sample activity and one announcement for each PAB programme. You'll need a Firebase service account key, which must **never** be committed.
-
-```bash
-cd tools/seed
-npm install
-node seed.js --dry-run                 # shows what would be added
-node seed.js --key <path to key file>  # adds the samples
-node seed.js --key <path to key file> --remove   # removes them again
-```
-
-### 14.5 Useful Commands
-
-| Task | Windows | macOS / Linux |
-|------|---------|---------------|
-| Build a debug APK | `gradlew.bat assembleDebug` | `./gradlew assembleDebug` |
-| Run unit tests | `gradlew.bat testDebugUnitTest` | `./gradlew testDebugUnitTest` |
-| Run lint | `gradlew.bat lintDebug` | `./gradlew lintDebug` |
-| Run security rules tests | `cd firestore-tests && npm install && npm test` | same |
-
-### 14.6 Test Accounts
-
-Use these accounts to try both sides of the app without signing up:
-
-| Role | Email | Password |
-|------|-------|----------|
-| Administrator | `kwethu1@gmail.com` | `Kwethu1@gmail.com` |
-| Volunteer | `kwethu2@gmail.com` | `Kwethu2@gmail.com` |
-
-- Sign in with **Sign in with email** on the Welcome screen.
-- The administrator account opens the admin area. The volunteer account opens the volunteer area.
-
+**Sample data:** `tools/seed/seed.js` adds one activity and one announcement per programme. Instructions are at the top of the file. It needs a Firebase service account key, which must never be committed.
 
 ---
 
-## 15. Project Structure
+## 13. Project Structure
 
 ```
 PAB_Volunteers/
-├── .github/workflows/android.yml       # CI pipeline
-├── app/
-│   ├── build.gradle.kts                # App settings and dependencies
-│   ├── google-services.json            # Firebase configuration
-│   └── src/
-│       ├── main/java/com/kantu/pab_volunteers/
-│       │   ├── data/
-│       │   │   ├── firebase/           # FirebaseAuthManager, FirestoreManager
-│       │   │   ├── model/              # User, Activity, ActivitySignup, Announcement
-│       │   │   ├── remote/             # ImageUploader (Cloudinary)
-│       │   │   └── repository/         # Auth, Account, User, Activity, Signup, Announcement
-│       │   ├── navigation/             # App, Auth, Volunteer and Admin nav graphs
-│       │   ├── notifications/          # UpdatesWorker, channels, settings, permission prompt
-│       │   ├── ui/
-│       │   │   ├── auth/               # Splash, Welcome, About PAB, Email sign-in, Google sign-in
-│       │   │   ├── profile/            # Two-step profile setup and programme list
-│       │   │   ├── volunteer/          # Home, Activities, Schedule, Community, Profile
-│       │   │   ├── admin/              # Overview, Volunteers, Activities, Announcements
-│       │   │   └── settings/           # Theme, language, notifications, delete account
-│       │   ├── utils/                  # Language, theme, dates, phone numbers, errors
-│       │   └── PabApplication.kt
-│       ├── main/res/                   # Layouts (incl. tablet and landscape), strings (en, xh, af), themes
-│       └── test/                       # Unit tests
-├── firestore-tests/                    # Security rules tests (Firebase emulator)
-├── tools/seed/                         # Sample data script
-├── keystore/debug.keystore             # Shared debug key (release keys are never committed)
-├── firestore.rules                     # Firestore security rules
-├── local.properties.example            # Template for Cloudinary settings
-├── keystore.properties.example         # Template for release signing
-└── settings.gradle.kts
+├── app/src/main/java/com/kantu/pab_volunteers/
+│   ├── data/            # Models, repositories, Firebase and Cloudinary
+│   ├── navigation/      # Navigation graphs and sign-in routing
+│   ├── notifications/   # Background check and notification channels
+│   ├── ui/              # Auth, profile setup, volunteer, admin and settings screens
+│   └── utils/           # Language, theme, dates, phone numbers, error messages
+├── app/src/main/res/    # Layouts (incl. tablet and landscape) and strings (en, xh, af)
+├── app/src/test/        # Unit tests
+├── firestore-tests/     # Security rules tests
+├── tools/seed/          # Sample data script
+├── firestore.rules      # Database security rules
+└── .github/workflows/   # CI pipeline
 ```
 
 ---
 
-## 16. DevOps and Development Workflow
+## 14. DevOps, Testing and Hosting
 
-### 16.1 Branching Strategy
-
-| Branch | Purpose |
-|--------|---------|
-| `master` | The stable, release-ready version of the app. |
-| `develop` | Where finished features are brought together and tested. |
-| `feature/…` | One branch per feature, e.g. `feature/authentication` |
+### 14.1 Branching
 
 ```
  feature/* ─► Pull Request ─► CI checks ─► Peer review ─► develop ─► master
 ```
 
-### 16.2 Continuous Integration
+`master` is release-ready, and `develop` is where features are brought together.
 
-GitHub Actions runs on every push and Pull Request to `master` and `develop`.
+### 14.2 Continuous Integration
 
-| Step | Job | What It Does |
-|:----:|-----|--------------|
-| 1 | Unit tests | Runs all 66 unit tests and saves a report |
-| 1 | Lint | Checks the code for errors, including missing translations |
-| 1 | Rules | Runs all 25 security rules tests |
-| 2 | Build APK | Builds the app, once all three checks pass |
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **91 automated tests**.
 
-- Jobs in step 1 run at the same time.
-- The built APK can be downloaded from GitHub for 30 days.
-- A new push cancels any run still going for the same branch.
-- Cloudinary details come from GitHub Secrets, so they never appear in the code.
+| Job | What It Proves |
+|-----|----------------|
+| **Unit tests** (66, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers |
+| **Security rules tests** (25, Firestore emulator) | No overbooking, no joining twice, no editing other people's data, no self-promotion to admin |
+| **Lint** | Code problems and missing translations |
+| **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 
-### 16.3 Testing
+Run them yourself:
 
-The project has **91 automated tests**, and all of them run on every push.
+```bash
+./gradlew testDebugUnitTest                      # unit tests (Windows: gradlew.bat)
+./gradlew lintDebug                              # lint
+cd firestore-tests && npm install && npm test    # rules tests (needs Node.js 20 and JDK 17)
+```
 
-| Type | Number of Tests | Runs On |
-|------|:---------------:|---------|
-| Unit tests | 66 | Every push (JUnit) |
-| Security rules tests | 25 | Every push (Firebase emulator) |
-| **Total** | **91** | |
+The app has also been tested on physical Android phones. User Acceptance Testing with PAB is planned before release.
 
-**Unit tests cover:**
+### 14.3 Hosting
 
-- Data models
-- Utilities, including phone number validation
-- Error handling (11 tests, see section 10.4)
-
-**Security rules tests prove, for example, that:**
-
-- A volunteer can't make themselves an admin
-- A volunteer can't change another person's profile
-- A volunteer can't change their own email, volunteer ID or join date
-- A volunteer can only read their own record, while an admin can read everyone's
-
-**Device testing**
-
-- Android Studio emulator
-- Physical Android devices
-
-**User Acceptance Testing**
-
-- PAB representatives will test the app before release.
-
-### 16.4 Hosting and Distribution
-
-The app will be shared through a simple download page on **Firebase Hosting**, so PAB can send volunteers a link to install it.
+The app will be shared through a download page on **Firebase Hosting**, so PAB can send volunteers a link.
 
 - **Download page:** *link to be added once live*
-- **Status:** in progress
-
-**Before publishing a build:**
-
-1. **Create a release keystore.** Register its SHA-1 fingerprint in the Firebase console, or Google Sign-In won't work on the hosted build.
-2. **Work around the `.apk` block.** Firebase Hosting's free plan blocks files ending in `.apk`. Serve the file under a different extension, with a `Content-Disposition` header, so it still downloads with the correct `.apk` filename.
 
 ---
 
-## 17. Running Costs
+## 15. Running Costs
 
-| Item | Service | Estimated Cost |
-|------|---------|----------------|
-| App download page | Firebase Hosting | R0 on the free plan |
-| Google Play (optional, later) | Google Play Console | US$25 once-off (approximately R460) |
-| Authentication | Firebase Authentication | R0 within free limits |
-| Database | Cloud Firestore | R0 within free limits |
-| Picture hosting | Cloudinary | R0 on the free plan |
-| Notifications | WorkManager (on the device) | R0 |
+| Item | Estimated Cost |
+|------|----------------|
+| Firebase Authentication and Firestore | R0 within the free tier (50,000 reads a day) |
+| Firebase Hosting (download page) | R0 on the free plan |
+| Cloudinary | R0 on the free plan |
+| Notifications | R0, since they run on the phone |
+| Google Play Console (optional, later) | US$25 once-off (about R460) |
 
 ---
 
-## 18. Project Status and Future Work
+## 16. Project Status and Future Work
 
-### 18.1 Current Status
+### 16.1 Current Status
 
 | Area | Status |
 |------|:------:|
-| Sign-up, sign-in, Google Sign-In and password reset | ✔ Complete |
-| Two-step profile setup with programme interests | ✔ Complete |
-| Volunteer Home, Activities, Schedule, Community and Profile | ✔ Complete |
-| Joining and leaving activities, favourites | ✔ Complete |
-| Admin Overview, Volunteers, Activities and Posts | ✔ Complete |
-| Notifications | ✔ Complete |
-| English, isiXhosa and Afrikaans | ✔ Complete |
-| Light and dark mode | ✔ Complete |
-| Firestore Security Rules and rules tests | ✔ Complete |
-| Tablet, landscape and accessibility support | ✔ Complete |
-| 91 automated tests | ✔ Complete |
-| GitHub Actions pipeline | ✔ Complete |
-| Release build and hosted download page (Firebase Hosting) | ⏳ In progress |
+| All volunteer and admin features | ✔ Complete |
+| Three languages, light and dark mode, tablet support | ✔ Complete |
+| Security Rules, 91 automated tests and CI | ✔ Complete |
+| Hosted download page | ⏳ In progress |
 | User Acceptance Testing with PAB | ☐ Planned |
-| Google Play distribution | ☐ Planned |
 
-### 18.2 Possible Future Improvements
+### 16.2 Future Improvements
 
-- Instant push notifications through Firebase Cloud Messaging, instead of checking every 15 minutes.
-- WhatsApp or SMS reminders for volunteers.
-- Attendance tracking, so admins can confirm who attended an activity.
+- Instant push notifications through Firebase Cloud Messaging
+- WhatsApp or SMS reminders
+- Attendance tracking for activities
+
+---
+
+## 17. AI Usage Declaration
+
+### 17.1 Tools Used
+
+- **Claude** (Anthropic), through Claude Code
+- **GitHub Copilot**
+
+### 17.2 Where AI Was Used
+
+| Area | How |
+|------|-----|
+| Code | Writing and reviewing parts of the app, including the volunteer and admin screens, error handling, and the join and leave logic |
+| Testing | Security rules tests for activities and sign-ups, and full-app checks for bugs |
+| Translations | First drafts of the isiXhosa and Afrikaans text, later checked by fluent speakers |
+
+### 17.3 Example Prompts
+
+- *"In the settings page add functionality for language change"*
+- *"Create a standard for SA phone numbers, 0888888888 passed when it shouldn't have"*
+- *"Add notifications on the phone: notify volunteers when new announcements and activities are added"*
+- *"Rerun checks to ensure there are no errors and no missed fixes"*
+
+### 17.4 How We Checked It
+
+- **Purpose:** to speed up development, find and fix errors, and make sure the app met PAB's needs and the project requirements.
+- **Checking:** the team set the requirements, reviewed every change, split changes into commits, ran the automated tests and CI, and tested the app on our own phones.
+
+---
+
+## 18. Attendance
+
+All group members attended all group meetings, which took place every Monday.
+
+| Meeting | Kwethukubonga Kunene | Letlhogonolo Kgatshe | Nuha Grimwood | Unathi Mudzengi | Ash Kruger |
+|---------|:---:|:---:|:---:|:---:|:---:|
+| 17 August 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 24 August 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 31 August 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 7 September 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 14 September 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 21 September 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
+| 28 September 2026 | ✔ | ✔ | ✔ | ✔ | ✔ |
 
 ---
 
 ## 19. The Team
 
-Philisa Volunteers is being developed by **Team KANTU**:
+**Team KANTU:** Kwethukubonga Kunene · Letlhogonolo Kgatshe · Nuha Grimwood · Unathi Mudzengi · Ash Kruger
 
-| Team Member |
-|-------------|
-| Kwethukubonga Kunene |
-| Letlhogonolo Kgatshe |
-| Nuha Grimwood |
-| Unathi Mudzengi |
-| Ash Kruger |
-
-We would like to thank Philisa Abafazi Bethu for welcoming us into their space, sharing their time and helping shape this project around the real needs of their volunteers and community.
-
----
+Thank you to Philisa Abafazi Bethu for welcoming us into their space and shaping this project around the real needs of their volunteers and community.
 
 *Built for Philisa Abafazi Bethu – "Heal Our Women"*
