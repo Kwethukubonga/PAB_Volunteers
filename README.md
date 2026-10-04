@@ -38,8 +38,7 @@ Philisa Volunteers is an Android app that brings volunteering at Philisa Abafazi
 
 ### 1.1 Demo Video
 
-*Unlisted YouTube link: to be added once uploaded.*
-
+*Unlisted YouTube link: https://youtu.be/vqdMx4jWI7Y?si=peVstoh2Mlyq2UHJ
 ### 1.2 Test Accounts
 
 | Role | Email | Password |
