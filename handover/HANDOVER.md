@@ -7,7 +7,7 @@ Task 2 got 176/270 (65%). Most marks were lost on the **web app** (APIs, Databas
 **Repos:** Android `Kwethukubonga/PAB_Volunteers` · Web `Kwethukubonga/PAB_WebApp`. Clone both into the same folder.
 **Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (100 items: 39 done, 10 part done). Each item says how to do it and how to know it's finished.
 
-> ⚠️ **Before the final submission: delete this folder.** `handover/` (this file and `IMPROVEMENT_PLAN.md`) is for the team only, not the marker. When the last item you're going to do is merged, one person on the Android team removes `handover/` in a PR to `develop`, and the pointers to it in both `CLAUDE.md` files, before `develop` goes to `master` for submission. See the checklist in section 5.
+> ⚠️ **These notes live only on the `changes_final_POE` branch**, which exists in both repos with the same `handover/` folder and a `changes_POE.md` project guide. They are for the team only, never go into `develop`, `main` or `master`, and **both `changes_final_POE` branches are deleted before the final submission** (section 5).
 
 ## Teams
 
@@ -22,15 +22,17 @@ Within your team, put **your own name** in the Owner column for each item you ta
 
 ## Picking this up with Claude Code
 
-Each repo has a `CLAUDE.md` that Claude Code reads automatically: what the project is, the stack, commands, and the team's rules. To carry on:
+Each repo's `changes_final_POE` branch has `changes_POE.md`: what the project is, the stack, commands, and the team's rules. Claude Code doesn't load it by itself, so you point Claude at it. To carry on:
 
-1. Pull `develop` in both repos.
-2. Open Claude Code in your team's repo and say something like *"Read handover/HANDOVER.md and pick up job W1"* (from the web repo, the path is `../PAB_Volunteers/handover/HANDOVER.md`).
-3. Work on `feature/<name>/<topic>`, PR into `develop`, and have someone else review.
+1. Clone both repos side by side and run `git fetch`.
+2. Start your work from `develop`: `git checkout develop`, `git pull`, `git checkout -b feature/<name>/<topic>`. **Never branch from or merge `changes_final_POE`.**
+3. Open Claude Code in your team's repo and say something like *"Read changes_POE.md and handover/HANDOVER.md from the changes_final_POE branch (use git show origin/changes_final_POE:<file>), then pick up job W1"*.
+4. PR into `develop`, and have someone else review.
+5. To put your name in an Owner column or tick an item: `git checkout changes_final_POE`, edit, commit, push. Make the same change in the other repo's copy so both stay identical.
 
 > **Merging PRs:** use **"Create a merge commit"**, not "Squash and merge". Squashing already rewrote one person's commits under another name; the marker grades individual contribution from the history.
 >
-> **No AI signatures:** no `Co-Authored-By: Claude`/Copilot lines in commits or PRs. `CLAUDE.md` tells Claude this, but also turn off commit attribution in your own Claude Code settings (the `attribution` setting, or `"includeCoAuthoredBy": false` in older versions) and read each commit message before you push. AI use is declared once, in each README's AI Usage Declaration.
+> **No AI signatures:** no `Co-Authored-By: Claude`/Copilot lines in commits or PRs. `changes_POE.md` tells Claude this, but also turn off commit attribution in your own Claude Code settings (the `attribution` setting, or `"includeCoAuthoredBy": false` in older versions) and read each commit message before you push. AI use is declared once, in each README's AI Usage Declaration.
 
 ---
 
@@ -40,9 +42,10 @@ Each repo has a `CLAUDE.md` that Claude Code reads automatically: what the proje
 |---|---|---|
 | Web | `main` | Old version (4 Oct). This is what Railway serves. |
 | Web | `develop` | All the new work. 185 tests pass, coverage reported, README restored. Ready to go to `main` once W1 is done. |
+| Both | `changes_final_POE` | These notes and `changes_POE.md`. Never merge; delete before the final submission. |
 | Web | `revert-7-feature/api` | Made with GitHub's Revert button on PR #7, never opened as a PR. **Don't merge it**: it would undo all the new web work. Delete it if nobody needs it. |
 | Web | `feature/database-persistence`, `feature/update-programme-images`, `unathi` | Old, and they carry a stray `.claude/launch.json`. Delete if finished with. |
-| Android | `develop` | Same as `master` plus this handover and new rules tests (40 pass). All 17 requirements (PV-FR01–17) implemented. |
+| Android | `develop` | Same as `master` plus new rules tests (40 pass). All 17 requirements (PV-FR01–17) implemented. |
 | Android | `feature/kwethu/design-tokens` | Shared palette + header contrast fix (E1, F9). **No PR yet.** Its commit message has a `Co-Authored-By: Claude` line; reword it before the PR. |
 
 ### Done on web `develop`
@@ -169,8 +172,8 @@ Do this once, after the last feature PR is merged and before submitting. Everyon
 
 | # | Step | Repo | Done |
 |---|---|---|---|
-| F1 | Delete the `handover/` folder (`HANDOVER.md` and `IMPROVEMENT_PLAN.md`) | Android | ☐ |
-| F2 | Remove the lines in both `CLAUDE.md` files that point to `handover/`. As a group, decide whether to keep `CLAUDE.md` at all; if it stays, the README's AI Usage Declaration should mention it | Both | ☐ |
+| F1 | Delete the `changes_final_POE` branch in **both** repos (GitHub → repo → Branches → bin icon). That removes `handover/` and `changes_POE.md` | Both | ☐ |
+| F2 | Check `develop`, `main` and `master` contain no `handover/`, `changes_POE.md` or `CLAUDE.md` | Both | ☐ |
 | F3 | READMEs are current: requirements tables, links, test counts, live URLs | Both | ☐ |
 | F4 | No AI signatures in any commit or PR on the branches being submitted | Both | ☐ |
 | F5 | Merge `develop` → `main` (web) and `develop` → `master` (Android) with a merge commit; CI green; live site and download page work | Both | ☐ |

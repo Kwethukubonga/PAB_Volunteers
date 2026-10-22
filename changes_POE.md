@@ -1,4 +1,6 @@
-# Philisa Volunteers (Android)
+# Philisa Volunteers (Android): project guide
+
+> This file and `handover/` live **only on the `changes_final_POE` branch**. They never go into `develop` or `master`, and the branch is deleted before the final submission. Claude Code does not load this file by itself, so start a session with: *"Read changes_POE.md on the changes_final_POE branch (`git show origin/changes_final_POE:changes_POE.md`)."*
 
 The volunteer app for Philisa Abafazi Bethu (PAB), a gender-based violence and community support NPO in Lavender Hill, Cape Town. Volunteers sign up, join activities and read announcements; PAB admins manage activities, announcements and volunteers. Team KANTU, varsity group project (Task 3 follows Task 2, which got 176/270).
 
@@ -8,9 +10,11 @@ Sister repo: the public website, `Kwethukubonga/PAB_WebApp`. Clone both side by 
 
 ## Where to start
 
-1. `handover/HANDOVER.md`: what's done, what's left in order, the setup steps, and an Owner column. Put your name on what you take.
-2. `handover/IMPROVEMENT_PLAN.md`: the full checklist (A1–K18 and W1–W12, both repos). Each item says how to do it and how to know it's finished. Tick items when they're done and keep the Progress line at the top current.
+1. `handover/HANDOVER.md` (on this branch): what's done, what's left in order, the setup steps, and an Owner column. Put your name on what you take.
+2. `handover/IMPROVEMENT_PLAN.md` (on this branch): the full checklist (A1–K18 and W1–W12, both repos). Each item says how to do it and how to know it's finished.
 3. `README.md` lists the requirements PV-FR01–17. All are implemented; keep the README true when behaviour changes.
+
+Read the notes without leaving your work branch: `git show origin/changes_final_POE:handover/HANDOVER.md`.
 
 ## Stack
 
@@ -33,8 +37,8 @@ CI (`.github/workflows/`) runs unit tests, lint and the rules tests on every pus
 
 ## Rules for this project
 
-- **Final submission:** `handover/` is for the team only and must be deleted before the final submission (`handover/HANDOVER.md` section 5). Whenever someone mentions the final submission, the deadline, merging to `master` for submission, or a release, remind them of that checklist before doing anything else.
-
+- **Keep the notes out of the app's history:** branch your work from `develop`, never from `changes_final_POE`, and never merge `changes_final_POE` into anything. Ticking items or adding your name is a commit on `changes_final_POE` only.
+- **Final submission:** delete the `changes_final_POE` branch in both repos before the final submission (`handover/HANDOVER.md` section 5). Whenever someone mentions the final submission, the deadline, merging to `master` for submission, or a release, remind them of that checklist before doing anything else.
 - **No AI attribution anywhere**: no `Co-Authored-By: Claude`/Copilot trailers, no "Generated with" lines, in commits, PRs, code or comments. The README's AI Usage Declaration section is the one place AI use is described.
 - **Merge PRs with "Create a merge commit"**, never squash: the marker grades individual contribution from the history.
 - Work on `feature/<name>/<topic>` branches, PR into `develop`, then `develop` → `master`.

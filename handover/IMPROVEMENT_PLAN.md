@@ -10,10 +10,10 @@ Each item names the repo it belongs to, its priority, how to do it, and how to k
 
 **Progress (22 October 2026):** 39 of 100 done, 10 part done (marked **Status**). Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
 
-> ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only. Remove the `handover/` folder before submitting (`HANDOVER.md` section 5, step F1).
+> ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only and live only on the `changes_final_POE` branch of each repo. Delete both branches before submitting (`HANDOVER.md` section 5, step F1).
 
 **Repos and teams**
-- **Android**: `Kwethukubonga/PAB_Volunteers` (this repo). **Android team: Tlhogi, Kwethu.** Every item labelled "Android".
+- **Android**: `Kwethukubonga/PAB_Volunteers`. **Android team: Tlhogi, Kwethu.** Every item labelled "Android".
 - **Web**: `Kwethukubonga/PAB_WebApp`. **Web team: Unathi, Nuha, Ash.** Every item labelled "Web".
 - Items labelled "Both": each team does its own app's part. `HANDOVER.md` section 4 says who does what for B3, W10, J2, J5 and E2.
 
