@@ -13,7 +13,7 @@ const {
   assertSucceeds,
   assertFails,
 } = require('@firebase/rules-unit-testing');
-const { doc, getDoc, setDoc, updateDoc, deleteDoc } = require('firebase/firestore');
+const { doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch } = require('firebase/firestore');
 
 const VOLUNTEER = 'volunteer_uid';
 const OTHER = 'other_uid';
@@ -21,7 +21,10 @@ const ADMIN = 'admin_uid';
 
 let testEnv;
 
-before(async () => {
+// A plain function, not an arrow, so it can have its own time limit. Loading the rules
+// into a freshly started emulator sometimes takes longer than a single test is allowed.
+before(async function () {
+  this.timeout(60000);
   testEnv = await initializeTestEnvironment({
     projectId: 'pab-volunteers-rules-test',
     firestore: {
@@ -219,6 +222,123 @@ describe('announcements', () => {
 
   it('stops a volunteer deleting an announcement', async () => {
     await assertFails(deleteDoc(doc(asVolunteer(), 'announcements', 'ann1')));
+  });
+});
+
+// Joining and leaving are saved as one batch in the app: the sign-up and the spot counter
+// change together. These prove the rules only accept that exact pair, so nobody can
+// overbook an activity, sign someone else up, or move the counter on its own.
+describe('activities and sign-ups', () => {
+  const OPEN = 'act_open';
+  const FULL = 'act_full';
+  const DRAFT = 'act_draft';
+  const signupId = (activityId, uid) => `${activityId}_${uid}`;
+
+  beforeEach(async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      const db = context.firestore();
+      await setDoc(doc(db, 'activities', OPEN), {
+        title: 'Community Soup Kitchen', status: 'published', totalSpots: 3, filledSpots: 1,
+      });
+      await setDoc(doc(db, 'activities', FULL), {
+        title: 'Baby Pack Assembly', status: 'published', totalSpots: 1, filledSpots: 1,
+      });
+      await setDoc(doc(db, 'activities', DRAFT), {
+        title: 'Not ready yet', status: 'draft', totalSpots: 5, filledSpots: 0,
+      });
+      // Someone else already has a place on the open activity.
+      await setDoc(doc(db, 'activitySignups', signupId(OPEN, OTHER)), {
+        activityId: OPEN, userId: OTHER,
+      });
+    });
+  });
+
+  /** What the app does when a volunteer taps Join. */
+  function join(db, activityId, uid, newCount) {
+    const batch = writeBatch(db);
+    batch.set(doc(db, 'activitySignups', signupId(activityId, uid)), { activityId, userId: uid });
+    batch.update(doc(db, 'activities', activityId), { filledSpots: newCount });
+    return batch.commit();
+  }
+
+  it('lets a volunteer join an open activity', async () => {
+    await assertSucceeds(join(asVolunteer(), OPEN, VOLUNTEER, 2));
+  });
+
+  it('stops anyone joining a full activity', async () => {
+    await assertFails(join(asVolunteer(), FULL, VOLUNTEER, 2));
+  });
+
+  it('stops anyone joining a draft activity', async () => {
+    await assertFails(join(asVolunteer(), DRAFT, VOLUNTEER, 1));
+  });
+
+  it('stops a volunteer joining the same activity twice', async () => {
+    await assertSucceeds(join(asVolunteer(), OPEN, VOLUNTEER, 2));
+    await assertFails(join(asVolunteer(), OPEN, VOLUNTEER, 3));
+  });
+
+  it('stops a volunteer signing someone else up', async () => {
+    const db = asVolunteer();
+    const batch = writeBatch(db);
+    batch.set(doc(db, 'activitySignups', signupId(OPEN, 'third_uid')), {
+      activityId: OPEN, userId: 'third_uid',
+    });
+    batch.update(doc(db, 'activities', OPEN), { filledSpots: 2 });
+    await assertFails(batch.commit());
+  });
+
+  it('stops the counter going up without a sign-up', async () => {
+    await assertFails(updateDoc(doc(asVolunteer(), 'activities', OPEN), { filledSpots: 2 }));
+  });
+
+  it('stops a sign-up being saved without the counter going up', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'activitySignups', signupId(OPEN, VOLUNTEER)), {
+      activityId: OPEN, userId: VOLUNTEER,
+    }));
+  });
+
+  it('stops the counter jumping by more than one', async () => {
+    await assertFails(join(asVolunteer(), OPEN, VOLUNTEER, 3));
+  });
+
+  it('stops a volunteer changing anything else on an activity', async () => {
+    await assertFails(updateDoc(doc(asVolunteer(), 'activities', OPEN), { title: 'Mine now' }));
+  });
+
+  it('lets a volunteer leave and give their spot back', async () => {
+    const db = asOther();
+    const batch = writeBatch(db);
+    batch.delete(doc(db, 'activitySignups', signupId(OPEN, OTHER)));
+    batch.update(doc(db, 'activities', OPEN), { filledSpots: 0 });
+    await assertSucceeds(batch.commit());
+  });
+
+  it('stops a volunteer removing someone else from an activity', async () => {
+    await assertFails(deleteDoc(doc(asVolunteer(), 'activitySignups', signupId(OPEN, OTHER))));
+  });
+
+  it('lets a volunteer check for their own place before joining', async () => {
+    await assertSucceeds(getDoc(doc(asVolunteer(), 'activitySignups', signupId(OPEN, VOLUNTEER))));
+  });
+
+  it('stops a volunteer seeing someone else sign-up', async () => {
+    await assertFails(getDoc(doc(asVolunteer(), 'activitySignups', signupId(OPEN, OTHER))));
+  });
+
+  it('stops a volunteer creating or deleting an activity', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'activities', 'new'), {
+      title: 'Fake', status: 'published', totalSpots: 99, filledSpots: 0,
+    }));
+    await assertFails(deleteDoc(doc(asVolunteer(), 'activities', OPEN)));
+  });
+
+  it('lets an admin delete an activity together with its sign-ups', async () => {
+    const db = asAdmin();
+    const batch = writeBatch(db);
+    batch.delete(doc(db, 'activitySignups', signupId(OPEN, OTHER)));
+    batch.delete(doc(db, 'activities', OPEN));
+    await assertSucceeds(batch.commit());
   });
 });
 
