@@ -1,0 +1,40 @@
+# Philisa Volunteers (Android)
+
+The volunteer app for Philisa Abafazi Bethu (PAB), a gender-based violence and community support NPO in Lavender Hill, Cape Town. Volunteers sign up, join activities and read announcements; PAB admins manage activities, announcements and volunteers. Team KANTU, varsity group project (Task 3 follows Task 2, which got 176/270).
+
+Sister repo: the public website, `Kwethukubonga/PAB_WebApp`. Clone both side by side (`PAB_Volunteers` and `PAB_WebApp` in the same folder).
+
+## Where to start
+
+1. `handover/HANDOVER.md`: what's done, what's left in order, the setup steps, and an Owner column. Put your name on what you take.
+2. `handover/IMPROVEMENT_PLAN.md`: the full checklist (A1–K18 and W1–W12, both repos). Each item says how to do it and how to know it's finished. Tick items when they're done and keep the Progress line at the top current.
+3. `README.md` lists the requirements PV-FR01–17. All are implemented; keep the README true when behaviour changes.
+
+## Stack
+
+- Kotlin, XML layouts with ViewBinding, MVVM (`ui/**/…ViewModel.kt`, repositories in `data/repository/`), Navigation component (`res/navigation/`), minSdk 26, target 34.
+- Firebase Auth (email + Google) and Firestore, project `pab-volunteers`. Rules in `firestore.rules`, tested in `firestore-tests/` against the emulator.
+- Notifications: WorkManager (`notifications/UpdatesWorker.kt`) checks every 15 minutes; no FCM yet (needs the Blaze plan).
+- Announcement pictures go to Cloudinary (`data/remote/ImageUploader.kt`); details come from `local.properties` (see `local.properties.example`).
+- Three languages (English, isiXhosa, Afrikaans) with per-app locales; light and dark palettes. Colours in `values/colors.xml` are generated from `PAB_WebApp/design/tokens.json` (`node tools/tokens/build.js --android ../PAB_Volunteers`, run from the web repo); `values-night/colors.xml` is hand-written.
+
+## Commands
+
+```bash
+./gradlew testDebugUnitTest      # unit tests
+./gradlew lintDebug
+./gradlew assembleDebug
+cd firestore-tests && npm ci && npm test   # rules tests (needs Java 17+ for the emulator)
+```
+
+CI (`.github/workflows/`) runs unit tests, lint and the rules tests on every push and PR.
+
+## Rules for this project
+
+- **No AI attribution anywhere**: no `Co-Authored-By: Claude`/Copilot trailers, no "Generated with" lines, in commits, PRs, code or comments. The README's AI Usage Declaration section is the one place AI use is described.
+- **Merge PRs with "Create a merge commit"**, never squash: the marker grades individual contribution from the history.
+- Work on `feature/<name>/<topic>` branches, PR into `develop`, then `develop` → `master`.
+- Every user-facing string goes in `strings.xml` in all three languages (`values`, `values-xh`, `values-af`). Tap targets 48dp, text in `sp`.
+- Never commit secrets: Firebase service account keys (the seed script in `tools/seed` needs one; keep it outside the repo), `local.properties`, release keystores.
+- Never delete data in the live Firebase project. Test rule changes in `firestore-tests` first, then publish `firestore.rules`.
+- Starting the emulator is slow on the team's machines; prefer unit tests and the rules tests, and run the app on a real phone when you need to see it.
