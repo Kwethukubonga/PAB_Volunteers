@@ -1,19 +1,32 @@
 # Handover: what's done and what's left
 
-PAB Volunteers (Android) and the Help Centre (web). Handed over by Tlhogi on 22 October 2026.
+PAB Volunteers (Android) and the Help Centre (web). Updated 22 October 2026.
 
 Task 2 got 176/270 (65%). Most marks were lost on the **web app** (APIs, Database, Data Flow, Security, CI/CD). Most of that is now fixed on web `develop`, but **none of it is live yet** because Railway only deploys `main`.
 
 **Repos:** Android `Kwethukubonga/PAB_Volunteers` · Web `Kwethukubonga/PAB_WebApp`. Clone both into the same folder.
 **Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (100 items: 39 done, 10 part done). Each item says how to do it and how to know it's finished.
 
+> ⚠️ **Before the final submission: delete this folder.** `handover/` (this file and `IMPROVEMENT_PLAN.md`) is for the team only, not the marker. When the last item you're going to do is merged, one person on the Android team removes `handover/` in a PR to `develop`, and the pointers to it in both `CLAUDE.md` files, before `develop` goes to `master` for submission. See the checklist in section 5.
+
+## Teams
+
+| Team | People | Repo | Sections |
+|---|---|---|---|
+| **Web** | Unathi, Nuha, Ash | `PAB_WebApp` | 2 and 4 |
+| **Android** | Tlhogi, Kwethu | `PAB_Volunteers` | 3 and 4 |
+
+Within your team, put **your own name** in the Owner column for each item you take, so every person has whole items of their own (the marker grades individual contribution). Items marked "Both" in the plan are split in section 4: each team does its own app's part.
+
+**Who to ask:** most of what's on web `develop` was built by **Kwethu** (API, service layer, design tokens, built CSS, images, Docker) and **Tlhogi** (forms and validation, rate limiting, security headers, staff area, references, CI deploy). Both are on the Android team now but can explain their web code.
+
 ## Picking this up with Claude Code
 
 Each repo has a `CLAUDE.md` that Claude Code reads automatically: what the project is, the stack, commands, and the team's rules. To carry on:
 
 1. Pull `develop` in both repos.
-2. Open Claude Code in either repo and say something like *"Read handover/HANDOVER.md and pick up job 2.1"* (from the web repo, the path is `../PAB_Volunteers/handover/HANDOVER.md`).
-3. Put your name in the **Owner** column here, work on `feature/<name>/<topic>`, PR into `develop`, and have someone else review.
+2. Open Claude Code in your team's repo and say something like *"Read handover/HANDOVER.md and pick up job W1"* (from the web repo, the path is `../PAB_Volunteers/handover/HANDOVER.md`).
+3. Work on `feature/<name>/<topic>`, PR into `develop`, and have someone else review.
 
 > **Merging PRs:** use **"Create a merge commit"**, not "Squash and merge". Squashing already rewrote one person's commits under another name; the marker grades individual contribution from the history.
 >
@@ -26,11 +39,11 @@ Each repo has a `CLAUDE.md` that Claude Code reads automatically: what the proje
 | Repo | Branch | State |
 |---|---|---|
 | Web | `main` | Old version (4 Oct). This is what Railway serves. |
-| Web | `develop` | All the new work. 185 tests pass, coverage reported, README restored. Ready to go to `main` once section 2.2 is done. |
+| Web | `develop` | All the new work. 185 tests pass, coverage reported, README restored. Ready to go to `main` once W1 is done. |
 | Web | `revert-7-feature/api` | Made with GitHub's Revert button on PR #7, never opened as a PR. **Don't merge it**: it would undo all the new web work. Delete it if nobody needs it. |
 | Web | `feature/database-persistence`, `feature/update-programme-images`, `unathi` | Old, and they carry a stray `.claude/launch.json`. Delete if finished with. |
 | Android | `develop` | Same as `master` plus this handover and new rules tests (40 pass). All 17 requirements (PV-FR01–17) implemented. |
-| Android | `feature/kwethu/design-tokens` | Shared palette + header contrast fix (E1, F9). **No PR yet.** Its commit message has a `Co-Authored-By: Claude` line; reword it before the PR (Kwethu). |
+| Android | `feature/kwethu/design-tokens` | Shared palette + header contrast fix (E1, F9). **No PR yet.** Its commit message has a `Co-Authored-By: Claude` line; reword it before the PR. |
 
 ### Done on web `develop`
 
@@ -45,22 +58,16 @@ Each repo has a `CLAUDE.md` that Claude Code reads automatically: what the proje
 - **CI/CD:** tests, coverage, CSS-matches-tokens check, Docker build, deploy to Railway from `main`, `/health` check, Dependabot
 - **Docs:** README section 2 maps every requirement to its page, code and test
 
-### Done in this handover (22 Oct)
+### Done on Android
 
-- Web CI fixed (`coverlet.collector` added), so the coverage step and the Docker build run again
-- Web README restored from Kwethu's full version (it had been overwritten with the old one), plus the Docker HTTPS setup and an honest PAB-FR14 row
-- Android: rules tests for joining and leaving (the sign-up and the spot counter must change together; no overbooking, no signing others up), 40 tests passing
-- Android `develop` brought level with `master`
-- `CLAUDE.md` in both repos, and this folder
+- All 17 requirements, 3 languages, light and dark themes, CI with unit tests, lint, rules tests and an APK build
+- Rules tests for joining and leaving (the sign-up and the spot counter must change together; no overbooking, no signing others up)
 
 ---
 
-## 2. Do these next (in order)
+## 2. Web team: Unathi, Nuha, Ash
 
-### 2.1 Android palette PR · Owner: ______
-Open a PR from `feature/kwethu/design-tokens` into Android `develop` (reword the commit to drop the Claude line first). It changes only `values/colors.xml`. Check the night colours (`values-night/colors.xml`) still sit well next to the new light ones, and that Android CI passes.
-
-### 2.2 Go live: merge web `develop` → `main` · Owner: ______
+### W1 · Go live: merge web `develop` → `main` · Owner: ______
 Do the setup first:
 
 | # | Setup step | Done |
@@ -72,76 +79,110 @@ Do the setup first:
 | S5 | Railway volume: the app now runs as a non-root user (UID 1654). If it can't write `/data/philisa.db` after deploy, make the volume writable by that user | ☐ |
 | S6 | After deploy: `/health` says Healthy; submit a test request; sign in at `/Staff/SignIn` with an admin account and see it | ☐ |
 
-Staff sign-in has only been tested with fake tokens, never against the real Firebase project, so S6 matters.
+Staff sign-in has only been tested with fake tokens, never against the real Firebase project, so S6 matters. S1 and S2 need someone with Firebase access (ask the Android team).
 
-### 2.3 Quick jobs · Owner: ______
-- Check the isiXhosa and Afrikaans text on the new web pages, errors and staff area (ideally a first-language speaker)
-- Publish the latest `firestore.rules` (Android repo) to the live project
+### W2 · Translation check · Owner: ______
+Check the isiXhosa and Afrikaans text on the new pages, form errors, the 429 page and the staff area (ideally a first-language speaker). Every string is in `s.Pick(en, xh, af)` calls.
+
+### Web backlog
+
+| ID | Pri | Task | Owner |
+|---|---|---|---|
+| C1 | P1 | Provision Postgres on Railway (code is ready: `Data/DatabaseProvider.cs`), set the connection string, turn on backups, test a restore | |
+| D4 | P2 | Branch protection on web `develop` and `main` (CI must pass + 1 review). Dependabot and the badge are done | |
+| W12 | P2 | Staff list: New / In progress / Closed tabs with counts, relative times, confirm before closing | |
+| A8 | P2 | Move programmes out of `Data/SiteData.cs` and UI text out of `s.Pick(...)` into content / `.resx` files | |
+| C4 | P2 | Free uptime monitor (e.g. UptimeRobot) on `/health`; put the uptime figure in the README | |
+| D5 | P2 | Tag a release (`v1.1.0`) when `develop` goes to `main`, with notes from the merged PRs | |
+| H4 | P3 | Lighthouse CI on PRs, with minimum Performance and Accessibility scores | |
+| G7 | P2 | Edge cases: very long names, emoji in every field, fast repeated Submit | |
+| J4 | P2 | PR template for the web repo (what changed, how it was tested, screenshots) | |
+
+---
+
+## 3. Android team: Tlhogi, Kwethu
+
+### A1 · Palette PR · Owner: ______
+Open a PR from `feature/kwethu/design-tokens` into Android `develop` (reword the commit to drop the Claude line first). It changes only `values/colors.xml` and fixes the header contrast (F9). Check the night colours (`values-night/colors.xml`) still sit well next to the new light ones, and that Android CI passes.
+
+### A2 · Firebase housekeeping · Owner: ______
+- Publish the latest `firestore.rules` to the live project (the rules tests pass)
 - Remove the duplicate test user in Firebase Auth (uid starting `ZQxVoCX6`)
-- Decide how staff hear about new requests: email, or a push to admin phones (W10)
 - Firebase Support ticket about editing the password-reset email template (I8)
+- Give the web team Firebase access for W1 (S1, S2)
+
+### Android backlog
+
+**P0, the marker's points:**
+
+| ID | Task | Owner |
+|---|---|---|
+| D2 | CI deploys the download page (`public/`) and `firestore.rules` on merge to `master`, using a service account secret in GitHub (never in the repo) | |
+| C3 | Put the APK download page live, link it in the README, test on a phone | |
+| J6 | README: download page link, rules tests, anything else that changed | |
+
+**P1:**
+
+| ID | Task | Owner |
+|---|---|---|
+| J1 | Requirements table like the web README's section 2 (PV-FR01–17 → screen → code → test) | |
+| F10 | Navigation rail on tablets instead of the bottom bar | |
+| F12 | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
+| K1–K4 | Settings as list rows, change password from Settings, two-step delete account, offline banner | |
+| K16 | Google sign-in through Credential Manager (removes the deprecated API) | |
+
+**P2:**
+
+| ID | Task | Owner |
+|---|---|---|
+| E3, E4 | Same fonts as the web (Lora + Source Sans 3 in `res/font`), remove eyebrow labels | |
+| E9, E6, K7 | Material 3, solid header instead of gradient, tinted neutrals | |
+| G1, G2, K5, K6 | Snackbars instead of Toasts, buttons on empty screens, Retry on errors, main action pinned at the bottom | |
+| F11, F13, F14 | Predictive Back, TalkBack pass, `ListAdapter` + `DiffUtil` | |
+| I1–I5, K8–K10, K12–K14 | Reminders, "only my programmes", add to calendar, contact PAB, privacy/POPIA, intro screens, home planner, schedule tabs, safety sheet, fingerprint lock | |
+| D4 | Branch protection on Android `develop` and `master`, Dependabot, CI badge | |
+| D5 | Tag releases and attach the APK to a GitHub Release | |
+| C4 | Uptime monitor on the download page | |
+| G7, J4 | Edge-case testing, PR template for the Android repo | |
+
+**P3:** E7, E10, G3, I6, I7 (needs Firebase's paid Blaze plan), K11, K15, K17, K18. See the plan for details.
 
 ---
 
-## 3. Still open from Phase 1 (P0)
+## 4. Shared: each team does its part
 
-| ID | Repo | Task | Owner |
+| ID | Web team (Unathi, Nuha, Ash) | Android team (Tlhogi, Kwethu) |
+|---|---|---|
+| **B3** Android uses the web API | Keep `GET /api/support-requests` working with a Firebase ID token; help test | Admin screen that lists web requests through the API (send the ID token the app already has). Makes PAB-FR14 fully true |
+| **W10** Alert admin phones about new requests | Send a push through the Firebase Admin SDK when a request is saved (no personal details in it) | Add FCM to the app to receive it (I7) |
+| **J2** Architecture and threat model | Threat model for the GBV data (who could misuse it, what stops them), web side of the diagram | Android side of the diagram (Firebase, rules, notifications) |
+| **J5** Demo script | Validation error, 429 page, staff view, auto-deploy | Joining, notifications, 3 languages, dark mode |
+| **E2** PRODUCT.md and DESIGN.md | Web components and states | Android components; tokens are shared from `design/tokens.json` |
+
+Agree as a whole group how staff hear about new requests (email or push, W10) before starting on it.
+
+---
+
+## 5. Final submission checklist
+
+Do this once, after the last feature PR is merged and before submitting. Everyone gets reminded in the group chat a few days before the deadline.
+
+| # | Step | Repo | Done |
 |---|---|---|---|
-| D2 | Android | CI deploys the download page (`public/`) and `firestore.rules` on merge to `master`, using a service account secret in GitHub (never in the repo) | |
-| C3 | Android | Put the APK download page live, link it in the README, test on a phone | |
-| J6 | Android | README: download page link, rules tests, anything else that changed | |
+| F1 | Delete the `handover/` folder (`HANDOVER.md` and `IMPROVEMENT_PLAN.md`) | Android | ☐ |
+| F2 | Remove the lines in both `CLAUDE.md` files that point to `handover/`. As a group, decide whether to keep `CLAUDE.md` at all; if it stays, the README's AI Usage Declaration should mention it | Both | ☐ |
+| F3 | READMEs are current: requirements tables, links, test counts, live URLs | Both | ☐ |
+| F4 | No AI signatures in any commit or PR on the branches being submitted | Both | ☐ |
+| F5 | Merge `develop` → `main` (web) and `develop` → `master` (Android) with a merge commit; CI green; live site and download page work | Both | ☐ |
 
 ---
 
-## 4. Phase 2: Architecture
+## 6. Accounts and access you may need
 
-| ID | Repo | Task | Owner |
-|---|---|---|---|
-| B3 | Both | Android uses the web API: admins see web requests through `GET /api/support-requests` (send the Firebase ID token they already have), or a "Get help" entry that posts to it. This makes PAB-FR14 fully true | |
-| C1 | Web | Provision Postgres on Railway (code is ready), set the connection string, turn on backups, test a restore | |
-| A8 | Web | Move programmes out of `Data/SiteData.cs` and UI text out of `s.Pick(...)` into content / `.resx` files | |
-| D4 | Both | Branch protection on `develop` and `main`/`master` (CI must pass + 1 review); Dependabot and badge on Android | |
-| C4 | Both | Free uptime monitor on `/health` and the download page | |
-| D5 | Both | Tag releases, attach the APK to a GitHub Release | |
+Nothing secret is in either repo. Ask whoever owns each one:
 
----
-
-## 5. Phase 3: Design and accessibility (mostly Android now)
-
-| ID | Repo | Task | Owner |
-|---|---|---|---|
-| F10 | Android | Navigation rail on tablets instead of the bottom bar | |
-| F12 | Android | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
-| K1–K4 | Android | Settings as list rows, change password from Settings, two-step delete account, offline banner | |
-| E3, E4 | Android | Same fonts as the web (Lora + Source Sans 3), remove eyebrow labels | |
-| E9, E10, K5–K7 | Android | Material 3, top app bar, Retry on errors, main action pinned at the bottom, solid header instead of gradient | |
-| F11, F13, F14 | Android | Predictive Back, TalkBack pass, `ListAdapter` + `DiffUtil` | |
-| E2 | Both | Write PRODUCT.md and DESIGN.md | |
-| H4 | Web | Lighthouse in CI | |
-
----
-
-## 6. Phase 4: Features and presentation
-
-| ID | Repo | Task | Owner |
-|---|---|---|---|
-| J1 | Android | Requirements traceability table like the web README's section 2 (PV-FR01–17 → screen → code → test), then demo timestamps and a slide | |
-| J2 | Both | Architecture diagram (both apps, API, databases, auth, CI/CD, hosting) + short threat model for the GBV data | |
-| J5 | Both | Demo script: auto-deploy, validation error, 429 page, staff view, notification, 3 languages, dark mode | |
-| J4 | Both | PR template (what changed, how it was tested, screenshots) | |
-| W10 | Web + Android | Push alert to admin phones on a new request (needs FCM in Android, I7) | |
-| W12 | Web | Staff list: New / In progress / Closed tabs with counts, relative times, confirm before closing | |
-| I1–I8, K8–K18 | Android | Reminders, add to calendar, contact PAB, privacy/POPIA, intro screens, home planner, safety sheet, fingerprint lock, Credential Manager sign-in, ViewModel tests | |
-| G1–G3, G7 | Android | Snackbars, empty-state buttons, delete dialog wording, edge-case testing | |
-
----
-
-## 7. Accounts and access you may need
-
-Nothing secret is in this repo. Ask whoever owns each one:
-
-- **Firebase** project `pab-volunteers`: console access (Editor) for the setup steps, rules and Auth
-- **Railway** web service: variables, volume, deploy token
-- **Cloudinary**: the cloud name and unsigned preset for `local.properties` (announcement pictures)
+- **Firebase** project `pab-volunteers`: console access (Editor). Web team needs it for W1; Android team for rules and Auth
+- **Railway** web service: variables, volume, deploy token (web team)
+- **Cloudinary**: the cloud name and unsigned preset for `local.properties` (Android team, announcement pictures)
 - **GitHub**: write access to both repos, and admin for branch protection and secrets
 - A **service account key** only if you run the seed script (`tools/seed`). Keep it outside the repo

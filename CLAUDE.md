@@ -4,6 +4,8 @@ The volunteer app for Philisa Abafazi Bethu (PAB), a gender-based violence and c
 
 Sister repo: the public website, `Kwethukubonga/PAB_WebApp`. Clone both side by side (`PAB_Volunteers` and `PAB_WebApp` in the same folder).
 
+**Team:** this app is owned by Tlhogi and Kwethu. The website is owned by Unathi, Nuha and Ash. Shared items (B3, W10, J2, J5, E2) are split per `handover/HANDOVER.md` section 4.
+
 ## Where to start
 
 1. `handover/HANDOVER.md`: what's done, what's left in order, the setup steps, and an Owner column. Put your name on what you take.
@@ -30,6 +32,8 @@ cd firestore-tests && npm ci && npm test   # rules tests (needs Java 17+ for the
 CI (`.github/workflows/`) runs unit tests, lint and the rules tests on every push and PR.
 
 ## Rules for this project
+
+- **Final submission:** `handover/` is for the team only and must be deleted before the final submission (`handover/HANDOVER.md` section 5). Whenever someone mentions the final submission, the deadline, merging to `master` for submission, or a release, remind them of that checklist before doing anything else.
 
 - **No AI attribution anywhere**: no `Co-Authored-By: Claude`/Copilot trailers, no "Generated with" lines, in commits, PRs, code or comments. The README's AI Usage Declaration section is the one place AI use is described.
 - **Merge PRs with "Create a merge commit"**, never squash: the marker grades individual contribution from the history.
