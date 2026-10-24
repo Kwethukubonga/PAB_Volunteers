@@ -83,6 +83,87 @@
                 layout="@layout/item_stat_tile" />
         </LinearLayout>
 
+        <!-- Background check, as recorded by Philisa's admins. -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardClearance"
+            style="@style/Widget.PAB.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:focusable="true"
+            app:contentPadding="@dimen/spacing_md">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivClearance"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_shield" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_md"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_clearance"
+                        android:textAppearance="@style/TextAppearance.PAB.Subtitle" />
+
+                    <TextView
+                        android:id="@+id/tvClearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.PAB.Caption" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            style="@style/TextAppearance.PAB.FieldLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:accessibilityHeading="true"
+            android:text="@string/milestones_heading" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <include android:id="@+id/milestone1" layout="@layout/item_milestone" />
+
+            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
+
+            <include android:id="@+id/milestone2" layout="@layout/item_milestone" />
+
+            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
+
+            <include android:id="@+id/milestone3" layout="@layout/item_milestone" />
+
+            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
+
+            <include android:id="@+id/milestone4" layout="@layout/item_milestone" />
+        </LinearLayout>
+
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"

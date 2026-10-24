@@ -6,14 +6,22 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
+import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
+import com.kantu.pab_volunteers.data.model.ActivityFeedback
 import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.data.model.Announcement
+import com.kantu.pab_volunteers.data.model.Clearance
+import com.kantu.pab_volunteers.data.model.Concern
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
+import com.kantu.pab_volunteers.data.repository.ClearanceRepository
+import com.kantu.pab_volunteers.data.repository.ConcernRepository
+import com.kantu.pab_volunteers.data.repository.FeedbackRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.UiText
@@ -31,6 +39,9 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val activityRepository = ActivityRepository()
     private val announcementRepository = AnnouncementRepository()
     private val signupRepository = SignupRepository()
+    private val clearanceRepository = ClearanceRepository()
+    private val concernRepository = ConcernRepository()
+    private val feedbackRepository = FeedbackRepository()
 
     // Only people who finished setting up their profile. The rest have no name to show.
     private val _volunteers = MutableLiveData<List<User>>(emptyList())
@@ -50,6 +61,15 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _signupsForActivity = MutableLiveData<List<ActivitySignup>>(emptyList())
     val signupsForActivity: LiveData<List<ActivitySignup>> = _signupsForActivity
+
+    private val _feedbackForActivity = MutableLiveData<List<ActivityFeedback>>(emptyList())
+    val feedbackForActivity: LiveData<List<ActivityFeedback>> = _feedbackForActivity
+
+    private val _clearance = MutableLiveData<Clearance?>()
+    val clearance: LiveData<Clearance?> = _clearance
+
+    private val _concerns = MutableLiveData<List<Concern>>(emptyList())
+    val concerns: LiveData<List<Concern>> = _concerns
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -104,11 +124,15 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     fun loadSignups(activityId: String) {
         // Cleared first so the previous activity's list never flashes up.
         _signupsForActivity.value = emptyList()
+        _feedbackForActivity.value = emptyList()
         // Only the latest request counts, so a slow reply cannot fill in another activity's list.
         signupsJob?.cancel()
         signupsJob = viewModelScope.launch {
             try {
                 _signupsForActivity.value = signupRepository.getSignupsForActivity(activityId)
+                // Kept apart so a problem reading feedback never hides who signed up.
+                _feedbackForActivity.value =
+                    runCatching { feedbackRepository.getForActivity(activityId) }.getOrDefault(emptyList())
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -198,6 +222,60 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
             announcementRepository.deleteAnnouncement(announcementId)
                 .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
+        }
+    }
+
+    // ---- clearances ------------------------------------------------------
+
+    fun loadClearance(uid: String) {
+        _clearance.value = null
+        viewModelScope.launch {
+            runCatching { clearanceRepository.get(uid) }
+                .onSuccess { _clearance.value = it }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+        }
+    }
+
+    /** After seeing the documents in person. Lasts [ClearanceState.VALID_MONTHS] months. */
+    fun approveClearance(volunteer: User) {
+        if (offline()) return
+        val admin = FirebaseAuthManager.currentUser?.email.orEmpty()
+        viewModelScope.launch {
+            clearanceRepository.approve(volunteer.uid, volunteer.fullName, admin, ClearanceState.VALID_MONTHS)
+                .onSuccess { _message.value = UiText.Res(R.string.clearance_admin_approved, listOf(volunteer.firstName)) }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+            loadClearance(volunteer.uid)
+        }
+    }
+
+    fun removeClearance(uid: String) {
+        if (offline()) return
+        viewModelScope.launch {
+            clearanceRepository.remove(uid)
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+            loadClearance(uid)
+        }
+    }
+
+    // ---- concerns --------------------------------------------------------
+
+    fun loadConcerns() {
+        _isLoading.value = true
+        viewModelScope.launch {
+            runCatching { concernRepository.getAll() }
+                .onSuccess { _concerns.value = it }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+            _isLoading.value = false
+        }
+    }
+
+    fun markConcernHandled(concern: Concern) {
+        if (offline()) return
+        val admin = FirebaseAuthManager.currentUser?.email.orEmpty()
+        viewModelScope.launch {
+            concernRepository.markHandled(concern.id, admin)
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+            loadConcerns()
         }
     }
 

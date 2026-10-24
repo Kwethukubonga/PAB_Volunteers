@@ -71,6 +71,13 @@ class AdminOverviewFragment : Fragment() {
         ) { AdminNavGraph.toAnnouncementEditor(findNavController()) }
 
         setUpQuickAction(
+            binding.actionConcerns.root,
+            R.drawable.ic_flag,
+            R.string.concerns_title,
+            R.string.concerns_action_desc
+        ) { AdminNavGraph.toConcerns(findNavController()) }
+
+        setUpQuickAction(
             binding.actionSettings.root,
             R.drawable.ic_settings,
             R.string.action_settings,

@@ -13,6 +13,8 @@ class AccountRepository {
 
     private val db = FirestoreManager.db
     private val signupRepository = SignupRepository()
+    private val clearanceRepository = ClearanceRepository()
+    private val feedbackRepository = FeedbackRepository()
 
     /**
      * Firebase only deletes a sign-in that was confirmed in the last few minutes. [credential] is
@@ -29,6 +31,13 @@ class AccountRepository {
             // Leaving each activity properly gives the spot back to other volunteers.
             signupRepository.getMySignups(user.uid).forEach { signup ->
                 signupRepository.leave(signup).getOrThrow()
+            }
+
+            // Their own clearance and feedback go too. Best effort: neither can exist unless the
+            // rules allowing them are published, and a refusal must not stop the account going.
+            runCatching { clearanceRepository.remove(user.uid) }
+            runCatching {
+                feedbackRepository.getMineAll(user.uid).forEach { feedbackRepository.delete(it.id) }
             }
 
             db.collection(Constants.COLLECTION_USERS).document(user.uid).delete().await()

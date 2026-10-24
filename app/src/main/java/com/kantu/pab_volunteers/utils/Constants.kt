@@ -5,6 +5,9 @@ object Constants {
     const val COLLECTION_ACTIVITIES = "activities"
     const val COLLECTION_ANNOUNCEMENTS = "announcements"
     const val COLLECTION_SIGNUPS = "activitySignups"
+    const val COLLECTION_CLEARANCES = "clearances"
+    const val COLLECTION_CONCERNS = "concerns"
+    const val COLLECTION_FEEDBACK = "activityFeedback"
 
     const val EXTRA_FIRST_NAME = "extra_first_name"
     const val EXTRA_LAST_NAME = "extra_last_name"

@@ -62,6 +62,15 @@
             android:defaultValue="" />
     </fragment>
 
+    <fragment
+        android:id="@+id/concernsFragment"
+        android:name="com.kantu.pab_volunteers.ui.admin.concerns.ConcernsFragment"
+        android:label="@string/concerns_title" />
+
+    <action
+        android:id="@+id/action_global_concernsFragment"
+        app:destination="@id/concernsFragment" />
+
     <action
         android:id="@+id/action_global_activityEditorFragment"
         app:destination="@id/activityEditorFragment" />

@@ -39,6 +39,10 @@
                 tools:text="4 published · 2 drafts" />
         </LinearLayout>    </LinearLayout>
 
+    <include
+        android:id="@+id/search"
+        layout="@layout/view_search_field" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
@@ -88,6 +92,7 @@
                         app:tint="@color/text_secondary" />
 
                     <TextView
+                        android:id="@+id/tvEmptyMessage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_md"

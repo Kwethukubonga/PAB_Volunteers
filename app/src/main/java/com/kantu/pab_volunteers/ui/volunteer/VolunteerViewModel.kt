@@ -8,14 +8,20 @@ import androidx.lifecycle.viewModelScope
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
+import com.kantu.pab_volunteers.data.model.ActivityFeedback
 import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.data.model.Announcement
+import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
+import com.kantu.pab_volunteers.data.repository.ClearanceRepository
+import com.kantu.pab_volunteers.data.repository.FeedbackRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.ui.safety.FeedbackRules
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
+import com.kantu.pab_volunteers.ui.volunteer.profile.Milestone
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
@@ -36,6 +42,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
     private val activityRepository = ActivityRepository()
     private val announcementRepository = AnnouncementRepository()
     private val signupRepository = SignupRepository()
+    private val clearanceRepository = ClearanceRepository()
+    private val feedbackRepository = FeedbackRepository()
 
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
@@ -66,6 +74,16 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _scheduleCompleted = MutableLiveData<List<ActivityRow>>(emptyList())
     val scheduleCompleted: LiveData<List<ActivityRow>> = _scheduleCompleted
+
+    private val _milestones = MutableLiveData(Milestone.from(emptyList()))
+    val milestones: LiveData<List<Milestone>> = _milestones
+
+    private val _clearance = MutableLiveData<Clearance?>()
+    val clearance: LiveData<Clearance?> = _clearance
+
+    // The volunteer's own "How did it go?" for the activity on screen, once it has been loaded.
+    private val _myFeedback = MutableLiveData<ActivityFeedback?>()
+    val myFeedback: LiveData<ActivityFeedback?> = _myFeedback
 
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
@@ -99,6 +117,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 val signupsLoad = async { signupRepository.getMySignups(uid) }
                 val activitiesLoad = async { activityRepository.getPublishedActivities() }
                 val announcementsLoad = async { announcementRepository.getPublishedAnnouncements() }
+                // Kept apart so a problem reading it never stops the rest of the screen loading.
+                val clearanceLoad = async { runCatching { clearanceRepository.get(uid) }.getOrNull() }
 
                 _user.value = userLoad.await()
                 signups = signupsLoad.await()
@@ -140,6 +160,8 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 _upcomingCount.value = stillToCome.size
                 _completedCount.value = finished.size
                 _hoursCompleted.value = totalHours(finished)
+                _milestones.value = Milestone.from(finished)
+                _clearance.value = clearanceLoad.await()
 
                 val announcements: List<Announcement> = announcementsLoad.await()
                 _announcements.value = announcements
@@ -226,6 +248,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
     fun clearSelection() {
         selectedActivityId = ""
+        _myFeedback.value = null
         _selectedActivity.value = null
         _selectedAnnouncement.value = null
     }
@@ -253,6 +276,37 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
         }
+    }
+
+    fun loadMyFeedback(activityId: String) {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        _myFeedback.value = null
+        viewModelScope.launch {
+            _myFeedback.value = runCatching { feedbackRepository.getMine(activityId, uid) }.getOrNull()
+        }
+    }
+
+    /** Returns false, with the reason shown, when the feedback can't be sent as it is. */
+    fun sendFeedback(activityId: String, rating: Int, comment: String): Boolean {
+        val currentUser = _user.value ?: return false
+        FeedbackRules.problemWith(rating, comment)?.let {
+            _message.value = UiText.Res(it)
+            return false
+        }
+        if (offline()) return false
+        _isLoading.value = true
+        viewModelScope.launch {
+            feedbackRepository.save(activityId, currentUser.uid, currentUser.fullName, rating, comment.trim())
+                .onSuccess {
+                    _myFeedback.value = ActivityFeedback(
+                        activityId = activityId, userId = currentUser.uid, rating = rating, comment = comment.trim()
+                    )
+                    _message.value = UiText.Res(R.string.feedback_thanks)
+                }
+                .onFailure { _message.value = ErrorMessages.textFor(it) }
+            _isLoading.value = false
+        }
+        return true
     }
 
     fun activityById(activityId: String): Activity? {

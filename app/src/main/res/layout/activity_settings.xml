@@ -88,6 +88,46 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <!-- Safety. Volunteers only: clearance and reporting a concern. -->
+            <LinearLayout
+                android:id="@+id/sectionSafety"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextAppearance.PAB.SettingsSection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_xs"
+                    android:layout_marginTop="@dimen/spacing_xl"
+                    android:accessibilityHeading="true"
+                    android:text="@string/settings_safety" />
+
+                <com.google.android.material.card.MaterialCardView
+                    style="@style/Widget.PAB.Card.Settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <include
+                            android:id="@+id/rowClearance"
+                            layout="@layout/item_settings_row" />
+
+                        <View style="@style/Widget.PAB.SettingsDivider" />
+
+                        <include
+                            android:id="@+id/rowReportConcern"
+                            layout="@layout/item_settings_row" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
             <!-- Appearance -->
             <TextView
                 style="@style/TextAppearance.PAB.SettingsSection"

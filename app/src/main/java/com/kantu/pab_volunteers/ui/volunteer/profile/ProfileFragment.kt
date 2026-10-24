@@ -5,14 +5,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.kantu.pab_volunteers.R
+import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentProfileBinding
+import com.kantu.pab_volunteers.databinding.ItemMilestoneBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.DateUtils
@@ -63,6 +67,11 @@ class ProfileFragment : Fragment() {
         viewModel.upcomingCount.observe(viewLifecycleOwner) {
             binding.statUpcoming.tvStatValue.text = it.toString()
         }
+        viewModel.clearance.observe(viewLifecycleOwner) { bindClearance(it) }
+        viewModel.milestones.observe(viewLifecycleOwner) { milestones ->
+            val slots = listOf(binding.milestone1, binding.milestone2, binding.milestone3, binding.milestone4)
+            milestones.zip(slots).forEach { (milestone, slot) -> bindMilestone(slot, milestone) }
+        }
     }
 
     private fun bindUser(user: User) {
@@ -84,6 +93,39 @@ class ProfileFragment : Fragment() {
                 }
             )
         }
+    }
+
+    private fun bindClearance(clearance: Clearance?) {
+        val state = ClearanceState.of(clearance, DateUtils.now())
+        binding.tvClearance.text = when (state) {
+            ClearanceState.NONE -> getString(R.string.clearance_none_profile)
+            ClearanceState.REQUESTED -> getString(R.string.clearance_requested)
+            ClearanceState.CLEARED ->
+                getString(R.string.clearance_cleared_until, DateUtils.formatDate(clearance?.expiresAt ?: 0L))
+            ClearanceState.EXPIRED -> getString(R.string.clearance_expired)
+        }
+        val tint = if (state == ClearanceState.CLEARED) R.color.status_success_text else R.color.text_secondary
+        binding.ivClearance.setColorFilter(ContextCompat.getColor(requireContext(), tint))
+        binding.cardClearance.contentDescription =
+            getString(R.string.settings_clearance) + ". " + binding.tvClearance.text
+    }
+
+    /** Earned ones are in the brand colour; the rest are grey with how far along they are. */
+    private fun bindMilestone(slot: ItemMilestoneBinding, milestone: Milestone) {
+        val title = getString(milestone.kind.title)
+        val progress = if (milestone.earned) {
+            getString(R.string.milestone_earned)
+        } else {
+            getString(R.string.milestone_progress, milestone.progress, milestone.kind.target)
+        }
+        slot.ivMilestone.setImageResource(milestone.kind.icon)
+        slot.ivMilestone.setColorFilter(
+            ContextCompat.getColor(requireContext(), if (milestone.earned) R.color.accent else R.color.text_secondary)
+        )
+        slot.ivMilestone.alpha = if (milestone.earned) 1f else 0.6f
+        slot.tvMilestoneTitle.text = title
+        slot.tvMilestoneProgress.text = progress
+        slot.root.contentDescription = "$title, $progress"
     }
 
     override fun onResume() {
