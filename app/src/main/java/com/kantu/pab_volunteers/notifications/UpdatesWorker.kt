@@ -9,7 +9,6 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
-import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
@@ -56,22 +55,24 @@ class UpdatesWorker(
 
         // Looks back a little further than the last check, in case the admin's phone clock is
         // behind. The seen lists stop anything being announced twice.
-        val since = state.lastCheck - OVERLAP_MILLIS
-        val activities = ActivityRepository().getPublishedSince(since)
-            .filter { it.publishedAt > state.startedAt && it.endsAtMillis > now }
-        val announcements = AnnouncementRepository().getPublishedSince(since)
-            .filter { it.publishedAt > state.startedAt }
+        val since = state.lastCheck - UpdateRules.OVERLAP_MILLIS
+        val activities = UpdateRules.freshActivities(
+            ActivityRepository().getPublishedSince(since), state.startedAt, now
+        )
+        val announcements = UpdateRules.freshAnnouncements(
+            AnnouncementRepository().getPublishedSince(since), state.startedAt
+        )
 
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.NEW_ACTIVITIES)) {
             Notifications.showNewActivities(
                 applicationContext,
-                activities.filter { it.id !in state.seenActivities }
+                UpdateRules.notShownYet(activities, state.seenActivities) { it.id }
             )
         }
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.ANNOUNCEMENTS)) {
             Notifications.showAnnouncements(
                 applicationContext,
-                announcements.filter { it.id !in state.seenAnnouncements }
+                UpdateRules.notShownYet(announcements, state.seenAnnouncements) { it.id }
             )
         }
 
@@ -82,13 +83,9 @@ class UpdatesWorker(
 
     private suspend fun checkFullActivities(state: UpdateState) {
         val now = DateUtils.now()
-        val full = ActivityRepository().getActivitiesFrom(DateUtils.startOfDay(now))
-            .filter {
-                it.status == Activity.STATUS_PUBLISHED &&
-                    it.totalSpots > 0 &&
-                    it.filledSpots >= it.totalSpots &&
-                    it.endsAtMillis > now
-            }
+        val full = UpdateRules.fullActivities(
+            ActivityRepository().getActivitiesFrom(DateUtils.startOfDay(now)), now
+        )
 
         // Activities already full on the first check are the starting point, not news.
         if (state.fullChecked &&
@@ -96,7 +93,7 @@ class UpdatesWorker(
         ) {
             Notifications.showFullActivities(
                 applicationContext,
-                full.filter { it.id !in state.fullActivities }
+                UpdateRules.notShownYet(full, state.fullActivities) { it.id }
             )
         }
         state.fullActivities = full.map { it.id }.toSet()
@@ -105,7 +102,6 @@ class UpdatesWorker(
 
     companion object {
         private const val WORK_NAME = "pab_updates"
-        private const val OVERLAP_MILLIS = 6L * 60 * 60 * 1000
 
         /** Called when a signed in person opens the app. Does nothing if already scheduled. */
         fun schedule(context: Context) {
