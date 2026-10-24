@@ -396,7 +396,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 *Rubric: Requirements Alignment (4/5), Architecture (11/15), Branching (12/15), Presentation*
 
 - [ ] **J1 · P1 · Both: Requirements traceability table**
-  - **Status (22 Oct):** Web done: README section 2 maps PAB-FR01–15 to page, code and test. Still to do: the same table in the Android README (PV-FR01–17), demo timestamps, and a slide.
+  - **Status (24 Oct):** Both READMEs done. Web: section 2 maps PAB-FR01–15. Android: section 3 maps PV-FR01–17 to screen, code and tests (branch `feature/tlhogi/traceability`, waiting for its PR); the gaps found were closed with 25 new tests (`UpdateRules`, `SignInDestination`, `PasswordRules`, favourites and sign-up list rules). Still to do: demo video timestamps, and a slide.
   - For every requirement (PV-FR01–FR17 and PAB-FR01–FR10), list the screen, the code, the test that proves it, and the timestamp in the demo video.
   - Put it in both READMEs and on a slide. This is the "elaboration" the marker asked for.
 

@@ -128,7 +128,9 @@ Open a PR from `feature/kwethu/design-tokens` into Android `develop` (reword the
 
 | ID | Task | Owner |
 |---|---|---|
-| J1 | Requirements table like the web README's section 2 (PV-FR01–17 → screen → code → test) | |
+| J1 | ~~Requirements table~~ done on `feature/tlhogi/traceability` (README section 3, 131 tests); needs its PR into `develop`. Still to do: demo video timestamps per requirement, and a slide | Tlhogi |
+| R1 | Hide draft activities in the rules: today any signed-in volunteer can read drafts, the app only hides them by its query. Change the background check's `getActivitiesFrom` query to ask for published only first, then tighten `allow read` on `activities`, with rules tests | |
+| R2 | The README's test-accounts table shows the real admin account's password, in a public repo, and that account can see every volunteer's phone number. Use a separate demo admin, or give the marker the details privately | |
 | F10 | Navigation rail on tablets instead of the bottom bar | |
 | F12 | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
 | K1–K4 | Settings as list rows, change password from Settings, two-step delete account, offline banner | |
