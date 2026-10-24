@@ -88,7 +88,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Safety. Volunteers only: clearance and reporting a concern. -->
+            <!-- Safety: emergency contact, fingerprint lock, clearance and reporting a concern. -->
             <LinearLayout
                 android:id="@+id/sectionSafety"
                 android:layout_width="match_parent"
@@ -115,11 +115,31 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+                        <!-- Volunteers only: who "I need help" offers to text. -->
+                        <include
+                            android:id="@+id/rowEmergencyContact"
+                            layout="@layout/item_settings_row" />
+
+                        <View
+                            android:id="@+id/dividerEmergencyContact"
+                            style="@style/Widget.PAB.SettingsDivider" />
+
+                        <!-- Everyone, and suggested for admins: their phones show volunteers' details. -->
+                        <include
+                            android:id="@+id/rowAppLock"
+                            layout="@layout/item_settings_switch_row" />
+
+                        <View
+                            android:id="@+id/dividerAppLock"
+                            style="@style/Widget.PAB.SettingsDivider" />
+
                         <include
                             android:id="@+id/rowClearance"
                             layout="@layout/item_settings_row" />
 
-                        <View style="@style/Widget.PAB.SettingsDivider" />
+                        <View
+                            android:id="@+id/dividerClearance"
+                            style="@style/Widget.PAB.SettingsDivider" />
 
                         <include
                             android:id="@+id/rowReportConcern"
@@ -254,6 +274,11 @@
                     <include
                         android:id="@+id/rowNotifyFull"
                         layout="@layout/item_settings_switch_row" />
+
+                    <!-- Volunteers only: how long before a joined activity to be reminded (K14). -->
+                    <include
+                        android:id="@+id/rowReminders"
+                        layout="@layout/item_settings_row" />
 
                     <!-- Shown while the phone itself is blocking this app's notifications. -->
                     <LinearLayout

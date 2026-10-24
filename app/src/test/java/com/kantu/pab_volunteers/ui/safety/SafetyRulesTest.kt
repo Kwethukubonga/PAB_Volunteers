@@ -84,4 +84,16 @@ class SafetyRulesTest {
         assertEquals(0, summary.count)
         assertEquals(0.0, summary.average, 0.0)
     }
+
+    @Test
+    fun `an emergency contact needs a name and a phone number that works`() {
+        assertNull(EmergencyContactRules.problemWith("Thandi", "082 123 4567"))
+        assertEquals(R.string.emergency_contact_error_name, EmergencyContactRules.problemWith("", "082 123 4567"))
+        assertEquals(R.string.error_invalid_phone, EmergencyContactRules.problemWith("Thandi", "12345"))
+    }
+
+    @Test
+    fun `clearing both fields removes the emergency contact`() {
+        assertNull(EmergencyContactRules.problemWith("", "  "))
+    }
 }

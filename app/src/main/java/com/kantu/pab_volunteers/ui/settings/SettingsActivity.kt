@@ -9,12 +9,15 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
+import android.widget.CompoundButton
 import android.widget.Switch
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -22,17 +25,22 @@ import com.kantu.pab_volunteers.BuildConfig
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Clearance
+import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.AuthRepository
 import com.kantu.pab_volunteers.data.repository.ClearanceRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySettingsBinding
+import com.kantu.pab_volunteers.databinding.DialogEmergencyContactBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsRowBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsSwitchRowBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.Notifications
+import com.kantu.pab_volunteers.notifications.ReminderLead
+import com.kantu.pab_volunteers.security.AppLock
 import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.ui.safety.ClearanceState
+import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
@@ -41,6 +49,8 @@ import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.OfflineBanner
+import com.kantu.pab_volunteers.utils.PhoneFormattingWatcher
+import com.kantu.pab_volunteers.utils.PhoneNumber
 import com.kantu.pab_volunteers.utils.ThemePreference
 import com.kantu.pab_volunteers.utils.UiText
 import kotlinx.coroutines.launch
@@ -56,6 +66,7 @@ class SettingsActivity : AppCompatActivity() {
     private val clearanceRepository = ClearanceRepository()
     private val userRepository = UserRepository()
     private var clearance: Clearance? = null
+    private var user: User? = null
 
     private val askNotifications = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -201,6 +212,40 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         binding.btnTurnOnNotifications.setOnClickListener { turnOnNotifications() }
+
+        binding.rowReminders.root.isVisible = !isAdmin
+        bindReminders()
+    }
+
+    private fun bindReminders() {
+        binding.rowReminders.bind(
+            R.drawable.ic_schedule,
+            R.string.settings_reminders,
+            supporting = getString(reminderLabel(NotificationSettings.reminderLead(this))),
+            onClick = { chooseReminder() }
+        )
+    }
+
+    /** Off, an hour before, or a day before a joined activity (K14). */
+    private fun chooseReminder() {
+        val choices = ReminderLead.values()
+        val current = choices.indexOf(NotificationSettings.reminderLead(this))
+        AlertDialog.Builder(this)
+            .setTitle(R.string.settings_reminders)
+            .setSingleChoiceItems(choices.map { getString(reminderLabel(it)) }.toTypedArray(), current) { dialog, which ->
+                NotificationSettings.setReminderLead(this, choices[which])
+                if (choices[which] != ReminderLead.OFF && !Notifications.allowedOnPhone(this)) turnOnNotifications()
+                bindReminders()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
+    }
+
+    private fun reminderLabel(lead: ReminderLead): Int = when (lead) {
+        ReminderLead.OFF -> R.string.reminders_off
+        ReminderLead.HOUR -> R.string.reminders_hour
+        ReminderLead.DAY -> R.string.reminders_day
     }
 
     /**
@@ -223,10 +268,24 @@ class SettingsActivity : AppCompatActivity() {
         }
     }
 
-    /** Volunteers only: admins are checked by the organisation and read concerns, not send them. */
+    /**
+     * Emergency contact, fingerprint lock, clearance and reporting a concern. Admins only get the
+     * lock: they are checked by the organisation and read concerns rather than send them.
+     */
     private fun setUpSafety(isAdmin: Boolean) {
-        binding.sectionSafety.isVisible = !isAdmin
+        val lockAvailable = AppLock.isAvailable(this)
+        binding.rowAppLock.root.isVisible = lockAvailable
+        binding.dividerAppLock.isVisible = lockAvailable && !isAdmin
+        if (lockAvailable) bindAppLock()
+
+        listOf(
+            binding.rowEmergencyContact.root, binding.dividerEmergencyContact,
+            binding.rowClearance.root, binding.dividerClearance, binding.rowReportConcern.root
+        ).forEach { it.isVisible = !isAdmin }
+        binding.sectionSafety.isVisible = !isAdmin || lockAvailable
         if (isAdmin) return
+
+        bindEmergencyContact()
         binding.rowReportConcern.bind(
             R.drawable.ic_flag,
             R.string.settings_report_concern,
@@ -242,7 +301,104 @@ class SettingsActivity : AppCompatActivity() {
         lifecycleScope.launch {
             clearance = runCatching { clearanceRepository.get(uid) }.getOrNull()
             bindClearance()
+            user = runCatching { userRepository.getUser(uid) }.getOrNull()
+            bindEmergencyContact()
         }
+    }
+
+    private fun bindEmergencyContact() {
+        val current = user
+        val summary = if (current != null && current.hasEmergencyContact) {
+            listOf(current.emergencyContactName, current.emergencyContactPhone).filter { it.isNotBlank() }.joinToString(" · ")
+        } else {
+            getString(R.string.emergency_contact_none)
+        }
+        binding.rowEmergencyContact.bind(
+            R.drawable.ic_phone,
+            R.string.settings_emergency_contact,
+            supporting = summary,
+            onClick = { editEmergencyContact() }
+        )
+    }
+
+    private fun editEmergencyContact() {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        val form = DialogEmergencyContactBinding.inflate(layoutInflater)
+        form.etName.setText(user?.emergencyContactName.orEmpty())
+        form.etPhone.setText(user?.emergencyContactPhone.orEmpty())
+        PhoneFormattingWatcher.attach(form.etPhone)
+
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(R.string.settings_emergency_contact)
+            .setView(form.root)
+            .setPositiveButton(R.string.action_save, null)
+            .setNegativeButton(R.string.action_cancel, null)
+            .create()
+        dialog.setOnShowListener {
+            // Checked before closing, so a mistake can be fixed without typing it all again.
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val name = form.etName.text?.toString().orEmpty().trim()
+                val phone = PhoneNumber.tidy(form.etPhone.text?.toString().orEmpty())
+                val problem = EmergencyContactRules.problemWith(name, phone)
+                form.tilName.error = if (problem == R.string.emergency_contact_error_name) getString(problem) else null
+                form.tilPhone.error = if (problem == R.string.error_invalid_phone) getString(problem) else null
+                if (problem != null) return@setOnClickListener
+                if (!Network.isOnline(this)) {
+                    form.tilPhone.error = getString(R.string.error_no_connection)
+                    return@setOnClickListener
+                }
+                lifecycleScope.launch {
+                    userRepository.setEmergencyContact(uid, name, phone)
+                        .onSuccess {
+                            user = user?.copy(emergencyContactName = name, emergencyContactPhone = phone)
+                            bindEmergencyContact()
+                            AppMessage.show(binding.root, UiText.Res(R.string.emergency_contact_saved))
+                            dialog.dismiss()
+                        }
+                        .onFailure { form.tilPhone.error = ErrorMessages.textFor(it).resolve(this@SettingsActivity) }
+                }
+            }
+        }
+        dialog.show()
+    }
+
+    /** Turning it on asks for the fingerprint first, so nobody locks themselves out by accident. */
+    private fun bindAppLock() {
+        val row = binding.rowAppLock
+        row.rowIcon.setImageResource(R.drawable.ic_lock)
+        row.rowIcon.setColorFilter(ContextCompat.getColor(this, R.color.accent))
+        row.rowTitle.setText(R.string.settings_app_lock)
+        row.rowSupporting.setText(R.string.settings_app_lock_desc)
+        row.rowSwitch.isChecked = AppLock.isEnabled(this)
+        row.root.setOnClickListener {
+            if (row.rowSwitch.isChecked) {
+                AppLock.setEnabled(this, false)
+                row.rowSwitch.isChecked = false
+            } else {
+                confirmWithFingerprint {
+                    AppLock.setEnabled(this, true)
+                    row.rowSwitch.isChecked = true
+                }
+            }
+        }
+        row.root.accessibilityDelegate = switchAccessibility(row.rowSwitch)
+    }
+
+    private fun confirmWithFingerprint(onConfirmed: () -> Unit) {
+        val prompt = BiometricPrompt(
+            this,
+            ContextCompat.getMainExecutor(this),
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) = onConfirmed()
+            }
+        )
+        prompt.authenticate(
+            BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.settings_app_lock))
+                .setSubtitle(getString(R.string.app_lock_confirm))
+                .setAllowedAuthenticators(AppLock.AUTHENTICATORS)
+                .build()
+        )
     }
 
     private fun bindClearance() {
@@ -380,13 +536,16 @@ class SettingsActivity : AppCompatActivity() {
             NotificationSettings.set(this@SettingsActivity, key, on)
             if (on && !Notifications.allowedOnPhone(this@SettingsActivity)) turnOnNotifications()
         }
-        root.accessibilityDelegate = object : View.AccessibilityDelegate() {
-            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfo) {
-                super.onInitializeAccessibilityNodeInfo(host, info)
-                info.className = Switch::class.java.name
-                info.isCheckable = true
-                info.isChecked = rowSwitch.isChecked
-            }
+        root.accessibilityDelegate = switchAccessibility(rowSwitch)
+    }
+
+    /** TalkBack hears the whole row as one switch, with its state. */
+    private fun switchAccessibility(switch: CompoundButton) = object : View.AccessibilityDelegate() {
+        override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfo) {
+            super.onInitializeAccessibilityNodeInfo(host, info)
+            info.className = Switch::class.java.name
+            info.isCheckable = true
+            info.isChecked = switch.isChecked
         }
     }
 

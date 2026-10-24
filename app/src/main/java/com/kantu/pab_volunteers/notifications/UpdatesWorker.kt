@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
+import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.utils.DateUtils
 import kotlinx.coroutines.CancellationException
@@ -34,7 +35,10 @@ class UpdatesWorker(
             val state = UpdateState(applicationContext, uid)
             when {
                 user.isAdmin -> checkFullActivities(state)
-                user.profileComplete -> checkNewPosts(state)
+                user.profileComplete -> {
+                    checkNewPosts(state)
+                    checkReminders(uid, state)
+                }
             }
             Result.success()
         } catch (e: CancellationException) {
@@ -79,6 +83,22 @@ class UpdatesWorker(
         state.seenActivities = activities.map { it.id }.toSet()
         state.seenAnnouncements = announcements.map { it.id }.toSet()
         state.lastCheck = now
+    }
+
+    /**
+     * Reminds a volunteer before an activity they joined, at the time chosen in Settings. Uses
+     * the details saved with the sign-up, so it still works if the activity is later hidden.
+     */
+    private suspend fun checkReminders(uid: String, state: UpdateState) {
+        val lead = NotificationSettings.reminderLead(applicationContext)
+        if (lead == ReminderLead.OFF) return
+        val joined = SignupRepository().getMySignups(uid).map { it.asActivity() }
+        val now = DateUtils.now()
+        val due = ReminderRules.due(joined, now, lead, state.remindedActivities)
+        Notifications.showReminders(applicationContext, due)
+        // Only what is still to come is kept, so the list doesn't grow for ever.
+        val stillToCome = joined.filter { it.startsAtMillis > now }.map { it.id }.toSet()
+        state.remindedActivities = (state.remindedActivities + due.map { it.id }).intersect(stillToCome)
     }
 
     private suspend fun checkFullActivities(state: UpdateState) {
@@ -150,4 +170,8 @@ private class UpdateState(context: Context, uid: String) {
     var fullChecked: Boolean
         get() = prefs.getBoolean("full_checked", false)
         set(value) = prefs.edit().putBoolean("full_checked", value).apply()
+
+    var remindedActivities: Set<String>
+        get() = prefs.getStringSet("reminded_activities", emptySet()).orEmpty()
+        set(value) = prefs.edit().putStringSet("reminded_activities", value).apply()
 }

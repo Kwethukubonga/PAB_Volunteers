@@ -451,7 +451,25 @@
     <string name="clearance_pill_cleared">Uvunyiwe</string>
     <string name="clearance_pill_waiting">Iyalinda</string>
     <string name="clearance_pill_expired">Iphelelwe</string>
+    <string name="settings_emergency_contact">Umntu wexesha likaxakeka</string>
+    <string name="emergency_contact_none">Akumiselwanga. Ngubani ekufuneka \"Ndifuna uncedo\" lumthumelele?</string>
+    <string name="emergency_contact_explain">Ngomhla womsebenzi, \"Ndifuna uncedo\" lungathumela lo mntu umyalezo othi uphi. Nguwe kuphela obonayo.</string>
+    <string name="emergency_contact_name">Igama labo</string>
+    <string name="emergency_contact_phone">Inombolo yabo yefowuni</string>
+    <string name="emergency_contact_error_name">Yongeza negama labo.</string>
+    <string name="emergency_contact_saved">Umntu wexesha likaxakeka ugciniwe.</string>
+    <string name="action_save">Gcina</string>
+    <string name="settings_app_lock">Tshixa ngomnwe</string>
+    <string name="settings_app_lock_desc">Ziceliwe xa i-app ivulwa kwakhona</string>
+    <string name="app_lock_confirm">Qinisekisa ukuba nguwe ukuze uvule isitshixo</string>
     <string name="app_lock_title">Vula iPhilisa Volunteers</string>
     <string name="app_lock_body">Sebenzisa umnwe wakho, ubuso okanye isitshixo sesikrini.</string>
     <string name="app_lock_unlock">Vula</string>
+    <string name="settings_reminders">Izikhumbuzi</string>
+    <string name="reminders_off">Zicinyiwe</string>
+    <string name="reminders_hour">Iyure e-1 phambi komsebenzi owungenileyo</string>
+    <string name="reminders_day">Usuku olu-1 phambi komsebenzi owungenileyo</string>
+    <string name="channel_reminders">Izikhumbuzi</string>
+    <string name="channel_reminders_desc">Phambi komsebenzi owungenileyo.</string>
+    <string name="notify_reminder">Kuyeza: %1$s</string>
 </resources>

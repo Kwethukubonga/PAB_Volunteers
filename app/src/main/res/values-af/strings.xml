@@ -451,7 +451,25 @@
     <string name="clearance_pill_cleared">Geklaar</string>
     <string name="clearance_pill_waiting">Wag</string>
     <string name="clearance_pill_expired">Verval</string>
+    <string name="settings_emergency_contact">Noodkontak</string>
+    <string name="emergency_contact_none">Nie gestel nie. Vir wie moet \"Ek het hulp nodig\" \'n boodskap stuur?</string>
+    <string name="emergency_contact_explain">Op die dag van \'n aktiwiteit kan \"Ek het hulp nodig\" hierdie persoon laat weet waar jy is. Net jy sien dit.</string>
+    <string name="emergency_contact_name">Hul naam</string>
+    <string name="emergency_contact_phone">Hul foonnommer</string>
+    <string name="emergency_contact_error_name">Voeg ook hul naam by.</string>
+    <string name="emergency_contact_saved">Noodkontak gestoor.</string>
+    <string name="action_save">Stoor</string>
+    <string name="settings_app_lock">Sluit met vingerafdruk</string>
+    <string name="settings_app_lock_desc">Vra daarvoor wanneer die toepassing weer oopmaak</string>
+    <string name="app_lock_confirm">Bevestig dat dit jy is om die slot aan te skakel</string>
     <string name="app_lock_title">Ontsluit Philisa Volunteers</string>
     <string name="app_lock_body">Gebruik jou vingerafdruk, gesig of skermslot.</string>
     <string name="app_lock_unlock">Ontsluit</string>
+    <string name="settings_reminders">Herinneringe</string>
+    <string name="reminders_off">Af</string>
+    <string name="reminders_hour">1 uur voor \'n aktiwiteit waarby jy aangesluit het</string>
+    <string name="reminders_day">1 dag voor \'n aktiwiteit waarby jy aangesluit het</string>
+    <string name="channel_reminders">Herinneringe</string>
+    <string name="channel_reminders_desc">Voor \'n aktiwiteit waarby jy aangesluit het.</string>
+    <string name="notify_reminder">Kom nader: %1$s</string>
 </resources>
