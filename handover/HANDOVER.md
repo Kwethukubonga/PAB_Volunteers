@@ -1,11 +1,11 @@
 # Handover: what's done and what's left
 
-PAB Volunteers (Android) and the Help Centre (web). Updated 22 October 2026.
+PAB Volunteers (Android) and the Help Centre (web). Updated 24 October 2026.
 
 Task 2 got 176/270 (65%). Most marks were lost on the **web app** (APIs, Database, Data Flow, Security, CI/CD). Most of that is now fixed on web `develop`, but **none of it is live yet** because Railway only deploys `main`.
 
 **Repos:** Android `Kwethukubonga/PAB_Volunteers` · Web `Kwethukubonga/PAB_WebApp`. Clone both into the same folder.
-**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (100 items: 39 done, 10 part done). Each item says how to do it and how to know it's finished.
+**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (108 items: 58 done, 16 part done; section 8 lists what's left on Android, in order). Each item says how to do it and how to know it's finished.
 
 > ⚠️ **These notes live only on the `changes_final_POE` branch**, which exists in both repos with the same `handover/` folder and a `changes_POE.md` project guide. They are for the team only, never go into `develop`, `main` or `master`, and **both `changes_final_POE` branches are deleted before the final submission** (section 5).
 
@@ -46,6 +46,7 @@ Each repo's `changes_final_POE` branch has `changes_POE.md`: what the project is
 | Web | `revert-7-feature/api` | Made with GitHub's Revert button on PR #7, never opened as a PR. **Don't merge it**: it would undo all the new web work. Delete it if nobody needs it. |
 | Web | `feature/database-persistence`, `feature/update-programme-images`, `unathi` | Old, and they carry a stray `.claude/launch.json`. Delete if finished with. |
 | Android | `develop` | Same as `master` plus new rules tests (40 pass). All 17 requirements (PV-FR01–17) implemented. |
+| Android | `feature/tlhogi/settings` → `feature/tlhogi/collective-features` → `feature/tlhogi/mockup-screens` | Each builds on the one before; PR them into `develop` in that order. The mockup branch has six "UI:" commits (Home planner, activity details, Profile tabs, fingerprint lock, emergency contact and reminders). |
 | Android | `feature/kwethu/design-tokens` | Shared palette + header contrast fix (E1, F9). **No PR yet.** Its commit message has a `Co-Authored-By: Claude` line; reword it before the PR. |
 
 ### Done on web `develop`
@@ -135,6 +136,7 @@ Open a PR from `feature/kwethu/design-tokens` into Android `develop` (reword the
 | F12 | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
 | K1–K4 | ~~Settings rows, change password, two-step delete, offline banner~~ built on `feature/tlhogi/settings`. Next: PR into `develop`, check on a phone (3 languages, dark mode) | Tlhogi |
 | K19–K26 | ~~Milestones, clearance, report a concern, search, "How did it go?", directions, animated splash, phone spacing~~ built on `feature/tlhogi/collective-features` (on top of the Settings branch). Next: PR after the Settings one, check on a phone, and **publish the new `firestore.rules`** | Tlhogi |
+| K7, K9–K14, E6, F9, I1, I3 | ~~Solid headers, Home planner, details with top bar, calendar and "I need help", Profile tabs and colour, fingerprint lock, emergency contact and reminders~~ built on `feature/tlhogi/mockup-screens` (on top of collective-features). Next: PR after collective-features, check on a phone, **confirm the crisis line 081 746 9889 with PAB**. Parts left: see the plan, section 8 | Tlhogi |
 | K16 | Google sign-in through Credential Manager (removes the deprecated API) | |
 
 **P2:**
@@ -142,16 +144,16 @@ Open a PR from `feature/kwethu/design-tokens` into Android `develop` (reword the
 | ID | Task | Owner |
 |---|---|---|
 | E3, E4 | Same fonts as the web (Lora + Source Sans 3 in `res/font`), remove eyebrow labels | |
-| E9, E6, K7 | Material 3, solid header instead of gradient, tinted neutrals | |
-| G1, G2, K5, K6 | Snackbars instead of Toasts, buttons on empty screens, Retry on errors, main action pinned at the bottom | |
+| E9, K7 | Material 3, tinted neutrals (the solid header is done) | |
+| G1, G2, K5, K6 | Snackbars instead of Toasts, buttons on empty screens, Retry on errors, Save pinned at the bottom of the editors and Edit Profile | |
 | F11, F13, F14 | Predictive Back, TalkBack pass, `ListAdapter` + `DiffUtil` | |
-| I1–I5, K8–K10, K12–K14 | Reminders, "only my programmes", add to calendar, contact PAB, privacy/POPIA, intro screens, home planner, schedule tabs, safety sheet, fingerprint lock | |
+| I2, I4, I5, K8, K10, K13 | "Only my programmes", contact PAB (call, WhatsApp, directions), privacy/POPIA, intro screens, Upcoming/Past tabs on Schedule, suggest the lock to admins | |
 | D4 | Branch protection on Android `develop` and `master`, Dependabot, CI badge | |
 | D5 | Tag releases and attach the APK to a GitHub Release | |
 | C4 | Uptime monitor on the download page | |
 | G7, J4 | Edge-case testing, PR template for the Android repo | |
 
-**P3:** E7, E10, G3, I6, I7 (needs Firebase's paid Blaze plan), K11, K15, K17, K18. See the plan for details.
+**P3:** E7 (Admin tiles), E10 (other sub-screens), G3, I6, I7 (needs Firebase's paid Blaze plan), K11 (admin lists), K15, K17, K18. See the plan for details.
 
 ---
 

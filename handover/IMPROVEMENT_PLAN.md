@@ -8,7 +8,7 @@ This plan turns three sources into one checklist:
 
 Each item names the repo it belongs to, its priority, how to do it, and how to know it is finished. Items that came from the marker's feedback are tagged with the rubric criterion they address.
 
-**Progress (24 October 2026):** 51 of 108 done, 10 part done (marked **Status**). K1–K4 and the new K19–K26 are built on feature branches and still need their PRs into `develop`. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
+**Progress (24 October 2026):** 58 of 108 done, 16 part done (marked **Status**). K1–K4, K19–K26 and the mockup screens (E6, F9, I1, I3, K9, K12, K14 and parts of E7, E10, K6, K7, K10, K11, K13) are built on feature branches and still need their PRs into `develop`. Section 8 lists what's left on Android. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
 
 > ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only and live only on the `changes_final_POE` branch of each repo. Delete both branches before submitting (`HANDOVER.md` section 5, step F1).
 
@@ -247,12 +247,14 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Emoji stand in for icons on six pages (About 🤝💜❤✊⚖🌍, Contact 📞✉📍🚨, Index 📋💬, ProgrammeDetail 🚨, RequestSupport 📍, Resources 🏘🚨⚖👶🧠❓), next to the stroke SVG icons in the header.
   - Use one icon family. Material Symbols is a good fit because Android already uses Material icons.
 
-- [ ] **E6 · P2 · Android: Review the header gradient**
+- [x] **E6 · P2 · Android: Review the header gradient**
+  - **Status (24 Oct):** Done on `feature/tlhogi/mockup-screens`: the one drawable every header shares is now solid `purple_700`. Show PAB the before and after when the PRs go in.
   - Every header is a 135° purple gradient. Purple fits PAB's brand; the gradient on every screen is the generic part.
   - Try a solid `purple_900` band with lighter purple surfaces on the screens below, and show both versions to PAB.
   - Whatever stays, it must pass F9.
 
 - [ ] **E7 · P3 · Android: Rethink the stat tiles**
+  - **Status (24 Oct):** Part done. Home's four tiles are one line, "3 upcoming, 12 hours completed", that opens the Schedule (`feature/tlhogi/mockup-screens`); Profile's tiles are gone too. Still to do: Admin Overview's three tiles.
   - Home's four tiles (Today, Upcoming, Completed, Hours) and Admin's three follow the "big number, small label" pattern Impeccable flags.
   - Make each tile open its list (Upcoming opens Schedule), or merge them into one summary line ("3 upcoming · 12 hours completed").
 
@@ -266,6 +268,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Retest dark mode and contrast afterwards.
 
 - [ ] **E10 · P3 · Android: Consider a top app bar**
+  - **Status (24 Oct):** Part done. Activity details has a standard top bar with Back, Share and a favourite heart (`feature/tlhogi/mockup-screens`). Still to do: the other 15 screens with a header band and an image-button Back.
   - Screens use custom header bands with an image-button Back. A `MaterialToolbar` or `CollapsingToolbarLayout` gives the standard title, Back and action placement users expect.
 
 ### F. Accessibility and adaptivity
@@ -306,8 +309,8 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 
 **Android**
 
-- [ ] **F9 · P1 · Android: Fix the muted header text contrast**
-  - **Status (22 Oct):** Fixed on branch `feature/kwethu/design-tokens` (white at 85%, plus darker success and error pill text). Needs a PR into Android `develop`.
+- [x] **F9 · P1 · Android: Fix the muted header text contrast**
+  - **Status (24 Oct):** Done on `feature/tlhogi/mockup-screens`: with the gradient gone (E6), `text_on_purple_muted` sits on solid `purple_700` at about 5.1:1. `feature/kwethu/design-tokens` also fixes it (white at 85%, plus darker success and error pill text); keep whichever PR goes in second consistent with the first.
   - The header gradient runs at 135°, so its lightest end (`purple_500`) sits at the top left, where "STEP 1 OF 2" and similar 12sp labels in `text_on_purple_muted` (#D8B4FE) appear. That's about 3.2:1; it needs 4.5:1.
   - Use white at 85% opacity, darken the light end of the gradient, or flip the angle.
 
@@ -383,9 +386,9 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 
 ### I. Android features (from the settings research and earlier suggestions)
 
-- [ ] **I1 · P2 · Android: Activity reminders**: "Remind me the day before" and "1 hour before" for joined activities, using WorkManager, with on/off switches in Settings.
+- [x] **I1 · P2 · Android: Activity reminders** (built as K14): "Remind me the day before" and "1 hour before" for joined activities, using WorkManager, with on/off switches in Settings.
 - [ ] **I2 · P2 · Android: "Only my programmes"**: an option to be notified only about new activities in the programmes the volunteer chose.
-- [ ] **I3 · P2 · Android: Add to calendar**: a button on activity details that opens the phone's calendar with the details filled in (`CalendarContract`).
+- [x] **I3 · P2 · Android: Add to calendar**: a button on activity details that opens the phone's calendar with the details filled in (`CalendarContract`). Built on `feature/tlhogi/mockup-screens`.
 - [ ] **I4 · P2 · Android: Contact Philisa**: call, WhatsApp, email and directions to 55 Strauss Road, in Settings.
 - [ ] **I5 · P2 · Android: Privacy and POPIA**: a privacy page and "Download my data" (the profile and sign-ups as a file).
 - [ ] **I6 · P3 · Android: About**: app version, PAB website and social links.
@@ -396,7 +399,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 *Rubric: Requirements Alignment (4/5), Architecture (11/15), Branching (12/15), Presentation*
 
 - [ ] **J1 · P1 · Both: Requirements traceability table**
-  - **Status (24 Oct):** Both READMEs done. Web: section 2 maps PAB-FR01–15. Android: section 3 maps PV-FR01–17 to screen, code and tests (branch `feature/tlhogi/traceability`, waiting for its PR); the gaps found were closed with 25 new tests (`UpdateRules`, `SignInDestination`, `PasswordRules`, favourites and sign-up list rules). Still to do: demo video timestamps, and a slide.
+  - **Status (24 Oct):** Both READMEs done. Web: section 2 maps PAB-FR01–15. Android: section 3 maps PV-FR01–17 to screen, code and tests (merged into `develop` in PR #17; PV-FR18–27 are added by the feature branches); the gaps found were closed with 25 new tests (`UpdateRules`, `SignInDestination`, `PasswordRules`, favourites and sign-up list rules). Still to do: demo video timestamps, and a slide.
   - For every requirement (PV-FR01–FR17 and PAB-FR01–FR10), list the screen, the code, the test that proves it, and the timestamp in the demo video.
   - Put it in both READMEs and on a slide. This is the "elaboration" the marker asked for.
 
@@ -503,11 +506,13 @@ The items below say what to copy, and which Collective file shows how. Paths are
   - When a list fails to load, show the reason and a Retry button in place of the list, instead of a Snackbar over an empty screen.
 
 - [ ] **K6 · P2 · Android: Main action pinned at the bottom** (from `CommonComponents.DetailScaffold`, `BottomActionBar`, `PrimaryActionButton`)
+  - **Status (24 Oct):** Part done. Join and Leave sit in a bottom bar on activity details, with the reason shown when there's no connection (`feature/tlhogi/mockup-screens`). Still to do: Save in the activity editor, the announcement editor and Edit Profile (all still scroll with the page), and the spinner while saving.
   - Join or Leave on activity details, and Save in the editors and Edit Profile, sit in a bar at the bottom within thumb reach that rises above the keyboard.
   - The button turns into a spinner while saving and is always at least 48dp tall.
   - Pairs with E10 (top app bar for sub-screens).
 
 - [ ] **K7 · P2 · Android: Solid brand surfaces and tinted neutrals** (from `ui/theme/Color.kt`, `BrandComponents.HeroHeader`)
+  - **Status (24 Oct):** Part done. The headers are one solid brand panel (E6). Still to do: tint the greys (`text_secondary` #6B7280 and the other neutrals, light and dark) slightly towards lavender.
   - Replace the gradient headers with one solid brand panel, and tint the greys slightly towards PAB's lavender (Collective's light and dark neutrals are violet-tinted).
   - This resolves E6 and F9 and matches Impeccable's "tinted greys" advice.
 
@@ -515,28 +520,34 @@ The items below say what to copy, and which Collective file shows how. Paths are
   - Three swipeable pages before sign-in on a new install: find an activity, join in one tap, track your hours. Include Skip, Next and "Get started", and a replay option in Settings, About.
   - Use PAB's own photos.
 
-- [ ] **K9 · P2 · Android: Home as a planner** (from `ui/home/HomeScreen.kt`)
+- [x] **K9 · P2 · Android: Home as a planner** (from `ui/home/HomeScreen.kt`)
+  - **Status (24 Oct):** Done on `feature/tlhogi/mockup-screens`: next activity card, the coming seven days with a dot on booked days, the plan for the day tapped, a summary line, and the latest announcement with how long ago it was posted. `WeekPlan` has 5 tests.
   - **Next activity card:** a large brand-colour card at the top showing the next activity ("Community Soup Kitchen · Sat 09:00 · Philisa Centre"), or a nudge to find one.
   - **Week strip:** the coming week, with a dot on days that have something booked. Tapping a day shows that day's plan.
   - Replaces the four stat tiles (E7); hours stay on Profile.
 
 - [ ] **K10 · P2 · Android: Schedule like an order list** (from `ui/profile/HistoryScreen.kt`)
+  - **Status (24 Oct):** Part done. Profile has Upcoming and Past tabs with counts and "today" / "in 3 days" times (`feature/tlhogi/mockup-screens`). Still to do: the same tabs on the Schedule tab itself, and a newest/oldest toggle.
   - Active and Past tabs, status chips with counts ("Upcoming (3)"), a newest/oldest toggle, and relative times ("in 2 days", "3 hours ago").
 
 - [ ] **K11 · P3 · Android: One colour per person** (from `Color.AvatarColors`)
+  - **Status (24 Oct):** Part done. `AvatarColors` (8 colours, each tested for 4.5:1 with white) colours the volunteer's own initial on Profile (`feature/tlhogi/mockup-screens`). Still to do: the admin's Volunteers list and sign-up lists.
   - Volunteer initials in admin lists get a colour picked from their ID, so the same person always looks the same, instead of every avatar being lavender.
 
-- [ ] **K12 · P2 · Android: Volunteer safety on the day** (from `ui/safety/TripSafety.kt`)
+- [x] **K12 · P2 · Android: Volunteer safety on the day** (from `ui/safety/TripSafety.kt`)
+  - **Status (24 Oct):** Done on `feature/tlhogi/mockup-screens`: Share on activity details, and "I need help" on the day of a joined activity (112, 10111, Philisa's crisis line, a ready-written text to the emergency contact from Settings). The share has the activity, place and time but not the phone's current location, which would need the location permission. **Confirm the crisis line number (081 746 9889, taken from the web app) with PAB.**
   - **Share where I'm volunteering:** activity, place, time and current location, sent through the share sheet to WhatsApp or SMS. Nothing is stored by the app.
   - **On the day of a joined activity:** an "I need help" sheet with Call 112, Call 10111, Call PAB's crisis line, and a ready-written text to the emergency contact from K1.
   - The dialler and SMS app always open with everything filled in, so nothing is sent without the person tapping.
   - Most useful for Search and Rescue and community outreach activities.
 
 - [ ] **K13 · P2 · Android: Fingerprint lock, especially for admins** (from `security/AppLock.kt`, `security/BiometricCredentialStore.kt`)
+  - **Status (24 Oct):** Part done. Settings → Safety → Lock with fingerprint (fingerprint, face or screen lock), asked again after 30 seconds away (`feature/tlhogi/mockup-screens`). Still to do: suggest it to admins on their first sign-in.
   - An optional "Lock the app when it reopens" using Android's fingerprint or face check.
   - Admin phones show every volunteer's phone number and area, so suggest it to admins on first sign-in (POPIA).
 
-- [ ] **K14 · P2 · Android: Reminders with a chosen lead time** (from `notifications/DepartureReminders.kt`, `util/ReminderTimes.kt`)
+- [x] **K14 · P2 · Android: Reminders with a chosen lead time** (from `notifications/DepartureReminders.kt`, `util/ReminderTimes.kt`)
+  - **Status (24 Oct):** Done on `feature/tlhogi/mockup-screens`: Off, 1 hour or 1 day before, sent once each by the 15-minute background check on their own channel. Arrives within about 15 minutes of the chosen time, since WorkManager can't run more often.
   - Settings choice: Off / 1 hour / 1 day before a joined activity, scheduled with WorkManager so they arrive when the app is closed. This is how to build I1.
 
 - [ ] **K15 · P3 · Android: Don't notify about what's on screen** (from `notifications/ActiveChat.kt`)
@@ -561,6 +572,8 @@ The items below say what to copy, and which Collective file shows how. Paths are
 - [x] **K24 · P2 · Android: Directions** (from `LocationComponents`): opens the phone's maps app at the activity's place, or the browser.
 - [x] **K25 · P3 · Android: Animated splash** (from `HandsAnimation.kt`): logo eases in, name rises; off when animations are off.
 - [x] **K26 · P2 · Android: Phone field spaced as typed** (from `PhoneNumberField.kt`): 082 123 4567 and +27 82 123 4567 in profile setup and Edit profile.
+
+**Built on 24 October from the mockup** (`feature/tlhogi/mockup-screens`, on top of `feature/tlhogi/collective-features`, six "UI:" commits): E6, F9, I1, I3, K9, K12, K14 and parts of E7, E10, K6, K7, K10, K11, K13. 16 new unit tests and one rules test; the README adds PV-FR24–27. No rules change is needed: the emergency contact is two fields on the volunteer's own record, which the current rules already allow. Each screen still needs a check on a real phone, in all three languages and dark mode, and the new isiXhosa and Afrikaans text needs a first-language check.
 
 ### W. Web: making the weakest link stronger
 
@@ -613,3 +626,62 @@ Collective's `backend/` is an Express and TypeScript REST API with Firebase sign
   - **Status (22 Oct):** Part done: longest-waiting / newest toggle and status pill colours from the tokens. Still to do: New / In progress / Closed tabs with counts, relative times, confirm before closing.
   - New / In progress / Closed tabs with counts, urgent requests first, colour-coded status pills with one colour per status everywhere, relative times ("2 hours ago"), and a newest/oldest toggle.
   - Closing or deleting a request asks for confirmation, the way Collective handles destructive actions.
+
+---
+
+## 8. Android: what's left (24 October)
+
+Everything not ticked above, in the order to build it. Items marked part done list only the missing part. Build on a new branch from `feature/tlhogi/mockup-screens` until the three feature PRs are in `develop`, then from `develop`.
+
+### 8.1 Code (no phone or account needed)
+
+**P1**
+1. **F10** Navigation rail on tablets (`layout-sw600dp` for the volunteer and admin main screens).
+2. **K16** Google sign-in through Credential Manager (removes the deprecated `GoogleSignIn` API).
+3. **R1** (HANDOVER) Hide draft activities in the rules: published-only query in the background check first, then tighten `allow read`, with rules tests.
+4. **K6** rest: Save pinned at the bottom of the activity editor, the announcement editor and Edit Profile, with a spinner while saving.
+
+**P2**
+5. **G1** Snackbars instead of Toasts (8 files: both editors, Edit Profile, interests, report a concern, delete account, splash, `ActivityIntents`).
+6. **G2** A button on empty screens (Schedule → Browse activities, Favourites → Find opportunities, admin lists → Create activity).
+7. **K5** Error state with Retry in place of a failed list.
+8. **F11** Predictive Back (`enableOnBackInvokedCallback`).
+9. **F14** `ListAdapter` + `DiffUtil` for the 7 adapters that call `notifyDataSetChanged`.
+10. **K7** rest: lavender-tinted neutrals, light and dark.
+11. **K10** rest: Upcoming and Past tabs on the Schedule tab, and a newest/oldest toggle.
+12. **K13** rest: suggest the fingerprint lock to admins on their first sign-in.
+13. **K8** First-run introduction (three pages, Skip / Next / Get started), with "Show the introduction again" in Settings → About.
+14. **I4** Contact Philisa: call, WhatsApp and directions to 55 Strauss Road beside today's email row.
+15. **I2** "Only my programmes" switch for new-activity notifications.
+16. **I5** Privacy page and "Download my data" (profile and sign-ups as a file).
+17. **E4** Remove the eyebrow labels (`activity_welcome_info.xml`, `fragment_admin_overview.xml`).
+18. **E3** Lora and Source Sans 3 in `res/font`, mapped through the type styles.
+19. **E9** Material 3 theme and colour roles (largest change; retest dark mode and contrast after).
+20. **D4** Android part: `.github/dependabot.yml` and a CI badge in the README (branch protection is a GitHub setting, see 8.2).
+21. **D2** Workflow steps to deploy `public/` and `firestore.rules` on merge to `master` (the service account secret is added by hand, see 8.2).
+22. **J4** Pull request template for the Android repo.
+23. **J2** Android part: architecture diagram and threat model in the README.
+
+**P3**
+24. **E7** rest: Admin Overview's three stat tiles become a summary line or open their lists.
+25. **E10** rest: a standard top bar on the other 15 sub-screens.
+26. **K11** rest: a colour per person in the admin's Volunteers and sign-up lists.
+27. **I6** About: PAB's website and social links beside the version.
+28. **G3** Name the action on delete buttons ("Delete activity", "Delete announcement").
+29. **K15** No "new announcement" notification while Community is open, nor "activity full" while that sign-up list is open.
+30. **K17** One log tag per class, user IDs only, tags listed in the README.
+31. **K18** `VolunteerViewModel` and `AdminViewModel` tests with a test dispatcher.
+32. **B3** (stretch) A "Get help" entry that opens the web Help Centre form.
+
+### 8.2 Needs a phone, an account or the team
+
+- **PRs in order, merge commits only:** `feature/tlhogi/settings` → `feature/tlhogi/collective-features` → `feature/tlhogi/mockup-screens`, then `feature/kwethu/design-tokens` (E1; reword its commit first).
+- **Publish `firestore.rules`** after the collective-features PR (clearances, concerns, feedback need it).
+- **Confirm Philisa's crisis line** (081 746 9889) with PAB before the "I need help" sheet ships.
+- **Phone check** of every new screen in English, isiXhosa and Afrikaans, light and dark, at 1.3× text (F12), and a TalkBack pass (F13), and the edge cases (G7).
+- **First-language check** of the new isiXhosa and Afrikaans text (about 80 keys from the mockup work, plus the Settings and Collective ones).
+- **C3, J6** Put the download page live and link it in the README. **C4** uptime monitor. **D5** tag `v1.1.0` with the APK.
+- **D2** service account secret in GitHub; **D4** branch protection on `develop` and `master`.
+- **R2** (HANDOVER) the README's admin test account and password.
+- **J1** demo video timestamps and a slide; **J3** spread the work; **J5** demo script.
+- **I7** needs the Blaze plan; **I8** needs Firebase Support.

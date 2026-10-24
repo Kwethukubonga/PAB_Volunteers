@@ -11,7 +11,7 @@ Sister repo: the public website, `Kwethukubonga/PAB_WebApp`. Clone both side by 
 ## Where to start
 
 1. `handover/HANDOVER.md` (on this branch): what's done, what's left in order, the setup steps, and an Owner column. Put your name on what you take.
-2. `handover/IMPROVEMENT_PLAN.md` (on this branch): the full checklist (A1–K18 and W1–W12, both repos). Each item says how to do it and how to know it's finished.
+2. `handover/IMPROVEMENT_PLAN.md` (on this branch): the full checklist (A1–K26 and W1–W12, both repos; section 8 is the Android to-do in order). Each item says how to do it and how to know it's finished.
 3. `README.md` lists the requirements PV-FR01–17. All are implemented; keep the README true when behaviour changes.
 
 Read the notes without leaving your work branch: `git show origin/changes_final_POE:handover/HANDOVER.md`.
