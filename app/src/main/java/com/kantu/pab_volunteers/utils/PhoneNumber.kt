@@ -47,4 +47,43 @@ object PhoneNumber {
 
     /** Trims it and keeps single spaces, so it is stored the way it reads. */
     fun tidy(input: String): String = input.trim().replace(Regex("\\s+"), " ")
+
+    /**
+     * Spaces a South African number the way people read it out while it is being typed:
+     * 082 123 4567, or +27 82 123 4567. Other international numbers are left as typed,
+     * because every country groups its digits differently.
+     */
+    fun formatAsTyped(input: String): String {
+        val compact = input.filterNot { it.isWhitespace() }
+        return when {
+            compact.startsWith("+27") -> {
+                val rest = compact.removePrefix("+27").filter { it.isDigit() }.take(9)
+                if (rest.isEmpty()) "+27" else "+27 " + group(rest, 2, 3, 4)
+            }
+            compact.startsWith("+") -> input
+            compact.startsWith("0") -> group(compact.filter { it.isDigit() }.take(10), 3, 3, 4)
+            else -> input
+        }
+    }
+
+    /** Where the cursor goes after formatting: just after the same number of digits as before. */
+    fun cursorAfterDigits(formatted: String, digitsBefore: Int): Int {
+        if (digitsBefore <= 0) return if (formatted.startsWith("+")) minOf(1, formatted.length) else 0
+        var seen = 0
+        formatted.forEachIndexed { index, c ->
+            if (c.isDigit() && ++seen == digitsBefore) return index + 1
+        }
+        return formatted.length
+    }
+
+    private fun group(digits: String, vararg sizes: Int): String {
+        val parts = mutableListOf<String>()
+        var start = 0
+        for (size in sizes) {
+            if (start >= digits.length) break
+            parts += digits.substring(start, minOf(start + size, digits.length))
+            start += size
+        }
+        return parts.joinToString(" ")
+    }
 }
