@@ -451,4 +451,7 @@
     <string name="clearance_pill_cleared">Geklaar</string>
     <string name="clearance_pill_waiting">Wag</string>
     <string name="clearance_pill_expired">Verval</string>
+    <string name="app_lock_title">Ontsluit Philisa Volunteers</string>
+    <string name="app_lock_body">Gebruik jou vingerafdruk, gesig of skermslot.</string>
+    <string name="app_lock_unlock">Ontsluit</string>
 </resources>

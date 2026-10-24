@@ -491,4 +491,7 @@
     <string name="clearance_pill_cleared">Cleared</string>
     <string name="clearance_pill_waiting">Waiting</string>
     <string name="clearance_pill_expired">Expired</string>
+    <string name="app_lock_title">Unlock Philisa Volunteers</string>
+    <string name="app_lock_body">Use your fingerprint, face or screen lock.</string>
+    <string name="app_lock_unlock">Unlock</string>
 </resources>

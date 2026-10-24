@@ -451,4 +451,7 @@
     <string name="clearance_pill_cleared">Uvunyiwe</string>
     <string name="clearance_pill_waiting">Iyalinda</string>
     <string name="clearance_pill_expired">Iphelelwe</string>
+    <string name="app_lock_title">Vula iPhilisa Volunteers</string>
+    <string name="app_lock_body">Sebenzisa umnwe wakho, ubuso okanye isitshixo sesikrini.</string>
+    <string name="app_lock_unlock">Vula</string>
 </resources>

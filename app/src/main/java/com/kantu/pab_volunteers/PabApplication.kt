@@ -2,6 +2,7 @@ package com.kantu.pab_volunteers
 
 import android.app.Application
 import com.kantu.pab_volunteers.notifications.Notifications
+import com.kantu.pab_volunteers.security.AppLockWatcher
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.ThemePreference
 
@@ -14,5 +15,7 @@ class PabApplication : Application() {
         // app straight onto another screen and the splash would never run.
         ThemePreference.applySaved(this)
         Notifications.createChannels(this)
+        // Brings up the fingerprint lock when it is switched on (K13).
+        registerActivityLifecycleCallbacks(AppLockWatcher(this))
     }
 }

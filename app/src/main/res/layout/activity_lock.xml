@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Shown over the app while "Lock with fingerprint" is on and it has just been opened. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_header"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/spacing_xl">
+
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:adjustViewBounds="true"
+        android:importantForAccessibility="no"
+        android:src="@drawable/logo_philisa" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_lg"
+        android:accessibilityHeading="true"
+        android:gravity="center"
+        android:text="@string/app_lock_title"
+        android:textColor="@color/text_on_purple"
+        android:textSize="@dimen/text_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:gravity="center"
+        android:text="@string/app_lock_body"
+        android:textColor="@color/text_on_purple"
+        android:textSize="@dimen/text_body" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnUnlock"
+        style="@style/Widget.PAB.Button.Google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_xl"
+        android:text="@string/app_lock_unlock"
+        app:icon="@drawable/ic_lock"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+</LinearLayout>
