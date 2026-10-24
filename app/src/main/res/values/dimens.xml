@@ -36,4 +36,7 @@
     <!-- The Home header leaves this much room for the next-activity card to sit over it. -->
     <dimen name="home_card_overlap_space">40dp</dimen>
     <dimen name="home_card_overlap">-24dp</dimen>
+    <!-- A standard top bar on detail screens (E10). -->
+    <dimen name="top_bar_height">56dp</dimen>
+    <dimen name="details_photo_height">160dp</dimen>
 </resources>

@@ -448,4 +448,30 @@
     <string name="time_range" translatable="false">%1$s – %2$s</string>
     <string name="relative_today">today</string>
     <string name="relative_tomorrow">tomorrow</string>
+    <string name="activity_details_title">Activity</string>
+    <string name="action_share_activity">Share where I\'m volunteering</string>
+    <string name="action_save_favourite">Save to favourites</string>
+    <string name="action_remove_favourite">Remove from favourites</string>
+    <string name="action_add_to_calendar">Add to calendar</string>
+    <string name="spots_left_of">%1$d of %2$d spots left</string>
+    <string name="need_help_title">On the day: I need help</string>
+    <string name="need_help_subtitle">Call 112, 10111 or Philisa, or text your emergency contact</string>
+    <string name="join_needs_connection">Joining needs a connection</string>
+    <string name="share_activity_text">I\'m volunteering at %1$s, %2$s, %3$s.</string>
+    <string name="error_no_calendar_app">There is no calendar app on this phone.</string>
+    <string name="error_no_app">There is no app on this phone that can do that.</string>
+    <string name="need_help_sheet_title">I need help</string>
+    <string name="need_help_sheet_body">Each option opens your phone with everything filled in. Nothing is sent until you tap call or send.</string>
+    <string name="need_help_call_112">Call 112</string>
+    <string name="need_help_call_112_desc">Emergency services, from any phone</string>
+    <string name="need_help_call_police">Call 10111</string>
+    <string name="need_help_call_police_desc">South African Police Service</string>
+    <string name="need_help_call_philisa">Call Philisa\'s crisis line</string>
+    <string name="pab_crisis_line" translatable="false">+27817469889</string>
+    <string name="pab_crisis_line_display" translatable="false">081 746 9889</string>
+    <string name="need_help_text_contact">Text %1$s</string>
+    <string name="need_help_text_contact_desc">A message saying where you are and that you need help</string>
+    <string name="need_help_sms">I\'m at %1$s at %2$s and I need help. Please call me.</string>
+    <string name="need_help_no_contact">Add an emergency contact</string>
+    <string name="need_help_no_contact_desc">So you can text them from here in one tap</string>
 </resources>

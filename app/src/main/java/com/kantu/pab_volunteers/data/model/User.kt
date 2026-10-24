@@ -16,7 +16,10 @@ data class User(
     val role: String = ROLE_VOLUNTEER,
     val volunteerId: String = "",
     val profileComplete: Boolean = false,
-    val joinedDate: Long = 0L
+    val joinedDate: Long = 0L,
+    // Who "I need help" offers to text on the day of an activity. Both empty until it is set.
+    val emergencyContactName: String = "",
+    val emergencyContactPhone: String = ""
 ) {
     // These are derived, so they must not be written to Firestore as fields.
     @get:Exclude
@@ -24,6 +27,9 @@ data class User(
 
     @get:Exclude
     val isAdmin: Boolean get() = role == ROLE_ADMIN
+
+    @get:Exclude
+    val hasEmergencyContact: Boolean get() = emergencyContactPhone.isNotBlank()
 
     companion object {
         const val ROLE_VOLUNTEER = "volunteer"

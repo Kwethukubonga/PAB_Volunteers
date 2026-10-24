@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "I need help" on the day of an activity (K12). Each row opens the dialler or messages with
+     everything filled in, so nothing happens until the person taps call or send there. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/background_cream"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_lg"
+    android:paddingBottom="@dimen/spacing_lg">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_lg"
+        android:layout_marginEnd="@dimen/spacing_lg"
+        android:accessibilityHeading="true"
+        android:text="@string/need_help_sheet_title"
+        android:textAppearance="@style/TextAppearance.PAB.Title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_lg"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:layout_marginEnd="@dimen/spacing_lg"
+        android:layout_marginBottom="@dimen/spacing_md"
+        android:text="@string/need_help_sheet_body"
+        android:textAppearance="@style/TextAppearance.PAB.Caption" />
+
+    <include
+        android:id="@+id/rowEmergency"
+        layout="@layout/item_settings_row" />
+
+    <include
+        android:id="@+id/rowPolice"
+        layout="@layout/item_settings_row" />
+
+    <include
+        android:id="@+id/rowPhilisa"
+        layout="@layout/item_settings_row" />
+
+    <include
+        android:id="@+id/rowContact"
+        layout="@layout/item_settings_row" />
+</LinearLayout>

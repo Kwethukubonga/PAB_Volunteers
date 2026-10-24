@@ -10,17 +10,31 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityDetailsBinding
+import com.kantu.pab_volunteers.ui.profile.ProgrammeArt
+import com.kantu.pab_volunteers.ui.safety.NeedHelpSheet
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.ActivityIntents
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.Directions
+import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.NetworkMonitor
 import com.kantu.pab_volunteers.utils.observeMessages
+import kotlinx.coroutines.launch
 
+/**
+ * An activity in full: a standard top bar with share and save (E10), the photo, what and when,
+ * directions and the calendar (I3), help on the day (K12), "How did it go?" afterwards, and
+ * Join or Leave pinned at the bottom (K6), greyed out while there is no connection (K4).
+ */
 class ActivityDetailsFragment : Fragment() {
 
     private var _binding: FragmentActivityDetailsBinding? = null
@@ -31,13 +45,10 @@ class ActivityDetailsFragment : Fragment() {
         get() = arguments?.getString(Constants.EXTRA_ACTIVITY_ID).orEmpty()
 
     private var canJoin = false
+    private var online = true
     private var feedbackLoaded = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentActivityDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -62,6 +73,9 @@ class ActivityDetailsFragment : Fragment() {
         binding.btnLeave.setOnClickListener { confirmLeave() }
         binding.btnSendFeedback.setOnClickListener { sendFeedback() }
         binding.btnReportConcern.setOnClickListener { reportConcern() }
+        binding.btnFavourite.setOnClickListener {
+            viewModel.setFavourite(activityId, !isFavourite())
+        }
 
         viewModel.myFeedback.observe(viewLifecycleOwner) { feedback ->
             val given = feedback != null && feedback.activityId == activityId
@@ -73,11 +87,22 @@ class ActivityDetailsFragment : Fragment() {
         viewModel.selectedActivity.observe(viewLifecycleOwner) { activity ->
             if (activity != null) bind(activity)
         }
+        viewModel.user.observe(viewLifecycleOwner) { bindFavourite() }
         viewModel.isLoading.observe(viewLifecycleOwner) { loading ->
             binding.progressBar.isVisible = loading
-            // Both depend on loading and on the activity, so they are worked out together.
-            binding.btnJoin.isEnabled = !loading && canJoin
+            bindJoinState()
             binding.btnLeave.isEnabled = !loading
+        }
+
+        // Join is greyed out, with the reason under it, while there is no connection.
+        online = Network.isOnline(requireContext())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                NetworkMonitor.onlineStatus(requireContext()).collect {
+                    online = it
+                    bindJoinState()
+                }
+            }
         }
 
         viewModel.selectActivity(activityId)
@@ -85,31 +110,40 @@ class ActivityDetailsFragment : Fragment() {
 
     private fun bind(activity: Activity) {
         val joined = viewModel.isJoined(activityId)
+        val now = DateUtils.now()
 
+        binding.ivPhoto.setImageResource(ProgrammeArt.photoFor(requireContext(), activity.programme))
         binding.tvProgramme.text = activity.programme
+        binding.tvProgramme.isVisible = activity.programme.isNotBlank()
         binding.tvTitle.text = activity.title
         binding.rowDateTime.tvRowValue.text = activity.dateTimeLabel
         binding.rowLocation.tvRowValue.text = activity.location
         binding.rowRole.tvRowValue.text = activity.volunteerRole
         binding.rowSpots.tvRowValue.text =
-            resources.getQuantityString(
-                R.plurals.spots_available, activity.spotsRemaining, activity.spotsRemaining
-            )
+            resources.getQuantityString(R.plurals.spots_available, activity.spotsRemaining, activity.spotsRemaining)
         binding.tvDescription.text = activity.description
 
         binding.btnDirections.isVisible = activity.location.isNotBlank()
         binding.btnDirections.setOnClickListener { Directions.open(requireContext(), activity.location) }
+        binding.btnCalendar.setOnClickListener { ActivityIntents.addToCalendar(requireContext(), activity) }
+        binding.btnShare.setOnClickListener { ActivityIntents.share(requireContext(), activity) }
 
         bindStatus(activity, joined)
+        bindFavourite()
 
         // A finished activity is history: it can no longer be joined or left.
-        val finished = activity.endsAtMillis <= DateUtils.now()
+        val finished = activity.endsAtMillis <= now
         val isFull = activity.spotsRemaining <= 0
         canJoin = !isFull
         binding.btnJoin.isVisible = !joined && !finished
-        binding.btnJoin.isEnabled = canJoin && viewModel.isLoading.value != true
         binding.btnJoin.setText(if (isFull) R.string.status_full else R.string.action_join_activity)
         binding.btnLeave.isVisible = joined && !finished
+        bindJoinState()
+
+        // Help on the day, for someone who is going.
+        val onTheDay = joined && !finished && DateUtils.daysBetween(now, activity.dateMillis) == 0
+        binding.cardNeedHelp.isVisible = onTheDay
+        binding.cardNeedHelp.setOnClickListener { NeedHelpSheet.show(requireContext(), activity, viewModel.user.value) }
 
         // Feedback is for people who were there, once it has happened.
         val canGiveFeedback = joined && finished
@@ -118,6 +152,41 @@ class ActivityDetailsFragment : Fragment() {
             feedbackLoaded = true
             viewModel.loadMyFeedback(activityId)
         }
+    }
+
+    private fun bindJoinState() {
+        if (_binding == null) return
+        val loading = viewModel.isLoading.value == true
+        binding.btnJoin.isEnabled = !loading && canJoin && online
+        binding.tvJoinHint.isVisible = !online && (binding.btnJoin.isVisible || binding.btnLeave.isVisible)
+    }
+
+    private fun isFavourite(): Boolean =
+        viewModel.user.value?.favouriteActivityIds?.contains(activityId) == true
+
+    private fun bindFavourite() {
+        if (_binding == null) return
+        val saved = isFavourite()
+        binding.btnFavourite.setImageResource(if (saved) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline)
+        binding.btnFavourite.contentDescription =
+            getString(if (saved) R.string.action_remove_favourite else R.string.action_save_favourite)
+    }
+
+    /** Joined, fully booked, or how many of the spots are left. */
+    private fun bindStatus(activity: Activity, joined: Boolean) {
+        val (label, bgRes, textRes) = when {
+            joined -> Triple(getString(R.string.status_joined), R.color.status_success_bg, R.color.status_success_text)
+            activity.spotsRemaining <= 0 -> Triple(getString(R.string.status_full), R.color.status_neutral_bg, R.color.status_neutral_text)
+            else -> Triple(
+                getString(R.string.spots_left_of, activity.spotsRemaining, activity.totalSpots),
+                R.color.status_success_bg, R.color.status_success_text
+            )
+        }
+        binding.tvStatus.text = label
+        binding.tvStatus.background = binding.tvStatus.background?.mutate()?.apply {
+            setTint(ContextCompat.getColor(requireContext(), bgRes))
+        }
+        binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), textRes))
     }
 
     private fun sendFeedback() {
@@ -133,23 +202,6 @@ class ActivityDetailsFragment : Fragment() {
                 .putExtra(Constants.EXTRA_ACTIVITY_ID, activityId)
                 .putExtra(ReportConcernActivity.EXTRA_ACTIVITY_TITLE, activity?.title.orEmpty())
         )
-    }
-
-    private fun bindStatus(activity: Activity, joined: Boolean) {
-        val (labelRes, bgRes, textRes) = when {
-            joined -> Triple(
-                R.string.status_joined, R.color.status_success_bg, R.color.status_success_text
-            )
-            activity.spotsRemaining <= 0 -> Triple(
-                R.string.status_full, R.color.status_neutral_bg, R.color.status_neutral_text
-            )
-            else -> Triple(
-                R.string.status_open, R.color.status_info_bg, R.color.status_info_text
-            )
-        }
-        binding.tvStatus.setText(labelRes)
-        binding.tvStatus.background?.setTint(ContextCompat.getColor(requireContext(), bgRes))
-        binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), textRes))
     }
 
     private fun join() {

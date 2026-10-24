@@ -410,4 +410,28 @@
     </plurals>
     <string name="relative_today">vandag</string>
     <string name="relative_tomorrow">môre</string>
+    <string name="activity_details_title">Aktiwiteit</string>
+    <string name="action_share_activity">Deel waar ek vrywillig werk</string>
+    <string name="action_save_favourite">Stoor by gunstelinge</string>
+    <string name="action_remove_favourite">Verwyder uit gunstelinge</string>
+    <string name="action_add_to_calendar">Voeg by kalender</string>
+    <string name="spots_left_of">%1$d van %2$d plekke oor</string>
+    <string name="need_help_title">Op die dag: Ek het hulp nodig</string>
+    <string name="need_help_subtitle">Bel 112, 10111 of Philisa, of stuur jou noodkontak \'n boodskap</string>
+    <string name="join_needs_connection">Om aan te sluit het jy \'n verbinding nodig</string>
+    <string name="share_activity_text">Ek werk vrywillig by %1$s, %2$s, %3$s.</string>
+    <string name="error_no_calendar_app">Daar is geen kalendertoepassing op hierdie foon nie.</string>
+    <string name="error_no_app">Daar is geen toepassing op hierdie foon wat dit kan doen nie.</string>
+    <string name="need_help_sheet_title">Ek het hulp nodig</string>
+    <string name="need_help_sheet_body">Elke keuse maak jou foon oop met alles ingevul. Niks word gestuur voordat jy op bel of stuur tik nie.</string>
+    <string name="need_help_call_112">Bel 112</string>
+    <string name="need_help_call_112_desc">Nooddienste, van enige foon af</string>
+    <string name="need_help_call_police">Bel 10111</string>
+    <string name="need_help_call_police_desc">Suid-Afrikaanse Polisiediens</string>
+    <string name="need_help_call_philisa">Bel Philisa se krisislyn</string>
+    <string name="need_help_text_contact">Stuur \'n boodskap aan %1$s</string>
+    <string name="need_help_text_contact_desc">\'n Boodskap wat sê waar jy is en dat jy hulp nodig het</string>
+    <string name="need_help_sms">Ek is by %1$s by %2$s en ek het hulp nodig. Bel my asseblief.</string>
+    <string name="need_help_no_contact">Voeg \'n noodkontak by</string>
+    <string name="need_help_no_contact_desc">Sodat jy hulle van hier af met een tik kan boodskap stuur</string>
 </resources>

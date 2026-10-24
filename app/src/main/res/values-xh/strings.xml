@@ -410,4 +410,28 @@
     </plurals>
     <string name="relative_today">namhlanje</string>
     <string name="relative_tomorrow">ngomso</string>
+    <string name="activity_details_title">Umsebenzi</string>
+    <string name="action_share_activity">Yabelana ngapho ndivolontiya khona</string>
+    <string name="action_save_favourite">Gcina kwizinto ozithandayo</string>
+    <string name="action_remove_favourite">Susa kwizinto ozithandayo</string>
+    <string name="action_add_to_calendar">Yongeza kwikhalenda</string>
+    <string name="spots_left_of">Iindawo ezisele: %1$d kwezi-%2$d</string>
+    <string name="need_help_title">Ngomhla: Ndifuna uncedo</string>
+    <string name="need_help_subtitle">Tsalela u-112, u-10111 okanye iPhilisa, okanye uthumele umyalezo kumntu wakho wexesha likaxakeka</string>
+    <string name="join_needs_connection">Ukungenela kufuna uqhagamshelo</string>
+    <string name="share_activity_text">Ndivolontiya e-%1$s, %2$s, %3$s.</string>
+    <string name="error_no_calendar_app">Akukho app yekhalenda kule fowuni.</string>
+    <string name="error_no_app">Akukho app kule fowuni enokwenza loo nto.</string>
+    <string name="need_help_sheet_title">Ndifuna uncedo</string>
+    <string name="need_help_sheet_body">Ukhetho ngalunye luvula ifowuni yakho yonke into isele igcwalisiwe. Akukho nto ithunyelwayo ude ucofe ukutsalela okanye ukuthumela.</string>
+    <string name="need_help_call_112">Tsalela u-112</string>
+    <string name="need_help_call_112_desc">Iinkonzo zongxamiseko, kuyo nayiphi na ifowuni</string>
+    <string name="need_help_call_police">Tsalela u-10111</string>
+    <string name="need_help_call_police_desc">Inkonzo yamaPolisa yoMzantsi Afrika</string>
+    <string name="need_help_call_philisa">Tsalela umnxeba wengxaki wePhilisa</string>
+    <string name="need_help_text_contact">Thumela umyalezo ku-%1$s</string>
+    <string name="need_help_text_contact_desc">Umyalezo othi uphi kwaye ufuna uncedo</string>
+    <string name="need_help_sms">Ndise-%1$s e-%2$s kwaye ndifuna uncedo. Nceda unditsalele.</string>
+    <string name="need_help_no_contact">Yongeza umntu wexesha likaxakeka</string>
+    <string name="need_help_no_contact_desc">Ukuze ubathumelele umyalezo apha ngokucofa kanye</string>
 </resources>
