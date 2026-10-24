@@ -11,6 +11,7 @@ import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
 
 class AdminMainActivity : AppCompatActivity() {
 
@@ -21,6 +22,7 @@ class AdminMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostAdmin) as NavHostFragment

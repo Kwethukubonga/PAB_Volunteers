@@ -307,6 +307,9 @@
     <string name="settings_notify_full_desc">When every spot on an activity has been taken.</string>
     <string name="settings_notifications_blocked">Notifications for this app are turned off on your phone.</string>
     <string name="settings_notifications_turn_on">Turn on notifications</string>
+
+    <!-- The bar shown across the top of each screen while there is no connection. -->
+    <string name="offline_banner">You\'re offline. You can still look around, but nothing can be saved until you\'re back online.</string>
     <string name="channel_activities">New activities</string>
     <string name="channel_activities_desc">New volunteer activities you can join.</string>
     <string name="channel_announcements">Announcements</string>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Included at the top of each screen and shown by OfflineBanner while there is no connection.
+     The live region makes TalkBack read it out when it appears. -->
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/offlineBanner"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:accessibilityLiveRegion="polite"
+    android:background="@color/status_info_bg"
+    android:drawablePadding="@dimen/spacing_sm"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/offline_banner_min_height"
+    android:paddingStart="@dimen/spacing_lg"
+    android:paddingTop="@dimen/spacing_xs"
+    android:paddingEnd="@dimen/spacing_lg"
+    android:paddingBottom="@dimen/spacing_xs"
+    android:text="@string/offline_banner"
+    android:textColor="@color/status_info_text"
+    android:textSize="@dimen/text_caption"
+    android:visibility="gone"
+    app:drawableStartCompat="@drawable/ic_cloud_off"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />

@@ -22,6 +22,7 @@
     <dimen name="button_height">52dp</dimen>
     <!-- Smallest a tappable thing may be, from the Android accessibility guidance. -->
     <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="offline_banner_min_height">32dp</dimen>
     <!-- Widest a content column gets. Phones are narrower than this, so it only
          takes effect on tablets, where a full width row looks stretched. -->
     <dimen name="content_max_width">640dp</dimen>

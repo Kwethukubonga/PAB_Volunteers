@@ -259,6 +259,9 @@
     <string name="settings_notify_full_desc">Wanneer al die plekke op \'n aktiwiteit gevul is.</string>
     <string name="settings_notifications_blocked">Kennisgewings vir hierdie toepassing is op jou foon afgeskakel.</string>
     <string name="settings_notifications_turn_on">Skakel kennisgewings aan</string>
+
+    <!-- The bar shown across the top of each screen while there is no connection. -->
+    <string name="offline_banner">Jy is vanlyn. Jy kan steeds rondkyk, maar niks kan gestoor word voordat jy weer aanlyn is nie.</string>
     <string name="channel_activities">Nuwe aktiwiteite</string>
     <string name="channel_activities_desc">Nuwe vrywilligeraktiwiteite waarby jy kan aansluit.</string>
     <string name="channel_announcements">Aankondigings</string>

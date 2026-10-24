@@ -10,6 +10,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityProfileInterestsBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
 
 class ProfileInterestsActivity : AppCompatActivity() {
 
@@ -21,6 +22,7 @@ class ProfileInterestsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileInterestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnBackStep.setOnClickListener { finish() }

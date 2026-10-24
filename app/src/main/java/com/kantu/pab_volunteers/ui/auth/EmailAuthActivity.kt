@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityEmailAuthBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.utils.OfflineBanner
 import com.kantu.pab_volunteers.utils.UiText
 
 class EmailAuthActivity : AppCompatActivity() {
@@ -20,6 +21,7 @@ class EmailAuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEmailAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         binding.btnBack.setOnClickListener { finish() }
 

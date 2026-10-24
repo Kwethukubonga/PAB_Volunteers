@@ -259,6 +259,9 @@
     <string name="settings_notify_full_desc">Xa zonke iindawo zomsebenzi zithathiwe.</string>
     <string name="settings_notifications_blocked">Izaziso zale app zicinyiwe kwifowuni yakho.</string>
     <string name="settings_notifications_turn_on">Vula izaziso</string>
+
+    <!-- The bar shown across the top of each screen while there is no connection. -->
+    <string name="offline_banner">Awukho kwi-intanethi. Usenako ukujonga, kodwa akukho nto inokugcinwa ude ubuyele kwi-intanethi.</string>
     <string name="channel_activities">Imisebenzi emitsha</string>
     <string name="channel_activities_desc">Imisebenzi emitsha yokuvolontiya onokuyijoyina.</string>
     <string name="channel_announcements">Izaziso</string>
