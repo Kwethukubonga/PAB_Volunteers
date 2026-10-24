@@ -8,7 +8,7 @@ This plan turns three sources into one checklist:
 
 Each item names the repo it belongs to, its priority, how to do it, and how to know it is finished. Items that came from the marker's feedback are tagged with the rubric criterion they address.
 
-**Progress (22 October 2026):** 39 of 100 done, 10 part done (marked **Status**). Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
+**Progress (24 October 2026):** 51 of 108 done, 10 part done (marked **Status**). K1–K4 and the new K19–K26 are built on feature branches and still need their PRs into `develop`. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
 
 > ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only and live only on the `changes_final_POE` branch of each repo. Delete both branches before submitting (`HANDOVER.md` section 5, step F1).
 
@@ -472,7 +472,8 @@ The items below say what to copy, and which Collective file shows how. Paths are
 
 ### K. Android: settings, layout and finishing touches
 
-- [ ] **K1 · P1 · Android: Rebuild Settings as list rows** (from `ui/profile/SettingsScreen.kt`)
+- [x] **K1 · P1 · Android: Rebuild Settings as list rows** (from `ui/profile/SettingsScreen.kt`)
+  - **Status (24 Oct):** Built on `feature/tlhogi/settings` (PR into `develop` next). Tested with unit tests and lint; still needs a check on a real phone, in all three languages and dark mode.
   - **Sections in this order:**
     - **Account:** edit profile, change password, fingerprint lock.
     - **Appearance:** theme, language.
@@ -485,16 +486,16 @@ The items below say what to copy, and which Collective file shows how. Paths are
   - **Sign out and Delete account at the very bottom:** a red filled button and a red outlined one, apart from everyday settings so they aren't tapped by accident. Sign out moves here from Profile.
   - **Section titles** in the brand colour above a lightly tinted card (`surfaceContainer` in Material 3).
 
-- [ ] **K2 · P1 · Android: Change password from Settings** (from `SettingsScreen.kt`, `SettingsViewModel.sendPasswordReset`)
+- [x] **K2 · P1 · Android: Change password from Settings** (from `SettingsScreen.kt`, `SettingsViewModel.sendPasswordReset`)
   - For email accounts only (hidden for Google accounts). Show the account's email as the supporting line, a small spinner while sending, and a Snackbar "Reset link sent to …".
   - Today the reset is only reachable from the sign-in screen.
 
-- [ ] **K3 · P1 · Android: Delete account in two calm steps** (from `ui/profile/DeleteAccountScreen.kt`)
+- [x] **K3 · P1 · Android: Delete account in two calm steps** (from `ui/profile/DeleteAccountScreen.kt`)
   - **Step 1:** a page listing what will be lost (hours, upcoming places, history), with "No, go back" as the big button and "Yes, continue" as the quiet one.
   - **Step 2:** confirm with the password (or Google, for Google accounts) and type DELETE.
   - **Why:** this replaces today's "sign in again" dead end. PAB currently signs the person out when their sign-in is older than 5 minutes; Collective asks them to confirm again on the spot instead.
 
-- [ ] **K4 · P1 · Android: App-wide offline banner** (from `util/NetworkMonitor.kt`, `ui/navigation/ConnectivityViewModel.kt`, `CommonComponents.OfflineBanner`)
+- [x] **K4 · P1 · Android: App-wide offline banner** (from `util/NetworkMonitor.kt`, `ui/navigation/ConnectivityViewModel.kt`, `CommonComponents.OfflineBanner`)
   - A slim bar under the header on every screen while there's no connection, so people know before they tap Join.
   - Writes queued offline show "Sending…".
 
@@ -549,6 +550,17 @@ The items below say what to copy, and which Collective file shows how. Paths are
 
 - [ ] **K18 · P3 · Android: ViewModel tests** (from Collective's `ui/**/ViewModelTest.kt`, `MainDispatcherRule.kt`)
   - PAB's 66 unit tests cover utilities and models. Add tests for `VolunteerViewModel` and `AdminViewModel` (join, leave, offline, error messages) with a test dispatcher. Turbine and MockK, as Collective uses, make this easier.
+
+**Added on 24 October from a second look at Collective.** All built on `feature/tlhogi/collective-features` (on top of the Settings branch), with 23 unit tests and 19 rules tests. Each still needs a check on a real phone. **The new rules must be published** (`firestore.rules`) before clearances, concerns and feedback work in the live app; until then those parts are quietly refused and the rest of each screen still loads.
+
+- [x] **K19 · P2 · Android: Volunteer milestones** (from `util/GamificationEngine.kt`): first shift, 10 activities, 25 hours, 3 programmes on Profile, worked out from finished activities, never stored, so they can't be faked.
+- [x] **K20 · P2 · Android: Volunteer clearance** (from `ui/profile/DriverVerificationScreen.kt`): volunteer asks in Settings → Safety and brings documents to the centre; admin marks them cleared for 12 months from their profile. Own collection `clearances`; rules let a volunteer only ask.
+- [x] **K21 · P2 · Android: Report a concern** (from `SafetyRepository` reports): from an activity or Settings, emergency numbers shown first; admins see them under Overview → Concerns and mark them handled. Never deleted.
+- [x] **K22 · P2 · Android: Search** (from `util/SearchTokens.kt`): Activities tab and the admin's Volunteers list; every word must match.
+- [x] **K23 · P2 · Android: "How did it go?"** (from `ui/reviews/`): on a finished activity the volunteer was on; average and comments on the admin's sign-ups screen.
+- [x] **K24 · P2 · Android: Directions** (from `LocationComponents`): opens the phone's maps app at the activity's place, or the browser.
+- [x] **K25 · P3 · Android: Animated splash** (from `HandsAnimation.kt`): logo eases in, name rises; off when animations are off.
+- [x] **K26 · P2 · Android: Phone field spaced as typed** (from `PhoneNumberField.kt`): 082 123 4567 and +27 82 123 4567 in profile setup and Edit profile.
 
 ### W. Web: making the weakest link stronger
 
