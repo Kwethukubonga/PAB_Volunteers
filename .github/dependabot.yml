@@ -1,0 +1,38 @@
+# Lint counts 63 outdated dependencies, so updates arrive as small reviewable
+# pull requests instead of one large bump later. Weekly and capped, so the queue
+# never drowns out the team's own pull requests.
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "deps:"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci:"
+
+  # The security rules tests. These guard the live rules, so their tools stay current.
+  - package-ecosystem: npm
+    directory: /firestore-tests
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "deps:"
+
+  # The seed script. Run by hand, never shipped, so monthly is enough.
+  - package-ecosystem: npm
+    directory: /tools/seed
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2
+    commit-message:
+      prefix: "deps:"
