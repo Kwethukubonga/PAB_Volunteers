@@ -7,7 +7,18 @@ on:
     branches: [master, develop]
   pull_request:
     branches: [master, develop]
+  # Started by hand. "preview" puts the page on a temporary URL and leaves the live
+  # one alone, which is how the deploy gets proven before it matters.
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: What this run should deploy
+        type: choice
+        default: nothing
+        options:
+          - nothing
+          - preview
+          - live
 
 concurrency:
   # A new push replaces a run that is still going for the same branch.
@@ -150,3 +161,83 @@ jobs:
           name: pab-volunteers-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
+
+  deploy:
+    name: Deploy download page and rules
+    runs-on: ubuntu-latest
+    # Everything has to be green first: this needs `build`, which needs the unit tests,
+    # lint and the rules tests. So the rules that go live are always the ones the tests
+    # in this same run passed against.
+    needs: [build]
+    # A merge into master deploys for real. Otherwise nothing deploys unless someone
+    # asks for it by hand, and publishing for real is limited to master and develop so
+    # a feature branch can never put its own rules on the live project.
+    if: >
+      (github.event_name == 'push' && github.ref == 'refs/heads/master')
+      || (github.event_name == 'workflow_dispatch' && inputs.deploy == 'preview')
+      || (github.event_name == 'workflow_dispatch' && inputs.deploy == 'live'
+          && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'))
+    permissions:
+      contents: read
+    # Two merges close together queue instead of racing, and a deploy already running
+    # is never cancelled half-way, unlike the workflow-wide group above.
+    concurrency:
+      group: deploy-live
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # The APK the build job just made, not whatever is committed in public/, so the
+      # download page always offers the current build.
+      - name: Take the APK from the build job
+        uses: actions/download-artifact@v4
+        with:
+          name: pab-volunteers-debug
+          path: ${{ runner.temp }}/apk
+
+      # firebase.json serves this .bin with the APK content type and renames it to
+      # philisa-volunteers.apk on the way down, so the file keeps that name here.
+      - name: Put the APK on the download page
+        run: cp "${{ runner.temp }}/apk/app-debug.apk" public/philisa-volunteers.bin
+
+      # Writes the service account key to a file outside the checkout and points the
+      # Firebase CLI at it through GOOGLE_APPLICATION_CREDENTIALS. The key only ever
+      # exists as a repository secret; it is never in the repo and never printed.
+      - name: Sign in to Firebase
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      # A trial run on a temporary channel that expires in a week. It proves the key,
+      # its roles and the APK wiring all work without changing what volunteers see.
+      # Rules are global and have no preview, so they are left for a real deploy.
+      - name: Deploy to a preview channel
+        if: inputs.deploy == 'preview'
+        run: >
+          npx --yes firebase-tools@13 hosting:channel:deploy "trial-${{ github.run_id }}"
+          --project pab-volunteers
+          --expires 7d
+          --non-interactive
+
+      - name: Deploy the download page and publish the rules
+        if: github.event_name == 'push' || inputs.deploy == 'live'
+        run: >
+          npx --yes firebase-tools@13 deploy
+          --only hosting,firestore:rules
+          --project pab-volunteers
+          --non-interactive
+          --message "${{ github.sha }}"
+
+      # Proves the deploy actually took: the page answers and the APK is still served
+      # as an APK. A deploy that silently did nothing fails the run instead of sitting
+      # there unnoticed.
+      - name: Check the download page is up
+        if: github.event_name == 'push' || inputs.deploy == 'live'
+        run: |
+          curl -fsS -o /dev/null https://pab-volunteers.web.app/
+          curl -fsS -I https://pab-volunteers.web.app/philisa-volunteers.bin             | grep -i 'content-type: application/vnd.android.package-archive'
