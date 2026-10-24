@@ -45,9 +45,12 @@ Philisa Volunteers is an Android app that brings volunteering at Philisa Abafazi
 
 | Role | Email | Password |
 |------|-------|----------|
-| Administrator | `Kwethu1@gmail.com` | `Kwethu1@gmail.com` |
-| Administrator | `Tlhogikgatshe1@gmail.com` | `Password123.` |
+| Administrator | Supplied privately with the submission | Supplied privately with the submission |
 | Volunteer | Create your own in the app | Any password with 8+ characters and a symbol |
+
+Administrator details are handed in privately rather than written here. An admin can
+see every volunteer's name and phone number, so that account must not be usable by
+anyone who happens to read this page.
 
 > **Note:** These are test accounts only. Please don't enter real personal details.
 
