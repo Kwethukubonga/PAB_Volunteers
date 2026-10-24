@@ -58,7 +58,6 @@
     <string name="action_favourite">Intandokazi</string>
     <string name="tab_all_opportunities">Zonke</string>
     <string name="tab_favourites">Izintandokazi</string>
-    <string name="stat_hours">Iiyure</string>
     <string name="empty_favourites">Akukho nto igciniweyo okwangoku. Cofa intliziyo kwithuba ukuze uligcine apha.</string>
     <string name="action_back">Buyela emva</string>
 
@@ -71,11 +70,7 @@
     <string name="forgot_password">Ulilibele igama lokugqithisa?</string>
 
     <!-- Volunteer Home -->
-    <string name="greeting_morning">Molo,</string>
-    <string name="greeting_afternoon">Molo,</string>
-    <string name="greeting_evening">Molo,</string>
     <string name="action_see_all">Bona zonke</string>
-    <string name="empty_nothing_joined">Awukajoyini msebenzi okwangoku. Khangela kwithebhu yeMisebenzi ukuze ufumane omnye.</string>
     <string name="empty_no_open_activities">Akukho misebenzi ivulekileyo okwangoku. Buya kamva.</string>
     <string name="status_joined">Ujoyinile</string>
     <string name="status_full">Igcwele</string>
@@ -86,9 +81,7 @@
     <string name="action_yes_leave">Ewe, shiya</string>
     <string name="sign_out_confirm_title">Uyaphuma kwiPhilisa Volunteers?</string>
     <string name="volunteer_id_label">I-ID yevolontiya · %1$s</string>
-    <string name="stat_today">Namhlanje</string>
     <string name="stat_completed">Egqityiweyo</string>
-    <string name="coming_up_heading">Ezizayo</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Imisebenzi</string>
@@ -389,4 +382,32 @@
     <string name="milestone_three_programmes">Iinkqubo ezi-3</string>
     <string name="milestone_earned">Ifunyenwe</string>
     <string name="milestone_progress">%1$d kwezi-%2$d</string>
+
+    <!-- Home planner, activity details, Profile tabs, Safety and reminders. -->
+    <string name="home_greeting_morning">Molo, %1$s</string>
+    <string name="home_greeting_afternoon">Molo, %1$s</string>
+    <string name="home_greeting_evening">Molo, %1$s</string>
+    <string name="home_this_week">Kule veki</string>
+    <string name="home_next_up">Okulandelayo · %1$s</string>
+    <string name="home_nothing_booked_label">Akukho nto ibhukishiweyo okwangoku</string>
+    <string name="home_nothing_booked">Fumana umsebenzi wakho olandelayo</string>
+    <string name="home_find_something">Bona okuvulelekileyo ukuba ungenele</string>
+    <string name="home_day_today">Namhlanje</string>
+    <string name="home_day_tomorrow">Ngomso</string>
+    <string name="home_day_booked">Kukho into ebhukishiweyo</string>
+    <string name="home_day_free">Akukho nto ibhukishiweyo</string>
+    <string name="home_day_empty">Akukho nto ibhukishiweyo ngalo mhla</string>
+    <string name="home_summary">Ezizayo: %1$d · %2$s</string>
+    <plurals name="home_hours_completed">
+        <item quantity="one">Iiyure ezigqityiweyo: %d</item>
+        <item quantity="other">Iiyure ezigqityiweyo: %d</item>
+    </plurals>
+    <string name="home_latest">Okutsha kwiPhilisa</string>
+    <string name="home_latest_meta">%1$s · %2$s</string>
+    <plurals name="home_thumbs_up">
+        <item quantity="one">Ukuvuma: %d</item>
+        <item quantity="other">Ukuvuma: %d</item>
+    </plurals>
+    <string name="relative_today">namhlanje</string>
+    <string name="relative_tomorrow">ngomso</string>
 </resources>

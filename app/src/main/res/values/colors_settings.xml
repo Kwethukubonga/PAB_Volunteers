@@ -5,4 +5,6 @@
     <color name="settings_surface">#F5F3FF</color>
     <!-- Text on a filled red button. -->
     <color name="on_destructive">#FFFFFF</color>
+    <!-- The next-activity card on Home. -->
+    <color name="home_next_card">#3B0764</color>
 </resources>

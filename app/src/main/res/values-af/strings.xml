@@ -58,7 +58,6 @@
     <string name="action_favourite">Gunsteling</string>
     <string name="tab_all_opportunities">Alles</string>
     <string name="tab_favourites">Gunstelinge</string>
-    <string name="stat_hours">Ure</string>
     <string name="empty_favourites">Nog niks gestoor nie. Tik die hartjie op \'n geleentheid om dit hier te hou.</string>
     <string name="action_back">Terug</string>
 
@@ -71,11 +70,7 @@
     <string name="forgot_password">Wagwoord vergeet?</string>
 
     <!-- Volunteer Home -->
-    <string name="greeting_morning">Goeiemôre,</string>
-    <string name="greeting_afternoon">Goeiemiddag,</string>
-    <string name="greeting_evening">Goeienaand,</string>
     <string name="action_see_all">Sien alles</string>
-    <string name="empty_nothing_joined">Jy het nog nie by \'n aktiwiteit aangesluit nie. Kyk op die Aktiwiteite-oortjie om een te vind.</string>
     <string name="empty_no_open_activities">Geen oop aktiwiteite op die oomblik nie. Kyk later weer.</string>
     <string name="status_joined">Aangesluit</string>
     <string name="status_full">Volbespreek</string>
@@ -86,9 +81,7 @@
     <string name="action_yes_leave">Ja, verlaat</string>
     <string name="sign_out_confirm_title">Meld af van Philisa Volunteers?</string>
     <string name="volunteer_id_label">Vrywilliger-ID · %1$s</string>
-    <string name="stat_today">Vandag</string>
     <string name="stat_completed">Voltooi</string>
-    <string name="coming_up_heading">Wat kom</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Aktiwiteite</string>
@@ -389,4 +382,32 @@
     <string name="milestone_three_programmes">3 programme</string>
     <string name="milestone_earned">Behaal</string>
     <string name="milestone_progress">%1$d van %2$d</string>
+
+    <!-- Home planner, activity details, Profile tabs, Safety and reminders. -->
+    <string name="home_greeting_morning">Goeiemôre, %1$s</string>
+    <string name="home_greeting_afternoon">Goeiemiddag, %1$s</string>
+    <string name="home_greeting_evening">Goeienaand, %1$s</string>
+    <string name="home_this_week">Hierdie week</string>
+    <string name="home_next_up">Volgende · %1$s</string>
+    <string name="home_nothing_booked_label">Nog niks bespreek nie</string>
+    <string name="home_nothing_booked">Vind jou volgende aktiwiteit</string>
+    <string name="home_find_something">Kyk wat oop is om by aan te sluit</string>
+    <string name="home_day_today">Vandag</string>
+    <string name="home_day_tomorrow">Môre</string>
+    <string name="home_day_booked">Iets bespreek</string>
+    <string name="home_day_free">Niks bespreek nie</string>
+    <string name="home_day_empty">Niks op hierdie dag bespreek nie</string>
+    <string name="home_summary">%1$d komende · %2$s</string>
+    <plurals name="home_hours_completed">
+        <item quantity="one">%d uur voltooi</item>
+        <item quantity="other">%d uur voltooi</item>
+    </plurals>
+    <string name="home_latest">Nuutste van Philisa</string>
+    <string name="home_latest_meta">%1$s · %2$s</string>
+    <plurals name="home_thumbs_up">
+        <item quantity="one">%d duim op</item>
+        <item quantity="other">%d duime op</item>
+    </plurals>
+    <string name="relative_today">vandag</string>
+    <string name="relative_tomorrow">môre</string>
 </resources>
