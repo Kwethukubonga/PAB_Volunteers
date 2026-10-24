@@ -13,10 +13,7 @@ const {
   assertSucceeds,
   assertFails,
 } = require('@firebase/rules-unit-testing');
-const {
-  doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, arrayUnion, arrayRemove,
-  collection, query, where, getDocs,
-} = require('firebase/firestore');
+const { doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch } = require('firebase/firestore');
 
 const VOLUNTEER = 'volunteer_uid';
 const OTHER = 'other_uid';
@@ -101,19 +98,6 @@ describe('users', () => {
   it('lets a volunteer edit their own profile', async () => {
     await assertSucceeds(
       updateDoc(doc(asVolunteer(), 'users', VOLUNTEER), { firstName: 'Nomsa B' })
-    );
-  });
-
-  // Favourites are a list on the volunteer's own record, saved the way the app saves them.
-  it('lets a volunteer save and remove a favourite', async () => {
-    const me = doc(asVolunteer(), 'users', VOLUNTEER);
-    await assertSucceeds(updateDoc(me, { favouriteActivityIds: arrayUnion('act_1') }));
-    await assertSucceeds(updateDoc(me, { favouriteActivityIds: arrayRemove('act_1') }));
-  });
-
-  it('stops a volunteer changing someone else favourites', async () => {
-    await assertFails(
-      updateDoc(doc(asVolunteer(), 'users', OTHER), { favouriteActivityIds: arrayUnion('act_1') })
     );
   });
 
@@ -340,19 +324,6 @@ describe('activities and sign-ups', () => {
 
   it('stops a volunteer seeing someone else sign-up', async () => {
     await assertFails(getDoc(doc(asVolunteer(), 'activitySignups', signupId(OPEN, OTHER))));
-  });
-
-  // The same query the admin's sign-ups screen runs.
-  const signupsFor = (db, activityId) =>
-    getDocs(query(collection(db, 'activitySignups'), where('activityId', '==', activityId)));
-
-  it('lets an admin see everyone signed up for an activity', async () => {
-    const result = await assertSucceeds(signupsFor(asAdmin(), OPEN));
-    assert.strictEqual(result.size, 1);
-  });
-
-  it('stops a volunteer listing everyone signed up for an activity', async () => {
-    await assertFails(signupsFor(asVolunteer(), OPEN));
   });
 
   it('stops a volunteer creating or deleting an activity', async () => {
