@@ -36,9 +36,11 @@ Philisa Volunteers is an Android app that brings volunteering at Philisa Abafazi
 - **PAB staff** post activities and announcements, and see who is coming.
 - The app is available in **English, isiXhosa and Afrikaans**, supports light and dark mode, adapts to phones and tablets, and keeps working when the signal drops.
 
-### 1.1 Demo Video
+### 1.1 Download and Demo Video
 
-*Unlisted YouTube link: https://youtu.be/vqdMx4jWI7Y?si=peVstoh2Mlyq2UHJ
+- **Download the app:** https://pab-volunteers.web.app
+- **Demo video:** https://youtu.be/vqdMx4jWI7Y (unlisted)
+
 ### 1.2 Test Accounts
 
 | Role | Email | Password |
@@ -481,6 +483,7 @@ GitHub Actions runs on every push and Pull Request to `develop` and `master`. Th
 | **Security rules tests** (44, Firestore emulator) | No overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
+| **Deploy** | On a merge into `master`: puts that build's APK and the download page on Firebase Hosting, and publishes `firestore.rules`, so the live rules are the ones the tests above just passed against (section 14.3) |
 
 Run them yourself:
 
@@ -494,9 +497,11 @@ The app has also been tested on physical Android phones. User Acceptance Testing
 
 ### 14.3 Hosting
 
-The app will be shared through a download page on **Firebase Hosting**, so PAB can send volunteers a link.
+The app is shared through a download page on **Firebase Hosting**, so PAB can send volunteers a link rather than a file.
 
-- **Download page:** *link to be added once live*
+- **Download page:** **https://pab-volunteers.web.app**
+
+The page offers the APK, says what the app does and walks through installing from outside the Play Store. It is deployed by the pipeline: merging into `master` publishes the page, that build's APK and `firestore.rules` in one step, so the download is never older than `master` and the live rules are always the tested ones. The deploy needs one repository secret, `FIREBASE_SERVICE_ACCOUNT`, holding a service account key with the Firebase Hosting Admin and Firebase Rules Admin roles.
 
 ---
 
@@ -521,7 +526,7 @@ The app will be shared through a download page on **Firebase Hosting**, so PAB c
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
 | Security Rules, 131 automated tests and CI | ✔ Complete |
-| Hosted download page | ⏳ In progress |
+| Hosted download page, deployed by the pipeline | ✔ Complete |
 | User Acceptance Testing with PAB | ☐ Planned |
 
 ### 16.2 Future Improvements
