@@ -239,6 +239,73 @@ Screens never talk to Firebase directly. They go through a ViewModel, which call
 | Singleton | `FirestoreManager`, `AppLanguage`, `ThemePreference` | One shared database connection and one place for settings |
 | Adapter | `ActivityAdapter`, `AnnouncementAdapter` and others | Turns lists of data into rows on screen |
 
+### 8.4 The System as a Whole
+
+Section 8.1 shows the layers inside the app. This is where the app sits in the wider
+system, which it shares with the Help Centre website.
+
+```mermaid
+flowchart TB
+    vol["Volunteer<br/>on an Android phone"]
+    staff["PAB admin"]
+    visitor["Member of the public<br/>in a browser"]
+    app["Android app<br/>Kotlin, MVVM, offline cache"]
+    cloudinary["Cloudinary<br/>announcement pictures"]
+
+    subgraph firebase["Firebase project pab-volunteers"]
+        auth["Authentication<br/>email and Google"]
+        rules["Security rules<br/>firestore.rules"]
+        store[("Cloud Firestore")]
+        hosting["Hosting<br/>download page and APK"]
+    end
+
+    subgraph railway["Railway"]
+        site["Help Centre<br/>ASP.NET Core"]
+        sitedb[("SQLite today,<br/>Postgres ready")]
+    end
+
+    subgraph actions["GitHub Actions"]
+        checks["Unit tests · Lint<br/>Rules tests on the emulator"]
+        apk["Build APK"]
+        deploy["Deploy, on master only"]
+    end
+
+    vol --> app
+    staff --> app
+    app -->|"signs in, gets an ID token"| auth
+    app -->|"every read and write"| rules
+    app -->|"polls about every 15 min"| rules
+    rules --> store
+    app -->|"unsigned upload"| cloudinary
+    app -.->|"planned: B3"| site
+
+    visitor --> site
+    staff -->|"same admin account"| site
+    site --> sitedb
+    site -->|"verifies the ID token"| auth
+    visitor -->|"downloads the APK"| hosting
+
+    checks --> apk --> deploy
+    deploy -->|"publishes"| hosting
+    deploy -->|"publishes"| rules
+```
+
+**What the Android side contributes**
+
+| Part | What it does |
+|------|--------------|
+| The app | Kotlin and MVVM, with Firestore's offline cache so it keeps working without signal |
+| Firebase Authentication | One account for both the app and the website's staff area |
+| Security rules | The only real boundary. The phone is not trusted, so every read and write is checked on the server |
+| WorkManager | `UpdatesWorker` asks Firestore for new published activities and announcements about every 15 minutes and raises a local notification. There is no push service yet, so a notification can be up to 15 minutes late |
+| Cloudinary | Announcement pictures, uploaded straight from the phone with an unsigned preset |
+| GitHub Actions | Runs the tests, builds the APK, and on `master` publishes both the download page and `firestore.rules`, so the live rules are always the ones the tests passed against |
+
+The two clients meet in two places: the **same Firebase project**, so a PAB admin signs
+in to the website's staff area with the account they already use in the app, and the
+**shared API** on the website, which the app does not call yet. The website's own
+internals are documented in the Help Centre README.
+
 ---
 
 ## 9. Integrations and the API Layer
@@ -415,6 +482,45 @@ erDiagram
 - **Passwords** need at least 8 characters, including a symbol.
 - **Safe house locations** are never shown in the app.
 - **Secrets** (Cloudinary details, release signing keys, Firebase admin keys) are kept out of Git.
+
+### 11.1 Threat Model
+
+This app holds data about people who volunteer for a gender-based violence
+organisation. A volunteer's name, phone number and their connection to PAB are all
+sensitive, so the question is not only "can someone break in" but "what can a person
+who is already allowed in see or do".
+
+**What is worth protecting:** volunteers' names, phone numbers and email addresses;
+who has signed up for what; and the admin accounts, because an admin can see all of it.
+
+| Who | What they might try | What stops them |
+|-----|---------------------|-----------------|
+| **Someone not signed in** | Read the database directly, skipping the app | Every collection requires sign-in, and the final rule closes everything not listed above it. The download page is public on purpose and holds no personal data |
+| **A signed-in volunteer** | Read other volunteers' phone numbers; sign someone else up; take a place on a full activity; make themselves an admin | `users` can be read only by that person or an admin. A new account must be created with `role: 'volunteer'`, and nobody can edit their own `role`, `email`, `volunteerId` or `joinedDate`. A sign-up document is keyed `activityId_userId` and must carry the caller's own uid, so one person cannot sign up another or twice. Joining is accepted only if the activity is `published` and its counter rises by exactly one in the same write, so the count cannot drift and the activity cannot be overbooked. Thumbs up may only add or remove the caller's own uid |
+| **A PAB admin, careless or compromised** | Read every volunteer's contact details; change someone's role | Not much, and that is the point: this is the account with real reach, so it is the one worth guarding. Few people hold it, roles are normally set by hand in the Firebase console, and admin credentials are no longer printed in this README |
+| **Someone holding a service account key** | Everything. The Admin SDK is not subject to security rules | Service account keys are excluded by `.gitignore`, and none has ever been committed in this repository's history. The deploy key exists only as a GitHub secret and carries Firebase Hosting Admin and Firebase Rules Admin rather than Owner. The older key was revoked on 24 October 2026 |
+| **Someone who picks up an unlocked phone** | Read what the app has cached for that volunteer | Firestore's offline cache holds only that person's own data. The phone's own lock is the first defence; an in-app lock is planned |
+| **Someone who decompiles the APK** | Pull secrets out of the app | There is no Firebase secret to find, because the rules and not the client decide what is allowed. The Cloudinary cloud name and unsigned upload preset are in the build, and an unsigned preset can add pictures but cannot read or delete what is already there, which makes it a quota and abuse problem rather than a disclosure one |
+| **Someone watching the network** | Read traffic between the phone and Firebase | Everything goes over HTTPS, through the official SDKs |
+
+**What proves it:** 44 rules tests run against the Firestore emulator on every push, and
+since the deploy job was added the rules that go live are the same ones those tests just
+passed against, rather than whatever was last published by hand.
+
+**Known gaps, honestly:**
+
+- **Draft activities are readable.** `activities` allows a read by any signed-in user, so
+  a volunteer who queried Firestore directly could see an activity PAB has not published
+  yet. The app hides drafts with its query, which is not a protection. Tracked as R1.
+- **The download page serves a debug-signed APK**, so the download proves the file came
+  from our pipeline but not much more. Release signing and a GitHub Release are planned.
+- **No rate limiting** on the app's own reads and writes beyond what the rules allow.
+- **Notifications poll** every 15 minutes rather than arriving instantly, because push
+  messaging needs a paid Firebase plan.
+
+**For the gender-based violence context specifically:** safe house locations never appear
+in the app at all, there is no public directory of volunteers, and a profile is visible
+only to that volunteer and to PAB admins.
 
 ---
 
