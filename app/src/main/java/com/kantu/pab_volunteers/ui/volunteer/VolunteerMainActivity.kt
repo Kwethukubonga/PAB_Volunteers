@@ -13,6 +13,7 @@ import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
 
 class VolunteerMainActivity : AppCompatActivity() {
 
@@ -23,6 +24,7 @@ class VolunteerMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityVolunteerMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostVolunteer) as NavHostFragment

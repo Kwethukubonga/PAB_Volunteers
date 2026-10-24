@@ -23,5 +23,3 @@ open class AppError(
     val args: List<Any> = emptyList()
 ) : Exception()
 
-/** Firebase will not delete a sign-in that is not recent, so the person must sign in again. */
-class RecentSignInRequired(@StringRes messageRes: Int) : AppError(messageRes)
