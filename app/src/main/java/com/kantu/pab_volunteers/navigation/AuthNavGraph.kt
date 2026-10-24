@@ -41,10 +41,10 @@ object AuthNavGraph {
      * [extras] carries what a tapped notification was about, so that screen opens next.
      */
     fun routeAfterSignIn(activity: Activity, user: User, extras: Bundle? = null) {
-        when {
-            user.isAdmin -> goToAdminHome(activity, extras)
-            user.profileComplete -> goToVolunteerHome(activity, extras)
-            else -> goToProfileSetup(activity)
+        when (SignInDestination.forUser(user)) {
+            SignInDestination.ADMIN_HOME -> goToAdminHome(activity, extras)
+            SignInDestination.VOLUNTEER_HOME -> goToVolunteerHome(activity, extras)
+            SignInDestination.PROFILE_SETUP -> goToProfileSetup(activity)
         }
     }
 
