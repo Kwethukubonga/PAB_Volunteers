@@ -371,6 +371,154 @@ describe('activities and sign-ups', () => {
   });
 });
 
+// Background checks: a volunteer can only ask, and only an admin can clear someone.
+describe('clearances', () => {
+  const request = { volunteerName: 'Nomsa', status: 'requested', requestedAt: 1 };
+
+  it('lets a volunteer ask to be checked', async () => {
+    await assertSucceeds(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), request));
+  });
+
+  it('stops a volunteer clearing themselves', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), {
+      volunteerName: 'Nomsa', status: 'cleared', expiresAt: 9999999999999,
+    }));
+  });
+
+  it('stops a volunteer sneaking an expiry date into a request', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), { ...request, expiresAt: 9999999999999 }));
+  });
+
+  it('stops a volunteer asking on someone else behalf', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'clearances', OTHER), request));
+  });
+
+  it('lets an admin mark a volunteer as cleared', async () => {
+    await assertSucceeds(setDoc(doc(asAdmin(), 'clearances', VOLUNTEER), {
+      volunteerName: 'Nomsa', status: 'cleared', clearedAt: 1, expiresAt: 2, checkedBy: 'Admin',
+    }));
+  });
+
+  it('lets a volunteer see their own record but not anyone else', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'clearances', OTHER), request);
+    });
+    await assertSucceeds(getDoc(doc(asVolunteer(), 'clearances', VOLUNTEER)));
+    await assertFails(getDoc(doc(asVolunteer(), 'clearances', OTHER)));
+    await assertSucceeds(getDoc(doc(asAdmin(), 'clearances', OTHER)));
+  });
+
+  it('lets a volunteer take their own record away, for example when deleting their account', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'clearances', VOLUNTEER), request);
+    });
+    await assertSucceeds(deleteDoc(doc(asVolunteer(), 'clearances', VOLUNTEER)));
+  });
+});
+
+// Concerns go to the admins only, and nobody can pretend to be someone else.
+describe('concerns', () => {
+  const concern = (overrides = {}) => ({
+    reportedBy: VOLUNTEER, reporterName: 'Nomsa', activityId: '', activityTitle: '',
+    message: 'The gate at the centre does not lock.', createdAt: 1, status: 'new', ...overrides,
+  });
+
+  it('lets a volunteer report a concern as themselves', async () => {
+    await assertSucceeds(setDoc(doc(asVolunteer(), 'concerns', 'c1'), concern()));
+  });
+
+  it('stops a volunteer reporting in someone else name', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'concerns', 'c1'), concern({ reportedBy: OTHER })));
+  });
+
+  it('stops an empty or overlong concern', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'concerns', 'c1'), concern({ message: '' })));
+    await assertFails(setDoc(doc(asVolunteer(), 'concerns', 'c2'), concern({ message: 'a'.repeat(2001) })));
+  });
+
+  it('stops a concern arriving already marked as handled', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'concerns', 'c1'), concern({ status: 'handled' })));
+  });
+
+  it('lets only admins read concerns, not even the person who sent one', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'concerns', 'c1'), concern());
+    });
+    await assertFails(getDoc(doc(asVolunteer(), 'concerns', 'c1')));
+    await assertSucceeds(getDoc(doc(asAdmin(), 'concerns', 'c1')));
+  });
+
+  it('lets an admin mark a concern as handled but never change or delete it', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'concerns', 'c1'), concern());
+    });
+    await assertSucceeds(updateDoc(doc(asAdmin(), 'concerns', 'c1'), { status: 'handled', handledBy: 'Admin', handledAt: 2 }));
+    await assertFails(updateDoc(doc(asAdmin(), 'concerns', 'c1'), { message: 'Changed' }));
+    await assertFails(deleteDoc(doc(asAdmin(), 'concerns', 'c1')));
+  });
+});
+
+// "How did it go?" only from someone who was on the activity, once its day has come.
+describe('activity feedback', () => {
+  const PAST = 'act_past';
+  const FUTURE = 'act_future';
+  const feedbackId = (activityId, uid) => `${activityId}_${uid}`;
+  const feedback = (activityId, overrides = {}) => ({
+    activityId, userId: VOLUNTEER, volunteerName: 'Nomsa', rating: 4, comment: 'Well organised', createdAt: 1,
+    ...overrides,
+  });
+
+  beforeEach(async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      const db = context.firestore();
+      await setDoc(doc(db, 'activities', PAST), {
+        title: 'Soup Kitchen', status: 'published', dateMillis: 1, totalSpots: 5, filledSpots: 1,
+      });
+      await setDoc(doc(db, 'activities', FUTURE), {
+        title: 'Baby Packs', status: 'published', dateMillis: 4102444800000, totalSpots: 5, filledSpots: 1,
+      });
+      await setDoc(doc(db, 'activitySignups', feedbackId(PAST, VOLUNTEER)), { activityId: PAST, userId: VOLUNTEER });
+      await setDoc(doc(db, 'activitySignups', feedbackId(FUTURE, VOLUNTEER)), { activityId: FUTURE, userId: VOLUNTEER });
+    });
+  });
+
+  it('lets a volunteer who was there say how it went', async () => {
+    await assertSucceeds(setDoc(doc(asVolunteer(), 'activityFeedback', feedbackId(PAST, VOLUNTEER)), feedback(PAST)));
+  });
+
+  it('stops feedback from someone who was not signed up', async () => {
+    await assertFails(setDoc(
+      doc(asOther(), 'activityFeedback', feedbackId(PAST, OTHER)), feedback(PAST, { userId: OTHER })
+    ));
+  });
+
+  it('stops feedback before the activity day has come', async () => {
+    await assertFails(setDoc(doc(asVolunteer(), 'activityFeedback', feedbackId(FUTURE, VOLUNTEER)), feedback(FUTURE)));
+  });
+
+  it('stops a rating outside one to five, or a very long comment', async () => {
+    const mine = doc(asVolunteer(), 'activityFeedback', feedbackId(PAST, VOLUNTEER));
+    await assertFails(setDoc(mine, feedback(PAST, { rating: 6 })));
+    await assertFails(setDoc(mine, feedback(PAST, { rating: 0 })));
+    await assertFails(setDoc(mine, feedback(PAST, { comment: 'a'.repeat(501) })));
+  });
+
+  it('stops a volunteer writing feedback in someone else name', async () => {
+    await assertFails(setDoc(
+      doc(asVolunteer(), 'activityFeedback', feedbackId(PAST, OTHER)), feedback(PAST, { userId: OTHER })
+    ));
+  });
+
+  it('lets a volunteer read their own feedback, and admins read all of it', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'activityFeedback', feedbackId(PAST, OTHER)), feedback(PAST, { userId: OTHER }));
+    });
+    await assertSucceeds(getDoc(doc(asVolunteer(), 'activityFeedback', feedbackId(PAST, VOLUNTEER))));
+    await assertFails(getDoc(doc(asVolunteer(), 'activityFeedback', feedbackId(PAST, OTHER))));
+    await assertSucceeds(getDocs(query(collection(asAdmin(), 'activityFeedback'), where('activityId', '==', PAST))));
+  });
+});
+
 describe('collections that are closed', () => {
   it('refuses anything not named in the rules', async () => {
     await assertFails(getDoc(doc(asAdmin(), 'impactStats', 'main')));

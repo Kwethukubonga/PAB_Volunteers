@@ -128,6 +128,66 @@ service cloud.firestore {
       allow update: if false;
     }
 
+    // A volunteer's background check, one record per volunteer, keyed by their uid.
+    // Volunteers can only ask to be checked, or take their own record away. Only an admin,
+    // who has seen the documents in person, can mark someone as cleared.
+    match /clearances/{userId} {
+      allow get: if isSelf(userId) || isAdmin();
+      allow list: if isAdmin();
+
+      allow create, update: if isAdmin()
+        || (isSelf(userId)
+          && request.resource.data.keys().hasOnly(['volunteerName', 'status', 'requestedAt'])
+          && request.resource.data.status == 'requested');
+
+      allow delete: if isSelf(userId) || isAdmin();
+    }
+
+    // Concerns reported by volunteers. Anyone signed in can send one, as themselves.
+    // Only admins can read them, and they are kept as a record rather than deleted.
+    match /concerns/{concernId} {
+      allow read: if isAdmin();
+
+      allow create: if isSignedIn()
+        && request.resource.data.keys().hasOnly(
+          ['reportedBy', 'reporterName', 'activityId', 'activityTitle', 'message', 'createdAt', 'status'])
+        && request.resource.data.reportedBy == request.auth.uid
+        && request.resource.data.status == 'new'
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 2000;
+
+      allow update: if isAdmin() && changedKeys().hasOnly(['status', 'handledBy', 'handledAt']);
+      allow delete: if false;
+    }
+
+    // "How did it go?" One per person per activity, saved as activityId_userId like a sign-up.
+    // Only someone who was signed up can leave it, and only once the activity's day has come.
+    match /activityFeedback/{feedbackId} {
+      allow get: if isAdmin()
+        || (isSignedIn() && resource == null && feedbackId.matches('.+_' + request.auth.uid))
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      allow list: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+
+      allow create, update: if isSignedIn()
+        && request.resource.data.keys().hasOnly(
+          ['activityId', 'userId', 'volunteerName', 'rating', 'comment', 'createdAt'])
+        && request.resource.data.userId == request.auth.uid
+        && feedbackId == request.resource.data.activityId + '_' + request.auth.uid
+        && exists(signupPath(request.resource.data.activityId))
+        && get(activityPath(request.resource.data.activityId)).data.dateMillis <= request.time.toMillis()
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
+        && request.resource.data.comment is string
+        && request.resource.data.comment.size() <= 500;
+
+      allow delete: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+    }
+
     // Anything not listed above, including the old impactStats collection, is closed.
     match /{document=**} {
       allow read, write: if false;
