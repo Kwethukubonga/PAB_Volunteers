@@ -234,19 +234,12 @@
     <string name="settings_appearance">Inkangeleko</string>
     <string name="settings_theme">Umbala</string>
     <string name="settings_theme_desc">Landela ifowuni yakho, okanye usebenzise ukukhanya okanye ubumnyama rhoqo.</string>
-    <string name="settings_theme_system">Ifowuni</string>
     <string name="settings_theme_light">Ukukhanya</string>
     <string name="settings_theme_dark">Ubumnyama</string>
     <string name="settings_language">Ulwimi</string>
-    <string name="settings_app_language">Ulwimi lwe-app</string>
     <string name="settings_language_desc">Khetha ulwimi olusetyenziswa kuyo yonke i-app.</string>
     <string name="settings_account">Iakhawunti</string>
     <string name="settings_delete_account">Cima iakhawunti yam</string>
-    <string name="settings_delete_account_desc">Isusa iprofayile yakho neendawo zakho kwimisebenzi. Oku akunakubuyiselwa umva.</string>
-    <string name="delete_account_confirm_title">Ucima iakhawunti yakho?</string>
-    <string name="delete_account_confirm_body">Iprofayile yakho, iindawo zakho kwimisebenzi namathuba owagcinileyo aya kususwa ngokusisigxina.</string>
-    <string name="action_delete">Cima</string>
-    <string name="delete_account_recent_login">Ukuze ukhuseleke, ngena kwakhona phambi kokucima iakhawunti yakho.</string>
     <string name="account_deleted">Iakhawunti yakho icinyiwe.</string>
 
     <!-- Notifications -->
@@ -260,8 +253,45 @@
     <string name="settings_notifications_blocked">Izaziso zale app zicinyiwe kwifowuni yakho.</string>
     <string name="settings_notifications_turn_on">Vula izaziso</string>
 
-    <!-- The bar shown across the top of each screen while there is no connection. -->
+    <!-- Settings rows, deleting an account, and the offline bar. -->
     <string name="offline_banner">Awukho kwi-intanethi. Usenako ukujonga, kodwa akukho nto inokugcinwa ude ubuyele kwi-intanethi.</string>
+    <string name="settings_about">Malunga ne-app</string>
+    <string name="settings_theme_follow_phone">Njengefowuni yam</string>
+    <string name="settings_signed_in_email">Ungene nge-imeyile</string>
+    <string name="settings_signed_in_google">Ungene ngeGoogle</string>
+    <string name="settings_change_password">Tshintsha igama lokugqithisa</string>
+    <string name="settings_change_password_desc">Siza kukuthumelela ikhonkco nge-imeyile ukuze ukhethe elitsha.</string>
+    <string name="settings_change_password_sent">Sithumele ikhonkco ku-%1$s. Jonga nakwifolda yespam.</string>
+    <string name="settings_contact">Qhagamshelana nePhilisa</string>
+    <string name="settings_version">Inguqulelo ye-app</string>
+    <string name="error_no_email_app">Akukho app ye-imeyile kule fowuni.</string>
+    <string name="delete_account_title">Cima iakhawunti yakho</string>
+    <string name="delete_account_intro">Ukucima iakhawunti yakho kususa:</string>
+    <plurals name="delete_account_lose_hours">
+        <item quantity="one">Iiyure zokuvolontiya kwirekhodi yakho: %d</item>
+        <item quantity="other">Iiyure zokuvolontiya kwirekhodi yakho: %d</item>
+    </plurals>
+    <plurals name="delete_account_lose_upcoming">
+        <item quantity="one">Iindawo zakho kwimisebenzi ezayo: %d (ziya kubuyela kwamanye amavolontiya)</item>
+        <item quantity="other">Iindawo zakho kwimisebenzi ezayo: %d (ziya kubuyela kwamanye amavolontiya)</item>
+    </plurals>
+    <plurals name="delete_account_lose_history">
+        <item quantity="one">Imbali yemisebenzi oyigqibileyo: %d</item>
+        <item quantity="other">Imbali yemisebenzi oyigqibileyo: %d</item>
+    </plurals>
+    <string name="delete_account_lose_profile">Iprofayile yakho, umdla wakho namathuba owagcinileyo</string>
+    <string name="delete_account_cannot_undo">Oku akunakubuyiselwa umva. Ukuba ufuna nje ikhefu, ungacima izaziso endaweni yoko.</string>
+    <string name="delete_account_keep">Hayi, gcina iakhawunti yam</string>
+    <string name="delete_account_continue">Ewe, qhubeka</string>
+    <string name="delete_account_confirm_heading">Qinisekisa ukuba nguwe</string>
+    <string name="delete_account_confirm_password">Faka igama lakho lokugqithisa, emva koko ubhale u-%1$s ngezantsi.</string>
+    <string name="delete_account_confirm_with_google">Khetha iakhawunti yakho yeGoogle kwakhona, emva koko ubhale u-%1$s ngezantsi.</string>
+    <string name="delete_account_confirm_google">Qinisekisa ngeGoogle</string>
+    <string name="delete_account_google_confirmed">Kuqinisekisiwe ngeGoogle</string>
+    <string name="delete_account_word">CIMA</string>
+    <string name="delete_account_type_word">Bhala u-%1$s</string>
+    <string name="delete_account_wrong_password">Elo gama lokugqithisa alichanekanga. Zama kwakhona.</string>
+    <string name="delete_account_wrong_google">Le yenye iakhawunti yeGoogle. Khetha leyo ubungene ngayo.</string>
     <string name="channel_activities">Imisebenzi emitsha</string>
     <string name="channel_activities_desc">Imisebenzi emitsha yokuvolontiya onokuyijoyina.</string>
     <string name="channel_announcements">Izaziso</string>

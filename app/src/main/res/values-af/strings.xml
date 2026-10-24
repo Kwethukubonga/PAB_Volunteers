@@ -234,19 +234,12 @@
     <string name="settings_appearance">Voorkoms</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_desc">Volg jou foon, of gebruik altyd lig of donker.</string>
-    <string name="settings_theme_system">Foon</string>
     <string name="settings_theme_light">Lig</string>
     <string name="settings_theme_dark">Donker</string>
     <string name="settings_language">Taal</string>
-    <string name="settings_app_language">Toepassingstaal</string>
     <string name="settings_language_desc">Kies die taal wat regdeur die toepassing gebruik word.</string>
     <string name="settings_account">Rekening</string>
     <string name="settings_delete_account">Skrap my rekening</string>
-    <string name="settings_delete_account_desc">Verwyder jou profiel en jou plekke op aktiwiteite. Dit kan nie ontdoen word nie.</string>
-    <string name="delete_account_confirm_title">Skrap jou rekening?</string>
-    <string name="delete_account_confirm_body">Jou profiel, jou plekke op aktiwiteite en jou gestoorde geleenthede sal permanent verwyder word.</string>
-    <string name="action_delete">Skrap</string>
-    <string name="delete_account_recent_login">Meld vir jou veiligheid weer aan voordat jy jou rekening skrap.</string>
     <string name="account_deleted">Jou rekening is geskrap.</string>
 
     <!-- Notifications -->
@@ -260,8 +253,45 @@
     <string name="settings_notifications_blocked">Kennisgewings vir hierdie toepassing is op jou foon afgeskakel.</string>
     <string name="settings_notifications_turn_on">Skakel kennisgewings aan</string>
 
-    <!-- The bar shown across the top of each screen while there is no connection. -->
+    <!-- Settings rows, deleting an account, and the offline bar. -->
     <string name="offline_banner">Jy is vanlyn. Jy kan steeds rondkyk, maar niks kan gestoor word voordat jy weer aanlyn is nie.</string>
+    <string name="settings_about">Oor die toepassing</string>
+    <string name="settings_theme_follow_phone">Dieselfde as my foon</string>
+    <string name="settings_signed_in_email">Aangemeld met e-pos</string>
+    <string name="settings_signed_in_google">Aangemeld met Google</string>
+    <string name="settings_change_password">Verander wagwoord</string>
+    <string name="settings_change_password_desc">Ons e-pos vir jou \'n skakel om \'n nuwe een te kies.</string>
+    <string name="settings_change_password_sent">Ons het \'n skakel na %1$s gestuur. Kyk ook in jou gemorspos.</string>
+    <string name="settings_contact">Kontak Philisa</string>
+    <string name="settings_version">Toepassingweergawe</string>
+    <string name="error_no_email_app">Daar is geen e-postoepassing op hierdie foon nie.</string>
+    <string name="delete_account_title">Skrap jou rekening</string>
+    <string name="delete_account_intro">As jy jou rekening skrap, word dit verwyder:</string>
+    <plurals name="delete_account_lose_hours">
+        <item quantity="one">%d uur vrywilligerswerk op jou rekord</item>
+        <item quantity="other">%d uur vrywilligerswerk op jou rekord</item>
+    </plurals>
+    <plurals name="delete_account_lose_upcoming">
+        <item quantity="one">Jou plek op %d komende aktiwiteit, wat teruggaan na ander vrywilligers</item>
+        <item quantity="other">Jou plekke op %d komende aktiwiteite, wat teruggaan na ander vrywilligers</item>
+    </plurals>
+    <plurals name="delete_account_lose_history">
+        <item quantity="one">Jou geskiedenis van %d voltooide aktiwiteit</item>
+        <item quantity="other">Jou geskiedenis van %d voltooide aktiwiteite</item>
+    </plurals>
+    <string name="delete_account_lose_profile">Jou profiel, belangstellings en gestoorde geleenthede</string>
+    <string name="delete_account_cannot_undo">Dit kan nie ontdoen word nie. As jy net \'n blaaskans nodig het, kan jy eerder kennisgewings afskakel.</string>
+    <string name="delete_account_keep">Nee, hou my rekening</string>
+    <string name="delete_account_continue">Ja, gaan voort</string>
+    <string name="delete_account_confirm_heading">Bevestig dat dit jy is</string>
+    <string name="delete_account_confirm_password">Tik jou wagwoord in en tik dan %1$s hieronder.</string>
+    <string name="delete_account_confirm_with_google">Kies weer jou Google-rekening en tik dan %1$s hieronder.</string>
+    <string name="delete_account_confirm_google">Bevestig met Google</string>
+    <string name="delete_account_google_confirmed">Met Google bevestig</string>
+    <string name="delete_account_word">SKRAP</string>
+    <string name="delete_account_type_word">Tik %1$s</string>
+    <string name="delete_account_wrong_password">Daardie wagwoord is nie reg nie. Probeer weer.</string>
+    <string name="delete_account_wrong_google">Dis \'n ander Google-rekening. Kies die een waarmee jy aangemeld het.</string>
     <string name="channel_activities">Nuwe aktiwiteite</string>
     <string name="channel_activities_desc">Nuwe vrywilligeraktiwiteite waarby jy kan aansluit.</string>
     <string name="channel_announcements">Aankondigings</string>

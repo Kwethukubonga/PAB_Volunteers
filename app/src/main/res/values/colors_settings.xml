@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Kept apart from colors.xml, which is generated from PAB_WebApp/design/tokens.json. -->
+<resources>
+    <!-- Behind the Settings rows: a light lavender tint on the cream background. -->
+    <color name="settings_surface">#F5F3FF</color>
+    <!-- Text on a filled red button. -->
+    <color name="on_destructive">#FFFFFF</color>
+</resources>

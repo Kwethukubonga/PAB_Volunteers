@@ -17,4 +17,5 @@
     <dimen name="button_height">60dp</dimen>
     <dimen name="announcement_image_height">400dp</dimen>
     <dimen name="card_gutter">6dp</dimen>
+    <dimen name="settings_choice_inset">64dp</dimen>
 </resources>
