@@ -83,25 +83,29 @@ PAB, meaning *"Heal Our Women"* in isiXhosa, was founded in 2008 in Lavender Hil
 
 ## 3. Functional Requirements
 
-| ID | Requirement | Role | Status |
-|----|-------------|------|:------:|
-| PV-FR01 | Create an account with email and password, or with Google. | Visitor | ✔ |
-| PV-FR02 | Complete a two-step profile and become a volunteer immediately. | Visitor | ✔ |
-| PV-FR03 | Sign in securely and reset a forgotten password by email. | All | ✔ |
-| PV-FR04 | Browse published opportunities and view their full details. | Volunteer | ✔ |
-| PV-FR05 | Join an activity while spots are available. | Volunteer | ✔ |
-| PV-FR06 | Leave an activity, which gives the spot back. | Volunteer | ✔ |
-| PV-FR07 | See activities as Upcoming and Completed, and on a schedule. | Volunteer | ✔ |
-| PV-FR08 | Save opportunities as favourites. | Volunteer | ✔ |
-| PV-FR09 | Read announcements and give them a thumbs up. | Volunteer | ✔ |
-| PV-FR10 | Receive notifications about new activities and announcements. | Volunteer | ✔ |
-| PV-FR11 | View and edit their profile, and delete their account. | Volunteer | ✔ |
-| PV-FR12 | Be taken to a separate admin area on sign-in. | Administrator | ✔ |
-| PV-FR13 | View all volunteers and their details. | Administrator | ✔ |
-| PV-FR14 | Create, edit, publish, hide and delete activities. | Administrator | ✔ |
-| PV-FR15 | See who has signed up for each activity. | Administrator | ✔ |
-| PV-FR16 | Create and publish announcements, with an optional picture. | Administrator | ✔ |
-| PV-FR17 | Be notified when an activity is fully booked. | Administrator | ✔ |
+All 17 requirements are implemented. Each one below names the screen it lives on, the code behind it and the tests that prove it still works, so running the tests (section 14.2) is a check against this table, not just against the code. Unit tests are in `app/src/test/`; tests marked **Rules** run the real `firestore.rules` against the Firestore emulator (`firestore-tests/rules.test.js`).
+
+| ID | Requirement | Role | Where it lives | Code | Proven by |
+|----|-------------|------|----------------|------|-----------|
+| PV-FR01 | Create an account with email and password, or with Google. | Visitor | Welcome → Sign up, or Continue with Google | `EmailAuthActivity`, `GoogleSignInHelper`, `AuthViewModel.createAccount`, `PasswordRules`, `AuthRepository` | `PasswordRulesTest` (length, symbol, confirmation); `UserTest` *a new account is a volunteer, not an admin*; **Rules** *stops a new account being created as an admin* |
+| PV-FR02 | Complete a two-step profile and become a volunteer immediately. | Visitor | Profile details → Interests | `ProfileDetailsActivity`, `ProfileInterestsActivity`, `ProfileSetupViewModel`, `UserRepository.saveProfile` | `SignInDestinationTest` *a new account is taken to profile setup first*; `UserTest` *a new account has not finished its profile*; `PhoneNumberTest`; `DateUtilsTest` volunteer ID tests |
+| PV-FR03 | Sign in securely and reset a forgotten password by email. | All | Sign in, Forgot password | `AuthViewModel.signInWithEmail`, `AuthViewModel.sendPasswordReset`, `AuthRepository` | `ErrorMessagesTest` (offline, stale session, refused); **Rules** *stops a signed out person reading anything*. The reset email itself is sent by Firebase and checked by hand |
+| PV-FR04 | Browse published opportunities and view their full details. | Volunteer | Activities tab → Activity details | `ActivitiesFragment`, `ActivityDetailsFragment`, `ActivityRepository.getPublishedActivities` | `ActivityTest` (spots left, date label, *a new activity starts as a draft*); **Rules** *stops anyone joining a draft activity* |
+| PV-FR05 | Join an activity while spots are available. | Volunteer | Activity details → Join | `SignupRepository.join` (one Firestore transaction) | `ActivitySignupTest` (one ID per volunteer and activity); `ActivityTest` *a full activity has no spots left*; **Rules** *lets a volunteer join an open activity*, *stops anyone joining a full activity*, *…joining the same activity twice*, *…signing someone else up*, *…the counter jumping by more than one* |
+| PV-FR06 | Leave an activity, which gives the spot back. | Volunteer | Activity details → Leave | `SignupRepository.leave` (one Firestore transaction) | **Rules** *lets a volunteer leave and give their spot back*, *stops a volunteer removing someone else from an activity* |
+| PV-FR07 | See activities as Upcoming and Completed, and on a schedule. | Volunteer | Home, Schedule tab, Profile | `HomeFragment`, `ScheduleFragment`, `Activity.endsAtMillis`, `DateUtils` | `ActivityTest` (*a later slot today has not finished yet*, *yesterday has finished*); `DateUtilsTest` `endOfActivity` tests; `ActivitySignupTest` *a past sign-up can stand in for an activity that is gone* |
+| PV-FR08 | Save opportunities as favourites. | Volunteer | Activities tab → heart | `VolunteerViewModel.setFavourite`, `UserRepository.setFavourite` | **Rules** *lets a volunteer save and remove a favourite*, *stops a volunteer changing someone else favourites*; `UserTest` *a new account has no interests or favourites* |
+| PV-FR09 | Read announcements and give them a thumbs up. | Volunteer | Community tab → Announcement | `CommunityFragment`, `AnnouncementDetailsFragment`, `AnnouncementRepository.setThumbsUp` | `AnnouncementTest` (thumbs up count and whose it is); **Rules** *lets a volunteer add / take away their own thumbs up*, *stops … on someone else behalf*, *…stuffing the count*, *…sneaking an edit in alongside a thumbs up* |
+| PV-FR10 | Receive notifications about new activities and announcements. | Volunteer | Phone notifications; Settings switches | `UpdatesWorker`, `UpdateRules`, `Notifications`, `NotificationSettings` | `UpdateRulesTest` (*published after checks began is news*, *before is not*, *finished is not*, *already shown is not shown again*) |
+| PV-FR11 | View and edit their profile, and delete their account. | Volunteer | Profile → Edit profile; Settings → Delete account | `ProfileFragment`, `EditProfileFragment`, `SettingsActivity`, `AccountRepository.deleteCurrentAccount` | `PhoneNumberTest`; `UserTest` full name tests; **Rules** *lets a volunteer edit their own profile*, *stops … changing their own email / volunteer ID / join date*, *lets someone delete their own account*, *stops an admin deleting a volunteer* |
+| PV-FR12 | Be taken to a separate admin area on sign-in. | Administrator | Splash → Admin area | `SplashActivity`, `AuthNavGraph.routeAfterSignIn`, `SignInDestination` | `SignInDestinationTest` (admins always to the admin area, an unknown role never is); `UserTest` *only the admin role counts as admin*; **Rules** *stops a volunteer making themselves an admin* |
+| PV-FR13 | View all volunteers and their details. | Administrator | Admin → Volunteers → Volunteer details | `ManageVolunteersFragment`, `VolunteerDetailsFragment`, `UserRepository.getAllVolunteers` | **Rules** *lets an admin read any volunteer*, *stops a volunteer reading someone else*; `DateUtilsTest` `monthsSince` tests |
+| PV-FR14 | Create, edit, publish, hide and delete activities. | Administrator | Admin → Activities → Activity editor | `ManageActivitiesFragment`, `ActivityEditorFragment`, `AdminViewModel`, `ActivityRepository` | `ActivityTest` *a new activity starts as a draft*; `DateUtilsTest` `lengthInMinutes` tests; **Rules** *stops a volunteer creating or deleting an activity*, *…changing anything else on an activity*, *lets an admin delete an activity together with its sign-ups* |
+| PV-FR15 | See who has signed up for each activity. | Administrator | Admin → Activities → Sign-ups | `ActivitySignupsFragment`, `SignupRepository.getSignupsForActivity` | **Rules** *lets an admin see everyone signed up for an activity*, *stops a volunteer listing everyone signed up*, *stops a volunteer seeing someone else sign-up* |
+| PV-FR16 | Create and publish announcements, with an optional picture. | Administrator | Admin → Announcements → Announcement editor | `AnnouncementEditorFragment`, `ImageUploader` (Cloudinary), `AdminViewModel.saveAnnouncement` | `AnnouncementTest` (with and without a picture, *starts as a draft*); **Rules** *stops a volunteer writing an announcement*, *lets an admin edit an announcement*. The picture upload is checked by hand |
+| PV-FR17 | Be notified when an activity is fully booked. | Administrator | Phone notifications; Settings switch | `UpdatesWorker`, `UpdateRules.fullActivities` | `UpdateRulesTest` (*every spot taken counts as full*; *spots left*, *a draft*, *no spots set* and *finished* do not) |
+
+Some steps happen outside the app and can't be reached by these tests: Google's sign-in screen, Firebase sending the reset email, Cloudinary storing a picture, and Android showing the notification. Those are checked by hand on a real phone. The decisions around them (password rules, who counts as new, where someone lands after sign-in, what counts as news) are moved into plain Kotlin (`PasswordRules`, `SignInDestination`, `UpdateRules`) so they are tested.
 
 ---
 
@@ -114,7 +118,7 @@ PAB, meaning *"Heal Our Women"* in isiXhosa, was founded in 2008 in Lavender Hil
 | **Usability** | A short two-step sign-up, friendly empty-screen messages, and a confirmation before leaving an activity or deleting an account. |
 | **Reliability** | Firestore's offline cache keeps recently loaded data readable without signal. Joining is a single database transaction, so two people can never take the last spot. |
 | **Performance** | Images are cached with Glide, lists use RecyclerView, and list screens support pull-to-refresh. |
-| **Security** | Firebase Security Rules on every collection, proven by 25 automated tests (see section 11). |
+| **Security** | Firebase Security Rules on every collection, proven by 44 automated tests (see section 11). |
 
 ---
 
@@ -401,7 +405,7 @@ erDiagram
 
 **Other measures:**
 
-- **Tested:** 25 rules tests run against the Firestore emulator on every push.
+- **Tested:** 44 rules tests run against the Firestore emulator on every push.
 - **Delete my account** removes the volunteer's data and gives their spots back, in line with POPIA. It requires a recent sign-in.
 - **Passwords** need at least 8 characters, including a symbol.
 - **Safe house locations** are never shown in the app.
@@ -469,12 +473,12 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **91 automated tests**.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **131 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (66, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers |
-| **Security rules tests** (25, Firestore emulator) | No overbooking, no joining twice, no editing other people's data, no self-promotion to admin |
+| **Unit tests** (87, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification |
+| **Security rules tests** (44, Firestore emulator) | No overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 
@@ -516,7 +520,7 @@ The app will be shared through a download page on **Firebase Hosting**, so PAB c
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 91 automated tests and CI | ✔ Complete |
+| Security Rules, 131 automated tests and CI | ✔ Complete |
 | Hosted download page | ⏳ In progress |
 | User Acceptance Testing with PAB | ☐ Planned |
 
