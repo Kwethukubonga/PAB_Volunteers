@@ -81,7 +81,6 @@
     <string name="action_yes_leave">Ewe, shiya</string>
     <string name="sign_out_confirm_title">Uyaphuma kwiPhilisa Volunteers?</string>
     <string name="volunteer_id_label">I-ID yevolontiya · %1$s</string>
-    <string name="stat_completed">Egqityiweyo</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Imisebenzi</string>
@@ -105,8 +104,6 @@
     <string name="empty_no_announcements">Akukho zaziso okwangoku.</string>
 
     <!-- Profile -->
-    <string name="stat_months">Iinyanga</string>
-    <string name="stat_upcoming">Ezizayo</string>
     <string name="label_phone_caps">IFOWUNI</string>
     <string name="label_email_caps">I-IMEYILE</string>
     <string name="label_area_caps">INDAWO</string>
@@ -410,6 +407,15 @@
     </plurals>
     <string name="relative_today">namhlanje</string>
     <string name="relative_tomorrow">ngomso</string>
+    <string name="relative_yesterday">izolo</string>
+    <plurals name="relative_in_days">
+        <item quantity="one">kwiintsuku ezi-%d</item>
+        <item quantity="other">kwiintsuku ezi-%d</item>
+    </plurals>
+    <plurals name="relative_days_ago">
+        <item quantity="one">kwiintsuku ezi-%d ezidlulileyo</item>
+        <item quantity="other">kwiintsuku ezi-%d ezidlulileyo</item>
+    </plurals>
     <string name="activity_details_title">Umsebenzi</string>
     <string name="action_share_activity">Yabelana ngapho ndivolontiya khona</string>
     <string name="action_save_favourite">Gcina kwizinto ozithandayo</string>
@@ -434,4 +440,15 @@
     <string name="need_help_sms">Ndise-%1$s e-%2$s kwaye ndifuna uncedo. Nceda unditsalele.</string>
     <string name="need_help_no_contact">Yongeza umntu wexesha likaxakeka</string>
     <string name="need_help_no_contact_desc">Ukuze ubathumelele umyalezo apha ngokucofa kanye</string>
+    <string name="profile_id_line">%1$s · %2$s</string>
+    <plurals name="profile_volunteering_for">
+        <item quantity="one">uvolontiya iinyanga ezi-%d</item>
+        <item quantity="other">uvolontiya iinyanga ezi-%d</item>
+    </plurals>
+    <string name="profile_my_activities">Imisebenzi yam</string>
+    <string name="profile_tab_upcoming">Ezizayo (%1$d)</string>
+    <string name="profile_tab_past">Ezidlulileyo (%1$d)</string>
+    <string name="clearance_pill_cleared">Uvunyiwe</string>
+    <string name="clearance_pill_waiting">Iyalinda</string>
+    <string name="clearance_pill_expired">Iphelelwe</string>
 </resources>

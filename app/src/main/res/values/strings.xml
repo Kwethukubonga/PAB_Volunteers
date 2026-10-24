@@ -114,7 +114,6 @@
     <string name="action_yes_leave">Yes, leave</string>
     <string name="sign_out_confirm_title">Sign out of Philisa Volunteers?</string>
     <string name="volunteer_id_label">Volunteer ID · %1$s</string>
-    <string name="stat_completed">Completed</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Activities</string>
@@ -138,8 +137,6 @@
     <string name="empty_no_announcements">No announcements yet.</string>
 
     <!-- Profile -->
-    <string name="stat_months">Months</string>
-    <string name="stat_upcoming">Upcoming</string>
     <string name="label_phone_caps">PHONE</string>
     <string name="label_email_caps">EMAIL</string>
     <string name="label_area_caps">AREA</string>
@@ -448,6 +445,15 @@
     <string name="time_range" translatable="false">%1$s – %2$s</string>
     <string name="relative_today">today</string>
     <string name="relative_tomorrow">tomorrow</string>
+    <string name="relative_yesterday">yesterday</string>
+    <plurals name="relative_in_days">
+        <item quantity="one">in %d day</item>
+        <item quantity="other">in %d days</item>
+    </plurals>
+    <plurals name="relative_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
     <string name="activity_details_title">Activity</string>
     <string name="action_share_activity">Share where I\'m volunteering</string>
     <string name="action_save_favourite">Save to favourites</string>
@@ -474,4 +480,15 @@
     <string name="need_help_sms">I\'m at %1$s at %2$s and I need help. Please call me.</string>
     <string name="need_help_no_contact">Add an emergency contact</string>
     <string name="need_help_no_contact_desc">So you can text them from here in one tap</string>
+    <string name="profile_id_line">%1$s · %2$s</string>
+    <plurals name="profile_volunteering_for">
+        <item quantity="one">volunteering for %d month</item>
+        <item quantity="other">volunteering for %d months</item>
+    </plurals>
+    <string name="profile_my_activities">My activities</string>
+    <string name="profile_tab_upcoming">Upcoming (%1$d)</string>
+    <string name="profile_tab_past">Past (%1$d)</string>
+    <string name="clearance_pill_cleared">Cleared</string>
+    <string name="clearance_pill_waiting">Waiting</string>
+    <string name="clearance_pill_expired">Expired</string>
 </resources>

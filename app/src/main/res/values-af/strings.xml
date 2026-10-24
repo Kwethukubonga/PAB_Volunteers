@@ -81,7 +81,6 @@
     <string name="action_yes_leave">Ja, verlaat</string>
     <string name="sign_out_confirm_title">Meld af van Philisa Volunteers?</string>
     <string name="volunteer_id_label">Vrywilliger-ID · %1$s</string>
-    <string name="stat_completed">Voltooi</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Aktiwiteite</string>
@@ -105,8 +104,6 @@
     <string name="empty_no_announcements">Nog geen aankondigings nie.</string>
 
     <!-- Profile -->
-    <string name="stat_months">Maande</string>
-    <string name="stat_upcoming">Komende</string>
     <string name="label_phone_caps">TELEFOON</string>
     <string name="label_email_caps">E-POS</string>
     <string name="label_area_caps">GEBIED</string>
@@ -410,6 +407,15 @@
     </plurals>
     <string name="relative_today">vandag</string>
     <string name="relative_tomorrow">môre</string>
+    <string name="relative_yesterday">gister</string>
+    <plurals name="relative_in_days">
+        <item quantity="one">oor %d dag</item>
+        <item quantity="other">oor %d dae</item>
+    </plurals>
+    <plurals name="relative_days_ago">
+        <item quantity="one">%d dag gelede</item>
+        <item quantity="other">%d dae gelede</item>
+    </plurals>
     <string name="activity_details_title">Aktiwiteit</string>
     <string name="action_share_activity">Deel waar ek vrywillig werk</string>
     <string name="action_save_favourite">Stoor by gunstelinge</string>
@@ -434,4 +440,15 @@
     <string name="need_help_sms">Ek is by %1$s by %2$s en ek het hulp nodig. Bel my asseblief.</string>
     <string name="need_help_no_contact">Voeg \'n noodkontak by</string>
     <string name="need_help_no_contact_desc">Sodat jy hulle van hier af met een tik kan boodskap stuur</string>
+    <string name="profile_id_line">%1$s · %2$s</string>
+    <plurals name="profile_volunteering_for">
+        <item quantity="one">werk al %d maand vrywillig</item>
+        <item quantity="other">werk al %d maande vrywillig</item>
+    </plurals>
+    <string name="profile_my_activities">My aktiwiteite</string>
+    <string name="profile_tab_upcoming">Komende (%1$d)</string>
+    <string name="profile_tab_past">Verby (%1$d)</string>
+    <string name="clearance_pill_cleared">Geklaar</string>
+    <string name="clearance_pill_waiting">Wag</string>
+    <string name="clearance_pill_expired">Verval</string>
 </resources>
