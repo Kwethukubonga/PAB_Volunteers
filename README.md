@@ -105,6 +105,17 @@ All 17 requirements are implemented. Each one below names the screen it lives on
 | PV-FR16 | Create and publish announcements, with an optional picture. | Administrator | Admin → Announcements → Announcement editor | `AnnouncementEditorFragment`, `ImageUploader` (Cloudinary), `AdminViewModel.saveAnnouncement` | `AnnouncementTest` (with and without a picture, *starts as a draft*); **Rules** *stops a volunteer writing an announcement*, *lets an admin edit an announcement*. The picture upload is checked by hand |
 | PV-FR17 | Be notified when an activity is fully booked. | Administrator | Phone notifications; Settings switch | `UpdatesWorker`, `UpdateRules.fullActivities` | `UpdateRulesTest` (*every spot taken counts as full*; *spots left*, *a draft*, *no spots set* and *finished* do not) |
 
+**Added during development** (ideas brought over from Collective, another app by a team member):
+
+| ID | Requirement | Role | Where it lives | Code | Proven by |
+|----|-------------|------|----------------|------|-----------|
+| PV-FR18 | Search activities, and (admins) search volunteers. | Both | Activities tab; Admin → Volunteers | `utils/Search`, `ActivitiesFragment`, `ManageVolunteersFragment` | `SearchTest` (any case and order, every word must match, name, area, ID, programme, place) |
+| PV-FR19 | Get directions to an activity. | Volunteer | Activity details → Directions | `utils/Directions` | `DirectionsTest`; the maps app opening is checked by hand |
+| PV-FR20 | Say how an activity went; admins see the ratings and comments. | Both | Activity details (after it); Admin → Sign-ups | `FeedbackRepository`, `FeedbackRules`, `FeedbackSummary` | `SafetyRulesTest` (rating 1 to 5, length, average to one decimal); **Rules** *only someone who was signed up*, *not before the day*, *not in someone else name* |
+| PV-FR21 | Report a concern to Philisa's admins, who mark it handled. | Both | Activity details, Settings → Safety; Admin → Concerns | `ReportConcernActivity`, `ConcernsFragment`, `ConcernRepository` | `SafetyRulesTest` (empty, too long); **Rules** *only admins read concerns*, *not in someone else name*, *never deleted* |
+| PV-FR22 | Ask for a clearance check; admins record it after seeing documents in person. | Both | Settings → Safety, Profile; Admin → Volunteer | `ClearanceRepository`, `ClearanceState` | `SafetyRulesTest` (requested, cleared, expired, lasts a year); **Rules** *a volunteer can only ask*, *can't clear themselves* |
+| PV-FR23 | See milestones for time given. | Volunteer | Profile | `Milestone` | `MilestonesTest` (first shift, 10 activities, 25 hours, 3 programmes, progress) |
+
 Some steps happen outside the app and can't be reached by these tests: Google's sign-in screen, Firebase sending the reset email, Cloudinary storing a picture, and Android showing the notification. Those are checked by hand on a real phone. The decisions around them (password rules, who counts as new, where someone lands after sign-in, what counts as news) are moved into plain Kotlin (`PasswordRules`, `SignInDestination`, `UpdateRules`) so they are tested.
 
 ---
@@ -118,7 +129,7 @@ Some steps happen outside the app and can't be reached by these tests: Google's 
 | **Usability** | A short two-step sign-up, friendly empty-screen messages, and a confirmation before leaving an activity or deleting an account. |
 | **Reliability** | Firestore's offline cache keeps recently loaded data readable without signal. Joining is a single database transaction, so two people can never take the last spot. |
 | **Performance** | Images are cached with Glide, lists use RecyclerView, and list screens support pull-to-refresh. |
-| **Security** | Firebase Security Rules on every collection, proven by 44 automated tests (see section 11). |
+| **Security** | Firebase Security Rules on every collection, proven by 63 automated tests (see section 11). |
 
 ---
 
@@ -151,18 +162,18 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 | Tab | What It Does |
 |-----|--------------|
 | **Home** | Today's activities, what's coming up, and stats (today, upcoming, completed, hours) |
-| **Activities** | Browse or save favourites, see spots left, and join or leave in one tap |
+| **Activities** | Search, browse or save favourites, see spots left, and join or leave in one tap. Activity details give directions, and afterwards ask "How did it go?" |
 | **Schedule** | Upcoming and completed activities. Completed ones count towards hours. |
 | **Community** | Announcements from PAB, with pictures and a thumbs up |
-| **Profile** | Details, volunteer ID and stats. Edit any time. |
+| **Profile** | Details, volunteer ID, stats, clearance status and milestones (first shift, 10 activities, 25 hours, 3 programmes). Edit any time; the phone number is spaced as you type. |
 
 ### 6.2 Administrators
 
 | Tab | What It Does |
 |-----|--------------|
-| **Overview** | Totals, recent volunteers and quick actions |
-| **Activities** | Create, edit, publish, hide or delete activities, and see who signed up |
-| **Volunteers** | View everyone's details. View-only by design: admins can't remove volunteers. |
+| **Overview** | Totals, recent volunteers and quick actions, including **Concerns** reported by volunteers |
+| **Activities** | Create, edit, publish, hide or delete activities, and see who signed up and how it went |
+| **Volunteers** | Search and view everyone's details, and record a volunteer's clearance after seeing their documents. Admins can't remove volunteers. |
 | **Posts** | Create and publish announcements, with an optional picture |
 
 ### 6.3 Everyone
@@ -170,6 +181,7 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 - **Sign-in:** Google or email, with password reset.
 - **Settings:** rows grouped into Account (how you signed in, change password for email accounts), Appearance (theme and language as lists), Notifications (tap anywhere on a row to switch it), and About (contact Philisa, app version). Sign out and Delete account sit at the bottom, away from everyday settings.
 - **Notifications:** a background check about every 15 minutes. Volunteers hear about new activities and announcements. Admins hear when an activity is full.
+- **Safety** (volunteers): ask for a clearance check, and report a concern to Philisa's admins. Emergency numbers are shown first.
 - **Offline:** a slim bar across the top of every screen says when there is no connection, before anything is tapped. Recently loaded data stays readable; joining or saving needs a connection.
 
 ---
@@ -371,6 +383,36 @@ erDiagram
         long publishedAt
         list thumbsUpBy FK
     }
+
+    CLEARANCES {
+        string userId PK "and FK to USERS"
+        string status "requested or cleared"
+        long requestedAt
+        long expiresAt
+        string checkedBy
+    }
+
+    CONCERNS {
+        string id PK
+        string reportedBy FK
+        string activityId FK "optional"
+        string message
+        string status "new or handled"
+        long createdAt
+    }
+
+    ACTIVITY_FEEDBACK {
+        string id PK "activityId_userId"
+        string activityId FK
+        string userId FK
+        int rating "1 to 5"
+        string comment
+    }
+
+    USERS ||--o| CLEARANCES : "is checked"
+    USERS ||--o{ CONCERNS : "reports"
+    ACTIVITIES ||--o{ ACTIVITY_FEEDBACK : "gets"
+    USERS ||--o{ ACTIVITY_FEEDBACK : "gives"
 ```
 
 | Relationship | Cardinality | Meaning |
@@ -380,6 +422,9 @@ erDiagram
 | Users → Activities / Announcements | One to many | An admin creates many of each |
 | Users ↔ Announcements | Many to many | Thumbs up, stored in `thumbsUpBy` |
 | Users ↔ Activities | Many to many | Favourites, stored in `favouriteActivityIds` |
+| Users → Clearances | One to zero or one | A volunteer's background check, kept apart from their profile so a profile save can never overwrite an admin's decision |
+| Users → Concerns | One to many | Concerns a volunteer has reported; only admins can read them |
+| Activities → Feedback | One to many | One rating per volunteer who was there, saved as `activityId_userId` |
 
 ### 10.2 Design Decisions
 
@@ -402,10 +447,13 @@ erDiagram
 - Only admins can create or change activities and announcements.
 - Joining changes the spot count by exactly one, together with the volunteer's own sign-up, and never above the total.
 - Volunteers can only add or remove their own thumbs up.
+- A volunteer can only **ask** for a clearance check; only an admin can mark someone as cleared.
+- **Concerns** can be sent by anyone signed in, as themselves, and read only by admins. They are never deleted.
+- **Feedback** only comes from someone who was signed up, once the activity's day has come, rated 1 to 5.
 
 **Other measures:**
 
-- **Tested:** 44 rules tests run against the Firestore emulator on every push.
+- **Tested:** 63 rules tests run against the Firestore emulator on every push.
 - **Delete my account** removes the volunteer's data and gives their spots back, in line with POPIA. It takes two steps: a page listing what will be lost (hours, upcoming places, history), then confirming with their password or Google account and typing the confirmation word. Firebase needs that fresh confirmation before it deletes a sign-in, and nothing is removed until it succeeds.
 - **Passwords** need at least 8 characters, including a symbol.
 - **Safe house locations** are never shown in the app.
@@ -473,12 +521,12 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **140 automated tests**, and section 3 maps them to the requirements.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **188 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (96, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose |
-| **Security rules tests** (44, Firestore emulator) | No overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up |
+| **Unit tests** (125, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing |
+| **Security rules tests** (63, Firestore emulator) | No overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 
@@ -520,7 +568,7 @@ The app will be shared through a download page on **Firebase Hosting**, so PAB c
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 140 automated tests and CI | ✔ Complete |
+| Security Rules, 188 automated tests and CI | ✔ Complete |
 | Hosted download page | ⏳ In progress |
 | User Acceptance Testing with PAB | ☐ Planned |
 
