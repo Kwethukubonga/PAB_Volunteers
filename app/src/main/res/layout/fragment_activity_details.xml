@@ -117,6 +117,123 @@
                 android:textAppearance="@style/TextAppearance.PAB.Body"
                 tools:text="Cook, pack and serve meals for families across Lavender Hill." />
 
+            <!-- Opens the phone's maps app at the activity's place. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDirections"
+                style="@style/Widget.PAB.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/spacing_lg"
+                android:text="@string/action_directions"
+                app:icon="@drawable/ic_directions"
+                app:iconTint="@color/accent" />
+
+            <!-- "How did it go?" Only on a finished activity the volunteer was on. -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardFeedback"
+                style="@style/Widget.PAB.Card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/spacing_lg"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:accessibilityHeading="true"
+                        android:text="@string/feedback_title"
+                        android:textAppearance="@style/TextAppearance.PAB.Title" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_xs"
+                        android:text="@string/feedback_subtitle"
+                        android:textAppearance="@style/TextAppearance.PAB.Caption" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutFeedbackForm"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RatingBar
+                            android:id="@+id/ratingFeedback"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:contentDescription="@string/feedback_rating_label"
+                            android:numStars="5"
+                            android:progressBackgroundTint="@color/divider"
+                            android:progressTint="@color/accent"
+                            android:rating="0"
+                            android:secondaryProgressTint="@color/accent"
+                            android:stepSize="1" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tilFeedbackComment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:hint="@string/feedback_comment_hint"
+                            app:counterEnabled="true"
+                            app:counterMaxLength="500">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etFeedbackComment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="top"
+                                android:importantForAutofill="no"
+                                android:inputType="textMultiLine|textCapSentences"
+                                android:maxLength="500"
+                                android:minLines="2" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnSendFeedback"
+                            style="@style/Widget.PAB.Button.Primary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_sm"
+                            android:text="@string/feedback_send" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvFeedbackDone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_sm"
+                        android:accessibilityLiveRegion="polite"
+                        android:textAppearance="@style/TextAppearance.PAB.Body"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Quiet on purpose: there when it is needed, without alarming anyone. -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnReportConcern"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:layout_marginBottom="@dimen/spacing_lg"
+                android:minHeight="@dimen/touch_target_min"
+                android:text="@string/action_report_concern"
+                android:textAllCaps="false"
+                android:textColor="@color/text_secondary"
+                app:icon="@drawable/ic_flag"
+                app:iconTint="@color/text_secondary" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

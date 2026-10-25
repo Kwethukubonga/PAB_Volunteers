@@ -67,6 +67,13 @@ object DateUtils {
         return "VOL-$year-$suffix"
     }
 
+    /** The same moment [months] calendar months later, for how long a clearance lasts. */
+    fun addMonths(timestamp: Long, months: Int): Long =
+        Calendar.getInstance().apply {
+            timeInMillis = timestamp
+            add(Calendar.MONTH, months)
+        }.timeInMillis
+
     fun monthsSince(joinedDate: Long): Int {
         if (joinedDate <= 0L) return 0
         val diffMillis = now() - joinedDate

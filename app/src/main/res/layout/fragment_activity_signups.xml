@@ -92,6 +92,28 @@
                     android:textAppearance="@style/TextAppearance.PAB.Body" />
             </LinearLayout>
 
+            <!-- "How did it go?" from the volunteers who were there. -->
+            <TextView
+                style="@style/TextAppearance.PAB.FieldLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:accessibilityHeading="true"
+                android:text="@string/feedback_admin_heading" />
+
+            <TextView
+                android:id="@+id/tvFeedbackSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:textAppearance="@style/TextAppearance.PAB.Body" />
+
+            <LinearLayout
+                android:id="@+id/layoutFeedbackComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

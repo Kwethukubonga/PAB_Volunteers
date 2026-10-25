@@ -21,7 +21,10 @@ import androidx.lifecycle.lifecycleScope
 import com.kantu.pab_volunteers.BuildConfig
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
+import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.repository.AuthRepository
+import com.kantu.pab_volunteers.data.repository.ClearanceRepository
+import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySettingsBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsRowBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsSwitchRowBinding
@@ -29,9 +32,12 @@ import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.Notifications
 import com.kantu.pab_volunteers.ui.auth.Session
+import com.kantu.pab_volunteers.ui.safety.ClearanceState
+import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.OfflineBanner
@@ -47,6 +53,9 @@ class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private val authRepository = AuthRepository()
+    private val clearanceRepository = ClearanceRepository()
+    private val userRepository = UserRepository()
+    private var clearance: Clearance? = null
 
     private val askNotifications = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -68,6 +77,7 @@ class SettingsActivity : AppCompatActivity() {
         setUpTheme()
         setUpLanguage()
         setUpNotifications(isAdmin)
+        setUpSafety(isAdmin)
         setUpAbout()
 
         binding.btnSignOut.setOnClickListener { confirmSignOut() }
@@ -210,6 +220,103 @@ class SettingsActivity : AppCompatActivity() {
                 Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
                     .putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
             )
+        }
+    }
+
+    /** Volunteers only: admins are checked by the organisation and read concerns, not send them. */
+    private fun setUpSafety(isAdmin: Boolean) {
+        binding.sectionSafety.isVisible = !isAdmin
+        if (isAdmin) return
+        binding.rowReportConcern.bind(
+            R.drawable.ic_flag,
+            R.string.settings_report_concern,
+            supporting = getString(R.string.settings_report_concern_desc),
+            onClick = { startActivity(Intent(this, ReportConcernActivity::class.java)) }
+        )
+        bindClearance()
+        loadClearance()
+    }
+
+    private fun loadClearance() {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        lifecycleScope.launch {
+            clearance = runCatching { clearanceRepository.get(uid) }.getOrNull()
+            bindClearance()
+        }
+    }
+
+    private fun bindClearance() {
+        val state = ClearanceState.of(clearance, DateUtils.now())
+        val status = when (state) {
+            ClearanceState.NONE -> getString(R.string.clearance_none)
+            ClearanceState.REQUESTED -> getString(R.string.clearance_requested)
+            ClearanceState.CLEARED ->
+                getString(R.string.clearance_cleared_until, DateUtils.formatDate(clearance?.expiresAt ?: 0L))
+            ClearanceState.EXPIRED -> getString(R.string.clearance_expired)
+        }
+        binding.rowClearance.bind(
+            R.drawable.ic_shield,
+            R.string.settings_clearance,
+            supporting = status,
+            onClick = { showClearance(state) }
+        )
+    }
+
+    /** Explains the check and offers the one thing the volunteer can do at each stage. */
+    private fun showClearance(state: ClearanceState) {
+        val dialog = AlertDialog.Builder(this).setTitle(R.string.settings_clearance)
+        when (state) {
+            ClearanceState.NONE, ClearanceState.EXPIRED -> dialog
+                .setMessage(R.string.clearance_explain)
+                .setPositiveButton(R.string.clearance_ask) { _, _ -> requestClearance() }
+                .setNegativeButton(R.string.action_cancel, null)
+            ClearanceState.REQUESTED -> dialog
+                .setMessage(R.string.clearance_waiting_explain)
+                .setPositiveButton(R.string.action_close, null)
+                .setNegativeButton(R.string.clearance_withdraw) { _, _ -> withdrawClearance() }
+            ClearanceState.CLEARED -> dialog
+                .setMessage(
+                    getString(
+                        R.string.clearance_cleared_explain,
+                        DateUtils.formatDate(clearance?.expiresAt ?: 0L)
+                    )
+                )
+                .setPositiveButton(R.string.action_close, null)
+        }
+        dialog.show()
+    }
+
+    private fun requestClearance() {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (!Network.isOnline(this)) {
+            showMessage(ErrorMessages.OFFLINE)
+            return
+        }
+        lifecycleScope.launch {
+            val name = runCatching { userRepository.getUser(uid)?.fullName }.getOrNull().orEmpty()
+            clearanceRepository.request(uid, name)
+                .onSuccess {
+                    hideMessage()
+                    AppMessage.show(binding.root, UiText.Res(R.string.clearance_asked))
+                    loadClearance()
+                }
+                .onFailure { showMessage(ErrorMessages.textFor(it)) }
+        }
+    }
+
+    private fun withdrawClearance() {
+        val uid = FirebaseAuthManager.currentUser?.uid ?: return
+        if (!Network.isOnline(this)) {
+            showMessage(ErrorMessages.OFFLINE)
+            return
+        }
+        lifecycleScope.launch {
+            clearanceRepository.remove(uid)
+                .onSuccess {
+                    hideMessage()
+                    loadClearance()
+                }
+                .onFailure { showMessage(ErrorMessages.textFor(it)) }
         }
     }
 

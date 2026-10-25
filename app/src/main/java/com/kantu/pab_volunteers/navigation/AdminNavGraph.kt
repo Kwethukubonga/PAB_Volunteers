@@ -29,6 +29,10 @@ object AdminNavGraph {
         )
     }
 
+    fun toConcerns(navController: NavController) {
+        navController.navigate(R.id.action_global_concernsFragment)
+    }
+
     fun toAnnouncementEditor(navController: NavController, announcementId: String = "") {
         navController.navigate(
             R.id.action_global_announcementEditorFragment,

@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentEditProfileBinding
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.PhoneFormattingWatcher
 
 class EditProfileFragment : Fragment() {
 
@@ -35,6 +36,7 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        PhoneFormattingWatcher.attach(binding.etPhone)
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         binding.btnSave.setOnClickListener { save() }

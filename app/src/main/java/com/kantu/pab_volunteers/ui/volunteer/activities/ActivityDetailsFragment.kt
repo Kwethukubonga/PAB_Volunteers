@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.ui.volunteer.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +14,11 @@ import androidx.navigation.fragment.findNavController
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityDetailsBinding
+import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.Directions
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ActivityDetailsFragment : Fragment() {
@@ -28,6 +31,7 @@ class ActivityDetailsFragment : Fragment() {
         get() = arguments?.getString(Constants.EXTRA_ACTIVITY_ID).orEmpty()
 
     private var canJoin = false
+    private var feedbackLoaded = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +60,15 @@ class ActivityDetailsFragment : Fragment() {
 
         binding.btnJoin.setOnClickListener { join() }
         binding.btnLeave.setOnClickListener { confirmLeave() }
+        binding.btnSendFeedback.setOnClickListener { sendFeedback() }
+        binding.btnReportConcern.setOnClickListener { reportConcern() }
+
+        viewModel.myFeedback.observe(viewLifecycleOwner) { feedback ->
+            val given = feedback != null && feedback.activityId == activityId
+            binding.layoutFeedbackForm.isVisible = !given
+            binding.tvFeedbackDone.isVisible = given
+            if (given) binding.tvFeedbackDone.text = getString(R.string.feedback_given, feedback!!.rating)
+        }
 
         viewModel.selectedActivity.observe(viewLifecycleOwner) { activity ->
             if (activity != null) bind(activity)
@@ -84,6 +97,9 @@ class ActivityDetailsFragment : Fragment() {
             )
         binding.tvDescription.text = activity.description
 
+        binding.btnDirections.isVisible = activity.location.isNotBlank()
+        binding.btnDirections.setOnClickListener { Directions.open(requireContext(), activity.location) }
+
         bindStatus(activity, joined)
 
         // A finished activity is history: it can no longer be joined or left.
@@ -94,6 +110,29 @@ class ActivityDetailsFragment : Fragment() {
         binding.btnJoin.isEnabled = canJoin && viewModel.isLoading.value != true
         binding.btnJoin.setText(if (isFull) R.string.status_full else R.string.action_join_activity)
         binding.btnLeave.isVisible = joined && !finished
+
+        // Feedback is for people who were there, once it has happened.
+        val canGiveFeedback = joined && finished
+        binding.cardFeedback.isVisible = canGiveFeedback
+        if (canGiveFeedback && !feedbackLoaded) {
+            feedbackLoaded = true
+            viewModel.loadMyFeedback(activityId)
+        }
+    }
+
+    private fun sendFeedback() {
+        val rating = binding.ratingFeedback.rating.toInt()
+        val comment = binding.etFeedbackComment.text?.toString().orEmpty()
+        viewModel.sendFeedback(activityId, rating, comment)
+    }
+
+    private fun reportConcern() {
+        val activity = viewModel.selectedActivity.value
+        startActivity(
+            Intent(requireContext(), ReportConcernActivity::class.java)
+                .putExtra(Constants.EXTRA_ACTIVITY_ID, activityId)
+                .putExtra(ReportConcernActivity.EXTRA_ACTIVITY_TITLE, activity?.title.orEmpty())
+        )
     }
 
     private fun bindStatus(activity: Activity, joined: Boolean) {
@@ -130,6 +169,8 @@ class ActivityDetailsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.clearSelection()
+        // The feedback is cleared with the selection, so it is loaded again next time.
+        feedbackLoaded = false
         _binding = null
     }
 }

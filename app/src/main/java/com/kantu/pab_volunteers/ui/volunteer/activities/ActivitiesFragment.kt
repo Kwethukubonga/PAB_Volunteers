@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import com.kantu.pab_volunteers.databinding.FragmentActivitiesBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.utils.ListLayout
+import com.kantu.pab_volunteers.utils.Search
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Opportunities to join, with a second tab for the ones a volunteer has saved. */
@@ -29,6 +31,7 @@ class ActivitiesFragment : Fragment() {
     private var showingFavourites = false
     private var openRows: List<ActivityRow> = emptyList()
     private var favouriteRows: List<ActivityRow> = emptyList()
+    private var query = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +60,12 @@ class ActivitiesFragment : Fragment() {
         binding.rvActivities.adapter = adapter
 
         setUpTabs()
+
+        binding.search.etSearch.hint = getString(R.string.search_activities_hint)
+        binding.search.etSearch.doAfterTextChanged {
+            query = it?.toString().orEmpty()
+            render()
+        }
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
@@ -92,19 +101,24 @@ class ActivitiesFragment : Fragment() {
 
     private fun render() {
         if (_binding == null) return
-        val rows = if (showingFavourites) favouriteRows else openRows
+        val allRows = if (showingFavourites) favouriteRows else openRows
+        val rows = allRows.filter { Search.matches(it.activity, query) }
         adapter.submitList(rows)
         binding.rvActivities.isVisible = rows.isNotEmpty()
         binding.layoutEmpty.isVisible = rows.isEmpty()
 
         if (showingFavourites) {
             binding.tvSubtitle.text =
-                resources.getQuantityString(R.plurals.favourites_saved, rows.size, rows.size)
+                resources.getQuantityString(R.plurals.favourites_saved, allRows.size, allRows.size)
             binding.tvEmptyMessage.setText(R.string.empty_favourites)
         } else {
             binding.tvSubtitle.text =
-                resources.getQuantityString(R.plurals.opportunities_open, rows.size, rows.size)
+                resources.getQuantityString(R.plurals.opportunities_open, allRows.size, allRows.size)
             binding.tvEmptyMessage.setText(R.string.empty_no_open_activities)
+        }
+        // Nothing matched the search, as opposed to nothing there at all.
+        if (rows.isEmpty() && allRows.isNotEmpty()) {
+            binding.tvEmptyMessage.text = getString(R.string.search_no_activities, query.trim())
         }
     }
 

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One reported concern: who sent it, when, what about, what they said, and whether it is handled. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.PAB.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/spacing_md"
+    app:contentPadding="@dimen/spacing_md">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvStatus"
+                style="@style/Widget.PAB.StatusPill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="New" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_sm"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.PAB.Caption"
+                tools:text="24 Oct 2026" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvReporter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textAppearance="@style/TextAppearance.PAB.Subtitle"
+            android:textStyle="bold"
+            tools:text="From Nomsa Dlamini" />
+
+        <TextView
+            android:id="@+id/tvAbout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.PAB.Caption"
+            tools:text="About: Community Soup Kitchen" />
+
+        <TextView
+            android:id="@+id/tvMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:lineSpacingMultiplier="1.2"
+            android:textAppearance="@style/TextAppearance.PAB.Body"
+            android:textIsSelectable="true"
+            tools:text="The gate at the centre does not lock." />
+
+        <TextView
+            android:id="@+id/tvHandled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:textAppearance="@style/TextAppearance.PAB.Caption"
+            android:visibility="gone"
+            tools:text="Handled by admin@example.com on 25 Oct 2026" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHandled"
+            style="@style/Widget.PAB.Button.Secondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:text="@string/concerns_mark_handled" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

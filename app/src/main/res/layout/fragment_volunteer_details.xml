@@ -112,8 +112,60 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_lg"
             android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_lg" />
+
+        <!-- Background check. The admin marks it after seeing the documents in person. -->
+        <TextView
+            style="@style/TextAppearance.PAB.FieldLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_lg"
             android:layout_marginEnd="@dimen/spacing_lg"
-            android:layout_marginBottom="@dimen/spacing_xl" />
+            android:accessibilityHeading="true"
+            android:text="@string/settings_clearance" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.PAB.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginBottom="@dimen/spacing_xl"
+            app:contentPadding="@dimen/spacing_md">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvClearance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:textAppearance="@style/TextAppearance.PAB.Body" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnApproveClearance"
+                    style="@style/Widget.PAB.Button.Primary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/clearance_admin_approve"
+                    android:visibility="gone" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRemoveClearance"
+                    style="@style/Widget.PAB.Button.Destructive"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md"
+                    android:text="@string/clearance_admin_remove"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 

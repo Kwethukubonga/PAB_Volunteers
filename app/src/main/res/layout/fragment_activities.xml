@@ -32,6 +32,10 @@
             tools:text="6 opportunities open" />
     </LinearLayout>
 
+    <include
+        android:id="@+id/search"
+        layout="@layout/view_search_field" />
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"

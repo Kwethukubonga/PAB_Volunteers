@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -12,8 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentManageVolunteersBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
+import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.utils.ListLayout
+import com.kantu.pab_volunteers.utils.Search
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** A directory of registered volunteers. Viewing only: nobody can be removed from here. */
@@ -24,6 +27,8 @@ class ManageVolunteersFragment : Fragment() {
     private val viewModel: AdminViewModel by activityViewModels()
 
     private lateinit var adapter: VolunteerAdapter
+    private var volunteers: List<User> = emptyList()
+    private var query = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,16 +52,35 @@ class ManageVolunteersFragment : Fragment() {
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
-        viewModel.volunteers.observe(viewLifecycleOwner) { volunteers ->
-            adapter.submitList(volunteers)
-            binding.rvItems.isVisible = volunteers.isNotEmpty()
-            binding.layoutEmpty.isVisible = volunteers.isEmpty()
-            binding.tvSubtitle.text = resources.getQuantityString(
-                R.plurals.registered_volunteers, volunteers.size, volunteers.size
-            )
+        binding.search.etSearch.hint = getString(R.string.search_volunteers_hint)
+        binding.search.etSearch.doAfterTextChanged {
+            query = it?.toString().orEmpty()
+            render()
+        }
+
+        viewModel.volunteers.observe(viewLifecycleOwner) {
+            volunteers = it
+            render()
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
+        }
+    }
+
+    private fun render() {
+        if (_binding == null) return
+        val shown = volunteers.filter { Search.matches(it, query) }
+        adapter.submitList(shown)
+        binding.rvItems.isVisible = shown.isNotEmpty()
+        binding.layoutEmpty.isVisible = shown.isEmpty()
+        binding.tvSubtitle.text = resources.getQuantityString(
+            R.plurals.registered_volunteers, volunteers.size, volunteers.size
+        )
+        // Nothing matched the search, as opposed to nobody registered yet.
+        if (volunteers.isNotEmpty() && shown.isEmpty()) {
+            binding.tvEmptyMessage.text = getString(R.string.search_no_volunteers, query.trim())
+        } else {
+            binding.tvEmptyMessage.setText(R.string.empty_no_volunteers)
         }
     }
 

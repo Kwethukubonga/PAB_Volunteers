@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.chip.Chip
 import com.kantu.pab_volunteers.R
+import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentVolunteerDetailsBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.observeMessages
 
-/** A volunteer's profile as the admin sees it. Viewing only, with no actions on the person. */
+/**
+ * A volunteer's profile as the admin sees it. The only action is recording their background
+ * check, after seeing the documents in person; nothing else about the person can be changed here.
+ */
 class VolunteerDetailsFragment : Fragment() {
 
     private var _binding: FragmentVolunteerDetailsBinding? = null
@@ -52,6 +59,26 @@ class VolunteerDetailsFragment : Fragment() {
         viewModel.volunteers.observe(viewLifecycleOwner) {
             viewModel.volunteerById(uid)?.let { bind(it) }
         }
+        viewModel.clearance.observe(viewLifecycleOwner) { bindClearance(it) }
+        viewModel.loadClearance(uid)
+
+        binding.btnApproveClearance.setOnClickListener {
+            val volunteer = viewModel.volunteerById(uid) ?: return@setOnClickListener
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.clearance_admin_approve)
+                .setMessage(getString(R.string.clearance_admin_approve_confirm, volunteer.fullName, ClearanceState.VALID_MONTHS))
+                .setPositiveButton(R.string.clearance_admin_approve) { _, _ -> viewModel.approveClearance(volunteer) }
+                .setNegativeButton(R.string.action_cancel, null)
+                .show()
+        }
+        binding.btnRemoveClearance.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle(R.string.clearance_admin_remove)
+                .setMessage(R.string.clearance_admin_remove_confirm)
+                .setPositiveButton(R.string.clearance_admin_remove) { _, _ -> viewModel.removeClearance(uid) }
+                .setNegativeButton(R.string.action_cancel, null)
+                .show()
+        }
         // Android can reopen this screen before the list has loaded.
         viewModel.refreshIfEmpty()
     }
@@ -75,6 +102,22 @@ class VolunteerDetailsFragment : Fragment() {
                 }
             )
         }
+    }
+
+    private fun bindClearance(clearance: Clearance?) {
+        val state = ClearanceState.of(clearance, DateUtils.now())
+        binding.tvClearance.text = when (state) {
+            ClearanceState.NONE -> getString(R.string.clearance_admin_none)
+            ClearanceState.REQUESTED -> getString(R.string.clearance_admin_requested, DateUtils.formatDate(clearance?.requestedAt ?: 0L))
+            ClearanceState.CLEARED -> getString(
+                R.string.clearance_admin_cleared,
+                DateUtils.formatDate(clearance?.expiresAt ?: 0L),
+                clearance?.checkedBy.orEmpty()
+            )
+            ClearanceState.EXPIRED -> getString(R.string.clearance_expired)
+        }
+        binding.btnApproveClearance.isVisible = state != ClearanceState.CLEARED
+        binding.btnRemoveClearance.isVisible = state == ClearanceState.CLEARED
     }
 
     override fun onDestroyView() {
