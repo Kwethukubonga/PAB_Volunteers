@@ -1,11 +1,9 @@
 package com.kantu.pab_volunteers.ui.admin.overview
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,13 +13,11 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentAdminOverviewBinding
+import com.kantu.pab_volunteers.databinding.ItemSettingsRowBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
-import com.kantu.pab_volunteers.navigation.AppNavGraph
+import com.kantu.pab_volunteers.ui.admin.AdminMainActivity
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.admin.volunteers.VolunteerAdapter
-import com.kantu.pab_volunteers.ui.auth.Session
-import com.kantu.pab_volunteers.ui.settings.SettingsActivity
-import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class AdminOverviewFragment : Fragment() {
@@ -52,9 +48,13 @@ class AdminOverviewFragment : Fragment() {
         binding.rvRecentVolunteers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRecentVolunteers.adapter = adapter
 
-        binding.statVolunteers.tvStatLabel.setText(R.string.stat_total_volunteers)
-        binding.statActivities.tvStatLabel.setText(R.string.stat_published_activities)
-        binding.statSignups.tvStatLabel.setText(R.string.stat_total_signups)
+        bindGlance(binding.rowVolunteers, R.drawable.ic_admin_volunteers, R.string.nav_volunteers) {
+            (activity as? AdminMainActivity)?.selectTab(R.id.manageVolunteersFragment)
+        }
+        bindGlance(binding.rowActivities, R.drawable.ic_activities, R.string.nav_activities) {
+            (activity as? AdminMainActivity)?.selectTab(R.id.manageActivitiesFragment)
+        }
+        bindGlance(binding.rowSignups, R.drawable.ic_people, R.string.overview_signups, onClick = null)
 
         setUpQuickAction(
             binding.actionCreateActivity.root,
@@ -77,38 +77,23 @@ class AdminOverviewFragment : Fragment() {
             R.string.concerns_action_desc
         ) { AdminNavGraph.toConcerns(findNavController()) }
 
-        setUpQuickAction(
-            binding.actionSettings.root,
-            R.drawable.ic_settings,
-            R.string.action_settings,
-            R.string.action_settings_desc
-        ) {
-            startActivity(
-                Intent(requireContext(), SettingsActivity::class.java)
-                    .putExtra(Constants.EXTRA_IS_ADMIN, true)
-            )
-        }
-
         binding.tvAdminName.text = getString(
             R.string.signed_in_as,
             FirebaseAuthManager.currentUser?.email.orEmpty()
         )
 
-        binding.btnSignOut.setOnClickListener { confirmSignOut() }
-
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
         observeViewModel()
     }
 
-    private fun confirmSignOut() {
-        AlertDialog.Builder(requireContext())
-            .setTitle(R.string.sign_out_confirm_title)
-            .setPositiveButton(R.string.action_sign_out) { _, _ ->
-                Session.signOut(requireActivity())
-                AppNavGraph.goToWelcome(requireActivity())
-            }
-            .setNegativeButton(R.string.action_cancel, null)
-            .show()
+    /** One "at a glance" row: what it counts, the number in words, and a chevron when it opens a tab. */
+    private fun bindGlance(row: ItemSettingsRowBinding, icon: Int, title: Int, onClick: (() -> Unit)?) {
+        row.rowIcon.setImageResource(icon)
+        row.rowTitle.setText(title)
+        row.rowChevron.isVisible = onClick != null
+        row.root.isClickable = onClick != null
+        row.root.isFocusable = onClick != null
+        if (onClick != null) row.root.setOnClickListener { onClick() }
     }
 
     private fun setUpQuickAction(
@@ -126,7 +111,8 @@ class AdminOverviewFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.volunteers.observe(viewLifecycleOwner) { volunteers ->
-            binding.statVolunteers.tvStatValue.text = volunteers.size.toString()
+            binding.rowVolunteers.rowSupporting.text =
+                resources.getQuantityString(R.plurals.overview_volunteers_value, volunteers.size, volunteers.size)
         }
         viewModel.recentVolunteers.observe(viewLifecycleOwner) { newestFirst ->
             val recent = newestFirst.take(MAX_RECENT)
@@ -135,11 +121,14 @@ class AdminOverviewFragment : Fragment() {
             binding.tvEmptyVolunteers.isVisible = recent.isEmpty()
         }
         viewModel.activities.observe(viewLifecycleOwner) { activities ->
-            binding.statActivities.tvStatValue.text =
-                activities.count { it.status == Activity.STATUS_PUBLISHED }.toString()
+            val published = activities.count { it.status == Activity.STATUS_PUBLISHED }
+            binding.rowActivities.rowSupporting.text = getString(
+                R.string.overview_activities_value, published, activities.size - published
+            )
         }
         viewModel.totalSignups.observe(viewLifecycleOwner) {
-            binding.statSignups.tvStatValue.text = it.toString()
+            binding.rowSignups.rowSupporting.text =
+                resources.getQuantityString(R.plurals.overview_signups_value, it, it)
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it

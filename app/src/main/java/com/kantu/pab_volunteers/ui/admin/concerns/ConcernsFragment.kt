@@ -20,6 +20,7 @@ import com.kantu.pab_volunteers.databinding.FragmentConcernsBinding
 import com.kantu.pab_volunteers.databinding.ItemConcernBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Concerns sent by volunteers, newest first. Each can be marked as handled, but never deleted. */
@@ -45,10 +46,21 @@ class ConcernsFragment : Fragment() {
         binding.rvConcerns.adapter = adapter
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.loadConcerns() }
+        val emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_flag)
+        fun render() {
+            val concerns = viewModel.concerns.value.orEmpty()
+            val failed = viewModel.concernsFailed.value
+            binding.rvConcerns.isVisible = concerns.isNotEmpty()
+            when {
+                concerns.isNotEmpty() -> emptyState.hide()
+                failed != null -> emptyState.showFailed(failed) { viewModel.loadConcerns() }
+                else -> emptyState.showEmpty(getString(R.string.concerns_empty))
+            }
+        }
+        viewModel.concernsFailed.observe(viewLifecycleOwner) { render() }
         viewModel.concerns.observe(viewLifecycleOwner) { concerns ->
             adapter.submitList(concerns)
-            binding.rvConcerns.isVisible = concerns.isNotEmpty()
-            binding.layoutEmpty.isVisible = concerns.isEmpty()
+            render()
             val waiting = concerns.count { it.status == Concern.STATUS_NEW }
             binding.tvSummary.text = resources.getQuantityString(R.plurals.concerns_new, waiting, waiting)
         }

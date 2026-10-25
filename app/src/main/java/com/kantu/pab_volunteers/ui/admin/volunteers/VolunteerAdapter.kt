@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.ItemVolunteerBinding
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 /** Read-only: tapping opens the profile, and there is no action to remove anyone. */
 class VolunteerAdapter(
@@ -35,7 +36,8 @@ class VolunteerAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<User>) {
+        val old = items
         items = newItems
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.uid == b.uid }
     }
 }

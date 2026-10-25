@@ -1,7 +1,6 @@
 package com.kantu.pab_volunteers.ui.safety
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +10,7 @@ import com.kantu.pab_volunteers.data.model.Concern
 import com.kantu.pab_volunteers.data.repository.ConcernRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivityReportConcernBinding
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
@@ -70,7 +70,7 @@ class ReportConcernActivity : AppCompatActivity() {
                     message = message.trim()
                 )
             ).onSuccess {
-                Toast.makeText(this@ReportConcernActivity, R.string.concern_sent, Toast.LENGTH_LONG).show()
+                AppMessage.showOnNextScreen(UiText.Res(R.string.concern_sent))
                 finish()
             }.onFailure {
                 setBusy(false)

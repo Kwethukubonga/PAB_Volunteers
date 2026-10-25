@@ -6,6 +6,11 @@
     <dimen name="spacing_lg">24dp</dimen>
     <dimen name="spacing_xl">32dp</dimen>
 
+    <!-- The phone comes first: a 16dp edge, as Material sets for phones, and 16dp inside cards,
+         so text gets the width. Tablets keep their wider values (values-sw600dp). -->
+    <dimen name="screen_gutter">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+
     <dimen name="corner_radius_sm">12dp</dimen>
     <dimen name="corner_radius_md">18dp</dimen>
     <dimen name="corner_radius_lg">26dp</dimen>
@@ -36,6 +41,12 @@
     <!-- The Home header leaves this much room for the next-activity card to sit over it. -->
     <dimen name="home_card_overlap_space">40dp</dimen>
     <dimen name="home_card_overlap">-24dp</dimen>
+    <!-- The soft circles in the corner of the Home card; larger on tablets so they keep scale. -->
+    <dimen name="home_circle_large">110dp</dimen>
+    <dimen name="home_circle_small">60dp</dimen>
+    <!-- A milestone badge on Profile, two to a row, all the same height. -->
+    <dimen name="milestone_min_height">72dp</dimen>
+    <dimen name="milestone_icon_size">40dp</dimen>
     <!-- A standard top bar on detail screens (E10). -->
     <dimen name="top_bar_height">56dp</dimen>
     <dimen name="details_photo_height">160dp</dimen>

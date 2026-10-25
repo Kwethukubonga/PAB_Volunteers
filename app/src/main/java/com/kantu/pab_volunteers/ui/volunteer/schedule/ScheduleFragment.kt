@@ -13,9 +13,11 @@ import com.google.android.material.tabs.TabLayout
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentScheduleBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
@@ -27,6 +29,7 @@ class ScheduleFragment : Fragment() {
     private val viewModel: VolunteerViewModel by activityViewModels()
 
     private lateinit var adapter: ActivityAdapter
+    private lateinit var emptyState: EmptyState
 
     private var selectedTab = TAB_UPCOMING
     private var upcomingRows: List<ActivityRow> = emptyList()
@@ -51,6 +54,7 @@ class ScheduleFragment : Fragment() {
         }
         binding.rvSchedule.layoutManager = ListLayout.forCards(requireContext())
         binding.rvSchedule.adapter = adapter
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_schedule)
 
         setUpTabs()
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
@@ -63,6 +67,7 @@ class ScheduleFragment : Fragment() {
             completedRows = rows
             render()
         }
+        viewModel.loadFailed.observe(viewLifecycleOwner) { render() }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
@@ -89,16 +94,19 @@ class ScheduleFragment : Fragment() {
 
         val showingUpcoming = selectedTab == TAB_UPCOMING
         val rows = if (showingUpcoming) upcomingRows else completedRows
-        val emptyMessage = if (showingUpcoming) {
-            R.string.empty_no_schedule
-        } else {
-            R.string.empty_nothing_completed
-        }
+        val failed = viewModel.loadFailed.value
 
         adapter.submitList(rows)
         binding.rvSchedule.isVisible = rows.isNotEmpty()
-        binding.layoutEmpty.isVisible = rows.isEmpty()
-        binding.tvEmptyMessage.setText(emptyMessage)
+        when {
+            rows.isNotEmpty() -> emptyState.hide()
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            // Nothing booked yet: straight to where there is something to join.
+            showingUpcoming -> emptyState.showEmpty(getString(R.string.empty_no_schedule), R.string.action_browse_activities) {
+                (activity as? VolunteerMainActivity)?.selectTab(R.id.activitiesFragment)
+            }
+            else -> emptyState.showEmpty(getString(R.string.empty_nothing_completed))
+        }
         binding.tvSubtitle.text =
             getString(R.string.schedule_summary, upcomingRows.size, completedRows.size)
     }

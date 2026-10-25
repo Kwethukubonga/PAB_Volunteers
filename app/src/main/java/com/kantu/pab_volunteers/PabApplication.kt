@@ -4,6 +4,7 @@ import android.app.Application
 import com.kantu.pab_volunteers.notifications.Notifications
 import com.kantu.pab_volunteers.security.AppLockWatcher
 import com.kantu.pab_volunteers.utils.AppLanguage
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.ThemePreference
 
 class PabApplication : Application() {
@@ -17,5 +18,7 @@ class PabApplication : Application() {
         Notifications.createChannels(this)
         // Brings up the fingerprint lock when it is switched on (K13).
         registerActivityLifecycleCallbacks(AppLockWatcher(this))
+        // Shows a confirmation left by a screen that closed as it succeeded (G1).
+        registerActivityLifecycleCallbacks(AppMessage.nextScreenWatcher)
     }
 }

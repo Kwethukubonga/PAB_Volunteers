@@ -9,6 +9,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.ItemActivityBinding
 import com.kantu.pab_volunteers.ui.profile.ProgrammeArt
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 /** One row per activity, shown on Home, Activities and Schedule. */
 // onClick stays last so the existing trailing-lambda call sites keep working.
@@ -93,8 +94,9 @@ class ActivityAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<ActivityRow>) {
+        val old = items
         items = newItems
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.activity.id == b.activity.id }
     }
 }
 

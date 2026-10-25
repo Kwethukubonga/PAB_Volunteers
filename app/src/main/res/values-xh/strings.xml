@@ -15,7 +15,6 @@
     <string name="welcome_quote">"Sisebenzela ikamva apho abafazi baya kukhululeka."</string>
     <string name="welcome_subtitle">Joyina amavolontiya ethu axhasa abafazi, abantwana neentsapho eLavender Hill nakwiindawo ezingqonge iKapa.</string>
     <string name="welcome_cta">Phonononga iPhilisa Volunteers</string>
-    <string name="continue_with_google">Qhubeka ngeGoogle</string>
     <string name="sign_in_with_email">Ngena nge-imeyile</string>
 
     <string name="auth_sign_in_title">Wamkelekile kwakhona</string>
@@ -107,17 +106,14 @@
     <string name="label_phone_caps">IFOWUNI</string>
     <string name="label_email_caps">I-IMEYILE</string>
     <string name="label_area_caps">INDAWO</string>
-    <string name="action_edit_profile">Hlela iprofayile</string>
     <string name="action_sign_out">Phuma</string>
     <string name="edit_profile_title">Hlela iprofayile</string>
     <string name="action_save_changes">Gcina utshintsho</string>
     <string name="profile_updated">Iprofayile ihlaziyiwe.</string>
 
     <!-- Admin -->
-    <string name="admin_portal_label">IPOTALI YOLAWULO</string>
     <string name="admin_overview_title">Ulawulo lwePhilisa</string>
     <string name="signed_in_as">Ungene njengo-%1$s</string>
-    <string name="stat_total_signups">Ababhalisileyo</string>
     <string name="recent_volunteers_heading">Amavolontiya amatsha</string>
     <string name="empty_no_volunteers">Akukabhaliswa mavolontiya okwangoku.</string>
     <string name="empty_no_activities_yet">Akukho misebenzi okwangoku. Cofa + ukuze wenze omnye.</string>
@@ -131,8 +127,6 @@
     <string name="label_joined">UJOYINE</string>
     <string name="activity_saved">Umsebenzi ugciniwe.</string>
     <string name="announcement_saved">Isaziso sigciniwe.</string>
-    <string name="stat_total_volunteers">Amavolontiya ewonke</string>
-    <string name="stat_published_activities">Imisebenzi epapashiweyo</string>
     <string name="quick_actions_heading">Izenzo ezikhawulezayo</string>
     <string name="action_create_new_activity">Yenza umsebenzi omtsha</string>
     <string name="action_create_new_activity_desc">Papasha ithuba elitsha lokuvolontiya</string>
@@ -192,7 +186,6 @@
     <string name="error_google_incomplete">Ukungena ngeGoogle akugqitywanga. Zama kwakhona.</string>
     <string name="error_google_not_registered">Le build ayibhaliswanga kwiFirebase. Yongeza i-debug SHA-1 fingerprint yalo matshini.</string>
     <string name="error_google_cancelled">Ukungena kurhoxisiwe</string>
-    <string name="error_google_failed">Ukungena ngeGoogle kuhlulekile (ikhowudi %1$d)</string>
     <string name="info_password_reset_sent">Ukuba le imeyile inegama lokugqithisa, ikhonkco lokulitshintsha liyeza. Jonga nakwifolda ye-spam. Ubhalise ngeGoogle? Sebenzisa u-Qhubeka ngeGoogle.</string>
 
     <!-- Validation -->
@@ -220,7 +213,6 @@
 
     <string name="action_settings">Iisetingi</string>
     <string name="settings_title">Iisetingi</string>
-    <string name="action_settings_desc">Umbala, ulwimi nezaziso</string>
     <string name="settings_appearance">Inkangeleko</string>
     <string name="settings_theme">Umbala</string>
     <string name="settings_theme_desc">Landela ifowuni yakho, okanye usebenzise ukukhanya okanye ubumnyama rhoqo.</string>
@@ -459,8 +451,8 @@
     <string name="emergency_contact_error_name">Yongeza negama labo.</string>
     <string name="emergency_contact_saved">Umntu wexesha likaxakeka ugciniwe.</string>
     <string name="action_save">Gcina</string>
-    <string name="settings_app_lock">Tshixa ngomnwe</string>
-    <string name="settings_app_lock_desc">Ziceliwe xa i-app ivulwa kwakhona</string>
+    <string name="settings_app_lock">Kwakhona tshixa xa i-app ivulwa kwakhona</string>
+    <string name="settings_app_lock_desc">Cela umnwe wakho emva kwemizuzwana engama-30 ungekho</string>
     <string name="app_lock_confirm">Qinisekisa ukuba nguwe ukuze uvule isitshixo</string>
     <string name="app_lock_title">Vula iPhilisa Volunteers</string>
     <string name="app_lock_body">Sebenzisa umnwe wakho, ubuso okanye isitshixo sesikrini.</string>
@@ -472,4 +464,60 @@
     <string name="channel_reminders">Izikhumbuzi</string>
     <string name="channel_reminders_desc">Phambi komsebenzi owungenileyo.</string>
     <string name="notify_reminder">Kuyeza: %1$s</string>
+
+    <!-- Fingerprint sign-in, the reopen lock and Google sign-in through Credential Manager. -->
+    <string name="error_google_wrong_account">Khetha i-%1$s, i-akhawunti emiselwe ukungena ngomnwe.</string>
+    <string name="error_google_no_account">Akukho akhawunti yeGoogle kule foni. Yongeza enye kwiisetingi zefoni, okanye ungene nge-imeyile.</string>
+    <string name="fingerprint_welcome_title">Ngena njengo %1$s</string>
+    <string name="fingerprint_reset_needed">Ukungena ngomnwe kusetwe ngokutsha kuba iminwe ekule foni itshintshile. Ngena ngenye indlela, uze ukuvule kwakhona kwiiSetingi.</string>
+    <string name="fingerprint_password_changed">Igama lakho lokugqithisa litshintshile. Ngena ngelitsha, uze uvule ukungena ngomnwe kwakhona kwiiSetingi.</string>
+    <string name="settings_fingerprint">Ngena ngomnwe</string>
+    <string name="settings_fingerprint_desc">Akudingeki gama lokugqithisa: ngena kwiscreen sokwamkela ngokuchukumisa</string>
+    <string name="settings_fingerprint_on">Kuvuliwe. Ngena kwiscreen sokwamkela ngokuchukumisa</string>
+    <string name="settings_fingerprint_add_first">Qala ngokongeza umnwe kwiisetingi zefoni yakho. Cofa ukuya apho</string>
+    <string name="fingerprint_password_explain">Faka igama lakho lokugqithisa kanye. Lihlala kule foni, litshixwe ngesitshixo esinokuvulwa ngumnwe wakho kuphela.</string>
+    <string name="fingerprint_confirm">Chukumisa isivamvo ukuze uvule ukungena ngomnwe</string>
+    <string name="fingerprint_turned_on">Ukungena ngomnwe kuvuliwe</string>
+    <string name="fingerprint_turned_off">Ukungena ngomnwe kuvaliwe</string>
+    <string name="fingerprint_failed">Ukungena ngomnwe akuvulwanga: %1$s</string>
+
+    <!-- Buttons on empty lists, Try again when a list did not load, and named delete buttons. -->
+    <string name="action_browse_activities">Khangela imisebenzi</string>
+    <string name="action_find_opportunities">Fumana amathuba</string>
+    <string name="action_create_activity">Yenza umsebenzi</string>
+    <string name="action_clear_search">Cima ukukhangela</string>
+    <string name="action_try_again">Zama kwakhona</string>
+    <string name="action_delete_activity">Cima umsebenzi</string>
+    <string name="action_delete_announcement">Cima isaziso</string>
+
+    <!-- Asking admins once to set up fingerprint sign-in. -->
+    <string name="fingerprint_suggest_title">Khusela iinkcukacha zamavolontiya</string>
+    <string name="fingerprint_suggest_body">Le foni ibonisa igama, inombolo nendawo yevolontiya ngalinye. Ngena ngomnwe wakho kwaye utshixe i-app xa ivulwa kwakhona, ukuze kungabikho mntu wumbi onokuyivula.</string>
+    <string name="fingerprint_suggest_action">Yimisela</string>
+    <string name="action_not_now">Hayi ngoku</string>
+
+    <!-- Sign-in buttons, Edit profile in Settings, Community months and the admin Overview. -->
+    <string name="sign_in_option_google">Google</string>
+    <string name="sign_in_option_fingerprint">Umnwe</string>
+    <string name="sign_in_or">okanye</string>
+    <string name="settings_edit_profile">Hlela iprofayile</string>
+    <string name="settings_edit_profile_desc">Igama, inombolo yefoni, indawo neenkqubo</string>
+    <string name="community_month_expanded">Kuyabonakala</string>
+    <string name="community_month_collapsed">Kufihliwe</string>
+    <string name="overview_at_a_glance">Ngokukhawuleza</string>
+    <string name="overview_signups">Ababhalisileyo</string>
+    <string name="overview_activities_value">%1$d epapashiweyo, %2$d esezidrafti</string>
+    <string name="nav_settings">Iisetingi</string>
+    <plurals name="community_month_count">
+        <item quantity="one">Isaziso esi-%d</item>
+        <item quantity="other">Izaziso ezi-%d</item>
+    </plurals>
+    <plurals name="overview_volunteers_value">
+        <item quantity="one">%d ubhalisile</item>
+        <item quantity="other">%d babhalisile</item>
+    </plurals>
+    <plurals name="overview_signups_value">
+        <item quantity="one">Indawo e-%d ithathiwe</item>
+        <item quantity="other">Iindawo ezi-%d zithathiwe</item>
+    </plurals>
 </resources>

@@ -5,6 +5,8 @@
     <dimen name="spacing_md">20dp</dimen>
     <dimen name="spacing_lg">40dp</dimen>
     <dimen name="spacing_xl">56dp</dimen>
+    <dimen name="screen_gutter">40dp</dimen>
+    <dimen name="card_padding">40dp</dimen>
 
     <dimen name="text_display">38sp</dimen>
     <dimen name="text_title">26sp</dimen>
@@ -18,4 +20,6 @@
     <dimen name="announcement_image_height">400dp</dimen>
     <dimen name="card_gutter">6dp</dimen>
     <dimen name="settings_choice_inset">64dp</dimen>
+    <dimen name="home_circle_large">150dp</dimen>
+    <dimen name="home_circle_small">84dp</dimen>
 </resources>

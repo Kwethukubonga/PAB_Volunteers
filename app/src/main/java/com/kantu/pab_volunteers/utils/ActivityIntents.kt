@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.CalendarContract
-import android.widget.Toast
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 
@@ -51,7 +50,7 @@ object ActivityIntents {
         try {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(context, missingApp, Toast.LENGTH_LONG).show()
+            (context as? android.app.Activity)?.let { AppMessage.showOver(it, UiText.Res(missingApp)) }
         }
     }
 }

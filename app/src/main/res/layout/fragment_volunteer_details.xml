@@ -17,7 +17,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_gradient_header"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_lg">
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/spacing_lg">
 
             <ImageButton
                 android:id="@+id/btnBack"
@@ -78,7 +81,10 @@
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
+            android:layout_marginBottom="@dimen/spacing_lg"
             app:contentPadding="@dimen/spacing_md">
 
             <LinearLayout
@@ -102,26 +108,26 @@
             style="@style/TextAppearance.PAB.FieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:text="@string/label_programme_interest" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupInterests"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_lg" />
+            android:layout_marginEnd="@dimen/screen_gutter" />
 
         <!-- Background check. The admin marks it after seeing the documents in person. -->
         <TextView
             style="@style/TextAppearance.PAB.FieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:accessibilityHeading="true"
             android:text="@string/settings_clearance" />
 
@@ -129,9 +135,9 @@
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:layout_marginBottom="@dimen/spacing_xl"
             app:contentPadding="@dimen/spacing_md">
 

@@ -22,27 +22,17 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_gradient_header"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/spacing_lg"
+                android:paddingStart="@dimen/screen_gutter"
                 android:paddingTop="@dimen/spacing_xl"
-                android:paddingEnd="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
                 android:paddingBottom="@dimen/spacing_xl">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="@string/admin_portal_label"
-                    android:textColor="@color/text_on_purple_muted"
-                    android:textSize="@dimen/text_caption"
-                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:accessibilityHeading="true"
                     android:text="@string/admin_overview_title"
-                    android:textAppearance="@style/TextAppearance.PAB.Display"
-                    android:textSize="26sp" />
+                    android:textAppearance="@style/TextAppearance.PAB.Display" />
 
                 <TextView
                     android:id="@+id/tvAdminName"
@@ -52,59 +42,66 @@
                     android:textColor="@color/text_on_purple_muted"
                     android:textSize="@dimen/text_caption"
                     tools:text="Signed in as admin@philisa.org" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSignOut"
-                    style="@style/Widget.PAB.Button.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/action_sign_out"
-                    android:textColor="@color/text_on_purple"
-                    app:icon="@drawable/ic_logout"
-                    app:iconTint="@color/text_on_purple"
-                    app:strokeColor="@color/text_on_purple_muted" />
             </LinearLayout>
 
-            <LinearLayout
+            <!-- At a glance (E7): one row per number, saying what it counts, and tapping a row
+                 opens its tab. Easier to read than three big numbers with small labels. -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/screen_gutter"
+                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
+                android:accessibilityHeading="true"
+                android:text="@string/overview_at_a_glance"
+                android:textAppearance="@style/TextAppearance.PAB.Title" />
+
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.PAB.Card.Settings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginTop="@dimen/spacing_lg"
-                android:layout_marginEnd="@dimen/spacing_lg"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:layout_marginStart="@dimen/screen_gutter"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/screen_gutter">
 
-                <include android:id="@+id/statVolunteers" layout="@layout/item_stat_tile" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <Space
-                    android:layout_width="@dimen/spacing_sm"
-                    android:layout_height="1dp" />
+                    <include
+                        android:id="@+id/rowVolunteers"
+                        layout="@layout/item_settings_row" />
 
-                <include android:id="@+id/statActivities" layout="@layout/item_stat_tile" />
+                    <View style="@style/Widget.PAB.SettingsDivider" />
 
-                <Space
-                    android:layout_width="@dimen/spacing_sm"
-                    android:layout_height="1dp" />
+                    <include
+                        android:id="@+id/rowActivities"
+                        layout="@layout/item_settings_row" />
 
-                <include android:id="@+id/statSignups" layout="@layout/item_stat_tile" />
-            </LinearLayout>
+                    <View style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
+                        android:id="@+id/rowSignups"
+                        layout="@layout/item_settings_row" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_xl"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/quick_actions_heading"
                 android:textAppearance="@style/TextAppearance.PAB.Title" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:orientation="vertical">
 
                 <include android:id="@+id/actionCreateActivity" layout="@layout/item_quick_action" />
@@ -112,16 +109,14 @@
                 <include android:id="@+id/actionPostAnnouncement" layout="@layout/item_quick_action" />
 
                 <include android:id="@+id/actionConcerns" layout="@layout/item_quick_action" />
-
-                <include android:id="@+id/actionSettings" layout="@layout/item_quick_action" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_xl"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/recent_volunteers_heading"
                 android:textAppearance="@style/TextAppearance.PAB.Title" />
 
@@ -129,9 +124,9 @@
                 android:id="@+id/rvRecentVolunteers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:layout_marginBottom="@dimen/spacing_xl"
                 android:nestedScrollingEnabled="false"
                 tools:itemCount="3"
@@ -141,13 +136,16 @@
                 android:id="@+id/tvEmptyVolunteers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:layout_marginBottom="@dimen/spacing_xl"
                 android:background="@drawable/bg_card"
                 android:gravity="center"
-                android:padding="@dimen/spacing_lg"
+                android:paddingStart="@dimen/screen_gutter"
+                android:paddingTop="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
+                android:paddingBottom="@dimen/spacing_lg"
                 android:text="@string/empty_no_volunteers"
                 android:textAppearance="@style/TextAppearance.PAB.Body"
                 android:visibility="gone" />

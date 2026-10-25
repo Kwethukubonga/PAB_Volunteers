@@ -15,7 +15,6 @@
     <string name="welcome_quote">"Ons werk aan \'n toekoms waar vroue vry sal wees."</string>
     <string name="welcome_subtitle">Sluit aan by ons vrywilligers wat vroue, kinders en gesinne in Lavender Hill en die omliggende gemeenskappe van Kaapstad ondersteun.</string>
     <string name="welcome_cta">Verken Philisa Volunteers</string>
-    <string name="continue_with_google">Gaan voort met Google</string>
     <string name="sign_in_with_email">Meld aan met e-pos</string>
 
     <string name="auth_sign_in_title">Welkom terug</string>
@@ -107,17 +106,14 @@
     <string name="label_phone_caps">TELEFOON</string>
     <string name="label_email_caps">E-POS</string>
     <string name="label_area_caps">GEBIED</string>
-    <string name="action_edit_profile">Wysig profiel</string>
     <string name="action_sign_out">Meld af</string>
     <string name="edit_profile_title">Wysig profiel</string>
     <string name="action_save_changes">Stoor veranderinge</string>
     <string name="profile_updated">Profiel opgedateer.</string>
 
     <!-- Admin -->
-    <string name="admin_portal_label">ADMINPORTAAL</string>
     <string name="admin_overview_title">Philisa-bestuur</string>
     <string name="signed_in_as">Aangemeld as %1$s</string>
-    <string name="stat_total_signups">Inskrywings</string>
     <string name="recent_volunteers_heading">Onlangse vrywilligers</string>
     <string name="empty_no_volunteers">Nog geen vrywilligers geregistreer nie.</string>
     <string name="empty_no_activities_yet">Nog geen aktiwiteite nie. Tik + om een te skep.</string>
@@ -131,8 +127,6 @@
     <string name="label_joined">AANGESLUIT</string>
     <string name="activity_saved">Aktiwiteit gestoor.</string>
     <string name="announcement_saved">Aankondiging gestoor.</string>
-    <string name="stat_total_volunteers">Totale vrywilligers</string>
-    <string name="stat_published_activities">Gepubliseerde aktiwiteite</string>
     <string name="quick_actions_heading">Vinnige aksies</string>
     <string name="action_create_new_activity">Skep nuwe aktiwiteit</string>
     <string name="action_create_new_activity_desc">Publiseer \'n nuwe vrywilligersgeleentheid</string>
@@ -192,7 +186,6 @@
     <string name="error_google_incomplete">Google-aanmelding is nie voltooi nie. Probeer weer.</string>
     <string name="error_google_not_registered">Hierdie bou is nie in Firebase geregistreer nie. Voeg hierdie masjien se debug SHA-1-vingerafdruk by.</string>
     <string name="error_google_cancelled">Aanmelding gekanselleer</string>
-    <string name="error_google_failed">Google-aanmelding het misluk (kode %1$d)</string>
     <string name="info_password_reset_sent">As hierdie e-pos \'n rekening met \'n wagwoord het, is \'n skakel om dit terug te stel op pad. Kyk ook in jou gemorspos. Het jy met Google aangemeld? Gebruik dan eerder Gaan voort met Google.</string>
 
     <!-- Validation -->
@@ -220,7 +213,6 @@
 
     <string name="action_settings">Instellings</string>
     <string name="settings_title">Instellings</string>
-    <string name="action_settings_desc">Tema, taal en kennisgewings</string>
     <string name="settings_appearance">Voorkoms</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_desc">Volg jou foon, of gebruik altyd lig of donker.</string>
@@ -459,8 +451,8 @@
     <string name="emergency_contact_error_name">Voeg ook hul naam by.</string>
     <string name="emergency_contact_saved">Noodkontak gestoor.</string>
     <string name="action_save">Stoor</string>
-    <string name="settings_app_lock">Sluit met vingerafdruk</string>
-    <string name="settings_app_lock_desc">Vra daarvoor wanneer die toepassing weer oopmaak</string>
+    <string name="settings_app_lock">Sluit ook wanneer die toepassing weer oopmaak</string>
+    <string name="settings_app_lock_desc">Vra vir jou vingerafdruk ná 30 sekondes weg</string>
     <string name="app_lock_confirm">Bevestig dat dit jy is om die slot aan te skakel</string>
     <string name="app_lock_title">Ontsluit Philisa Volunteers</string>
     <string name="app_lock_body">Gebruik jou vingerafdruk, gesig of skermslot.</string>
@@ -472,4 +464,60 @@
     <string name="channel_reminders">Herinneringe</string>
     <string name="channel_reminders_desc">Voor \'n aktiwiteit waarby jy aangesluit het.</string>
     <string name="notify_reminder">Kom nader: %1$s</string>
+
+    <!-- Fingerprint sign-in, the reopen lock and Google sign-in through Credential Manager. -->
+    <string name="error_google_wrong_account">Kies %1$s, die rekening wat vir vingerafdruk-aanmelding opgestel is.</string>
+    <string name="error_google_no_account">Daar is geen Google-rekening op hierdie foon nie. Voeg een by in die foon se instellings, of meld aan met e-pos.</string>
+    <string name="fingerprint_welcome_title">Meld aan as %1$s</string>
+    <string name="fingerprint_reset_needed">Vingerafdruk-aanmelding is teruggestel omdat die vingerafdrukke op hierdie foon verander het. Meld op \'n ander manier aan en skakel dit weer aan in Instellings.</string>
+    <string name="fingerprint_password_changed">Jou wagwoord het verander. Meld aan met die nuwe een en skakel vingerafdruk-aanmelding weer aan in Instellings.</string>
+    <string name="settings_fingerprint">Meld aan met vingerafdruk</string>
+    <string name="settings_fingerprint_desc">Slaan die wagwoord oor: meld met \'n aanraking op die Welkom-skerm aan</string>
+    <string name="settings_fingerprint_on">Aan. Meld met \'n aanraking op die Welkom-skerm aan</string>
+    <string name="settings_fingerprint_add_first">Voeg eers \'n vingerafdruk by in jou foon se instellings. Tik om daarheen te gaan</string>
+    <string name="fingerprint_password_explain">Voer jou wagwoord een keer in. Dit bly op hierdie foon, gesluit met \'n sleutel wat net jou vingerafdruk kan oopmaak.</string>
+    <string name="fingerprint_confirm">Raak die sensor om vingerafdruk-aanmelding aan te skakel</string>
+    <string name="fingerprint_turned_on">Vingerafdruk-aanmelding is aan</string>
+    <string name="fingerprint_turned_off">Vingerafdruk-aanmelding is af</string>
+    <string name="fingerprint_failed">Vingerafdruk-aanmelding is nie aangeskakel nie: %1$s</string>
+
+    <!-- Buttons on empty lists, Try again when a list did not load, and named delete buttons. -->
+    <string name="action_browse_activities">Blaai deur aktiwiteite</string>
+    <string name="action_find_opportunities">Vind geleenthede</string>
+    <string name="action_create_activity">Skep aktiwiteit</string>
+    <string name="action_clear_search">Maak soektog skoon</string>
+    <string name="action_try_again">Probeer weer</string>
+    <string name="action_delete_activity">Skrap aktiwiteit</string>
+    <string name="action_delete_announcement">Skrap aankondiging</string>
+
+    <!-- Asking admins once to set up fingerprint sign-in. -->
+    <string name="fingerprint_suggest_title">Beskerm vrywilligers se besonderhede</string>
+    <string name="fingerprint_suggest_body">Hierdie foon wys elke vrywilliger se naam, nommer en area. Meld aan met jou vingerafdruk en sluit die toepassing wanneer dit weer oopmaak, sodat niemand anders dit kan oopmaak nie.</string>
+    <string name="fingerprint_suggest_action">Stel dit op</string>
+    <string name="action_not_now">Nie nou nie</string>
+
+    <!-- Sign-in buttons, Edit profile in Settings, Community months and the admin Overview. -->
+    <string name="sign_in_option_google">Google</string>
+    <string name="sign_in_option_fingerprint">Vingerafdruk</string>
+    <string name="sign_in_or">of</string>
+    <string name="settings_edit_profile">Wysig profiel</string>
+    <string name="settings_edit_profile_desc">Naam, foonnommer, area en programme</string>
+    <string name="community_month_expanded">Wys</string>
+    <string name="community_month_collapsed">Toegevou</string>
+    <string name="overview_at_a_glance">Oorsig</string>
+    <string name="overview_signups">Inskrywings</string>
+    <string name="overview_activities_value">%1$d gepubliseer, %2$d konsepte</string>
+    <string name="nav_settings">Instellings</string>
+    <plurals name="community_month_count">
+        <item quantity="one">%d aankondiging</item>
+        <item quantity="other">%d aankondigings</item>
+    </plurals>
+    <plurals name="overview_volunteers_value">
+        <item quantity="one">%d geregistreer</item>
+        <item quantity="other">%d geregistreer</item>
+    </plurals>
+    <plurals name="overview_signups_value">
+        <item quantity="one">%d plek gevul</item>
+        <item quantity="other">%d plekke gevul</item>
+    </plurals>
 </resources>

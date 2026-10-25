@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.databinding.FragmentManageAnnouncementsBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
@@ -25,6 +26,8 @@ class ManageAnnouncementsFragment : Fragment() {
     private val viewModel: AdminViewModel by activityViewModels()
 
     private lateinit var adapter: ManageAnnouncementAdapter
+    private lateinit var emptyState: EmptyState
+    private var announcements: List<Announcement> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,10 +57,12 @@ class ManageAnnouncementsFragment : Fragment() {
         }
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
-        viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_admin_posts)
+        viewModel.listsFailed.observe(viewLifecycleOwner) { render() }
+        viewModel.announcements.observe(viewLifecycleOwner) {
+            announcements = it
             adapter.submitList(announcements)
-            binding.rvItems.isVisible = announcements.isNotEmpty()
-            binding.layoutEmpty.isVisible = announcements.isEmpty()
+            render()
             val published = announcements.count { it.status == Announcement.STATUS_PUBLISHED }
             binding.tvSubtitle.text = getString(
                 R.string.published_drafts_summary, published, announcements.size - published
@@ -71,11 +76,24 @@ class ManageAnnouncementsFragment : Fragment() {
     private fun confirmDelete(announcement: Announcement) {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.delete_announcement_confirm_title)
-            .setPositiveButton(R.string.action_remove) { _, _ ->
+            .setPositiveButton(R.string.action_delete_announcement) { _, _ ->
                 viewModel.deleteAnnouncement(announcement.id)
             }
             .setNegativeButton(R.string.action_cancel, null)
             .show()
+    }
+
+    private fun render() {
+        if (_binding == null) return
+        binding.rvItems.isVisible = announcements.isNotEmpty()
+        val failed = viewModel.listsFailed.value
+        when {
+            announcements.isNotEmpty() -> emptyState.hide()
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            else -> emptyState.showEmpty(getString(R.string.empty_no_announcements_yet), R.string.action_create_announcement) {
+                AdminNavGraph.toAnnouncementEditor(findNavController())
+            }
+        }
     }
 
     override fun onResume() {

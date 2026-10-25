@@ -19,7 +19,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient_header"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_lg">
+        android:paddingStart="@dimen/screen_gutter"
+        android:paddingTop="@dimen/spacing_lg"
+        android:paddingEnd="@dimen/screen_gutter"
+        android:paddingBottom="@dimen/spacing_lg">
 
         <ImageButton
             android:id="@+id/btnBack"
@@ -51,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_lg">
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/spacing_lg">
 
             <!-- Account -->
             <TextView
@@ -77,6 +83,15 @@
                         android:id="@+id/rowSignedIn"
                         layout="@layout/item_settings_row" />
 
+                    <!-- Volunteers only: name, phone, area and programmes. -->
+                    <View
+                        android:id="@+id/dividerEditProfile"
+                        style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
+                        android:id="@+id/rowEditProfile"
+                        layout="@layout/item_settings_row" />
+
                     <!-- Only for accounts with a password; Google accounts change theirs at Google. -->
                     <View
                         android:id="@+id/dividerChangePassword"
@@ -85,10 +100,30 @@
                     <include
                         android:id="@+id/rowChangePassword"
                         layout="@layout/item_settings_row" />
+
+                    <!-- Hidden only on phones without a fingerprint sensor that can guard a key. -->
+                    <View
+                        android:id="@+id/dividerFingerprint"
+                        style="@style/Widget.PAB.SettingsDivider" />
+
+                    <!-- Adds "Sign in as …" to the Welcome screen, so coming back is one touch. -->
+                    <include
+                        android:id="@+id/rowFingerprint"
+                        layout="@layout/item_settings_switch_row" />
+
+                    <!-- Only while fingerprint sign-in is on. Suggested for admins: their phones
+                         show volunteers' details. -->
+                    <View
+                        android:id="@+id/dividerAppLock"
+                        style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
+                        android:id="@+id/rowAppLock"
+                        layout="@layout/item_settings_switch_row" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Safety: emergency contact, fingerprint lock, clearance and reporting a concern. -->
+            <!-- Safety: emergency contact, clearance and reporting a concern. Volunteers only. -->
             <LinearLayout
                 android:id="@+id/sectionSafety"
                 android:layout_width="match_parent"
@@ -122,15 +157,6 @@
 
                         <View
                             android:id="@+id/dividerEmergencyContact"
-                            style="@style/Widget.PAB.SettingsDivider" />
-
-                        <!-- Everyone, and suggested for admins: their phones show volunteers' details. -->
-                        <include
-                            android:id="@+id/rowAppLock"
-                            layout="@layout/item_settings_switch_row" />
-
-                        <View
-                            android:id="@+id/dividerAppLock"
                             style="@style/Widget.PAB.SettingsDivider" />
 
                         <include
@@ -286,7 +312,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/spacing_lg"
+                        android:paddingStart="@dimen/screen_gutter"
+                        android:paddingTop="@dimen/spacing_lg"
+                        android:paddingEnd="@dimen/screen_gutter"
+                        android:paddingBottom="@dimen/spacing_lg"
                         android:visibility="gone">
 
                         <TextView
@@ -346,6 +375,7 @@
                 android:layout_marginTop="@dimen/spacing_md"
                 android:accessibilityLiveRegion="polite"
                 android:textColor="@color/status_error_text"
+                android:textSize="@dimen/text_body"
                 android:visibility="gone" />
 
             <!-- Sign out and delete sit apart from everyday settings, so they aren't tapped by accident. -->

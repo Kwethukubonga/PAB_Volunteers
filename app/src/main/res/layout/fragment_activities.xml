@@ -11,9 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="@dimen/spacing_lg"
+        android:paddingStart="@dimen/screen_gutter"
         android:paddingTop="@dimen/spacing_xl"
-        android:paddingEnd="@dimen/spacing_lg"
+        android:paddingEnd="@dimen/screen_gutter"
         android:paddingBottom="@dimen/spacing_md">
 
         <TextView
@@ -61,8 +61,8 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:paddingStart="@dimen/spacing_lg"
-            android:paddingEnd="@dimen/spacing_lg"
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingEnd="@dimen/screen_gutter"
             android:paddingBottom="@dimen/spacing_lg">
 
             <LinearLayout
@@ -78,35 +78,13 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/item_activity" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/layoutEmpty"
+                    layout="@layout/view_empty_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_xl"
-                    android:background="@drawable/bg_card"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_xl"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.4"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_activities"
-                        app:tint="@color/text_secondary" />
-
-                    <TextView
-                        android:id="@+id/tvEmptyMessage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:gravity="center"
-                        android:text="@string/empty_no_open_activities"
-                        android:textAppearance="@style/TextAppearance.PAB.Body" />
-                </LinearLayout>
+                    android:visibility="gone" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

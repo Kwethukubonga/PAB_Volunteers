@@ -21,4 +21,10 @@
         android:icon="@drawable/ic_admin_posts"
         android:title="@string/nav_posts" />
 
+    <!-- Opens Settings, with Sign out at the bottom, rather than a tab of its own. -->
+    <item
+        android:id="@+id/adminSettings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/nav_settings" />
+
 </menu>

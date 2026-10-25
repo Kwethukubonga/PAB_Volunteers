@@ -20,9 +20,9 @@
             android:baselineAligned="false"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/spacing_lg"
+            android:paddingStart="@dimen/screen_gutter"
             android:paddingTop="@dimen/spacing_lg"
-            android:paddingEnd="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
             android:paddingBottom="@dimen/spacing_lg">
 
             <TextView
@@ -70,9 +70,9 @@
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_md"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:focusable="true"
             app:contentPadding="@dimen/spacing_md">
 
@@ -126,31 +126,40 @@
             style="@style/TextAppearance.PAB.FieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_lg"
             android:accessibilityHeading="true"
             android:text="@string/milestones_heading" />
 
+        <!-- Two rows of two, so each badge has room for its words. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:divider="@drawable/gap_sm"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <include android:id="@+id/milestone1" layout="@layout/item_milestone" />
 
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
-
             <include android:id="@+id/milestone2" layout="@layout/item_milestone" />
+        </LinearLayout>
 
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/screen_gutter"
+            android:baselineAligned="false"
+            android:divider="@drawable/gap_sm"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <include android:id="@+id/milestone3" layout="@layout/item_milestone" />
-
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
 
             <include android:id="@+id/milestone4" layout="@layout/item_milestone" />
         </LinearLayout>
@@ -160,7 +169,7 @@
             style="@style/TextAppearance.PAB.FieldLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_lg"
             android:accessibilityHeading="true"
             android:text="@string/profile_my_activities" />
@@ -169,8 +178,8 @@
             android:id="@+id/tabsMyActivities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
-            android:layout_marginEnd="@dimen/spacing_md"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:background="@color/background_cream"
             app:tabIndicatorColor="@color/accent"
             app:tabMode="fixed"
@@ -181,9 +190,9 @@
             android:id="@+id/layoutMyActivities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:background="@drawable/bg_card"
             android:orientation="vertical" />
 
@@ -191,7 +200,10 @@
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
+            android:layout_marginBottom="@dimen/spacing_lg"
             app:contentPadding="@dimen/spacing_md">
 
             <LinearLayout
@@ -215,41 +227,15 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <TextView
-            style="@style/TextAppearance.PAB.FieldLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
-            android:text="@string/label_programme_interest" />
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chipGroupInterests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_lg" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnEditProfile"
-            style="@style/Widget.PAB.Button.Secondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginTop="@dimen/spacing_xl"
-            android:layout_marginEnd="@dimen/spacing_lg"
-            android:text="@string/action_edit_profile"
-            app:icon="@drawable/ic_edit" />
-
+        <!-- Editing the profile and programme interests is in Settings -> Edit profile. -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSettings"
             style="@style/Widget.PAB.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginTop="@dimen/spacing_xl"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:layout_marginBottom="@dimen/spacing_xl"
             android:text="@string/action_settings"
             app:icon="@drawable/ic_settings" />

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.databinding.ItemVolunteerBinding
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 /** Shows who is coming to an activity. There is no action to take anyone off the list. */
 class SignupAdapter(
@@ -33,7 +34,8 @@ class SignupAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<ActivitySignup>) {
+        val old = items
         items = newItems
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.id == b.id }
     }
 }

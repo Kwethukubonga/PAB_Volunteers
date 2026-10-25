@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.chip.Chip
 import com.google.android.material.tabs.TabLayout
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Clearance
@@ -59,7 +58,6 @@ class ProfileFragment : Fragment() {
         binding.rowArea.ivRowIcon.setImageResource(R.drawable.ic_location)
         binding.rowArea.tvRowLabel.setText(R.string.label_area_caps)
 
-        binding.btnEditProfile.setOnClickListener { VolunteerNavGraph.toEditProfile(findNavController()) }
         binding.btnSettings.setOnClickListener { startActivity(Intent(requireContext(), SettingsActivity::class.java)) }
 
         setUpTabs()
@@ -110,17 +108,6 @@ class ProfileFragment : Fragment() {
         binding.rowEmail.tvRowValue.text = user.email
         binding.rowPhone.tvRowValue.text = user.phone
         binding.rowArea.tvRowValue.text = user.area
-
-        binding.chipGroupInterests.removeAllViews()
-        user.programmeInterests.forEach { interest ->
-            binding.chipGroupInterests.addView(
-                Chip(requireContext()).apply {
-                    text = interest
-                    isClickable = false
-                    isCheckable = false
-                }
-            )
-        }
     }
 
     /** Upcoming soonest first, past newest first, each with "today", "in 3 days" or "2 weeks ago". */

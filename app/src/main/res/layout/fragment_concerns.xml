@@ -13,7 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient_header"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_lg">
+        android:paddingStart="@dimen/screen_gutter"
+        android:paddingTop="@dimen/spacing_lg"
+        android:paddingEnd="@dimen/screen_gutter"
+        android:paddingBottom="@dimen/spacing_lg">
 
         <ImageButton
             android:id="@+id/btnBack"
@@ -55,7 +58,10 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:fillViewport="true"
-            android:padding="@dimen/spacing_lg">
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/spacing_lg">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -70,32 +76,12 @@
                     tools:itemCount="2"
                     tools:listitem="@layout/item_concern" />
 
-                <LinearLayout
+                <include
                     android:id="@+id/layoutEmpty"
+                    layout="@layout/view_empty_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_card"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="@dimen/spacing_xl"
-                    android:visibility="gone">
-
-                    <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:alpha="0.4"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_flag"
-                        app:tint="@color/text_secondary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_md"
-                        android:gravity="center"
-                        android:text="@string/concerns_empty"
-                        android:textAppearance="@style/TextAppearance.PAB.Body" />
-                </LinearLayout>
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
