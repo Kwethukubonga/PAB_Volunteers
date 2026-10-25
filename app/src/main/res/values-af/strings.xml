@@ -15,7 +15,6 @@
     <string name="welcome_quote">"Ons werk aan \'n toekoms waar vroue vry sal wees."</string>
     <string name="welcome_subtitle">Sluit aan by ons vrywilligers wat vroue, kinders en gesinne in Lavender Hill en die omliggende gemeenskappe van Kaapstad ondersteun.</string>
     <string name="welcome_cta">Verken Philisa Volunteers</string>
-    <string name="continue_with_google">Gaan voort met Google</string>
     <string name="sign_in_with_email">Meld aan met e-pos</string>
 
     <string name="auth_sign_in_title">Welkom terug</string>
@@ -114,10 +113,8 @@
     <string name="profile_updated">Profiel opgedateer.</string>
 
     <!-- Admin -->
-    <string name="admin_portal_label">ADMINPORTAAL</string>
     <string name="admin_overview_title">Philisa-bestuur</string>
     <string name="signed_in_as">Aangemeld as %1$s</string>
-    <string name="stat_total_signups">Inskrywings</string>
     <string name="recent_volunteers_heading">Onlangse vrywilligers</string>
     <string name="empty_no_volunteers">Nog geen vrywilligers geregistreer nie.</string>
     <string name="empty_no_activities_yet">Nog geen aktiwiteite nie. Tik + om een te skep.</string>
@@ -131,8 +128,6 @@
     <string name="label_joined">AANGESLUIT</string>
     <string name="activity_saved">Aktiwiteit gestoor.</string>
     <string name="announcement_saved">Aankondiging gestoor.</string>
-    <string name="stat_total_volunteers">Totale vrywilligers</string>
-    <string name="stat_published_activities">Gepubliseerde aktiwiteite</string>
     <string name="quick_actions_heading">Vinnige aksies</string>
     <string name="action_create_new_activity">Skep nuwe aktiwiteit</string>
     <string name="action_create_new_activity_desc">Publiseer \'n nuwe vrywilligersgeleentheid</string>
@@ -219,7 +214,6 @@
 
     <string name="action_settings">Instellings</string>
     <string name="settings_title">Instellings</string>
-    <string name="action_settings_desc">Tema, taal en kennisgewings</string>
     <string name="settings_appearance">Voorkoms</string>
     <string name="settings_theme">Tema</string>
     <string name="settings_theme_desc">Volg jou foon, of gebruik altyd lig of donker.</string>
@@ -503,4 +497,29 @@
     <string name="fingerprint_suggest_body">Hierdie foon wys elke vrywilliger se naam, nommer en area. Meld aan met jou vingerafdruk en sluit die toepassing wanneer dit weer oopmaak, sodat niemand anders dit kan oopmaak nie.</string>
     <string name="fingerprint_suggest_action">Stel dit op</string>
     <string name="action_not_now">Nie nou nie</string>
+
+    <!-- Sign-in buttons, Edit profile in Settings, Community months and the admin Overview. -->
+    <string name="sign_in_option_google">Google</string>
+    <string name="sign_in_option_fingerprint">Vingerafdruk</string>
+    <string name="sign_in_or">of</string>
+    <string name="settings_edit_profile">Wysig profiel</string>
+    <string name="settings_edit_profile_desc">Naam, foonnommer, area en programme</string>
+    <string name="community_month_expanded">Wys</string>
+    <string name="community_month_collapsed">Toegevou</string>
+    <string name="overview_at_a_glance">Oorsig</string>
+    <string name="overview_signups">Inskrywings</string>
+    <string name="overview_activities_value">%1$d gepubliseer, %2$d konsepte</string>
+    <string name="nav_settings">Instellings</string>
+    <plurals name="community_month_count">
+        <item quantity="one">%d aankondiging</item>
+        <item quantity="other">%d aankondigings</item>
+    </plurals>
+    <plurals name="overview_volunteers_value">
+        <item quantity="one">%d geregistreer</item>
+        <item quantity="other">%d geregistreer</item>
+    </plurals>
+    <plurals name="overview_signups_value">
+        <item quantity="one">%d plek gevul</item>
+        <item quantity="other">%d plekke gevul</item>
+    </plurals>
 </resources>

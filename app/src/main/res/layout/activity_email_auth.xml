@@ -142,7 +142,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/auth_sign_in_action" />
+                    android:text="@string/auth_sign_in_action"
+                    app:icon="@drawable/ic_email"
+                    app:iconGravity="textStart"
+                    app:iconPadding="@dimen/spacing_sm" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -150,6 +153,53 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/spacing_md"
+                    android:visibility="gone" />
+
+                <!-- As in Collective: the main button full width, then the one-tap ways in side by
+                     side under "or". -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_lg"
+                    android:gravity="center_vertical"
+                    android:importantForAccessibility="noHideDescendants"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/stroke_normal"
+                        android:layout_weight="1"
+                        android:background="@color/divider" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_md"
+                        android:layout_marginEnd="@dimen/spacing_md"
+                        android:text="@string/sign_in_or"
+                        android:textAppearance="@style/TextAppearance.PAB.Caption" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/stroke_normal"
+                        android:layout_weight="1"
+                        android:background="@color/divider" />
+                </LinearLayout>
+
+                <include
+                    android:id="@+id/signInOptions"
+                    layout="@layout/view_sign_in_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_md" />
+
+                <TextView
+                    android:id="@+id/tvFingerprintAs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_sm"
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.PAB.Caption"
                     android:visibility="gone" />
 
                 <TextView

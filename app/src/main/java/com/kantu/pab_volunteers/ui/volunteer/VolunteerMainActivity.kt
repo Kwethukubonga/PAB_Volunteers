@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.ui.volunteer
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
@@ -19,6 +20,7 @@ import com.kantu.pab_volunteers.utils.OfflineBanner
 class VolunteerMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVolunteerMainBinding
+    private lateinit var navController: NavController
     private val notificationPrompt = NotificationPermissionPrompt(this)
 
     // The bottom bar on phones, a rail down the side on tablets (F10). Same menu, same behaviour.
@@ -32,7 +34,7 @@ class VolunteerMainActivity : AppCompatActivity() {
 
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostVolunteer) as NavHostFragment
-        val navController = navHost.navController
+        navController = navHost.navController
         navBar.setupWithNavController(navController)
 
         // The detail screens are pushed on top of a tab, so the bottom bar would look wrong there.
@@ -63,8 +65,20 @@ class VolunteerMainActivity : AppCompatActivity() {
         }
     }
 
+    // Settings -> Edit profile, while the volunteer screens are already open underneath.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.getBooleanExtra(Constants.EXTRA_OPEN_EDIT_PROFILE, false)) {
+            VolunteerNavGraph.toEditProfile(navController)
+        }
+    }
+
     // Opened by tapping a notification: go straight to the activity or announcement it was about.
+    // Or from Settings -> Edit profile, when the volunteer screens weren't open.
     private fun openFromNotification(navController: NavController) {
+        if (intent.getBooleanExtra(Constants.EXTRA_OPEN_EDIT_PROFILE, false)) {
+            VolunteerNavGraph.toEditProfile(navController)
+        }
         intent.getStringExtra(Constants.EXTRA_ACTIVITY_ID)?.let {
             VolunteerNavGraph.toActivityDetails(navController, it)
         }

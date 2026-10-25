@@ -18,4 +18,6 @@
     <dimen name="announcement_image_height">400dp</dimen>
     <dimen name="card_gutter">6dp</dimen>
     <dimen name="settings_choice_inset">64dp</dimen>
+    <dimen name="home_circle_large">150dp</dimen>
+    <dimen name="home_circle_small">84dp</dimen>
 </resources>

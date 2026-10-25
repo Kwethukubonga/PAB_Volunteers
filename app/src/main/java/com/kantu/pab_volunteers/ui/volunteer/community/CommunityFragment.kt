@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.Announcement
@@ -29,6 +29,8 @@ class CommunityFragment : Fragment() {
     private lateinit var adapter: AnnouncementAdapter
     private lateinit var emptyState: EmptyState
     private var announcements: List<Announcement> = emptyList()
+    // Months folded away; null until the first load, when all but the newest start folded.
+    private var collapsedMonths: MutableSet<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,11 +51,17 @@ class CommunityFragment : Fragment() {
             currentUserId = FirebaseAuthManager.currentUser?.uid.orEmpty(),
             onThumbsUp = { announcement, thumbsUp ->
                 viewModel.toggleThumbsUp(announcement, thumbsUp)
-            }
+            },
+            onMonthToggled = { key -> toggleMonth(key) }
         ) { announcement ->
             VolunteerNavGraph.toAnnouncementDetails(findNavController(), announcement.id)
         }
-        binding.rvAnnouncements.layoutManager = ListLayout.forCards(requireContext())
+        binding.rvAnnouncements.layoutManager = ListLayout.forCards(requireContext()).also { layout ->
+            // Month headings run across both columns on a tablet.
+            (layout as? GridLayoutManager)?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int) = if (adapter.isMonth(position)) layout.spanCount else 1
+            }
+        }
         binding.rvAnnouncements.adapter = adapter
 
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
@@ -61,7 +69,10 @@ class CommunityFragment : Fragment() {
         emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_community)
         viewModel.announcements.observe(viewLifecycleOwner) {
             announcements = it
-            adapter.submitList(announcements, FirebaseAuthManager.currentUser?.uid.orEmpty())
+            if (collapsedMonths == null && it.isNotEmpty()) {
+                collapsedMonths = AnnouncementMonths.startCollapsed(it).toMutableSet()
+            }
+            showRows()
             binding.tvSubtitle.text = resources.getQuantityString(
                 R.plurals.announcements_count, announcements.size, announcements.size
             )
@@ -71,6 +82,19 @@ class CommunityFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
+    }
+
+    private fun toggleMonth(key: String) {
+        val collapsed = collapsedMonths ?: mutableSetOf<String>().also { collapsedMonths = it }
+        if (!collapsed.remove(key)) collapsed.add(key)
+        showRows()
+    }
+
+    private fun showRows() {
+        adapter.submitList(
+            AnnouncementMonths.rows(announcements, collapsedMonths.orEmpty()),
+            FirebaseAuthManager.currentUser?.uid.orEmpty()
+        )
     }
 
     private fun render() {

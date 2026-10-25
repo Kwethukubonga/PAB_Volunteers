@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityEmailAuthBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
@@ -16,6 +17,7 @@ class EmailAuthActivity : AppCompatActivity() {
     private val viewModel: AuthViewModel by viewModels()
 
     private var isCreateMode = false
+    private lateinit var signInOptions: SignInOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +26,11 @@ class EmailAuthActivity : AppCompatActivity() {
         OfflineBanner.attach(this, binding.offlineBanner.root)
 
         binding.btnBack.setOnClickListener { finish() }
+
+        signInOptions = SignInOptions(this, viewModel, { binding.root }, ::setBusy, ::bindFingerprint)
+        signInOptions.observe()
+        binding.signInOptions.btnGoogle.setOnClickListener { signInOptions.signInWithGoogle() }
+        binding.signInOptions.btnFingerprint.setOnClickListener { signInOptions.signInWithFingerprint() }
 
         binding.btnPrimary.setOnClickListener {
             val email = binding.etEmail.text?.toString().orEmpty()
@@ -70,12 +77,32 @@ class EmailAuthActivity : AppCompatActivity() {
             binding.tvForgotPassword.visibility = View.VISIBLE
             binding.tilConfirmPassword.visibility = View.GONE
         }
+        bindFingerprint()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        bindFingerprint()
+    }
+
+    /** Fingerprint beside Google when signing in and it is set up; creating an account has only Google. */
+    private fun bindFingerprint() {
+        val account = signInOptions.fingerprintAccount()?.takeIf { !isCreateMode }
+        binding.signInOptions.btnFingerprint.isVisible = account != null
+        binding.tvFingerprintAs.isVisible = account != null
+        if (account != null) binding.tvFingerprintAs.text = signInOptions.fingerprintLabel(account)
+    }
+
+    private fun setBusy(busy: Boolean) {
+        binding.progressBar.visibility = if (busy) View.VISIBLE else View.GONE
+        binding.btnPrimary.isEnabled = !busy
+        binding.signInOptions.btnGoogle.isEnabled = !busy
+        binding.signInOptions.btnFingerprint.isEnabled = !busy
     }
 
     private fun observeViewModel() {
         viewModel.isLoading.observe(this) { loading ->
-            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
-            binding.btnPrimary.isEnabled = !loading
+            setBusy(loading)
             // Stops a second tap sending another reset email while the first is on its way.
             binding.tvForgotPassword.isEnabled = !loading
         }

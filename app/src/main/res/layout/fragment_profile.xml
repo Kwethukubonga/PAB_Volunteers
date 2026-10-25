@@ -131,6 +131,7 @@
             android:accessibilityHeading="true"
             android:text="@string/milestones_heading" />
 
+        <!-- Two rows of two, so each badge has room for its words. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,19 +139,27 @@
             android:layout_marginTop="@dimen/spacing_sm"
             android:layout_marginEnd="@dimen/spacing_lg"
             android:baselineAligned="false"
-            android:orientation="horizontal">
+            android:divider="@drawable/gap_sm"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <include android:id="@+id/milestone1" layout="@layout/item_milestone" />
 
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
-
             <include android:id="@+id/milestone2" layout="@layout/item_milestone" />
+        </LinearLayout>
 
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_lg"
+            android:baselineAligned="false"
+            android:divider="@drawable/gap_sm"
+            android:orientation="horizontal"
+            android:showDividers="middle">
 
             <include android:id="@+id/milestone3" layout="@layout/item_milestone" />
-
-            <Space android:layout_width="@dimen/spacing_sm" android:layout_height="1dp" />
 
             <include android:id="@+id/milestone4" layout="@layout/item_milestone" />
         </LinearLayout>

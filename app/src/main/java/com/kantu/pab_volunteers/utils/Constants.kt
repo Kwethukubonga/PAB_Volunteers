@@ -18,4 +18,6 @@ object Constants {
     const val EXTRA_ANNOUNCEMENT_ID = "extra_announcement_id"
     const val EXTRA_VOLUNTEER_ID = "extra_volunteer_id"
     const val EXTRA_IS_ADMIN = "extra_is_admin"
+    // Settings -> Edit profile: the volunteer screens open straight on the profile form.
+    const val EXTRA_OPEN_EDIT_PROFILE = "extra_open_edit_profile"
 }

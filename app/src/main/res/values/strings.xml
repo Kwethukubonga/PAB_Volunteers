@@ -20,7 +20,6 @@
     <string name="welcome_quote">"Working towards a future where women will be free."</string>
     <string name="welcome_subtitle">Join our volunteers supporting women, children, and families across Lavender Hill and Cape Town\'s surrounding communities.</string>
     <string name="welcome_cta">Explore Philisa Volunteers</string>
-    <string name="continue_with_google">Continue with Google</string>
     <string name="sign_in_with_email">Sign in with email</string>
 
     <string name="auth_sign_in_title">Welcome Back</string>
@@ -147,10 +146,8 @@
     <string name="profile_updated">Profile updated.</string>
 
     <!-- Admin -->
-    <string name="admin_portal_label">ADMIN PORTAL</string>
     <string name="admin_overview_title">Philisa Management</string>
     <string name="signed_in_as">Signed in as %1$s</string>
-    <string name="stat_total_signups">Sign-ups</string>
     <string name="recent_volunteers_heading">Recent Volunteers</string>
     <string name="empty_no_volunteers">No volunteers registered yet.</string>
     <string name="empty_no_activities_yet">No activities yet. Tap + to create one.</string>
@@ -164,8 +161,6 @@
     <string name="label_joined">JOINED</string>
     <string name="activity_saved">Activity saved.</string>
     <string name="announcement_saved">Announcement saved.</string>
-    <string name="stat_total_volunteers">Total Volunteers</string>
-    <string name="stat_published_activities">Published Activities</string>
     <string name="quick_actions_heading">Quick Actions</string>
     <string name="action_create_new_activity">Create New Activity</string>
     <string name="action_create_new_activity_desc">Publish a new volunteer opportunity</string>
@@ -263,7 +258,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="settings_title">Settings</string>
-    <string name="action_settings_desc">Theme, language and notifications</string>
     <string name="settings_appearance">Appearance</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_desc">Follow your phone, or always use light or dark.</string>
@@ -543,4 +537,29 @@
     <string name="fingerprint_suggest_body">This phone shows every volunteer\'s name, number and area. Sign in with your fingerprint and lock the app when it reopens, so nobody else can open it.</string>
     <string name="fingerprint_suggest_action">Set it up</string>
     <string name="action_not_now">Not now</string>
+
+    <!-- Sign-in buttons, Edit profile in Settings, Community months and the admin Overview. -->
+    <string name="sign_in_option_google">Google</string>
+    <string name="sign_in_option_fingerprint">Fingerprint</string>
+    <string name="sign_in_or">or</string>
+    <string name="settings_edit_profile">Edit profile</string>
+    <string name="settings_edit_profile_desc">Name, phone number, area and programmes</string>
+    <string name="community_month_expanded">Showing</string>
+    <string name="community_month_collapsed">Folded away</string>
+    <string name="overview_at_a_glance">At a glance</string>
+    <string name="overview_signups">Sign-ups</string>
+    <string name="overview_activities_value">%1$d published, %2$d drafts</string>
+    <string name="nav_settings">Settings</string>
+    <plurals name="community_month_count">
+        <item quantity="one">%d announcement</item>
+        <item quantity="other">%d announcements</item>
+    </plurals>
+    <plurals name="overview_volunteers_value">
+        <item quantity="one">%d registered</item>
+        <item quantity="other">%d registered</item>
+    </plurals>
+    <plurals name="overview_signups_value">
+        <item quantity="one">%d place taken</item>
+        <item quantity="other">%d places taken</item>
+    </plurals>
 </resources>

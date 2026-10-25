@@ -1,9 +1,11 @@
 package com.kantu.pab_volunteers.ui.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.navigation.NavigationBarView
 import com.kantu.pab_volunteers.R
@@ -13,6 +15,7 @@ import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
 import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
 import com.kantu.pab_volunteers.security.FingerprintSuggestion
+import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.OfflineBanner
 
@@ -34,6 +37,15 @@ class AdminMainActivity : AppCompatActivity() {
             .findFragmentById(R.id.navHostAdmin) as NavHostFragment
         val navController = navHost.navController
         navBar.setupWithNavController(navController)
+        // The fifth item opens Settings over the tabs; the others switch tab as usual.
+        navBar.setOnItemSelectedListener { item ->
+            if (item.itemId == R.id.adminSettings) {
+                startActivity(Intent(this, SettingsActivity::class.java).putExtra(Constants.EXTRA_IS_ADMIN, true))
+                false
+            } else {
+                NavigationUI.onNavDestinationSelected(item, navController)
+            }
+        }
 
         // Editors and detail screens sit on top of a tab, so the bottom bar is hidden there.
         // A tablet's rail stays, as Material expects.
@@ -60,5 +72,10 @@ class AdminMainActivity : AppCompatActivity() {
             notificationPrompt.askOnce()
             if (notificationsAskedBefore) FingerprintSuggestion.offerOnce(this)
         }
+    }
+
+    /** Switches tab exactly as tapping the bar does, for the Overview's at-a-glance rows. */
+    fun selectTab(itemId: Int) {
+        navBar.selectedItemId = itemId
     }
 }

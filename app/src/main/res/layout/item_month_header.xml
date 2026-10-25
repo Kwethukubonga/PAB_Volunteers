@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A month in Community. The whole row folds that month's announcements away or opens them,
+     with the chevron pointing down while they show. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/touch_target_min"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/spacing_md"
+    android:paddingBottom="@dimen/spacing_xs">
+
+    <TextView
+        android:id="@+id/tvMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:textAppearance="@style/TextAppearance.PAB.SettingsSection" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_sm"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        android:textAppearance="@style/TextAppearance.PAB.Caption" />
+
+    <ImageView
+        android:id="@+id/ivChevron"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_chevron_right"
+        app:tint="@color/accent" />
+</LinearLayout>

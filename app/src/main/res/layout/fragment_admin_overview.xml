@@ -28,21 +28,11 @@
                 android:paddingBottom="@dimen/spacing_xl">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="0.1"
-                    android:text="@string/admin_portal_label"
-                    android:textColor="@color/text_on_purple_muted"
-                    android:textSize="@dimen/text_caption"
-                    android:textStyle="bold" />
-
-                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_xs"
+                    android:accessibilityHeading="true"
                     android:text="@string/admin_overview_title"
-                    android:textAppearance="@style/TextAppearance.PAB.Display"
-                    android:textSize="26sp" />
+                    android:textAppearance="@style/TextAppearance.PAB.Display" />
 
                 <TextView
                     android:id="@+id/tvAdminName"
@@ -52,43 +42,50 @@
                     android:textColor="@color/text_on_purple_muted"
                     android:textSize="@dimen/text_caption"
                     tools:text="Signed in as admin@philisa.org" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSignOut"
-                    style="@style/Widget.PAB.Button.Secondary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_md"
-                    android:text="@string/action_sign_out"
-                    android:textColor="@color/text_on_purple"
-                    app:icon="@drawable/ic_logout"
-                    app:iconTint="@color/text_on_purple"
-                    app:strokeColor="@color/text_on_purple_muted" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- At a glance (E7): one row per number, saying what it counts, and tapping a row
+                 opens its tab. Easier to read than three big numbers with small labels. -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_lg"
                 android:layout_marginTop="@dimen/spacing_lg"
                 android:layout_marginEnd="@dimen/spacing_lg"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:accessibilityHeading="true"
+                android:text="@string/overview_at_a_glance"
+                android:textAppearance="@style/TextAppearance.PAB.Title" />
 
-                <include android:id="@+id/statVolunteers" layout="@layout/item_stat_tile" />
+            <com.google.android.material.card.MaterialCardView
+                style="@style/Widget.PAB.Card.Settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_lg">
 
-                <Space
-                    android:layout_width="@dimen/spacing_sm"
-                    android:layout_height="1dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <include android:id="@+id/statActivities" layout="@layout/item_stat_tile" />
+                    <include
+                        android:id="@+id/rowVolunteers"
+                        layout="@layout/item_settings_row" />
 
-                <Space
-                    android:layout_width="@dimen/spacing_sm"
-                    android:layout_height="1dp" />
+                    <View style="@style/Widget.PAB.SettingsDivider" />
 
-                <include android:id="@+id/statSignups" layout="@layout/item_stat_tile" />
-            </LinearLayout>
+                    <include
+                        android:id="@+id/rowActivities"
+                        layout="@layout/item_settings_row" />
+
+                    <View style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
+                        android:id="@+id/rowSignups"
+                        layout="@layout/item_settings_row" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,8 +109,6 @@
                 <include android:id="@+id/actionPostAnnouncement" layout="@layout/item_quick_action" />
 
                 <include android:id="@+id/actionConcerns" layout="@layout/item_quick_action" />
-
-                <include android:id="@+id/actionSettings" layout="@layout/item_quick_action" />
             </LinearLayout>
 
             <TextView

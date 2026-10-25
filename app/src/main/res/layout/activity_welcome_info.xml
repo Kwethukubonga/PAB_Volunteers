@@ -59,31 +59,66 @@
                 android:textColor="@color/text_on_purple_muted"
                 android:textSize="@dimen/text_body" />
 
+            <!-- Laid out as in Collective: the main way in full width, then the one-tap ones
+                 side by side under "or". -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnContinueWithGoogle"
+                android:id="@+id/btnSignInWithEmail"
                 style="@style/Widget.PAB.Button.Google"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xl"
-                android:text="@string/continue_with_google"
-                app:icon="@drawable/ic_google"
-                app:iconGravity="textStart"
-                app:iconPadding="@dimen/spacing_sm"
-                app:iconTint="@null" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSignInWithEmail"
-                style="@style/Widget.PAB.Button.Secondary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_sm"
                 android:text="@string/sign_in_with_email"
-                android:textColor="@color/text_on_purple"
                 app:icon="@drawable/ic_email"
                 app:iconGravity="textStart"
                 app:iconPadding="@dimen/spacing_sm"
-                app:iconTint="@color/text_on_purple"
-                app:strokeColor="@color/text_on_purple_muted" />
+                app:iconTint="@color/purple_700" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:gravity="center_vertical"
+                android:importantForAccessibility="noHideDescendants"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/stroke_normal"
+                    android:layout_weight="1"
+                    android:background="@color/text_on_purple_muted" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_md"
+                    android:layout_marginEnd="@dimen/spacing_md"
+                    android:text="@string/sign_in_or"
+                    android:textColor="@color/text_on_purple_muted"
+                    android:textSize="@dimen/text_caption" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/stroke_normal"
+                    android:layout_weight="1"
+                    android:background="@color/text_on_purple_muted" />
+            </LinearLayout>
+
+            <include
+                android:id="@+id/signInOptions"
+                layout="@layout/view_sign_in_options"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md" />
+
+            <TextView
+                android:id="@+id/tvFingerprintAs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:gravity="center"
+                android:textColor="@color/text_on_purple_muted"
+                android:textSize="@dimen/text_caption"
+                android:visibility="gone" />
 
         </LinearLayout>
 

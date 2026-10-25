@@ -15,7 +15,6 @@
     <string name="welcome_quote">"Sisebenzela ikamva apho abafazi baya kukhululeka."</string>
     <string name="welcome_subtitle">Joyina amavolontiya ethu axhasa abafazi, abantwana neentsapho eLavender Hill nakwiindawo ezingqonge iKapa.</string>
     <string name="welcome_cta">Phonononga iPhilisa Volunteers</string>
-    <string name="continue_with_google">Qhubeka ngeGoogle</string>
     <string name="sign_in_with_email">Ngena nge-imeyile</string>
 
     <string name="auth_sign_in_title">Wamkelekile kwakhona</string>
@@ -114,10 +113,8 @@
     <string name="profile_updated">Iprofayile ihlaziyiwe.</string>
 
     <!-- Admin -->
-    <string name="admin_portal_label">IPOTALI YOLAWULO</string>
     <string name="admin_overview_title">Ulawulo lwePhilisa</string>
     <string name="signed_in_as">Ungene njengo-%1$s</string>
-    <string name="stat_total_signups">Ababhalisileyo</string>
     <string name="recent_volunteers_heading">Amavolontiya amatsha</string>
     <string name="empty_no_volunteers">Akukabhaliswa mavolontiya okwangoku.</string>
     <string name="empty_no_activities_yet">Akukho misebenzi okwangoku. Cofa + ukuze wenze omnye.</string>
@@ -131,8 +128,6 @@
     <string name="label_joined">UJOYINE</string>
     <string name="activity_saved">Umsebenzi ugciniwe.</string>
     <string name="announcement_saved">Isaziso sigciniwe.</string>
-    <string name="stat_total_volunteers">Amavolontiya ewonke</string>
-    <string name="stat_published_activities">Imisebenzi epapashiweyo</string>
     <string name="quick_actions_heading">Izenzo ezikhawulezayo</string>
     <string name="action_create_new_activity">Yenza umsebenzi omtsha</string>
     <string name="action_create_new_activity_desc">Papasha ithuba elitsha lokuvolontiya</string>
@@ -219,7 +214,6 @@
 
     <string name="action_settings">Iisetingi</string>
     <string name="settings_title">Iisetingi</string>
-    <string name="action_settings_desc">Umbala, ulwimi nezaziso</string>
     <string name="settings_appearance">Inkangeleko</string>
     <string name="settings_theme">Umbala</string>
     <string name="settings_theme_desc">Landela ifowuni yakho, okanye usebenzise ukukhanya okanye ubumnyama rhoqo.</string>
@@ -503,4 +497,29 @@
     <string name="fingerprint_suggest_body">Le foni ibonisa igama, inombolo nendawo yevolontiya ngalinye. Ngena ngomnwe wakho kwaye utshixe i-app xa ivulwa kwakhona, ukuze kungabikho mntu wumbi onokuyivula.</string>
     <string name="fingerprint_suggest_action">Yimisela</string>
     <string name="action_not_now">Hayi ngoku</string>
+
+    <!-- Sign-in buttons, Edit profile in Settings, Community months and the admin Overview. -->
+    <string name="sign_in_option_google">Google</string>
+    <string name="sign_in_option_fingerprint">Umnwe</string>
+    <string name="sign_in_or">okanye</string>
+    <string name="settings_edit_profile">Hlela iprofayile</string>
+    <string name="settings_edit_profile_desc">Igama, inombolo yefoni, indawo neenkqubo</string>
+    <string name="community_month_expanded">Kuyabonakala</string>
+    <string name="community_month_collapsed">Kufihliwe</string>
+    <string name="overview_at_a_glance">Ngokukhawuleza</string>
+    <string name="overview_signups">Ababhalisileyo</string>
+    <string name="overview_activities_value">%1$d epapashiweyo, %2$d esezidrafti</string>
+    <string name="nav_settings">Iisetingi</string>
+    <plurals name="community_month_count">
+        <item quantity="one">Isaziso esi-%d</item>
+        <item quantity="other">Izaziso ezi-%d</item>
+    </plurals>
+    <plurals name="overview_volunteers_value">
+        <item quantity="one">%d ubhalisile</item>
+        <item quantity="other">%d babhalisile</item>
+    </plurals>
+    <plurals name="overview_signups_value">
+        <item quantity="one">Indawo e-%d ithathiwe</item>
+        <item quantity="other">Iindawo ezi-%d zithathiwe</item>
+    </plurals>
 </resources>

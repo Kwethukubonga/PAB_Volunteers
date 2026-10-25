@@ -47,6 +47,7 @@ import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
+import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
@@ -90,6 +91,7 @@ class SettingsActivity : AppCompatActivity() {
         val isAdmin = intent.getBooleanExtra(Constants.EXTRA_IS_ADMIN, false)
 
         setUpAccount()
+        setUpEditProfile(isAdmin)
         setUpTheme()
         setUpLanguage()
         setUpNotifications(isAdmin)
@@ -134,6 +136,29 @@ class SettingsActivity : AppCompatActivity() {
         )
 
         setUpFingerprint(usesPassword)
+    }
+
+    /**
+     * Edit profile lives on the volunteer screens, so this opens them on the form and closes
+     * Settings; saving goes back to Profile.
+     */
+    private fun setUpEditProfile(isAdmin: Boolean) {
+        binding.rowEditProfile.root.isVisible = !isAdmin
+        binding.dividerEditProfile.isVisible = !isAdmin
+        if (isAdmin) return
+        binding.rowEditProfile.bind(
+            R.drawable.ic_edit,
+            R.string.settings_edit_profile,
+            supporting = getString(R.string.settings_edit_profile_desc),
+            onClick = {
+                startActivity(
+                    Intent(this, VolunteerMainActivity::class.java)
+                        .putExtra(Constants.EXTRA_OPEN_EDIT_PROFILE, true)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                )
+                finish()
+            }
+        )
     }
 
     /** Sends the same reset link as the sign-in screen, to the address they are signed in with. */

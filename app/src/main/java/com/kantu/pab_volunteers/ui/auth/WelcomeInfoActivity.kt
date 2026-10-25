@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityWelcomeInfoBinding
@@ -13,13 +13,12 @@ import com.kantu.pab_volunteers.databinding.ItemTestimonialBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.utils.AppMessage
-import com.kantu.pab_volunteers.utils.ErrorMessages
-import kotlinx.coroutines.launch
 
 class WelcomeInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWelcomeInfoBinding
     private val viewModel: AuthViewModel by viewModels()
+    private lateinit var signInOptions: SignInOptions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +27,10 @@ class WelcomeInfoActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { finish() }
 
-        binding.btnContinueWithGoogle.setOnClickListener { continueWithGoogle() }
+        signInOptions = SignInOptions(this, viewModel, { binding.root }, ::setBusy, ::bindFingerprint)
+        signInOptions.observe()
+        binding.signInOptions.btnGoogle.setOnClickListener { signInOptions.signInWithGoogle() }
+        binding.signInOptions.btnFingerprint.setOnClickListener { signInOptions.signInWithFingerprint() }
 
         binding.btnSignInWithEmail.setOnClickListener {
             AuthNavGraph.goToEmailAuth(this)
@@ -39,18 +41,17 @@ class WelcomeInfoActivity : AppCompatActivity() {
         observeViewModel()
     }
 
-    private fun continueWithGoogle() {
-        setBusy(true)
-        lifecycleScope.launch {
-            GoogleSignIn.credential(this@WelcomeInfoActivity)
-                .onSuccess { viewModel.signInWithGoogle(it) }
-                .onFailure { error ->
-                    setBusy(false)
-                    // Backing out of the picker is not an error worth reporting.
-                    if ((error as? GoogleSignInError)?.isCancelled == true) return@onFailure
-                    AppMessage.show(binding.root, ErrorMessages.textFor(error))
-                }
-        }
+    override fun onResume() {
+        super.onResume()
+        bindFingerprint()
+    }
+
+    /** The fingerprint pill, beside Google, only once fingerprint sign-in is set up on this phone. */
+    private fun bindFingerprint() {
+        val account = signInOptions.fingerprintAccount()
+        binding.signInOptions.btnFingerprint.isVisible = account != null
+        binding.tvFingerprintAs.isVisible = account != null
+        if (account != null) binding.tvFingerprintAs.text = signInOptions.fingerprintLabel(account)
     }
 
     private fun buildProgrammeStrip() {
@@ -64,6 +65,7 @@ class WelcomeInfoActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        viewModel.isLoading.observe(this) { loading -> setBusy(loading) }
         viewModel.errorMessage.observe(this) { message ->
             if (message != null) {
                 setBusy(false)
@@ -76,7 +78,8 @@ class WelcomeInfoActivity : AppCompatActivity() {
     }
 
     private fun setBusy(busy: Boolean) {
-        binding.btnContinueWithGoogle.isEnabled = !busy
+        binding.signInOptions.btnGoogle.isEnabled = !busy
+        binding.signInOptions.btnFingerprint.isEnabled = !busy
         binding.btnSignInWithEmail.isEnabled = !busy
     }
 
