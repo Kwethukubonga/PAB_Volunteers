@@ -497,7 +497,7 @@ Open the folder in Android Studio, let Gradle sync, and press **Run**.
 
 **Making an admin:** sign up in the app, change that user's `role` in the Firestore `users` collection from `volunteer` to `admin`, and sign in again.
 
-**Sample data:** `tools/seed/seed.js` adds one activity and one announcement per programme. Instructions are at the top of the file. It needs a Firebase service account key, which must never be committed.
+**Sample data:** `tools/seed/seed.js` adds one activity and one announcement per programme, plus activities today, tomorrow and in the past and one draft. With `--volunteer <email>` it also signs that volunteer up, rates a past activity, asks for a clearance and sends a sample concern, so every screen has something to show. `--remove` takes all of it out again. Instructions are at the top of the file. It needs a Firebase service account key, which must never be committed.
 
 ---
 

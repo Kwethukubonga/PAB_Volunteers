@@ -1,11 +1,17 @@
 /*
- * Adds sample data: one activity and one announcement for each Philisa programme.
+ * Adds sample data: one activity and one announcement for each Philisa programme, plus
+ * activities today, tomorrow and in the past (for the Home planner, the Past tab, milestones
+ * and "How did it go?") and one draft that only admins see.
  *
  *   cd tools/seed
  *   npm install
  *   node seed.js --dry-run                          shows what would be added, touches nothing
  *   node seed.js --key <path to key file>           adds the samples
  *   node seed.js --key <path to key file> --notify  adds them so phones get notified
+ *   node seed.js --key <path to key file> --volunteer <email>
+ *                                                   also signs that volunteer up to the planner
+ *                                                   samples, rates one past activity, asks for a
+ *                                                   clearance and sends a sample concern
  *   node seed.js --key <path to key file> --remove  takes every sample out again
  *
  * The key file comes from Firebase console > Project settings > Service accounts >
@@ -196,6 +202,47 @@ const programmes = [
   },
 ];
 
+// Samples that show the planner and history screens. Negative days are in the past, so they
+// count as finished: they fill the Past tab and milestones, and offer "How did it go?".
+const plannerSamples = [
+  {
+    key: 'today', programme: 'Community Feeding', days: 0,
+    title: 'Food Parcel Packing', startTime: '15:00', endTime: '17:00',
+    volunteerRole: 'Packing volunteer', totalSpots: 10,
+    description: 'Pack food parcels for families on the Community Feeding list. On the day, "I need help" appears on this activity for anyone signed up.',
+  },
+  {
+    key: 'tomorrow', programme: 'Afterschool Programmes', days: 1,
+    title: 'Reading Buddies', startTime: '14:30', endTime: '16:00',
+    volunteerRole: 'Reading buddy', totalSpots: 6,
+    description: 'Read one-on-one with a learner who is building confidence. Books are provided.',
+  },
+  {
+    key: 'past-recent', programme: 'Social Work Services', days: -3,
+    title: 'Centre Spring Clean', startTime: '09:00', endTime: '12:00',
+    volunteerRole: 'Cleaning team', totalSpots: 8,
+    description: 'Clean and tidy the rooms at the centre before the new term.',
+  },
+  {
+    key: 'past-week', programme: 'Emergency Safe Houses', days: -10,
+    title: 'Blanket Drive Sorting', startTime: '10:00', endTime: '13:00',
+    volunteerRole: 'Sorting and packing', totalSpots: 8,
+    description: 'Sort donated blankets for the safe houses. Packing happens at the centre.',
+  },
+  {
+    key: 'past-month', programme: 'Youth Programme', days: -24,
+    title: 'Youth Soccer Morning', startTime: '09:00', endTime: '12:00',
+    volunteerRole: 'Coach assistant', totalSpots: 6,
+    description: 'Help run a friendly soccer morning for teenagers, with water breaks and a team talk.',
+  },
+  {
+    key: 'draft', programme: 'Afterschool Programmes', days: 25, status: 'draft',
+    title: 'Holiday Club Planning', startTime: '10:00', endTime: '12:00',
+    volunteerRole: 'Planner', totalSpots: 5,
+    description: 'Still being planned. Only admins see drafts until they are published.',
+  },
+];
+
 function buildDocs(notify) {
   const now = Date.now();
   // Only set when asked, because the app notifies volunteers about anything with a new publishedAt.
@@ -230,7 +277,74 @@ function buildDocs(notify) {
         },
       },
     ];
+  }).concat(plannerSamples.map(({ key, days, status = 'published', ...activity }) => ({
+    collection: 'activities',
+    id: `seed-activity-${key}`,
+    data: {
+      ...activity,
+      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      ...daysFromToday(days),
+      filledSpots: 0,
+      status,
+      createdBy: 'seed',
+      createdDate: now,
+      ...(status === 'published' ? published : {}),
+    },
+  })));
+}
+
+/**
+ * A volunteer's own sample records, so the screens that need them have something to show:
+ * places on the planner samples (today, tomorrow and the past three) and one upcoming
+ * activity, feedback on one past activity (the other two still ask "How did it go?"), a
+ * clearance request and a concern for admins. Ids start with "seed-" like everything else.
+ */
+function buildVolunteerDocs(docs, uid, name) {
+  const now = Date.now();
+  const activities = Object.fromEntries(docs.filter((d) => d.collection === 'activities').map((d) => [d.id, d.data]));
+  const joined = ['today', 'tomorrow', 'past-recent', 'past-week', 'past-month']
+    .map((key) => `seed-activity-${key}`)
+    .concat('seed-activity-after-school');
+  const signups = joined.map((activityId) => {
+    const a = activities[activityId];
+    return {
+      collection: 'activitySignups',
+      id: `${activityId}_${uid}`,
+      activityId,
+      data: {
+        activityId, userId: uid, volunteerName: name,
+        activityTitle: a.title, programme: a.programme, date: a.date, dateMillis: a.dateMillis,
+        startTime: a.startTime, endTime: a.endTime, location: a.location, signedUpDate: now,
+      },
+    };
   });
+  return [
+    ...signups,
+    {
+      collection: 'activityFeedback',
+      id: `seed-activity-past-week_${uid}`,
+      data: {
+        activityId: 'seed-activity-past-week', userId: uid, volunteerName: name, rating: 5,
+        comment: 'Well organised, and the team made newcomers feel welcome.', createdAt: now,
+      },
+    },
+    {
+      collection: 'clearances',
+      id: uid,
+      // Marked, so --remove takes away only a request the seed made.
+      data: { volunteerName: name, status: 'requested', requestedAt: now, seeded: true },
+    },
+    {
+      collection: 'concerns',
+      id: `seed-concern-${uid}`,
+      data: {
+        reportedBy: uid, reporterName: name,
+        activityId: 'seed-activity-past-recent', activityTitle: activities['seed-activity-past-recent'].title,
+        message: 'Sample concern for testing: the side gate was locked when we arrived, so we waited outside for 20 minutes.',
+        createdAt: now, status: 'new',
+      },
+    },
+  ];
 }
 
 async function add(db, docs) {
@@ -239,6 +353,10 @@ async function add(db, docs) {
   for (const doc of docs) {
     try {
       await db.collection(doc.collection).doc(doc.id).create(doc.data);
+      if (doc.collection === 'activitySignups') {
+        const { FieldValue } = require('firebase-admin/firestore');
+        await db.collection('activities').doc(doc.activityId).update({ filledSpots: FieldValue.increment(1) });
+      }
       added++;
     } catch (e) {
       // 6 is ALREADY_EXISTS: left alone so spots already taken are kept.
@@ -260,8 +378,15 @@ async function remove(db, docs) {
     }
     batch.delete(db.collection(doc.collection).doc(doc.id));
   }
+  // Feedback on the samples, sample concerns and clearance requests the seed made.
+  const feedback = await db.collection('activityFeedback').where('activityId', '>=', 'seed-').where('activityId', '<', 'seed.').get();
+  feedback.forEach((d) => batch.delete(d.ref));
+  const concerns = (await db.collection('concerns').get()).docs.filter((d) => d.id.startsWith('seed-'));
+  concerns.forEach((d) => batch.delete(d.ref));
+  const clearances = await db.collection('clearances').where('seeded', '==', true).get();
+  clearances.forEach((d) => batch.delete(d.ref));
   await batch.commit();
-  console.log(`Removed ${docs.length} samples and ${signups} sign-ups for them.`);
+  console.log(`Removed ${docs.length} samples, ${signups} sign-ups, ${feedback.size} feedback, ${concerns.length} concerns and ${clearances.size} clearance requests.`);
 }
 
 async function main() {
@@ -273,7 +398,9 @@ async function main() {
       const when = doc.collection === 'activities' ? `${d.date} ${d.startTime}-${d.endTime}` : '';
       console.log(`${doc.collection.padEnd(13)} ${doc.id.padEnd(40)} ${d.title} ${when}`);
     }
-    console.log(`\n${docs.length} documents. Nothing was written.`);
+    const own = valueOf('--volunteer') ? buildVolunteerDocs(docs, '<uid>', valueOf('--volunteer')) : [];
+    for (const doc of own) console.log(`${doc.collection.padEnd(17)} ${doc.id}`);
+    console.log(`\n${docs.length + own.length} documents. Nothing was written.`);
     return;
   }
 
@@ -289,8 +416,24 @@ async function main() {
   initializeApp({ credential: cert(require(path.resolve(keyPath))) });
   const db = getFirestore();
 
-  if (has('--remove')) await remove(db, docs);
-  else await add(db, docs);
+  if (has('--remove')) {
+    await remove(db, docs);
+    return;
+  }
+  await add(db, docs);
+
+  const email = valueOf('--volunteer');
+  if (email) {
+    const { getAuth } = require('firebase-admin/auth');
+    const account = await getAuth().getUserByEmail(email);
+    const profile = (await db.collection('users').doc(account.uid).get()).data() || {};
+    const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || email;
+    // A clearance the volunteer already has is left alone.
+    const own = buildVolunteerDocs(docs, account.uid, name);
+    const existing = await db.collection('clearances').doc(account.uid).get();
+    await add(db, own.filter((d) => !(d.collection === 'clearances' && existing.exists)));
+    console.log(`Samples for ${name} (${email}) added.`);
+  }
 }
 
 main().catch((e) => {
