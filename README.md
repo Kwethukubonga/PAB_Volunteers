@@ -92,7 +92,7 @@ All 17 requirements are implemented. Each one below names the screen it lives on
 
 | ID | Requirement | Role | Where it lives | Code | Proven by |
 |----|-------------|------|----------------|------|-----------|
-| PV-FR01 | Create an account with email and password, or with Google. | Visitor | Welcome → Sign up, or Continue with Google | `EmailAuthActivity`, `GoogleSignInHelper`, `AuthViewModel.createAccount`, `PasswordRules`, `AuthRepository` | `PasswordRulesTest` (length, symbol, confirmation); `UserTest` *a new account is a volunteer, not an admin*; **Rules** *stops a new account being created as an admin* |
+| PV-FR01 | Create an account with email and password, or with Google. | Visitor | Welcome → Sign up, or Continue with Google | `EmailAuthActivity`, `GoogleSignIn` (Credential Manager), `AuthViewModel.createAccount`, `PasswordRules`, `AuthRepository` | `PasswordRulesTest` (length, symbol, confirmation); `UserTest` *a new account is a volunteer, not an admin*; **Rules** *stops a new account being created as an admin* |
 | PV-FR02 | Complete a two-step profile and become a volunteer immediately. | Visitor | Profile details → Interests | `ProfileDetailsActivity`, `ProfileInterestsActivity`, `ProfileSetupViewModel`, `UserRepository.saveProfile` | `SignInDestinationTest` *a new account is taken to profile setup first*; `UserTest` *a new account has not finished its profile*; `PhoneNumberTest`; `DateUtilsTest` volunteer ID tests |
 | PV-FR03 | Sign in securely and reset a forgotten password by email. | All | Sign in, Forgot password; Settings → Change password | `AuthViewModel.signInWithEmail`, `AuthViewModel.sendPasswordReset`, `SettingsActivity`, `AuthRepository` | `ErrorMessagesTest` (offline, stale session, refused); `AccountRulesTest` (only email accounts get Change password); **Rules** *stops a signed out person reading anything*. The reset email itself is sent by Firebase and checked by hand |
 | PV-FR04 | Browse published opportunities and view their full details. | Volunteer | Activities tab → Activity details | `ActivitiesFragment`, `ActivityDetailsFragment`, `ActivityRepository.getPublishedActivities` | `ActivityTest` (spots left, date label, *a new activity starts as a draft*); **Rules** *stops anyone joining a draft activity* |
@@ -123,7 +123,7 @@ All 17 requirements are implemented. Each one below names the screen it lives on
 | PV-FR24 | Get help on the day of an activity: call 112, 10111 or Philisa, or text an emergency contact where you are. | Volunteer | Activity details → "I need help"; Settings → Safety → Emergency contact | `NeedHelpSheet`, `ActivityIntents`, `EmergencyContactRules` | `SafetyRulesTest` (emergency contact needs a name and a working number); **Rules** *only on your own record*. Dialling and texting open the phone's own apps and are checked by hand |
 | PV-FR25 | Be reminded before a joined activity, an hour or a day before. | Volunteer | Settings → Notifications → Reminders | `ReminderRules`, `UpdatesWorker` | `PlannerHelpersTest` (due inside the chosen time, not when off, not twice, not once started) |
 | PV-FR26 | Add an activity to the phone's calendar, or share where you're volunteering. | Volunteer | Activity details | `ActivityIntents`, `DateUtils.startOfActivity` | `PlannerHelpersTest` (start time on the right day); the calendar and share sheet are checked by hand |
-| PV-FR27 | Lock the app with a fingerprint, face or screen lock. | Both | Settings → Safety | `AppLock`, `AppLockWatcher`, `LockActivity` | `PlannerHelpersTest` (comes back only after 30 seconds away, never when off); the fingerprint prompt is checked by hand |
+| PV-FR27 | Sign back in with a fingerprint, and optionally lock the app when it reopens. | Both | Settings → Account → Sign in with fingerprint; Welcome → "Sign in as …" | `FingerprintSignIn` (Android Keystore), `FingerprintPrompt`, `AppLock`, `AppLockWatcher`, `LockActivity` | `FingerprintRulesTest` (only for the account it was saved for, the name shown); `PlannerHelpersTest` (the lock comes back only after 30 seconds away, never when off); the fingerprint prompt is checked by hand |
 
 Some steps happen outside the app and can't be reached by these tests: Google's sign-in screen, Firebase sending the reset email, Cloudinary storing a picture, and Android showing the notification. Those are checked by hand on a real phone. The decisions around them (password rules, who counts as new, where someone lands after sign-in, what counts as news) are moved into plain Kotlin (`PasswordRules`, `SignInDestination`, `UpdateRules`) so they are tested.
 
@@ -133,12 +133,12 @@ Some steps happen outside the app and can't be reached by these tests: Google's 
 
 | Category | How the App Meets It |
 |----------|----------------------|
-| **Responsiveness** | Tablet layouts, a landscape Welcome screen and two-column lists on tablets. Built with Android's alternate resource folders, so one set of layouts serves every screen size. |
+| **Responsiveness** | Tablet layouts with a navigation rail down the side instead of the bottom bar, a landscape Welcome screen and two-column lists on tablets. Built with Android's alternate resource folders, so one set of layouts serves every screen size. |
 | **Accessibility** | Every tappable control is at least **48dp**. All text scales with the phone's font size and still works at the largest setting. Three languages, light and dark mode. |
 | **Usability** | A short two-step sign-up, friendly empty-screen messages, and a confirmation before leaving an activity or deleting an account. |
 | **Reliability** | Firestore's offline cache keeps recently loaded data readable without signal. Joining is a single database transaction, so two people can never take the last spot. |
 | **Performance** | Images are cached with Glide, lists use RecyclerView, and list screens support pull-to-refresh. |
-| **Security** | Firebase Security Rules on every collection, proven by 64 automated tests (see section 11). |
+| **Security** | Firebase Security Rules on every collection, proven by 68 automated tests (see section 11). |
 
 ---
 
@@ -190,7 +190,8 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 - **Sign-in:** Google or email, with password reset.
 - **Settings:** rows grouped into Account (how you signed in, change password for email accounts), Appearance (theme and language as lists), Notifications (tap anywhere on a row to switch it), and About (contact Philisa, app version). Sign out and Delete account sit at the bottom, away from everyday settings.
 - **Notifications:** a background check about every 15 minutes. Volunteers hear about new activities and announcements, and get a reminder an hour or a day before an activity they joined. Admins hear when an activity is full.
-- **Safety:** an emergency contact for "I need help" on the day of an activity, a fingerprint lock (for everyone, and suggested for admins, whose phones show volunteers' details), a clearance check, and reporting a concern. Emergency numbers are shown first.
+- **Fingerprint sign-in:** turned on in Settings → Account, it puts "Sign in as Thandi" on the Welcome screen, so coming back is one touch. An email account's password is kept on the phone only, encrypted with an Android Keystore key that just a fresh fingerprint check can open, and that Android destroys if a fingerprint is added. A Google account needs no secret: Google signs back in after the fingerprint. Under it, "Also lock when the app reopens" asks for the fingerprint again after 30 seconds away (suggested for admins, whose phones show volunteers' details).
+- **Safety:** an emergency contact for "I need help" on the day of an activity, a clearance check, and reporting a concern. Emergency numbers are shown first.
 - **Offline:** a slim bar across the top of every screen says when there is no connection, before anything is tapped. Recently loaded data stays readable; joining or saving needs a connection.
 
 ---
@@ -454,6 +455,7 @@ erDiagram
 - Volunteers can only read and edit their own profile, and can't change their role, volunteer ID, email or join date.
 - Every new account must start as a `volunteer`.
 - Only admins can create or change activities and announcements.
+- Draft activities are admins' only. A volunteer can still open one they joined before it was hidden, so they can read it and leave.
 - Joining changes the spot count by exactly one, together with the volunteer's own sign-up, and never above the total.
 - Volunteers can only add or remove their own thumbs up.
 - An emergency contact is two fields on the volunteer's own record, which only they and admins can read.
@@ -463,7 +465,7 @@ erDiagram
 
 **Other measures:**
 
-- **Tested:** 64 rules tests run against the Firestore emulator on every push.
+- **Tested:** 68 rules tests run against the Firestore emulator on every push.
 - **Delete my account** removes the volunteer's data and gives their spots back, in line with POPIA. It takes two steps: a page listing what will be lost (hours, upcoming places, history), then confirming with their password or Google account and typing the confirmation word. Firebase needs that fresh confirmation before it deletes a sign-in, and nothing is removed until it succeeds.
 - **Passwords** need at least 8 characters, including a symbol.
 - **Safe house locations** are never shown in the app.
@@ -531,12 +533,12 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **205 automated tests**, and section 3 maps them to the requirements.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **213 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (141, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, avatar colour contrast |
-| **Security rules tests** (64, Firestore emulator) | No overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
+| **Unit tests** (145, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
+| **Security rules tests** (68, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 | **Deploy** | On a merge into `master`: puts that build's APK and the download page on Firebase Hosting, and publishes `firestore.rules`, so the live rules are the ones the tests above just passed against (section 14.3) |
@@ -581,7 +583,7 @@ The page offers the APK, says what the app does and walks through installing fro
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 205 automated tests and CI | ✔ Complete |
+| Security Rules, 213 automated tests and CI | ✔ Complete |
 | Hosted download page, deployed by the pipeline | ✔ Complete |
 | User Acceptance Testing with PAB | ☐ Planned |
 
