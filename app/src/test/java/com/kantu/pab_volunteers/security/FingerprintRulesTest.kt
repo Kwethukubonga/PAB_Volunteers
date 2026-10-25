@@ -26,6 +26,14 @@ class FingerprintRulesTest {
     }
 
     @Test
+    fun `admins are asked once, only where it is not set up and the phone could do it`() {
+        assertTrue(FingerprintRules.shouldSuggest(alreadyAsked = false, setUp = false, phoneCanDoIt = true))
+        assertFalse(FingerprintRules.shouldSuggest(alreadyAsked = true, setUp = false, phoneCanDoIt = true))
+        assertFalse(FingerprintRules.shouldSuggest(alreadyAsked = false, setUp = true, phoneCanDoIt = true))
+        assertFalse(FingerprintRules.shouldSuggest(alreadyAsked = false, setUp = false, phoneCanDoIt = false))
+    }
+
+    @Test
     fun `the Welcome screen uses the first name, or the email without one`() {
         assertEquals("Thandi", FingerprintRules.nameToShow(FingerprintAccount("thandi@example.com", " Thandi ", usesGoogle = false)))
         assertEquals("thandi@example.com", FingerprintRules.nameToShow(FingerprintAccount("thandi@example.com", "", usesGoogle = true)))

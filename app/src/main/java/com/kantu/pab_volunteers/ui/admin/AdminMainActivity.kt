@@ -10,7 +10,9 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityAdminMainBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
+import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
+import com.kantu.pab_volunteers.security.FingerprintSuggestion
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.OfflineBanner
 
@@ -51,7 +53,12 @@ class AdminMainActivity : AppCompatActivity() {
             intent.getStringExtra(Constants.EXTRA_ACTIVITY_ID)?.let {
                 AdminNavGraph.toActivitySignups(navController, it)
             }
+            // One question at a time: the fingerprint suggestion waits until notifications were
+            // asked about on an earlier visit.
+            val notificationsAskedBefore = NotificationSettings.wasPermissionAsked(this) ||
+                !NotificationSettings.needsPermission(this)
             notificationPrompt.askOnce()
+            if (notificationsAskedBefore) FingerprintSuggestion.offerOnce(this)
         }
     }
 }

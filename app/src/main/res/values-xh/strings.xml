@@ -497,4 +497,10 @@
     <string name="action_try_again">Zama kwakhona</string>
     <string name="action_delete_activity">Cima umsebenzi</string>
     <string name="action_delete_announcement">Cima isaziso</string>
+
+    <!-- Asking admins once to set up fingerprint sign-in. -->
+    <string name="fingerprint_suggest_title">Khusela iinkcukacha zamavolontiya</string>
+    <string name="fingerprint_suggest_body">Le foni ibonisa igama, inombolo nendawo yevolontiya ngalinye. Ngena ngomnwe wakho kwaye utshixe i-app xa ivulwa kwakhona, ukuze kungabikho mntu wumbi onokuyivula.</string>
+    <string name="fingerprint_suggest_action">Yimisela</string>
+    <string name="action_not_now">Hayi ngoku</string>
 </resources>

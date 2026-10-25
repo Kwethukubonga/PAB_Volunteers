@@ -537,4 +537,10 @@
     <string name="action_try_again">Try again</string>
     <string name="action_delete_activity">Delete activity</string>
     <string name="action_delete_announcement">Delete announcement</string>
+
+    <!-- Asking admins once to set up fingerprint sign-in. -->
+    <string name="fingerprint_suggest_title">Protect volunteers\' details</string>
+    <string name="fingerprint_suggest_body">This phone shows every volunteer\'s name, number and area. Sign in with your fingerprint and lock the app when it reopens, so nobody else can open it.</string>
+    <string name="fingerprint_suggest_action">Set it up</string>
+    <string name="action_not_now">Not now</string>
 </resources>

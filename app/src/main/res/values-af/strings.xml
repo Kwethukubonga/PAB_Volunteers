@@ -497,4 +497,10 @@
     <string name="action_try_again">Probeer weer</string>
     <string name="action_delete_activity">Skrap aktiwiteit</string>
     <string name="action_delete_announcement">Skrap aankondiging</string>
+
+    <!-- Asking admins once to set up fingerprint sign-in. -->
+    <string name="fingerprint_suggest_title">Beskerm vrywilligers se besonderhede</string>
+    <string name="fingerprint_suggest_body">Hierdie foon wys elke vrywilliger se naam, nommer en area. Meld aan met jou vingerafdruk en sluit die toepassing wanneer dit weer oopmaak, sodat niemand anders dit kan oopmaak nie.</string>
+    <string name="fingerprint_suggest_action">Stel dit op</string>
+    <string name="action_not_now">Nie nou nie</string>
 </resources>

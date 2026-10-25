@@ -150,6 +150,10 @@ object FingerprintRules {
     fun isSetUpFor(savedEmail: String?, email: String?): Boolean =
         !savedEmail.isNullOrBlank() && !email.isNullOrBlank() && savedEmail.equals(email.trim(), ignoreCase = true)
 
+    /** Ask once, and only where it isn't set up yet and the phone has, or could have, a fingerprint. */
+    fun shouldSuggest(alreadyAsked: Boolean, setUp: Boolean, phoneCanDoIt: Boolean): Boolean =
+        !alreadyAsked && !setUp && phoneCanDoIt
+
     /** "Sign in as Thandi", or the email when no first name was saved. */
     fun nameToShow(account: FingerprintAccount): String = account.firstName.trim().ifEmpty { account.email }
 }
