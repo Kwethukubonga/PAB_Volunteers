@@ -535,11 +535,11 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **219 automated tests**, and section 3 maps them to the requirements.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **234 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (151, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
+| **Unit tests** (166, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast, and awkward input: names longer than any real name, emoji in a phone field, hundreds of activities at once |
 | **Security rules tests** (68, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
@@ -608,7 +608,7 @@ The attached APK is the debug build, the same one the download page offers, beca
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 219 automated tests and CI | ✔ Complete |
+| Security Rules, 234 automated tests and CI | ✔ Complete |
 | Hosted download page, deployed by the pipeline | ✔ Complete |
 | User Acceptance Testing with PAB | ☐ Planned |
 
