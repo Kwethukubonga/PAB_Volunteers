@@ -117,6 +117,13 @@ describe('users', () => {
     );
   });
 
+  // The emergency contact "I need help" texts, saved as two fields on the volunteer's own record.
+  it('lets a volunteer save their own emergency contact, and nobody else', async () => {
+    const contact = { emergencyContactName: 'Thandi', emergencyContactPhone: '082 123 4567' };
+    await assertSucceeds(updateDoc(doc(asVolunteer(), 'users', VOLUNTEER), contact));
+    await assertFails(updateDoc(doc(asVolunteer(), 'users', OTHER), contact));
+  });
+
   it('stops a volunteer making themselves an admin', async () => {
     await assertFails(updateDoc(doc(asVolunteer(), 'users', VOLUNTEER), { role: 'admin' }));
   });

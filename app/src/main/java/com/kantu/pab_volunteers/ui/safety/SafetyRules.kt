@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.ActivityFeedback
 import com.kantu.pab_volunteers.data.model.Clearance
+import com.kantu.pab_volunteers.utils.PhoneNumber
 
 /** Where a volunteer's background check stands, as Settings, Profile and the admin show it. */
 enum class ClearanceState {
@@ -35,6 +36,18 @@ object ConcernRules {
     fun problemWith(message: String): Int? = when {
         message.isBlank() -> R.string.concern_error_empty
         message.trim().length > MAX_LENGTH -> R.string.concern_error_too_long
+        else -> null
+    }
+}
+
+/** Checks on an emergency contact. Clearing both fields removes it. */
+object EmergencyContactRules {
+
+    @StringRes
+    fun problemWith(name: String, phone: String): Int? = when {
+        name.isBlank() && phone.isBlank() -> null
+        name.isBlank() -> R.string.emergency_contact_error_name
+        !PhoneNumber.isValid(phone) -> R.string.error_invalid_phone
         else -> null
     }
 }

@@ -3,4 +3,8 @@
     <color name="settings_surface">#221E2B</color>
     <!-- The night red is light, so the text on it is dark to stay readable. -->
     <color name="on_destructive">#1F1D24</color>
+    <color name="home_next_card">#2E1065</color>
+    <color name="safety_bg">#33270C</color>
+    <color name="safety_line">#5C4613</color>
+    <color name="safety_text">#FCD34D</color>
 </resources>

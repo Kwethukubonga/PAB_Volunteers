@@ -58,7 +58,6 @@
     <string name="action_favourite">Gunsteling</string>
     <string name="tab_all_opportunities">Alles</string>
     <string name="tab_favourites">Gunstelinge</string>
-    <string name="stat_hours">Ure</string>
     <string name="empty_favourites">Nog niks gestoor nie. Tik die hartjie op \'n geleentheid om dit hier te hou.</string>
     <string name="action_back">Terug</string>
 
@@ -71,11 +70,7 @@
     <string name="forgot_password">Wagwoord vergeet?</string>
 
     <!-- Volunteer Home -->
-    <string name="greeting_morning">Goeiemôre,</string>
-    <string name="greeting_afternoon">Goeiemiddag,</string>
-    <string name="greeting_evening">Goeienaand,</string>
     <string name="action_see_all">Sien alles</string>
-    <string name="empty_nothing_joined">Jy het nog nie by \'n aktiwiteit aangesluit nie. Kyk op die Aktiwiteite-oortjie om een te vind.</string>
     <string name="empty_no_open_activities">Geen oop aktiwiteite op die oomblik nie. Kyk later weer.</string>
     <string name="status_joined">Aangesluit</string>
     <string name="status_full">Volbespreek</string>
@@ -86,9 +81,6 @@
     <string name="action_yes_leave">Ja, verlaat</string>
     <string name="sign_out_confirm_title">Meld af van Philisa Volunteers?</string>
     <string name="volunteer_id_label">Vrywilliger-ID · %1$s</string>
-    <string name="stat_today">Vandag</string>
-    <string name="stat_completed">Voltooi</string>
-    <string name="coming_up_heading">Wat kom</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Aktiwiteite</string>
@@ -112,8 +104,6 @@
     <string name="empty_no_announcements">Nog geen aankondigings nie.</string>
 
     <!-- Profile -->
-    <string name="stat_months">Maande</string>
-    <string name="stat_upcoming">Komende</string>
     <string name="label_phone_caps">TELEFOON</string>
     <string name="label_email_caps">E-POS</string>
     <string name="label_area_caps">GEBIED</string>
@@ -389,4 +379,97 @@
     <string name="milestone_three_programmes">3 programme</string>
     <string name="milestone_earned">Behaal</string>
     <string name="milestone_progress">%1$d van %2$d</string>
+
+    <!-- Home planner, activity details, Profile tabs, Safety and reminders. -->
+    <string name="home_greeting_morning">Goeiemôre, %1$s</string>
+    <string name="home_greeting_afternoon">Goeiemiddag, %1$s</string>
+    <string name="home_greeting_evening">Goeienaand, %1$s</string>
+    <string name="home_this_week">Hierdie week</string>
+    <string name="home_next_up">Volgende · %1$s</string>
+    <string name="home_nothing_booked_label">Nog niks bespreek nie</string>
+    <string name="home_nothing_booked">Vind jou volgende aktiwiteit</string>
+    <string name="home_find_something">Kyk wat oop is om by aan te sluit</string>
+    <string name="home_day_today">Vandag</string>
+    <string name="home_day_tomorrow">Môre</string>
+    <string name="home_day_booked">Iets bespreek</string>
+    <string name="home_day_free">Niks bespreek nie</string>
+    <string name="home_day_empty">Niks op hierdie dag bespreek nie</string>
+    <string name="home_summary">%1$d komende · %2$s</string>
+    <plurals name="home_hours_completed">
+        <item quantity="one">%d uur voltooi</item>
+        <item quantity="other">%d uur voltooi</item>
+    </plurals>
+    <string name="home_latest">Nuutste van Philisa</string>
+    <string name="home_latest_meta">%1$s · %2$s</string>
+    <plurals name="home_thumbs_up">
+        <item quantity="one">%d duim op</item>
+        <item quantity="other">%d duime op</item>
+    </plurals>
+    <string name="relative_today">vandag</string>
+    <string name="relative_tomorrow">môre</string>
+    <string name="relative_yesterday">gister</string>
+    <plurals name="relative_in_days">
+        <item quantity="one">oor %d dag</item>
+        <item quantity="other">oor %d dae</item>
+    </plurals>
+    <plurals name="relative_days_ago">
+        <item quantity="one">%d dag gelede</item>
+        <item quantity="other">%d dae gelede</item>
+    </plurals>
+    <string name="activity_details_title">Aktiwiteit</string>
+    <string name="action_share_activity">Deel waar ek vrywillig werk</string>
+    <string name="action_save_favourite">Stoor by gunstelinge</string>
+    <string name="action_remove_favourite">Verwyder uit gunstelinge</string>
+    <string name="action_add_to_calendar">Voeg by kalender</string>
+    <string name="spots_left_of">%1$d van %2$d plekke oor</string>
+    <string name="need_help_title">Op die dag: Ek het hulp nodig</string>
+    <string name="need_help_subtitle">Bel 112, 10111 of Philisa, of stuur jou noodkontak \'n boodskap</string>
+    <string name="join_needs_connection">Om aan te sluit het jy \'n verbinding nodig</string>
+    <string name="share_activity_text">Ek werk vrywillig by %1$s, %2$s, %3$s.</string>
+    <string name="error_no_calendar_app">Daar is geen kalendertoepassing op hierdie foon nie.</string>
+    <string name="error_no_app">Daar is geen toepassing op hierdie foon wat dit kan doen nie.</string>
+    <string name="need_help_sheet_title">Ek het hulp nodig</string>
+    <string name="need_help_sheet_body">Elke keuse maak jou foon oop met alles ingevul. Niks word gestuur voordat jy op bel of stuur tik nie.</string>
+    <string name="need_help_call_112">Bel 112</string>
+    <string name="need_help_call_112_desc">Nooddienste, van enige foon af</string>
+    <string name="need_help_call_police">Bel 10111</string>
+    <string name="need_help_call_police_desc">Suid-Afrikaanse Polisiediens</string>
+    <string name="need_help_call_philisa">Bel Philisa se krisislyn</string>
+    <string name="need_help_text_contact">Stuur \'n boodskap aan %1$s</string>
+    <string name="need_help_text_contact_desc">\'n Boodskap wat sê waar jy is en dat jy hulp nodig het</string>
+    <string name="need_help_sms">Ek is by %1$s by %2$s en ek het hulp nodig. Bel my asseblief.</string>
+    <string name="need_help_no_contact">Voeg \'n noodkontak by</string>
+    <string name="need_help_no_contact_desc">Sodat jy hulle van hier af met een tik kan boodskap stuur</string>
+    <string name="profile_id_line">%1$s · %2$s</string>
+    <plurals name="profile_volunteering_for">
+        <item quantity="one">werk al %d maand vrywillig</item>
+        <item quantity="other">werk al %d maande vrywillig</item>
+    </plurals>
+    <string name="profile_my_activities">My aktiwiteite</string>
+    <string name="profile_tab_upcoming">Komende (%1$d)</string>
+    <string name="profile_tab_past">Verby (%1$d)</string>
+    <string name="clearance_pill_cleared">Geklaar</string>
+    <string name="clearance_pill_waiting">Wag</string>
+    <string name="clearance_pill_expired">Verval</string>
+    <string name="settings_emergency_contact">Noodkontak</string>
+    <string name="emergency_contact_none">Nie gestel nie. Vir wie moet \"Ek het hulp nodig\" \'n boodskap stuur?</string>
+    <string name="emergency_contact_explain">Op die dag van \'n aktiwiteit kan \"Ek het hulp nodig\" hierdie persoon laat weet waar jy is. Net jy sien dit.</string>
+    <string name="emergency_contact_name">Hul naam</string>
+    <string name="emergency_contact_phone">Hul foonnommer</string>
+    <string name="emergency_contact_error_name">Voeg ook hul naam by.</string>
+    <string name="emergency_contact_saved">Noodkontak gestoor.</string>
+    <string name="action_save">Stoor</string>
+    <string name="settings_app_lock">Sluit met vingerafdruk</string>
+    <string name="settings_app_lock_desc">Vra daarvoor wanneer die toepassing weer oopmaak</string>
+    <string name="app_lock_confirm">Bevestig dat dit jy is om die slot aan te skakel</string>
+    <string name="app_lock_title">Ontsluit Philisa Volunteers</string>
+    <string name="app_lock_body">Gebruik jou vingerafdruk, gesig of skermslot.</string>
+    <string name="app_lock_unlock">Ontsluit</string>
+    <string name="settings_reminders">Herinneringe</string>
+    <string name="reminders_off">Af</string>
+    <string name="reminders_hour">1 uur voor \'n aktiwiteit waarby jy aangesluit het</string>
+    <string name="reminders_day">1 dag voor \'n aktiwiteit waarby jy aangesluit het</string>
+    <string name="channel_reminders">Herinneringe</string>
+    <string name="channel_reminders_desc">Voor \'n aktiwiteit waarby jy aangesluit het.</string>
+    <string name="notify_reminder">Kom nader: %1$s</string>
 </resources>

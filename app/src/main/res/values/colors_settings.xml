@@ -5,4 +5,10 @@
     <color name="settings_surface">#F5F3FF</color>
     <!-- Text on a filled red button. -->
     <color name="on_destructive">#FFFFFF</color>
+    <!-- The next-activity card on Home. -->
+    <color name="home_next_card">#3B0764</color>
+    <!-- The "I need help" card on the day of an activity: warm, so it is found, not alarming. -->
+    <color name="safety_bg">#FEF3C7</color>
+    <color name="safety_line">#FDE68A</color>
+    <color name="safety_text">#92400E</color>
 </resources>

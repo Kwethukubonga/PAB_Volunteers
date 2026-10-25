@@ -85,7 +85,6 @@
     <string name="action_favourite">Favourite</string>
     <string name="tab_all_opportunities">All</string>
     <string name="tab_favourites">Favourites</string>
-    <string name="stat_hours">Hours</string>
     <string name="empty_favourites">Nothing saved yet. Tap the heart on an opportunity to keep it here.</string>
     <string name="action_back">Back</string>
 
@@ -104,11 +103,7 @@
     <string name="forgot_password">Forgot Password?</string>
 
     <!-- Volunteer Home -->
-    <string name="greeting_morning">Good morning,</string>
-    <string name="greeting_afternoon">Good afternoon,</string>
-    <string name="greeting_evening">Good evening,</string>
     <string name="action_see_all">See all</string>
-    <string name="empty_nothing_joined">You haven\'t joined an activity yet. Browse the Activities tab to find one.</string>
     <string name="empty_no_open_activities">No open activities right now. Check back soon.</string>
     <string name="status_joined">Joined</string>
     <string name="status_full">Fully booked</string>
@@ -119,9 +114,6 @@
     <string name="action_yes_leave">Yes, leave</string>
     <string name="sign_out_confirm_title">Sign out of Philisa Volunteers?</string>
     <string name="volunteer_id_label">Volunteer ID · %1$s</string>
-    <string name="stat_today">Today</string>
-    <string name="stat_completed">Completed</string>
-    <string name="coming_up_heading">Coming Up</string>
 
     <!-- Activities -->
     <string name="my_activities_title">Activities</string>
@@ -145,8 +137,6 @@
     <string name="empty_no_announcements">No announcements yet.</string>
 
     <!-- Profile -->
-    <string name="stat_months">Months</string>
-    <string name="stat_upcoming">Upcoming</string>
     <string name="label_phone_caps">PHONE</string>
     <string name="label_email_caps">EMAIL</string>
     <string name="label_area_caps">AREA</string>
@@ -426,4 +416,100 @@
     <string name="milestone_three_programmes">3 programmes</string>
     <string name="milestone_earned">Earned</string>
     <string name="milestone_progress">%1$d of %2$d</string>
+
+    <!-- Home planner, activity details, Profile tabs, Safety and reminders. -->
+    <string name="home_greeting_morning">Good morning, %1$s</string>
+    <string name="home_greeting_afternoon">Good afternoon, %1$s</string>
+    <string name="home_greeting_evening">Good evening, %1$s</string>
+    <string name="home_this_week">This week</string>
+    <string name="home_next_up">Next up · %1$s</string>
+    <string name="home_nothing_booked_label">Nothing booked yet</string>
+    <string name="home_nothing_booked">Find your next activity</string>
+    <string name="home_find_something">See what\'s open to join</string>
+    <string name="home_day_today">Today</string>
+    <string name="home_day_tomorrow">Tomorrow</string>
+    <string name="home_day_booked">Something booked</string>
+    <string name="home_day_free">Nothing booked</string>
+    <string name="home_day_empty">Nothing booked on this day</string>
+    <string name="home_summary">%1$d upcoming · %2$s</string>
+    <plurals name="home_hours_completed">
+        <item quantity="one">%d hour completed</item>
+        <item quantity="other">%d hours completed</item>
+    </plurals>
+    <string name="home_latest">Latest from Philisa</string>
+    <string name="home_latest_meta">%1$s · %2$s</string>
+    <plurals name="home_thumbs_up">
+        <item quantity="one">%d thumbs up</item>
+        <item quantity="other">%d thumbs up</item>
+    </plurals>
+    <string name="time_range" translatable="false">%1$s – %2$s</string>
+    <string name="relative_today">today</string>
+    <string name="relative_tomorrow">tomorrow</string>
+    <string name="relative_yesterday">yesterday</string>
+    <plurals name="relative_in_days">
+        <item quantity="one">in %d day</item>
+        <item quantity="other">in %d days</item>
+    </plurals>
+    <plurals name="relative_days_ago">
+        <item quantity="one">%d day ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <string name="activity_details_title">Activity</string>
+    <string name="action_share_activity">Share where I\'m volunteering</string>
+    <string name="action_save_favourite">Save to favourites</string>
+    <string name="action_remove_favourite">Remove from favourites</string>
+    <string name="action_add_to_calendar">Add to calendar</string>
+    <string name="spots_left_of">%1$d of %2$d spots left</string>
+    <string name="need_help_title">On the day: I need help</string>
+    <string name="need_help_subtitle">Call 112, 10111 or Philisa, or text your emergency contact</string>
+    <string name="join_needs_connection">Joining needs a connection</string>
+    <string name="share_activity_text">I\'m volunteering at %1$s, %2$s, %3$s.</string>
+    <string name="error_no_calendar_app">There is no calendar app on this phone.</string>
+    <string name="error_no_app">There is no app on this phone that can do that.</string>
+    <string name="need_help_sheet_title">I need help</string>
+    <string name="need_help_sheet_body">Each option opens your phone with everything filled in. Nothing is sent until you tap call or send.</string>
+    <string name="need_help_call_112">Call 112</string>
+    <string name="need_help_call_112_desc">Emergency services, from any phone</string>
+    <string name="need_help_call_police">Call 10111</string>
+    <string name="need_help_call_police_desc">South African Police Service</string>
+    <string name="need_help_call_philisa">Call Philisa\'s crisis line</string>
+    <string name="pab_crisis_line" translatable="false">+27817469889</string>
+    <string name="pab_crisis_line_display" translatable="false">081 746 9889</string>
+    <string name="need_help_text_contact">Text %1$s</string>
+    <string name="need_help_text_contact_desc">A message saying where you are and that you need help</string>
+    <string name="need_help_sms">I\'m at %1$s at %2$s and I need help. Please call me.</string>
+    <string name="need_help_no_contact">Add an emergency contact</string>
+    <string name="need_help_no_contact_desc">So you can text them from here in one tap</string>
+    <string name="profile_id_line">%1$s · %2$s</string>
+    <plurals name="profile_volunteering_for">
+        <item quantity="one">volunteering for %d month</item>
+        <item quantity="other">volunteering for %d months</item>
+    </plurals>
+    <string name="profile_my_activities">My activities</string>
+    <string name="profile_tab_upcoming">Upcoming (%1$d)</string>
+    <string name="profile_tab_past">Past (%1$d)</string>
+    <string name="clearance_pill_cleared">Cleared</string>
+    <string name="clearance_pill_waiting">Waiting</string>
+    <string name="clearance_pill_expired">Expired</string>
+    <string name="settings_emergency_contact">Emergency contact</string>
+    <string name="emergency_contact_none">Not set. Who should \"I need help\" text?</string>
+    <string name="emergency_contact_explain">On the day of an activity, \"I need help\" can text this person where you are. Only you see it.</string>
+    <string name="emergency_contact_name">Their name</string>
+    <string name="emergency_contact_phone">Their phone number</string>
+    <string name="emergency_contact_error_name">Add their name too.</string>
+    <string name="emergency_contact_saved">Emergency contact saved.</string>
+    <string name="action_save">Save</string>
+    <string name="settings_app_lock">Lock with fingerprint</string>
+    <string name="settings_app_lock_desc">Ask for it when the app reopens</string>
+    <string name="app_lock_confirm">Confirm it\'s you to turn on the lock</string>
+    <string name="app_lock_title">Unlock Philisa Volunteers</string>
+    <string name="app_lock_body">Use your fingerprint, face or screen lock.</string>
+    <string name="app_lock_unlock">Unlock</string>
+    <string name="settings_reminders">Reminders</string>
+    <string name="reminders_off">Off</string>
+    <string name="reminders_hour">1 hour before a joined activity</string>
+    <string name="reminders_day">1 day before a joined activity</string>
+    <string name="channel_reminders">Reminders</string>
+    <string name="channel_reminders_desc">Before an activity you have joined.</string>
+    <string name="notify_reminder">Coming up: %1$s</string>
 </resources>

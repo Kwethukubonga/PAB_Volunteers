@@ -46,6 +46,21 @@ object DateUtils {
         return (end - start).coerceAtLeast(0)
     }
 
+    /** The moment an activity starts, or the start of its day when the time can't be read. */
+    fun startOfActivity(dateMillis: Long, startTime: String): Long =
+        startOfDay(dateMillis) + (minutesOfDay(startTime) ?: 0) * MINUTE_MILLIS
+
+    /** Calendar days from [from] to [to]: 0 for the same day, 1 for the next, -1 for the one before. */
+    fun daysBetween(from: Long, to: Long): Int =
+        Math.round((startOfDay(to) - startOfDay(from)).toDouble() / DAY_MILLIS).toInt()
+
+    /** Midnight [days] calendar days after the day containing [timestamp]. */
+    fun addDays(timestamp: Long, days: Int): Long =
+        Calendar.getInstance().apply {
+            timeInMillis = startOfDay(timestamp)
+            add(Calendar.DAY_OF_YEAR, days)
+        }.timeInMillis
+
     /**
      * The moment an activity finishes, so a morning slot stops counting as upcoming by
      * the afternoon. Times that do not make sense fall back to the end of the day.

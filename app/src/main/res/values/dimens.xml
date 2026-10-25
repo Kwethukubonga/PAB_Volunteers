@@ -27,13 +27,16 @@
     <dimen name="settings_row_min_height">56dp</dimen>
     <!-- Lines a choice up under its row title: the row padding, the icon and the gap after it. -->
     <dimen name="settings_choice_inset">56dp</dimen>
-    <!-- Widest a content column gets. Phones are narrower than this, so it only
-         takes effect on tablets, where a full width row looks stretched. -->
-    <dimen name="content_max_width">640dp</dimen>
     <!-- Breathing room either side of a card. Only matters once cards sit two abreast. -->
     <dimen name="card_gutter">0dp</dimen>
     <!-- Picture on an announcement. Tall enough to read at a glance. -->
     <dimen name="announcement_image_height">280dp</dimen>
     <dimen name="stroke_normal">1dp</dimen>
     <dimen name="stroke_selected">2dp</dimen>
+    <!-- The Home header leaves this much room for the next-activity card to sit over it. -->
+    <dimen name="home_card_overlap_space">40dp</dimen>
+    <dimen name="home_card_overlap">-24dp</dimen>
+    <!-- A standard top bar on detail screens (E10). -->
+    <dimen name="top_bar_height">56dp</dimen>
+    <dimen name="details_photo_height">160dp</dimen>
 </resources>

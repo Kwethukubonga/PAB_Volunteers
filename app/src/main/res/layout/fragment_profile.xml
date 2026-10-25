@@ -12,75 +12,56 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Who they are: a colour of their own (K11), their name, ID and how long they've helped. -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_gradient_header"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingStart="@dimen/spacing_lg"
-            android:paddingTop="@dimen/spacing_xl"
+            android:paddingTop="@dimen/spacing_lg"
             android:paddingEnd="@dimen/spacing_lg"
-            android:paddingBottom="@dimen/spacing_xl">
+            android:paddingBottom="@dimen/spacing_lg">
 
             <TextView
                 android:id="@+id/tvAvatarInitial"
                 android:layout_width="@dimen/avatar_size_lg"
                 android:layout_height="@dimen/avatar_size_lg"
-                android:background="@drawable/bg_profile_circle"
+                android:background="@drawable/bg_avatar"
                 android:gravity="center"
-                android:textColor="@color/accent"
+                android:importantForAccessibility="no"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_display"
                 android:textStyle="bold"
                 tools:text="N" />
 
-            <TextView
-                android:id="@+id/tvUserName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_md"
-                android:textAppearance="@style/TextAppearance.PAB.Display"
-                android:textSize="24sp"
-                tools:text="Nomsa Dlamini" />
+                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvVolunteerId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xs"
-                android:textColor="@color/text_on_purple_muted"
-                android:textSize="@dimen/text_caption"
-                tools:text="Volunteer ID · VOL-2026-084" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tvUserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:accessibilityHeading="true"
+                    android:textAppearance="@style/TextAppearance.PAB.Display"
+                    android:textSize="22sp"
+                    tools:text="Nomsa Dlamini" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
-
-            <include
-                android:id="@+id/statMonths"
-                layout="@layout/item_stat_tile" />
-
-            <Space
-                android:layout_width="@dimen/spacing_sm"
-                android:layout_height="1dp" />
-
-            <include
-                android:id="@+id/statActivities"
-                layout="@layout/item_stat_tile" />
-
-            <Space
-                android:layout_width="@dimen/spacing_sm"
-                android:layout_height="1dp" />
-
-            <include
-                android:id="@+id/statUpcoming"
-                layout="@layout/item_stat_tile" />
+                <TextView
+                    android:id="@+id/tvVolunteerId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/text_on_purple"
+                    android:textSize="@dimen/text_caption"
+                    tools:text="VOL-2026-ABC123 · volunteering for 8 months" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Background check, as recorded by Philisa's admins. -->
@@ -128,6 +109,16 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.PAB.Caption" />
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvClearancePill"
+                    style="@style/Widget.PAB.StatusPill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_sm"
+                    android:visibility="gone"
+                    tools:text="Cleared"
+                    tools:visibility="visible" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -163,6 +154,38 @@
 
             <include android:id="@+id/milestone4" layout="@layout/item_milestone" />
         </LinearLayout>
+
+        <!-- Their places, upcoming and past, with when each is (K10). -->
+        <TextView
+            style="@style/TextAppearance.PAB.FieldLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:accessibilityHeading="true"
+            android:text="@string/profile_my_activities" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsMyActivities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/spacing_md"
+            android:background="@color/background_cream"
+            app:tabIndicatorColor="@color/accent"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/accent"
+            app:tabTextColor="@color/text_secondary" />
+
+        <LinearLayout
+            android:id="@+id/layoutMyActivities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginTop="@dimen/spacing_sm"
+            android:layout_marginEnd="@dimen/spacing_md"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.PAB.Card"

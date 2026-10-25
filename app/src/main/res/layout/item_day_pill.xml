@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One day in the Home week strip: a dot when something is booked, the weekday and the date. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    android:layout_weight="1"
+    android:background="@drawable/bg_day_pill"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_horizontal"
+    android:minHeight="@dimen/touch_target_min"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/spacing_sm"
+    android:paddingBottom="@dimen/spacing_sm">
+
+    <View
+        android:id="@+id/dot"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/bg_day_dot"
+        android:importantForAccessibility="no" />
+
+    <TextView
+        android:id="@+id/tvWeekday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:textAppearance="@style/TextAppearance.PAB.Caption"
+        tools:text="Sat" />
+
+    <TextView
+        android:id="@+id/tvDayNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/text_subtitle"
+        android:textStyle="bold"
+        tools:text="24" />
+</LinearLayout>

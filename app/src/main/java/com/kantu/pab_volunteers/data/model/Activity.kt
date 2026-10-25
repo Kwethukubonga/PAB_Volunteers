@@ -29,6 +29,9 @@ data class Activity(
     @get:Exclude
     val spotsRemaining: Int get() = (totalSpots - filledSpots).coerceAtLeast(0)
 
+    @get:Exclude
+    val startsAtMillis: Long get() = DateUtils.startOfActivity(dateMillis, startTime)
+
     // An activity counts as finished once this moment has passed.
     @get:Exclude
     val endsAtMillis: Long get() = DateUtils.endOfActivity(dateMillis, startTime, endTime)

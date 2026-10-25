@@ -120,6 +120,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.biometric)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
