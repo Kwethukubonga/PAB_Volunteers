@@ -50,7 +50,7 @@ class ProfileInterestsActivity : AppCompatActivity() {
         viewModel.user.observe(this) { user ->
             if (user == null || selected.isNotEmpty()) return@observe
             selected.addAll(user.programmeInterests)
-            binding.rvInterests.adapter?.notifyDataSetChanged()
+            binding.rvInterests.adapter?.let { it.notifyItemRangeChanged(0, it.itemCount) }
         }
         viewModel.isLoading.observe(this) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE

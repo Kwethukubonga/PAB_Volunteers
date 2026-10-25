@@ -9,6 +9,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.databinding.ItemAnnouncementBinding
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 /** One row per announcement. The thumbs up only shows where a handler is given. */
 // onClick stays last so the existing trailing-lambda call sites keep working.
@@ -77,8 +78,13 @@ class AnnouncementAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<Announcement>, userId: String = currentUserId) {
+        val old = items
         items = newItems
-        currentUserId = userId
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.id == b.id }
+        if (userId != currentUserId) {
+            // Someone else signed in: every thumbs up may read differently.
+            currentUserId = userId
+            notifyItemRangeChanged(0, items.size)
+        }
     }
 }

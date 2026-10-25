@@ -10,6 +10,7 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Announcement
 import com.kantu.pab_volunteers.databinding.ItemAdminAnnouncementBinding
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 class ManageAnnouncementAdapter(
     private var items: List<Announcement>,
@@ -69,7 +70,8 @@ class ManageAnnouncementAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<Announcement>) {
+        val old = items
         items = newItems
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.id == b.id }
     }
 }
