@@ -23,6 +23,7 @@ import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.resizeForKeyboard
 import kotlinx.coroutines.launch
 
 /** Creates a new announcement when opened with a blank id, otherwise edits the existing one. */
@@ -59,6 +60,7 @@ class AnnouncementEditorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        resizeForKeyboard()
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         binding.btnSave.setOnClickListener { save() }

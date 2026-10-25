@@ -19,6 +19,7 @@ import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.resizeForKeyboard
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -52,6 +53,7 @@ class ActivityEditorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        resizeForKeyboard()
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
         binding.etDate.setOnClickListener { pickDate() }
