@@ -488,4 +488,13 @@
     <string name="fingerprint_turned_on">Vingerafdruk-aanmelding is aan</string>
     <string name="fingerprint_turned_off">Vingerafdruk-aanmelding is af</string>
     <string name="fingerprint_failed">Vingerafdruk-aanmelding is nie aangeskakel nie: %1$s</string>
+
+    <!-- Buttons on empty lists, Try again when a list did not load, and named delete buttons. -->
+    <string name="action_browse_activities">Blaai deur aktiwiteite</string>
+    <string name="action_find_opportunities">Vind geleenthede</string>
+    <string name="action_create_activity">Skep aktiwiteit</string>
+    <string name="action_clear_search">Maak soektog skoon</string>
+    <string name="action_try_again">Probeer weer</string>
+    <string name="action_delete_activity">Skrap aktiwiteit</string>
+    <string name="action_delete_announcement">Skrap aankondiging</string>
 </resources>

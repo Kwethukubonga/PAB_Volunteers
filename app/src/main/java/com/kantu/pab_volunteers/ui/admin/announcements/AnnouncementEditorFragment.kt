@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -19,10 +18,12 @@ import com.kantu.pab_volunteers.data.remote.ImageUploader
 import com.kantu.pab_volunteers.databinding.FragmentAnnouncementEditorBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.utils.AppError
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
+import com.kantu.pab_volunteers.utils.UiText
 import com.kantu.pab_volunteers.utils.resizeForKeyboard
 import kotlinx.coroutines.launch
 
@@ -108,8 +109,7 @@ class AnnouncementEditorFragment : Fragment() {
         viewModel.saved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
                 viewModel.consumeSaved()
-                Toast.makeText(requireContext(), R.string.announcement_saved, Toast.LENGTH_SHORT)
-                    .show()
+                AppMessage.showOver(requireActivity(), UiText.Res(R.string.announcement_saved))
                 findNavController().popBackStack()
             }
         }

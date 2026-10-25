@@ -91,6 +91,10 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
     private val _message = MutableLiveData<UiText?>()
     val message: LiveData<UiText?> = _message
 
+    // Why the last refresh failed, until one succeeds. An empty list shows it with Try again (K5).
+    private val _loadFailed = MutableLiveData<UiText?>(null)
+    val loadFailed: LiveData<UiText?> = _loadFailed
+
     private val _profileSaved = MutableLiveData(false)
     val profileSaved: LiveData<Boolean> = _profileSaved
 
@@ -162,6 +166,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 _hoursCompleted.value = totalHours(finished)
                 _milestones.value = Milestone.from(finished)
                 _clearance.value = clearanceLoad.await()
+                _loadFailed.value = null
 
                 val announcements: List<Announcement> = announcementsLoad.await()
                 _announcements.value = announcements
@@ -176,6 +181,7 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
                 throw e
             } catch (e: Exception) {
                 _message.value = ErrorMessages.textFor(e)
+                _loadFailed.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }

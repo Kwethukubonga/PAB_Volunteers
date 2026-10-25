@@ -77,6 +77,14 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val _message = MutableLiveData<UiText?>()
     val message: LiveData<UiText?> = _message
 
+    // Why each load last failed, until it succeeds. An empty list shows it with Try again (K5).
+    private val _listsFailed = MutableLiveData<UiText?>(null)
+    val listsFailed: LiveData<UiText?> = _listsFailed
+    private val _signupsFailed = MutableLiveData<UiText?>(null)
+    val signupsFailed: LiveData<UiText?> = _signupsFailed
+    private val _concernsFailed = MutableLiveData<UiText?>(null)
+    val concernsFailed: LiveData<UiText?> = _concernsFailed
+
     private val _saved = MutableLiveData(false)
     val saved: LiveData<Boolean> = _saved
 
@@ -95,10 +103,12 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
                 _activities.value = activityRepository.getAllActivities()
                 _announcements.value = announcementRepository.getAllAnnouncements()
                 _totalSignups.value = _activities.value.orEmpty().sumOf { it.filledSpots }
+                _listsFailed.value = null
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 _message.value = ErrorMessages.textFor(e)
+                _listsFailed.value = ErrorMessages.textFor(e)
             }
             _isLoading.value = false
         }
@@ -133,10 +143,12 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
                 // Kept apart so a problem reading feedback never hides who signed up.
                 _feedbackForActivity.value =
                     runCatching { feedbackRepository.getForActivity(activityId) }.getOrDefault(emptyList())
+                _signupsFailed.value = null
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 _message.value = ErrorMessages.textFor(e)
+                _signupsFailed.value = ErrorMessages.textFor(e)
             }
         }
     }
@@ -263,8 +275,14 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
         _isLoading.value = true
         viewModelScope.launch {
             runCatching { concernRepository.getAll() }
-                .onSuccess { _concerns.value = it }
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
+                .onSuccess {
+                    _concerns.value = it
+                    _concernsFailed.value = null
+                }
+                .onFailure {
+                    _message.value = ErrorMessages.textFor(it)
+                    _concernsFailed.value = ErrorMessages.textFor(it)
+                }
             _isLoading.value = false
         }
     }

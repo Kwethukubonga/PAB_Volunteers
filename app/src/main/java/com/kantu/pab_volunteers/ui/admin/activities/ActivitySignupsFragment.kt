@@ -19,6 +19,7 @@ import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.safety.FeedbackSummary
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ActivitySignupsFragment : Fragment() {
@@ -55,10 +56,21 @@ class ActivitySignupsFragment : Fragment() {
         // Watched rather than read once, so the header fills in if Android reopened this
         // screen before the activity list had loaded.
         viewModel.activities.observe(viewLifecycleOwner) { renderHeader() }
+        val emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_people)
+        fun renderList() {
+            val signups = viewModel.signupsForActivity.value.orEmpty()
+            val failed = viewModel.signupsFailed.value
+            binding.rvSignups.isVisible = signups.isNotEmpty()
+            when {
+                signups.isNotEmpty() -> emptyState.hide()
+                failed != null -> emptyState.showFailed(failed) { viewModel.loadSignups(activityId) }
+                else -> emptyState.showEmpty(getString(R.string.empty_no_signups))
+            }
+        }
+        viewModel.signupsFailed.observe(viewLifecycleOwner) { renderList() }
         viewModel.signupsForActivity.observe(viewLifecycleOwner) { signups ->
             adapter.submitList(signups)
-            binding.rvSignups.isVisible = signups.isNotEmpty()
-            binding.layoutEmpty.isVisible = signups.isEmpty()
+            renderList()
             renderHeader()
         }
 

@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,8 +16,10 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentActivityEditorBinding
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.UiText
 import com.kantu.pab_volunteers.utils.resizeForKeyboard
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -98,7 +99,7 @@ class ActivityEditorFragment : Fragment() {
         viewModel.saved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
                 viewModel.consumeSaved()
-                Toast.makeText(requireContext(), R.string.activity_saved, Toast.LENGTH_SHORT).show()
+                AppMessage.showOver(requireActivity(), UiText.Res(R.string.activity_saved))
                 findNavController().popBackStack()
             }
         }

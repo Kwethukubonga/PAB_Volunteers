@@ -3,7 +3,6 @@ package com.kantu.pab_volunteers.ui.settings
 import android.os.Bundle
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +23,7 @@ import com.kantu.pab_volunteers.security.FingerprintSignIn
 import com.kantu.pab_volunteers.ui.auth.GoogleSignIn
 import com.kantu.pab_volunteers.ui.auth.GoogleSignInError
 import com.kantu.pab_volunteers.ui.auth.Session
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
@@ -163,7 +163,7 @@ class DeleteAccountActivity : AppCompatActivity() {
         lifecycleScope.launch {
             accountRepository.deleteCurrentAccount(credential)
                 .onSuccess {
-                    Toast.makeText(this@DeleteAccountActivity, R.string.account_deleted, Toast.LENGTH_LONG).show()
+                    AppMessage.showOnNextScreen(UiText.Res(R.string.account_deleted))
                     // Nothing left to sign in to, so a fingerprint sign-in saved for it goes too.
                     if (FingerprintSignIn.isSetUpFor(this@DeleteAccountActivity, email)) {
                         FingerprintSignIn.clear(this@DeleteAccountActivity)

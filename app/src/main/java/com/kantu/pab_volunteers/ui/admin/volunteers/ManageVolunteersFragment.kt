@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.databinding.FragmentManageVolunteersBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.Search
 import com.kantu.pab_volunteers.utils.observeMessages
@@ -27,6 +28,7 @@ class ManageVolunteersFragment : Fragment() {
     private val viewModel: AdminViewModel by activityViewModels()
 
     private lateinit var adapter: VolunteerAdapter
+    private lateinit var emptyState: EmptyState
     private var volunteers: List<User> = emptyList()
     private var query = ""
 
@@ -58,6 +60,8 @@ class ManageVolunteersFragment : Fragment() {
             render()
         }
 
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_admin_volunteers)
+        viewModel.listsFailed.observe(viewLifecycleOwner) { render() }
         viewModel.volunteers.observe(viewLifecycleOwner) {
             volunteers = it
             render()
@@ -72,15 +76,18 @@ class ManageVolunteersFragment : Fragment() {
         val shown = volunteers.filter { Search.matches(it, query) }
         adapter.submitList(shown)
         binding.rvItems.isVisible = shown.isNotEmpty()
-        binding.layoutEmpty.isVisible = shown.isEmpty()
         binding.tvSubtitle.text = resources.getQuantityString(
             R.plurals.registered_volunteers, volunteers.size, volunteers.size
         )
-        // Nothing matched the search, as opposed to nobody registered yet.
-        if (volunteers.isNotEmpty() && shown.isEmpty()) {
-            binding.tvEmptyMessage.text = getString(R.string.search_no_volunteers, query.trim())
-        } else {
-            binding.tvEmptyMessage.setText(R.string.empty_no_volunteers)
+        val failed = viewModel.listsFailed.value
+        when {
+            shown.isNotEmpty() -> emptyState.hide()
+            // Nothing matched the search, as opposed to nobody registered yet.
+            volunteers.isNotEmpty() -> emptyState.showEmpty(
+                getString(R.string.search_no_volunteers, query.trim()), R.string.action_clear_search
+            ) { binding.search.etSearch.text?.clear() }
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            else -> emptyState.showEmpty(getString(R.string.empty_no_volunteers))
         }
     }
 

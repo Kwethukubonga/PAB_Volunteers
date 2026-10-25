@@ -488,4 +488,13 @@
     <string name="fingerprint_turned_on">Ukungena ngomnwe kuvuliwe</string>
     <string name="fingerprint_turned_off">Ukungena ngomnwe kuvaliwe</string>
     <string name="fingerprint_failed">Ukungena ngomnwe akuvulwanga: %1$s</string>
+
+    <!-- Buttons on empty lists, Try again when a list did not load, and named delete buttons. -->
+    <string name="action_browse_activities">Khangela imisebenzi</string>
+    <string name="action_find_opportunities">Fumana amathuba</string>
+    <string name="action_create_activity">Yenza umsebenzi</string>
+    <string name="action_clear_search">Cima ukukhangela</string>
+    <string name="action_try_again">Zama kwakhona</string>
+    <string name="action_delete_activity">Cima umsebenzi</string>
+    <string name="action_delete_announcement">Cima isaziso</string>
 </resources>

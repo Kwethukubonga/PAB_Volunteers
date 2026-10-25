@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.kantu.pab_volunteers.R
@@ -14,6 +13,7 @@ import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
 import com.kantu.pab_volunteers.utils.AppLanguage
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -81,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
 
         // Say why, otherwise being sent back to the start looks like the app is broken.
         result.exceptionOrNull()?.let {
-            Toast.makeText(this, ErrorMessages.textFor(it).resolve(this), Toast.LENGTH_LONG).show()
+            AppMessage.showOnNextScreen(ErrorMessages.textFor(it))
         }
         AppNavGraph.goToWelcome(this)
     }

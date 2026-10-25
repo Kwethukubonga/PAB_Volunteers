@@ -528,4 +528,13 @@
     <string name="fingerprint_turned_on">Fingerprint sign-in is on</string>
     <string name="fingerprint_turned_off">Fingerprint sign-in is off</string>
     <string name="fingerprint_failed">Fingerprint sign-in wasn\'t turned on: %1$s</string>
+
+    <!-- Buttons on empty lists, Try again when a list did not load, and named delete buttons. -->
+    <string name="action_browse_activities">Browse activities</string>
+    <string name="action_find_opportunities">Find opportunities</string>
+    <string name="action_create_activity">Create activity</string>
+    <string name="action_clear_search">Clear search</string>
+    <string name="action_try_again">Try again</string>
+    <string name="action_delete_activity">Delete activity</string>
+    <string name="action_delete_announcement">Delete announcement</string>
 </resources>

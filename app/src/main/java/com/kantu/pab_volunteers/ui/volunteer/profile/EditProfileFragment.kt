@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -15,7 +14,9 @@ import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentEditProfileBinding
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.PhoneFormattingWatcher
+import com.kantu.pab_volunteers.utils.UiText
 import com.kantu.pab_volunteers.utils.resizeForKeyboard
 
 class EditProfileFragment : Fragment() {
@@ -60,7 +61,7 @@ class EditProfileFragment : Fragment() {
         viewModel.profileSaved.observe(viewLifecycleOwner) { saved ->
             if (saved) {
                 viewModel.consumeProfileSaved()
-                Toast.makeText(requireContext(), R.string.profile_updated, Toast.LENGTH_SHORT).show()
+                AppMessage.showOver(requireActivity(), UiText.Res(R.string.profile_updated))
                 findNavController().popBackStack()
             }
         }
