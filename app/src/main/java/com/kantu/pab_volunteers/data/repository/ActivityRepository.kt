@@ -97,14 +97,18 @@ class ActivityRepository {
             .sortedBy { it.dateMillis }
     }
 
-    // Only activities published after [since], so the background check reads very little.
+    /**
+     * Activities published after [since], for the background check. The rules only let a
+     * volunteer list published activities, so the query asks for those and the time is checked
+     * here; filtering on both in the query would need a composite index.
+     */
     suspend fun getPublishedSince(since: Long): List<Activity> {
         return activitiesCollection()
-            .whereGreaterThan("publishedAt", since)
+            .whereEqualTo("status", Activity.STATUS_PUBLISHED)
             .get()
             .await()
             .toObjects(Activity::class.java)
-            .filter { it.status == Activity.STATUS_PUBLISHED }
+            .filter { it.publishedAt > since }
     }
 
     // Activities on or after [dayStart], used to spot ones that have just filled up.

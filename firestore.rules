@@ -71,7 +71,12 @@ service cloud.firestore {
     }
 
     match /activities/{activityId} {
-      allow read: if isSignedIn();
+      // Drafts are for admins until published (R1). A volunteer can still open one they joined
+      // before it was hidden, so they can read the details and leave. Lists must ask for
+      // published activities only, or be an admin's.
+      allow get: if isAdmin()
+        || (isSignedIn() && (resource.data.status == 'published' || exists(signupPath(activityId))));
+      allow list: if isAdmin() || (isSignedIn() && resource.data.status == 'published');
       allow create, delete: if isAdmin();
 
       // Admins edit activities. Volunteers may only move the spot counter by one,

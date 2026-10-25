@@ -168,8 +168,9 @@ class VolunteerViewModel(app: Application) : AndroidViewModel(app) {
 
                 // Keep an open detail screen in step with the data it is showing.
                 if (selectedActivityId.isNotBlank()) {
+                    // A hidden activity they never joined is refused by the rules: show nothing, not an error.
                     _selectedActivity.value = activityById(selectedActivityId)
-                        ?: activityRepository.getActivity(selectedActivityId)
+                        ?: runCatching { activityRepository.getActivity(selectedActivityId) }.getOrNull()
                 }
             } catch (e: CancellationException) {
                 throw e

@@ -296,6 +296,31 @@ describe('activities and sign-ups', () => {
     await assertFails(join(asVolunteer(), DRAFT, VOLUNTEER, 1));
   });
 
+  it('lets a volunteer open a published activity but not a draft', async () => {
+    await assertSucceeds(getDoc(doc(asVolunteer(), 'activities', OPEN)));
+    await assertFails(getDoc(doc(asVolunteer(), 'activities', DRAFT)));
+  });
+
+  it('lets a volunteer still open an activity they joined after it was hidden', async () => {
+    await testEnv.withSecurityRulesDisabled(async (context) => {
+      await setDoc(doc(context.firestore(), 'activitySignups', signupId(DRAFT, VOLUNTEER)), {
+        activityId: DRAFT, userId: VOLUNTEER,
+      });
+    });
+    await assertSucceeds(getDoc(doc(asVolunteer(), 'activities', DRAFT)));
+  });
+
+  it('lets a volunteer list published activities, but not every activity', async () => {
+    const activities = collection(asVolunteer(), 'activities');
+    await assertSucceeds(getDocs(query(activities, where('status', '==', 'published'))));
+    await assertFails(getDocs(activities));
+  });
+
+  it('lets an admin list every activity, drafts included', async () => {
+    const all = await assertSucceeds(getDocs(collection(asAdmin(), 'activities')));
+    assert.strictEqual(all.size, 3);
+  });
+
   it('stops a volunteer joining the same activity twice', async () => {
     await assertSucceeds(join(asVolunteer(), OPEN, VOLUNTEER, 2));
     await assertFails(join(asVolunteer(), OPEN, VOLUNTEER, 3));
