@@ -33,7 +33,7 @@ Read the notes without leaving your work branch: `git show origin/changes_final_
 cd firestore-tests && npm ci && npm test   # rules tests (needs Java 17+ for the emulator)
 ```
 
-CI (`.github/workflows/`) runs unit tests, lint and the rules tests on every push and PR.
+CI (`.github/workflows/`) runs unit tests, lint and the rules tests on every push and PR, then builds the APK. On a merge into `master` it deploys the download page (https://pab-volunteers.web.app), that APK and `firestore.rules`, using the `FIREBASE_SERVICE_ACCOUNT` secret.
 
 ## Rules for this project
 

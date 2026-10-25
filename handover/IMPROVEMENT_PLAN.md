@@ -8,7 +8,7 @@ This plan turns three sources into one checklist:
 
 Each item names the repo it belongs to, its priority, how to do it, and how to know it is finished. Items that came from the marker's feedback are tagged with the rubric criterion they address.
 
-**Progress (24 October 2026):** 58 of 108 done, 16 part done (marked **Status**). K1–K4, K19–K26 and the mockup screens (E6, F9, I1, I3, K9, K12, K14 and parts of E7, E10, K6, K7, K10, K11, K13) are built on feature branches and still need their PRs into `develop`. Section 8 lists what's left on Android. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
+**Progress (25 October 2026):** 64 of 108 done, 15 part done (marked **Status**). Android `develop` now has the Settings rebuild (K1–K4, PR #21), the shared palette (E1, PR #20) and the deploy pipeline (D2, PR #19). K19–K26 and the mockup screens (E6, F9, I1, I3, K9, K12, K14 and parts of E7, E10, K6, K7, K10, K11, K13) are on `feature/tlhogi/collective-features` and `feature/tlhogi/mockup-screens`, which go into `develop` next, in that order. The web site moved from Railway to Render, with Postgres on Neon (PRs #14, #15). Section 8 lists what's left on Android. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
 
 > ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only and live only on the `changes_final_POE` branch of each repo. Delete both branches before submitting (`HANDOVER.md` section 5, step F1).
 
@@ -139,8 +139,8 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Add `ISupportRequestService`, `IContactService` and `IReferenceGenerator`, registered with dependency injection. Pages and API endpoints (B1) both call the services.
   - **Done when:** no page model references `AppDbContext`, and the services have unit tests with an in-memory or SQLite test database.
 
-- [ ] **A8 · P2 · Web: Move content out of C# classes**
-  - **Status (22 Oct):** Part done. Resources moved to `Data/ResourceData.cs` (typed data shared by the page, the API and the offline copy). Programmes are still in `Data/SiteData.cs` and UI text still uses `s.Pick(...)`; no `.resx` yet.
+- [x] **A8 · P2 · Web: Move content out of C# classes**
+  - **Status (25 Oct):** Done (Unathi). UI text is in `.resx` files for English, isiXhosa and Afrikaans (PR #10), and the programmes are in `Content/programmes.json`, read by `Data/ProgrammeContent.cs` (PR #19). Resources are in `Data/ResourceData.cs`.
   - Programme content lives in `Data/SiteData.cs`, and page text uses inline `s.Pick("English", "isiXhosa", "Afrikaans")` calls in the views.
   - Move programme content to a JSON file or a seeded table, and UI text to `.resx` files per language with `IStringLocalizer`.
   - **Done when:** changing a programme description or a label means editing a content file, not C# or Razor code.
@@ -172,18 +172,20 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 ### C. Data and hosting
 *Rubric: Hosting Deployment, Hosting Stability, Database*
 
-- [ ] **C1 · P1 · Web: Move from SQLite to a managed database**
-  - **Status (22 Oct):** Code ready: `Data/DatabaseProvider.cs` switches to Npgsql when the connection string points at Postgres. Still to do: provision the database on Railway, set the connection string, turn on backups and test a restore.
+- [x] **C1 · P1 · Web: Move from SQLite to a managed database**
+  - **Status (25 Oct):** Done (Nuha, PRs #14, #15). Railway is out, so the site runs on Render's free plan with Postgres on Neon (Frankfurt), its own migrations in `Migrations/Postgres`, and the encryption keys stored in the database, locked with a certificate held only in Render's settings. `tools/database/Backup-Database.ps1` and `Test-Restore.ps1` back up and restore; the live database was backed up and restored in a test. Known gap: the connection doesn't check Neon's server certificate yet (`Trust Server Certificate=true`).
   - Use Railway's Postgres plugin, Neon or Supabase, with the Npgsql EF Core provider.
   - Put the connection string in an environment variable, run migrations on deploy, and turn on automatic backups.
   - Write down the restore steps and test them once.
   - **Done when:** the live site runs on Postgres, restarting or redeploying loses nothing, and a backup has been restored in a test.
 
 - [x] **C2 · P0 · Web: Health check**
+  - **Status (25 Oct):** `/health` still checks the database. `/alive` (PR #15) answers without it, for Render's health check and an uptime monitor, so Neon can sleep between visitors.
   - Add `AddHealthChecks()` with a database check, mapped to `/health`, and set it as Railway's health check path so broken deploys aren't promoted.
   - **Done when:** `/health` returns 200 when healthy and 503 when the database is unreachable.
 
-- [ ] **C3 · P1 · Android: Put the download page live**
+- [x] **C3 · P1 · Android: Put the download page live**
+  - **Status (25 Oct):** Done (Kwethu, PR #19): live at https://pab-volunteers.web.app and linked in the README; the deploy checks the APK still downloads as an APK. Still worth doing once: download and install it on a phone.
   - The README still says the Firebase Hosting download page is "in progress". Deploy it (see D2), add the link to the README, and test the APK download on a phone.
 
 - [ ] **C4 · P2 · Both: Uptime monitoring**
@@ -192,11 +194,13 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 ### D. CI/CD
 *Rubric: GitHub CI/CD (11/20), Version Control*
 
-- [x] **D1 · P0 · Web: Deploy automatically after the tests pass**
+- [ ] **D1 · P0 · Web: Deploy automatically after the tests pass**
+  - **Status (25 Oct):** Part done. Worked on Railway; with the move to Render (PR #14) the deploy job calls Render's deploy hook for the commit that passed the tests, only on `main`. It's skipped with a note until the `RENDER_DEPLOY_HOOK` secret is set (HANDOVER W1, S3).
   - Add a `deploy` job to `dotnet-tests.yml` that runs after `test`, only on `main`, using the Railway CLI with a `RAILWAY_TOKEN` secret. Or connect Railway to GitHub with "Wait for CI" turned on.
   - **Done when:** merging to `main` updates the live site with no manual step, and a failing test blocks the deploy.
 
 - [ ] **D2 · P0 · Android: Deploy hosting and rules from the pipeline**
+  - **Status (25 Oct):** Part done. The deploy job is built (Kwethu, PR #19): after build, unit tests, lint and the rules tests pass on a merge into `master`, one `firebase deploy` publishes the page, that build's APK and `firestore.rules`, then checks the page. Still to do: add the `FIREBASE_SERVICE_ACCOUNT` secret (Firebase Hosting Admin and Firebase Rules Admin roles) and see the first merge into `master` deploy.
   - After `build` passes on `master`, publish the APK and download page to Firebase Hosting (`FirebaseExtended/action-hosting-deploy` with a service account secret).
   - After the rules tests pass, run `firebase deploy --only firestore:rules`, so the tested rules are always the live ones.
   - **Done when:** a merge to `master` updates the download page and the live rules without anyone running `firebase deploy`.
@@ -206,7 +210,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Add the A1–A3 and B4 tests, collect coverage (`coverlet`), and keep the test and coverage reports as artifacts the way the Android pipeline does.
 
 - [ ] **D4 · P2 · Both: Branch protection, badges and Dependabot**
-  - **Status (22 Oct):** Part done (web): `.github/dependabot.yml` and a CI badge. Still to do: branch protection on both repos, Dependabot and badge on Android.
+  - **Status (25 Oct):** Part done. Dependabot on both (Android: Kwethu, PR #19, for Gradle, the workflow's actions and both npm folders) and a CI badge on the web README. Still to do: branch protection on both repos, and a CI badge on the Android README.
   - Require CI to pass and one review before merging into `develop` and `main`/`master`.
   - Add CI status badges to both READMEs.
   - Add `.github/dependabot.yml` for Gradle, NuGet, npm and GitHub Actions. Lint currently lists 63 outdated dependencies.
@@ -217,8 +221,8 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
 ### E. Design system and visual consistency
 *Rubric: Visual Design & Branding (7/10). Impeccable: craft floor, document, typeset, quieter*
 
-- [ ] **E1 · P1 · Both: Define the palette once**
-  - **Status (22 Oct):** Web done: `design/tokens.json` and `tools/tokens/build.js` write the Tailwind theme and Android `colors.xml`. The Android side is on branch `feature/kwethu/design-tokens` (PAB_Volunteers) with no PR yet. Night colours are still hand-written.
+- [x] **E1 · P1 · Both: Define the palette once**
+  - **Status (25 Oct):** Done. `design/tokens.json` and `tools/tokens/build.js` (web repo) write the Tailwind theme and Android's `values/colors.xml`, merged on Android in PR #20 (Kwethu). Android's `values-night/colors.xml` is still written by hand.
   - Today Android uses `#5B21B6`, `#4C1D95`, `#3B0764`, `#7C3AED`, `#EDE9FE` and cream `#FDFBF5`. The web uses Tailwind's default `purple-700` (#7E22CE), `purple-900`, `stone-*` and an arbitrary `#fffbf5`. They don't match.
   - Create `design/tokens.json` with brand purples, neutrals, status colours, type scale, spacing and corner radii.
   - Add a small script (for example `tools/tokens/build.js`) that writes Android's `colors.xml`, `values-night/colors.xml` and `dimens.xml`, and the web's Tailwind theme.
@@ -363,6 +367,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Add a "Copy reference" button.
 
 - [ ] **G7 · P2 · Both: Test edge cases**
+  - **Status (25 Oct):** Web done (Unathi, PR #16): long names and emoji counted the way PostgreSQL counts them, invisible characters removed, the same request sent twice in 10 minutes saved once, expired forms keep what was typed, phone numbers stored one way, clearer API errors (`EdgeCaseTests.cs`). Still to do: Android (200+ activities and volunteers, airplane mode with Retry, fast repeated taps on Join and Save).
   - Try names over 100 characters, emoji in every field, 200 or more activities and volunteers (admin lists may need paging), airplane mode with Retry on every list, and fast repeated taps on Join, Save and Submit.
 
 ### H. Web performance
@@ -382,6 +387,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Fonts currently come from Google Fonts. Self-hosting is faster and sends nothing to a third party, which also helps with POPIA.
 
 - [ ] **H4 · P3 · Web: Lighthouse in CI**
+  - **Status (25 Oct):** Part done. Ash's PR #20 runs Lighthouse on pull requests with minimum scores; its checks pass. Next: review and merge it.
   - Run Lighthouse CI on pull requests, with minimum scores for Performance and Accessibility.
 
 ### I. Android features (from the settings research and earlier suggestions)
@@ -412,15 +418,16 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - The marker noted that one member did far less on Android.
   - Give each of the five members whole workstreams across both repos, with their own branches and pull requests, reviewed by someone else.
 
-- [ ] **J4 · P2 · Both: Commit and pull-request hygiene**
+- [x] **J4 · P2 · Both: Commit and pull-request hygiene**
+  - **Status (25 Oct):** Done. Pull request templates in both repos (web: Unathi, PR #17; Android: Kwethu, PR #19). The stray template commit stays in Android `master`'s history; rewriting `master` isn't worth it.
   - Use descriptive commit messages and a pull request template (what changed, how it was tested, screenshots).
   - Avoid stray template commits like the "Update fmt.Println message from 'Hello' to 'Goodbye'" one now on Android `master`.
 
 - [ ] **J5 · P2 · Both: Demo script**
   - Show the pipeline deploying a change by itself, a validation error, the 429 rate-limit page, the staff view receiving a request, a notification arriving, and the app in all three languages and dark mode.
 
-- [ ] **J6 · P0 · Both: Bring the READMEs up to date**
-  - **Status (22 Oct):** Web README restored and current (staff area, API, Docker HTTPS setup). Android README still says the download page is in progress; update it when C3 lands.
+- [x] **J6 · P0 · Both: Bring the READMEs up to date**
+  - **Status (25 Oct):** Done. Web README current, including Render and Postgres (PRs #14, #15). Android README has the download link, the deploy job and no admin passwords (Kwethu, PR #19). Keep both current as each item lands (HANDOVER F3).
   - The web README lists "Automated tests and CI" as future work, but `dotnet-tests.yml` and seven test files exist. The Android README still says the download page is in progress.
   - Update both as each item above lands.
 
@@ -476,7 +483,7 @@ The items below say what to copy, and which Collective file shows how. Paths are
 ### K. Android: settings, layout and finishing touches
 
 - [x] **K1 · P1 · Android: Rebuild Settings as list rows** (from `ui/profile/SettingsScreen.kt`)
-  - **Status (24 Oct):** Built on `feature/tlhogi/settings` (PR into `develop` next). Tested with unit tests and lint; still needs a check on a real phone, in all three languages and dark mode.
+  - **Status (25 Oct):** Merged into `develop` (PR #21) with K2–K4. Still needs a check on a real phone, in all three languages and dark mode.
   - **Sections in this order:**
     - **Account:** edit profile, change password, fingerprint lock.
     - **Appearance:** theme, language.
@@ -562,7 +569,7 @@ The items below say what to copy, and which Collective file shows how. Paths are
 - [ ] **K18 · P3 · Android: ViewModel tests** (from Collective's `ui/**/ViewModelTest.kt`, `MainDispatcherRule.kt`)
   - PAB's 66 unit tests cover utilities and models. Add tests for `VolunteerViewModel` and `AdminViewModel` (join, leave, offline, error messages) with a test dispatcher. Turbine and MockK, as Collective uses, make this easier.
 
-**Added on 24 October from a second look at Collective.** All built on `feature/tlhogi/collective-features` (on top of the Settings branch), with 23 unit tests and 19 rules tests. Each still needs a check on a real phone. **The new rules must be published** (`firestore.rules`) before clearances, concerns and feedback work in the live app; until then those parts are quietly refused and the rest of each screen still loads.
+**Added on 24 October from a second look at Collective.** All built on `feature/tlhogi/collective-features` (on top of the Settings branch, now in `develop`; this PR is next), with 23 unit tests and 19 rules tests. Each still needs a check on a real phone. **The new rules must be published** (`firestore.rules`) before clearances, concerns and feedback work in the live app (the D2 pipeline does it on a merge into `master` once its secret is set, or publish by hand); until then those parts are quietly refused and the rest of each screen still loads.
 
 - [x] **K19 · P2 · Android: Volunteer milestones** (from `util/GamificationEngine.kt`): first shift, 10 activities, 25 hours, 3 programmes on Profile, worked out from finished activities, never stored, so they can't be faked.
 - [x] **K20 · P2 · Android: Volunteer clearance** (from `ui/profile/DriverVerificationScreen.kt`): volunteer asks in Settings → Safety and brings documents to the centre; admin marks them cleared for 12 months from their profile. Own collection `clearances`; rules let a volunteer only ask.
@@ -606,14 +613,16 @@ Collective's `backend/` is an Express and TypeScript REST API with Firebase sign
 - [x] **W7 · P1 · Web: Request logging without personal data** (from `morgan` and `utils/logger`)
   - Log method, path, status and time for every request, with no form contents and no IP addresses stored beyond the rate limiter.
 
-- [x] **W8 · P2 · Web: Hosting configuration in the repo** (from `render.yaml`)
+- [ ] **W8 · P2 · Web: Hosting configuration in the repo** (from `render.yaml`)
+  - **Status (25 Oct):** Undone by the move to Render: `railway.json` was removed (PR #14) and Render's settings live only on its dashboard. A `render.yaml` with the Docker build, `/alive` health check and environment variable names (no values) would put it back in the repo.
   - Add `railway.json` (or `railway.toml`) with the build command, health check path (`/health`, from C2) and restart policy, so the hosting setup is reviewed and versioned like code.
 
 - [x] **W9 · P2 · Web: Seed script with relative dates** (from `backend/src/seed/plan.ts`, `seedData.ts`)
   - A development seed with programmes, resources and example support requests in every status. Dates count from when it runs, and derived values (counts, statuses) are worked out rather than typed in.
   - Add a test that checks the seed is consistent. Collective's suite does this.
 
-- [ ] **W10 · P1 · Web: Alert PAB's admin phones about new requests** (from Collective's API sending FCM pushes on new bookings)
+- [x] **W10 · P1 · Web: Alert PAB's admin phones about new requests** (from Collective's API sending FCM pushes on new bookings)
+  - **Status (25 Oct):** Done by email instead of push, as the group agreed (Unathi). New support requests (PR #12) and contact messages (PR #13) email PAB's staff through Resend with no personal details, and staff read contact messages on the new Staff → Messages page. Push to the Android app (I7) is not needed for this.
   - When a support request is saved, the web server sends a push through the Firebase Admin SDK for .NET (`FirebaseAdmin` NuGet) to PAB admin devices: "New support request · Urgent · Food assistance". No personal details go in the notification.
   - Tapping it opens the request through B3.
   - This links the two apps and answers the marker's "notification so PAB staff can act" (A6). The Android app would need FCM added (I7).
@@ -622,16 +631,16 @@ Collective's `backend/` is an Express and TypeScript REST API with Firebase sign
   - Make the Help Centre an installable web app with a service worker that caches the Resources page and emergency numbers, so they open with no data.
   - Show an offline notice on the form, and keep what the person typed until they're back online.
 
-- [ ] **W12 · P2 · Web: Staff request list like Collective's History** (from `ui/profile/HistoryScreen.kt`, `BrandComponents.StatusPill`)
-  - **Status (22 Oct):** Part done: longest-waiting / newest toggle and status pill colours from the tokens. Still to do: New / In progress / Closed tabs with counts, relative times, confirm before closing.
+- [x] **W12 · P2 · Web: Staff request list like Collective's History** (from `ui/profile/HistoryScreen.kt`, `BrandComponents.StatusPill`)
+  - **Status (25 Oct):** Done. Status tabs with counts, relative times ("2 hours ago"), the longest-waiting / newest toggle and token colours were already in; confirm before closing added by Unathi (PR #11).
   - New / In progress / Closed tabs with counts, urgent requests first, colour-coded status pills with one colour per status everywhere, relative times ("2 hours ago"), and a newest/oldest toggle.
   - Closing or deleting a request asks for confirmation, the way Collective handles destructive actions.
 
 ---
 
-## 8. Android: what's left (24 October)
+## 8. Android: what's left (25 October)
 
-Everything not ticked above, in the order to build it. Items marked part done list only the missing part. Build on a new branch from `feature/tlhogi/mockup-screens` until the three feature PRs are in `develop`, then from `develop`.
+Everything not ticked above, in the order to build it. Items marked part done list only the missing part. Build on a new branch from `feature/tlhogi/mockup-screens` until it is in `develop`, then from `develop`.
 
 ### 8.1 Code (no phone or account needed)
 
@@ -647,7 +656,7 @@ Everything not ticked above, in the order to build it. Items marked part done li
 7. **K5** Error state with Retry in place of a failed list.
 8. **F11** Predictive Back (`enableOnBackInvokedCallback`).
 9. **F14** `ListAdapter` + `DiffUtil` for the 7 adapters that call `notifyDataSetChanged`.
-10. **K7** rest: lavender-tinted neutrals, light and dark.
+10. **K7** rest: lavender-tinted neutrals, light and dark (through `design/tokens.json` for the light ones, since `colors.xml` is generated now).
 11. **K10** rest: Upcoming and Past tabs on the Schedule tab, and a newest/oldest toggle.
 12. **K13** rest: suggest the fingerprint lock to admins on their first sign-in.
 13. **K8** First-run introduction (three pages, Skip / Next / Get started), with "Show the introduction again" in Settings → About.
@@ -657,31 +666,28 @@ Everything not ticked above, in the order to build it. Items marked part done li
 17. **E4** Remove the eyebrow labels (`activity_welcome_info.xml`, `fragment_admin_overview.xml`).
 18. **E3** Lora and Source Sans 3 in `res/font`, mapped through the type styles.
 19. **E9** Material 3 theme and colour roles (largest change; retest dark mode and contrast after).
-20. **D4** Android part: `.github/dependabot.yml` and a CI badge in the README (branch protection is a GitHub setting, see 8.2).
-21. **D2** Workflow steps to deploy `public/` and `firestore.rules` on merge to `master` (the service account secret is added by hand, see 8.2).
-22. **J4** Pull request template for the Android repo.
-23. **J2** Android part: architecture diagram and threat model in the README.
+20. **D4** Android part: a CI badge in the README (Dependabot is done; branch protection is a GitHub setting, see 8.2).
+21. **J2** Android part: architecture diagram and threat model in the README.
 
 **P3**
-24. **E7** rest: Admin Overview's three stat tiles become a summary line or open their lists.
-25. **E10** rest: a standard top bar on the other 15 sub-screens.
-26. **K11** rest: a colour per person in the admin's Volunteers and sign-up lists.
-27. **I6** About: PAB's website and social links beside the version.
-28. **G3** Name the action on delete buttons ("Delete activity", "Delete announcement").
-29. **K15** No "new announcement" notification while Community is open, nor "activity full" while that sign-up list is open.
-30. **K17** One log tag per class, user IDs only, tags listed in the README.
-31. **K18** `VolunteerViewModel` and `AdminViewModel` tests with a test dispatcher.
-32. **B3** (stretch) A "Get help" entry that opens the web Help Centre form.
+22. **E7** rest: Admin Overview's three stat tiles become a summary line or open their lists.
+23. **E10** rest: a standard top bar on the other 15 sub-screens.
+24. **K11** rest: a colour per person in the admin's Volunteers and sign-up lists.
+25. **I6** About: PAB's website and social links beside the version.
+26. **G3** Name the action on delete buttons ("Delete activity", "Delete announcement").
+27. **K15** No "new announcement" notification while Community is open, nor "activity full" while that sign-up list is open.
+28. **K17** One log tag per class, user IDs only, tags listed in the README.
+29. **K18** `VolunteerViewModel` and `AdminViewModel` tests with a test dispatcher.
+30. **B3** (stretch) A "Get help" entry that opens the web Help Centre form.
 
 ### 8.2 Needs a phone, an account or the team
 
-- **PRs in order, merge commits only:** `feature/tlhogi/settings` → `feature/tlhogi/collective-features` → `feature/tlhogi/mockup-screens`, then `feature/kwethu/design-tokens` (E1; reword its commit first).
-- **Publish `firestore.rules`** after the collective-features PR (clearances, concerns, feedback need it).
+- **PRs in order, merge commits only:** `feature/tlhogi/collective-features` → `develop` next, then `feature/tlhogi/mockup-screens`. Both already include `develop` (Kwethu merged it in on 24 October; the mockup branch builds and its tests pass).
+- **D2 secret:** add `FIREBASE_SERVICE_ACCOUNT` to the Android repo's secrets. Until the first merge into `master` deploys, publish `firestore.rules` by hand after the collective-features PR (clearances, concerns and feedback need it).
+- **R2:** change both admin passwords in Firebase. They're out of the README but still in the repo's history.
 - **Confirm Philisa's crisis line** (081 746 9889) with PAB before the "I need help" sheet ships.
-- **Phone check** of every new screen in English, isiXhosa and Afrikaans, light and dark, at 1.3× text (F12), and a TalkBack pass (F13), and the edge cases (G7).
+- **Phone check** of every new screen in English, isiXhosa and Afrikaans, light and dark, at 1.3× text (F12), a TalkBack pass (F13), the edge cases (G7), and installing the APK from https://pab-volunteers.web.app (C3).
 - **First-language check** of the new isiXhosa and Afrikaans text (about 80 keys from the mockup work, plus the Settings and Collective ones).
-- **C3, J6** Put the download page live and link it in the README. **C4** uptime monitor. **D5** tag `v1.1.0` with the APK.
-- **D2** service account secret in GitHub; **D4** branch protection on `develop` and `master`.
-- **R2** (HANDOVER) the README's admin test account and password.
+- **C4** uptime monitor on the download page. **D5** tag `v1.1.0` with the APK. **D4** branch protection on `develop` and `master`.
 - **J1** demo video timestamps and a slide; **J3** spread the work; **J5** demo script.
 - **I7** needs the Blaze plan; **I8** needs Firebase Support.
