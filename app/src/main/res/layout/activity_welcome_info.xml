@@ -110,6 +110,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_md" />
 
+            <TextView
+                android:id="@+id/tvFingerprintAs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_sm"
+                android:gravity="center"
+                android:textColor="@color/text_on_purple_muted"
+                android:textSize="@dimen/text_caption"
+                android:visibility="gone" />
+
         </LinearLayout>
 
         <!-- Programmes, as a strip rather than a long grid. -->
