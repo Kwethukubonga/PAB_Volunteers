@@ -8,7 +8,7 @@ This plan turns three sources into one checklist:
 
 Each item names the repo it belongs to, its priority, how to do it, and how to know it is finished. Items that came from the marker's feedback are tagged with the rubric criterion they address.
 
-**Progress (25 October 2026):** 64 of 108 done, 15 part done (marked **Status**). Android `develop` now has the Settings rebuild (K1–K4, PR #21), the shared palette (E1, PR #20) and the deploy pipeline (D2, PR #19). K19–K26 and the mockup screens (E6, F9, I1, I3, K9, K12, K14 and parts of E7, E10, K6, K7, K10, K11, K13) are on `feature/tlhogi/collective-features` and `feature/tlhogi/mockup-screens`, which go into `develop` next, in that order. The web site moved from Railway to Render, with Postgres on Neon (PRs #14, #15). Section 8 lists what's left on Android. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
+**Progress (25 October 2026):** 75 of 108 done, 12 part done (marked **Status**). Android `develop` now has the Settings rebuild (K1–K4, PR #21), the shared palette (E1, PR #20) and the deploy pipeline (D2, PR #19). K19–K26, the mockup screens and the P1 work are on `feature/tlhogi/collective-features`, `feature/tlhogi/mockup-screens` and `feature/tlhogi/p1-and-spacing`, which go into `develop` next, in that order. Tlhogi checked the three branches on a phone on 25 October. The web site moved from Railway to Render, with Postgres on Neon (PRs #14, #15). Section 8 lists what's left on Android. Ticks reflect web `develop` and Android `develop` after the handover. Nothing on web `develop` is live until it is merged to `main`. The handover list is `handover/HANDOVER.md`.
 
 > ⚠️ **Delete before the final submission.** This plan and `HANDOVER.md` are for the team only and live only on the `changes_final_POE` branch of each repo. Delete both branches before submitting (`HANDOVER.md` section 5, step F1).
 
@@ -241,7 +241,7 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Self-host them on the web (`woff2`, `font-display: swap`) and bundle them in Android's `res/font`, mapped through the Material type scale.
 
 - [ ] **E4 · P3 · Both: Remove eyebrow labels above headings**
-  - **Status (22 Oct):** Web done (three headings). Android labels (`eyebrow_our_programmes`, `eyebrow_testimonials`, `admin_portal_label`) still there.
+  - **Status (25 Oct):** Part done. Web done (three headings); Android's `admin_portal_label` is gone (`feature/tlhogi/p1-and-spacing`). Still to do: `eyebrow_our_programmes` and `eyebrow_testimonials` on the Explore page.
   - Impeccable bans the small caps label above a heading outright.
   - Android: `eyebrow_our_programmes`, `eyebrow_testimonials`, `admin_portal_label`.
   - Web: "What We Do", "Get Help" and similar labels in uppercase with wide letter spacing (about 18 across 8 pages).
@@ -257,8 +257,8 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - Try a solid `purple_900` band with lighter purple surfaces on the screens below, and show both versions to PAB.
   - Whatever stays, it must pass F9.
 
-- [ ] **E7 · P3 · Android: Rethink the stat tiles**
-  - **Status (24 Oct):** Part done. Home's four tiles are one line, "3 upcoming, 12 hours completed", that opens the Schedule (`feature/tlhogi/mockup-screens`); Profile's tiles are gone too. Still to do: Admin Overview's three tiles.
+- [x] **E7 · P3 · Android: Rethink the stat tiles**
+  - **Status (25 Oct):** Done. Home's tiles became one summary line (`feature/tlhogi/mockup-screens`), and the admin Overview's three tiles an "At a glance" card whose rows open their tabs (`feature/tlhogi/p1-and-spacing`).
   - Home's four tiles (Today, Upcoming, Completed, Hours) and Admin's three follow the "big number, small label" pattern Impeccable flags.
   - Make each tile open its list (Upcoming opens Schedule), or merge them into one summary line ("3 upcoming · 12 hours completed").
 
@@ -318,12 +318,14 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - The header gradient runs at 135°, so its lightest end (`purple_500`) sits at the top left, where "STEP 1 OF 2" and similar 12sp labels in `text_on_purple_muted` (#D8B4FE) appear. That's about 3.2:1; it needs 4.5:1.
   - Use white at 85% opacity, darken the light end of the gradient, or flip the angle.
 
-- [ ] **F10 · P1 · Android: Navigation rail on tablets**
+- [x] **F10 · P1 · Android: Navigation rail on tablets**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: tablets show the tabs as a navigation rail down the side; phones keep the bottom bar.
   - Impeccable's Android rule: "Never ship a phone bottom-bar untouched on a tablet."
   - Add `layout-sw600dp/activity_volunteer_main.xml` and `activity_admin_main.xml` using `NavigationRailView` with the same menu, and set it up the same way as the bottom bar.
   - **Done when:** a tablet shows the rail on the side and a phone still shows the bottom bar.
 
-- [ ] **F11 · P2 · Android: Predictive Back**
+- [x] **F11 · P2 · Android: Predictive Back**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: `enableOnBackInvokedCallback` is on; every screen already used OnBackPressedDispatcher.
   - Add `android:enableOnBackInvokedCallback="true"` to the manifest. The app already uses `OnBackPressedDispatcher`, which supports it.
   - Test Back from every tab and detail screen on Android 14 or later.
 
@@ -337,21 +339,25 @@ Section 7 lists the K (Android) and W (web) items, taken from Collective, Tlhogi
   - The favourite heart should announce its state (`stateDescription`, "Saved" or "Not saved").
   - Status pills ("Joined", "Full") should be read with the activity title.
 
-- [ ] **F14 · P2 · Android: Update only the rows that changed**
+- [x] **F14 · P2 · Android: Update only the rows that changed**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: the seven lists update only the rows that changed (DiffUtil), so nothing flashes on refresh.
   - Seven adapters call `notifyDataSetChanged()`, which lint flags.
   - Move them to `ListAdapter` with `DiffUtil`, so only changed rows redraw, and add item animations.
 
 ### G. UX writing and states
 *Impeccable: clarify, onboard, harden. Rubric: UX & Feedback*
 
-- [ ] **G1 · P2 · Android: Snackbars instead of Toasts**
+- [x] **G1 · P2 · Android: Snackbars instead of Toasts**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: every Toast is a Snackbar, and a form that closes as it saves leaves its message on the screen it returns to.
   - Seven places use Toasts for "Activity saved", "Profile updated" and similar. Material uses Snackbars for short confirmations.
   - Show them on the screen the person returns to; the shared `AppMessage` helper already uses Snackbar.
 
-- [ ] **G2 · P2 · Android: Give empty states a button**
+- [x] **G2 · P2 · Android: Give empty states a button**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: one shared card for every empty list, with Browse activities, Find opportunities, Create activity or announcement, or Clear search.
   - Empty Schedule gets a "Browse activities" button, empty Favourites gets "Find opportunities", and an empty admin list gets "Create activity".
 
-- [ ] **G3 · P3 · Android: Name the action in delete dialogs**
+- [x] **G3 · P3 · Android: Name the action in delete dialogs**
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: "Delete activity" and "Delete announcement", on the dialog buttons and the delete icons.
   - "Delete this activity?" currently confirms with "Remove". Use "Delete activity" and "Delete announcement" on the button.
 
 - [x] **G4 · P1 · Web: Quick exit button**
@@ -509,11 +515,12 @@ The items below say what to copy, and which Collective file shows how. Paths are
   - A slim bar under the header on every screen while there's no connection, so people know before they tap Join.
   - Writes queued offline show "Sending…".
 
-- [ ] **K5 · P2 · Android: Error state with Retry** (from `CommonComponents.ErrorState`)
+- [x] **K5 · P2 · Android: Error state with Retry** (from `CommonComponents.ErrorState`)
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: a list that fails to load with nothing to show says why and offers Try again.
   - When a list fails to load, show the reason and a Retry button in place of the list, instead of a Snackbar over an empty screen.
 
-- [ ] **K6 · P2 · Android: Main action pinned at the bottom** (from `CommonComponents.DetailScaffold`, `BottomActionBar`, `PrimaryActionButton`)
-  - **Status (24 Oct):** Part done. Join and Leave sit in a bottom bar on activity details, with the reason shown when there's no connection (`feature/tlhogi/mockup-screens`). Still to do: Save in the activity editor, the announcement editor and Edit Profile (all still scroll with the page), and the spinner while saving.
+- [x] **K6 · P2 · Android: Main action pinned at the bottom** (from `CommonComponents.DetailScaffold`, `BottomActionBar`, `PrimaryActionButton`)
+  - **Status (25 Oct):** Done. Join and Leave on activity details (`feature/tlhogi/mockup-screens`), and Save in both editors and Edit Profile, sit in a bar at the bottom that rises above the keyboard (`feature/tlhogi/p1-and-spacing`).
   - Join or Leave on activity details, and Save in the editors and Edit Profile, sit in a bar at the bottom within thumb reach that rises above the keyboard.
   - The button turns into a spinner while saving and is always at least 48dp tall.
   - Pairs with E10 (top app bar for sub-screens).
@@ -548,8 +555,8 @@ The items below say what to copy, and which Collective file shows how. Paths are
   - The dialler and SMS app always open with everything filled in, so nothing is sent without the person tapping.
   - Most useful for Search and Rescue and community outreach activities.
 
-- [ ] **K13 · P2 · Android: Fingerprint lock, especially for admins** (from `security/AppLock.kt`, `security/BiometricCredentialStore.kt`)
-  - **Status (24 Oct):** Part done. Settings → Safety → Lock with fingerprint (fingerprint, face or screen lock), asked again after 30 seconds away (`feature/tlhogi/mockup-screens`). Still to do: suggest it to admins on their first sign-in.
+- [x] **K13 · P2 · Android: Fingerprint lock, especially for admins** (from `security/AppLock.kt`, `security/BiometricCredentialStore.kt`)
+  - **Status (25 Oct):** Done. Settings → Account → Sign in with fingerprint, with "Also lock when the app reopens" under it; admins are asked once to set it up (`feature/tlhogi/p1-and-spacing`). The sign-in itself is on the sign-in screen only.
   - An optional "Lock the app when it reopens" using Android's fingerprint or face check.
   - Admin phones show every volunteer's phone number and area, so suggest it to admins on first sign-in (POPIA).
 
@@ -560,7 +567,8 @@ The items below say what to copy, and which Collective file shows how. Paths are
 - [ ] **K15 · P3 · Android: Don't notify about what's on screen** (from `notifications/ActiveChat.kt`)
   - Skip the "new announcement" notification while Community is open, and "activity full" while that activity's sign-up list is open.
 
-- [ ] **K16 · P1 · Android: Google sign-in through Credential Manager** (from `ui/auth/GoogleCredentialSignIn.kt`)
+- [x] **K16 · P1 · Android: Google sign-in through Credential Manager** (from `ui/auth/GoogleCredentialSignIn.kt`)
+  - **Status (25 Oct):** Done on `feature/tlhogi/p1-and-spacing`: Google sign-in uses Credential Manager; the deprecated GoogleSignIn library is gone.
   - Switch to `GetSignInWithGoogleOption`. This removes the deprecated `GoogleSignIn` APIs behind the build warnings, and gives the modern account picker.
 
 - [ ] **K17 · P3 · Android: Tagged logging without personal data** (from Collective's README Logging table)
@@ -638,56 +646,45 @@ Collective's `backend/` is an Express and TypeScript REST API with Firebase sign
 
 ---
 
-## 8. Android: what's left (25 October)
+## 8. Android: what's left (25 October, after `feature/tlhogi/p1-and-spacing`)
 
-Everything not ticked above, in the order to build it. Items marked part done list only the missing part. Build on a new branch from `feature/tlhogi/mockup-screens` until it is in `develop`, then from `develop`.
+Everything not ticked above, in the order to build it. Items marked part done list only the missing part. Build on a new branch from `feature/tlhogi/p1-and-spacing` until it is in `develop`, then from `develop`.
+
+**Also on `feature/tlhogi/p1-and-spacing`, from Tlhogi's phone checks:** sign-in laid out as in Collective (main button, then Google and fingerprint side by side), fingerprint sign-in on the sign-in screen only, Edit profile and programme interests moved into Settings, Community announcements grouped by month and foldable, milestone badges as an even 2×2 grid, a Settings item in the admin bar, and phone-first spacing (16dp screen edge and card padding on phones; tablets unchanged).
 
 ### 8.1 Code (no phone or account needed)
 
-**P1**
-1. **F10** Navigation rail on tablets (`layout-sw600dp` for the volunteer and admin main screens).
-2. **K16** Google sign-in through Credential Manager (removes the deprecated `GoogleSignIn` API).
-3. **R1** (HANDOVER) Hide draft activities in the rules: published-only query in the background check first, then tighten `allow read`, with rules tests.
-4. **K6** rest: Save pinned at the bottom of the activity editor, the announcement editor and Edit Profile, with a spinner while saving.
-
 **P2**
-5. **G1** Snackbars instead of Toasts (8 files: both editors, Edit Profile, interests, report a concern, delete account, splash, `ActivityIntents`).
-6. **G2** A button on empty screens (Schedule → Browse activities, Favourites → Find opportunities, admin lists → Create activity).
-7. **K5** Error state with Retry in place of a failed list.
-8. **F11** Predictive Back (`enableOnBackInvokedCallback`).
-9. **F14** `ListAdapter` + `DiffUtil` for the 7 adapters that call `notifyDataSetChanged`.
-10. **K7** rest: lavender-tinted neutrals, light and dark (through `design/tokens.json` for the light ones, since `colors.xml` is generated now).
-11. **K10** rest: Upcoming and Past tabs on the Schedule tab, and a newest/oldest toggle.
-12. **K13** rest: suggest the fingerprint lock to admins on their first sign-in.
-13. **K8** First-run introduction (three pages, Skip / Next / Get started), with "Show the introduction again" in Settings → About.
-14. **I4** Contact Philisa: call, WhatsApp and directions to 55 Strauss Road beside today's email row.
-15. **I2** "Only my programmes" switch for new-activity notifications.
-16. **I5** Privacy page and "Download my data" (profile and sign-ups as a file).
-17. **E4** Remove the eyebrow labels (`activity_welcome_info.xml`, `fragment_admin_overview.xml`).
-18. **E3** Lora and Source Sans 3 in `res/font`, mapped through the type styles.
-19. **E9** Material 3 theme and colour roles (largest change; retest dark mode and contrast after).
-20. **D4** Android part: a CI badge in the README (Dependabot is done; branch protection is a GitHub setting, see 8.2).
-21. **J2** Android part: architecture diagram and threat model in the README.
+1. **K7** rest: lavender-tinted neutrals, light and dark (the light ones through `design/tokens.json`, since `colors.xml` is generated).
+2. **K10** rest: Upcoming and Past tabs on the Schedule tab, and a newest/oldest toggle.
+3. **K8** First-run introduction (three pages, Skip / Next / Get started), with "Show the introduction again" in Settings → About.
+4. **I4** Contact Philisa: call, WhatsApp and directions to 55 Strauss Road beside today's email row.
+5. **I2** "Only my programmes" switch for new-activity notifications.
+6. **I5** Privacy page and "Download my data" (profile and sign-ups as a file).
+7. **E4** rest: the two eyebrow labels on the Explore page.
+8. **E3** Lora and Source Sans 3 in `res/font`, mapped through the type styles.
+9. **E9** Material 3 theme and colour roles (largest change; retest dark mode and contrast after).
+10. **D4** Android part: a CI badge in the README.
+11. **J2** Android part: architecture diagram and threat model in the README.
 
 **P3**
-22. **E7** rest: Admin Overview's three stat tiles become a summary line or open their lists.
-23. **E10** rest: a standard top bar on the other 15 sub-screens.
-24. **K11** rest: a colour per person in the admin's Volunteers and sign-up lists.
-25. **I6** About: PAB's website and social links beside the version.
-26. **G3** Name the action on delete buttons ("Delete activity", "Delete announcement").
-27. **K15** No "new announcement" notification while Community is open, nor "activity full" while that sign-up list is open.
-28. **K17** One log tag per class, user IDs only, tags listed in the README.
-29. **K18** `VolunteerViewModel` and `AdminViewModel` tests with a test dispatcher.
-30. **B3** (stretch) A "Get help" entry that opens the web Help Centre form.
+12. **E10** rest: a standard top bar on the other sub-screens.
+13. **K11** rest: a colour per person in the admin's Volunteers and sign-up lists.
+14. **I6** About: PAB's website and social links beside the version.
+15. **K15** No "new announcement" notification while Community is open, nor "activity full" while that sign-up list is open.
+16. **K17** One log tag per class, user IDs only, tags listed in the README.
+17. **K18** `VolunteerViewModel` and `AdminViewModel` tests with a test dispatcher.
+18. **B3** (stretch) A "Get help" entry that opens the web Help Centre form.
 
 ### 8.2 Needs a phone, an account or the team
 
-- **PRs in order, merge commits only:** `feature/tlhogi/collective-features` → `develop` next, then `feature/tlhogi/mockup-screens`. Both already include `develop` (Kwethu merged it in on 24 October; the mockup branch builds and its tests pass).
-- **D2 secret:** add `FIREBASE_SERVICE_ACCOUNT` to the Android repo's secrets. Until the first merge into `master` deploys, publish `firestore.rules` by hand after the collective-features PR (clearances, concerns and feedback need it).
+- **PRs in order, merge commits only:** `feature/tlhogi/collective-features` → `feature/tlhogi/mockup-screens` → `feature/tlhogi/p1-and-spacing`. Each already includes the one before.
+- **Pictures on announcements:** "No picture service key is set on this build" means the build has no Cloudinary details. Add `cloudinary.cloud.name` and `cloudinary.upload.preset` (an unsigned preset) to your own `local.properties`, from Kwethu's Cloudinary dashboard, and check the `CLOUDINARY_CLOUD_NAME` and `CLOUDINARY_UPLOAD_PRESET` secrets are set in the Android repo, so CI and download-page builds have them too. Never commit them.
+- **Rules:** publish the collective-features `firestore.rules` now. Publish the `feature/tlhogi/p1-and-spacing` version (drafts hidden from volunteers, R1) only once volunteers have the new APK, because the old app's background check uses a query it refuses. The D2 pipeline does both on a merge into `master` once `FIREBASE_SERVICE_ACCOUNT` is set.
 - **R2:** change both admin passwords in Firebase. They're out of the README but still in the repo's history.
 - **Confirm Philisa's crisis line** (081 746 9889) with PAB before the "I need help" sheet ships.
-- **Phone check** of every new screen in English, isiXhosa and Afrikaans, light and dark, at 1.3× text (F12), a TalkBack pass (F13), the edge cases (G7), and installing the APK from https://pab-volunteers.web.app (C3).
-- **First-language check** of the new isiXhosa and Afrikaans text (about 80 keys from the mockup work, plus the Settings and Collective ones).
+- **Phone checks still to do:** 1.3× text in all three languages (F12), a TalkBack pass (F13), the edge cases (G7), and installing the APK from https://pab-volunteers.web.app (C3). The three branches were checked on a phone on 25 October.
+- **First-language check** of the new isiXhosa and Afrikaans text.
 - **C4** uptime monitor on the download page. **D5** tag `v1.1.0` with the APK. **D4** branch protection on `develop` and `master`.
 - **J1** demo video timestamps and a slide; **J3** spread the work; **J5** demo script.
 - **I7** needs the Blaze plan; **I8** needs Firebase Support.

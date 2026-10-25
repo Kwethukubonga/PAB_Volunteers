@@ -5,7 +5,7 @@ PAB Volunteers (Android) and the Help Centre (web). Updated 25 October 2026.
 Task 2 got 176/270 (65%). Most marks were lost on the **web app** (APIs, Database, Data Flow, Security, CI/CD). Most of that is now fixed on web `develop`. Railway is gone: the site runs on Render's free plan with Postgres on Neon (Nuha, PRs #14 and #15), and CI deploys `main` there once the `RENDER_DEPLOY_HOOK` secret is set (W1).
 
 **Repos:** Android `Kwethukubonga/PAB_Volunteers` · Web `Kwethukubonga/PAB_WebApp`. Clone both into the same folder.
-**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (108 items: 64 done, 15 part done; section 8 lists what's left on Android, in order). Each item says how to do it and how to know it's finished.
+**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (108 items: 75 done, 12 part done; section 8 lists what's left on Android, in order). Each item says how to do it and how to know it's finished.
 
 > ⚠️ **These notes live only on the `changes_final_POE` branch**, which exists in both repos with the same `handover/` folder and a `changes_POE.md` project guide. They are for the team only, never go into `develop`, `main` or `master`, and **both `changes_final_POE` branches are deleted before the final submission** (section 5).
 
@@ -137,14 +137,16 @@ Merged as PR #20. Still to do on a phone: check the hand-written night colours (
 | ID | Task | Owner |
 |---|---|---|
 | J1 | ~~Requirements table~~ merged into `develop` (PR #17). Still to do: demo video timestamps per requirement, and a slide | Tlhogi |
-| R1 | Hide draft activities in the rules: today any signed-in volunteer can read drafts, the app only hides them by its query. Change the background check's `getActivitiesFrom` query to ask for published only first, then tighten `allow read` on `activities`, with rules tests | |
+| R1 | ~~Hide draft activities in the rules~~ done on `feature/tlhogi/p1-and-spacing`, with 4 rules tests. Publish that rules file only once volunteers have the new APK (plan, section 8.2) | Tlhogi |
 | R2 | ~~Take the admin passwords out of the README~~ done (PR #19): the details go to the marker privately. Still: change both passwords in Firebase, since they're in the history | Kwethu |
-| F10 | Navigation rail on tablets instead of the bottom bar | |
+| F10 | ~~Navigation rail on tablets~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
 | F12 | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
 | K1–K4 | ~~Settings rows, change password, two-step delete, offline banner~~ merged (PR #21). Still: check on a phone (3 languages, dark mode) | Tlhogi |
 | K19–K26 | ~~Milestones, clearance, report a concern, search, "How did it go?", directions, animated splash, phone spacing~~ built on `feature/tlhogi/collective-features`. Next: PR into `develop` (Settings is in), check on a phone, and **publish the new `firestore.rules`** | Tlhogi |
 | K7, K9–K14, E6, F9, I1, I3 | ~~Solid headers, Home planner, details with top bar, calendar and "I need help", Profile tabs and colour, fingerprint lock, emergency contact and reminders~~ built on `feature/tlhogi/mockup-screens` (on top of collective-features). Next: PR after collective-features, check on a phone, **confirm the crisis line 081 746 9889 with PAB**. Parts left: see the plan, section 8 | Tlhogi |
-| K16 | Google sign-in through Credential Manager (removes the deprecated API) | |
+| K16 | ~~Google sign-in through Credential Manager~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
+| P1 branch | `feature/tlhogi/p1-and-spacing`: fingerprint sign-in, R1, F10, K6, K16, G1–G3, K5, F11, F14, K13, E7, simpler sign-in, Edit profile in Settings, Community months, milestone grid, admin Settings item, phone-first spacing, seed samples. Checked on a phone 25 Oct. Next: PR after mockup-screens | Tlhogi |
+| Pictures | Announcement pictures need the Cloudinary details in `local.properties` and the CI secrets (plan, section 8.2) | Kwethu |
 
 **P2:**
 
@@ -152,15 +154,15 @@ Merged as PR #20. Still to do on a phone: check the hand-written night colours (
 |---|---|---|
 | E3, E4 | Same fonts as the web (Lora + Source Sans 3 in `res/font`), remove eyebrow labels | |
 | E9, K7 | Material 3, tinted neutrals (the solid header is done) | |
-| G1, G2, K5, K6 | Snackbars instead of Toasts, buttons on empty screens, Retry on errors, Save pinned at the bottom of the editors and Edit Profile | |
-| F11, F13, F14 | Predictive Back, TalkBack pass, `ListAdapter` + `DiffUtil` | |
-| I2, I4, I5, K8, K10, K13 | "Only my programmes", contact PAB (call, WhatsApp, directions), privacy/POPIA, intro screens, Upcoming/Past tabs on Schedule, suggest the lock to admins | |
+| G1, G2, K5, K6 | ~~Snackbars, buttons on empty screens, Retry, Save pinned at the bottom~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
+| F13 | TalkBack pass (F11 predictive Back and F14 row updates are done on `feature/tlhogi/p1-and-spacing`) | |
+| I2, I4, I5, K8, K10 | "Only my programmes", contact PAB (call, WhatsApp, directions), privacy/POPIA, intro screens, Upcoming/Past tabs on Schedule | |
 | D4 | Branch protection on Android `develop` and `master`, CI badge (Dependabot done, PR #19) | |
 | D5 | Tag releases and attach the APK to a GitHub Release | |
 | C4 | Uptime monitor on the download page | |
 | G7 | Edge cases on Android: long names, emoji, 200+ activities and volunteers, airplane mode, fast repeated taps (web done, PR #16). The PR template is done (J4, PR #19) | |
 
-**P3:** E7 (Admin tiles), E10 (other sub-screens), G3, I6, I7 (needs Firebase's paid Blaze plan), K11 (admin lists), K15, K17, K18. See the plan for details.
+**P3:** E10 (other sub-screens), I6, I7 (needs Firebase's paid Blaze plan), K11 (admin lists), K15, K17, K18. See the plan for details.
 
 ---
 
