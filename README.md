@@ -2,6 +2,8 @@
 
 Developed by **Team KANTU** for **Philisa Abafazi Bethu**
 
+[![Android CI](https://github.com/Kwethukubonga/PAB_Volunteers/actions/workflows/android.yml/badge.svg)](https://github.com/Kwethukubonga/PAB_Volunteers/actions/workflows/android.yml)
+
 ---
 
 ## Table of Contents
@@ -533,15 +535,16 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **213 automated tests**, and section 3 maps them to the requirements.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **219 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (145, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
+| **Unit tests** (151, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
 | **Security rules tests** (68, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 | **Deploy** | On a merge into `master`: puts that build's APK and the download page on Firebase Hosting, and publishes `firestore.rules`, so the live rules are the ones the tests above just passed against (section 14.3) |
+| **Release** | On a version tag such as `v1.1.0`: makes a GitHub Release with the APK attached and notes written from the pull requests merged since the last tag |
 
 Run them yourself:
 
@@ -560,6 +563,28 @@ The app is shared through a download page on **Firebase Hosting**, so PAB can se
 - **Download page:** **https://pab-volunteers.web.app**
 
 The page offers the APK, says what the app does and walks through installing from outside the Play Store. It is deployed by the pipeline: merging into `master` publishes the page, that build's APK and `firestore.rules` in one step, so the download is never older than `master` and the live rules are always the tested ones. The deploy needs one repository secret, `FIREBASE_SERVICE_ACCOUNT`, holding a service account key with the Firebase Hosting Admin and Firebase Rules Admin roles.
+
+The workflow can also be started by hand from the Actions tab, which is how a deploy gets checked before it matters:
+
+| Choice | What it does |
+|--------|--------------|
+| `nothing` | The default. Runs the checks and the build, deploys nothing |
+| `preview` | Puts the page on a temporary URL that expires in a week, leaving the live page alone |
+| `live-hosting` | Publishes the page and the APK for real, and leaves `firestore.rules` untouched |
+| `live` | Publishes the page, the APK and the rules, the same as a merge into `master` |
+
+`live-hosting` exists because tightening a rule can lock out a phone still running an older APK. When a release changes the rules, the download goes out first, and the rules follow once volunteers have updated.
+
+### 14.4 Releases
+
+Tagging a commit `v1.1.0` and pushing the tag builds it, and if the checks pass makes a GitHub Release with the APK attached and notes written from the pull requests merged since the last tag:
+
+```bash
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+The attached APK is the debug build, the same one the download page offers, because release signing is not set up yet.
 
 ---
 
@@ -583,7 +608,7 @@ The page offers the APK, says what the app does and walks through installing fro
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 213 automated tests and CI | ✔ Complete |
+| Security Rules, 219 automated tests and CI | ✔ Complete |
 | Hosted download page, deployed by the pipeline | ✔ Complete |
 | User Acceptance Testing with PAB | ☐ Planned |
 

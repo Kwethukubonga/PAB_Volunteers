@@ -122,15 +122,8 @@
             android:paddingBottom="@dimen/spacing_xl">
 
             <TextView
-                style="@style/TextAppearance.PAB.FieldLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/eyebrow_our_programmes" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xs"
                 android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/programmes_heading"
                 android:textAppearance="@style/TextAppearance.PAB.Title" />
@@ -162,20 +155,8 @@
             android:paddingBottom="@dimen/spacing_xl">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/screen_gutter"
-                android:letterSpacing="0.08"
-                android:text="@string/eyebrow_testimonials"
-                android:textAllCaps="true"
-                android:textColor="@color/text_on_purple_muted"
-                android:textSize="@dimen/text_caption"
-                android:textStyle="bold" />
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_xs"
                 android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/testimonials_heading"
                 android:textColor="@color/text_on_purple"

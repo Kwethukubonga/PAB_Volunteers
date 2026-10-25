@@ -45,7 +45,6 @@
     <string name="profile_saved">Profile saved</string>
 
     <!-- Our Programmes -->
-    <string name="eyebrow_our_programmes">Our Programmes</string>
     <string name="programmes_heading">Where Volunteers Make Their Mark</string>
     <string name="programme_seniors" translatable="false">Senior Programme</string>
     <string name="programme_mens_cafe" translatable="false">Men\'s Café</string>
@@ -53,7 +52,6 @@
     <string name="programme_search_rescue" translatable="false">Search and Rescue Team</string>
 
     <!-- Volunteer testimonials -->
-    <string name="eyebrow_testimonials">Volunteer Stories</string>
     <string name="testimonials_heading">Hear from Our Volunteers</string>
     <string name="testimonial_1_name" translatable="false">Silke Sturm</string>
     <string name="testimonial_1_country">Germany</string>

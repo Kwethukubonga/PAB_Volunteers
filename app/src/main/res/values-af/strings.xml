@@ -36,11 +36,9 @@
     <string name="profile_saved">Profiel gestoor</string>
 
     <!-- Our Programmes -->
-    <string name="eyebrow_our_programmes">Ons programme</string>
     <string name="programmes_heading">Waar vrywilligers \'n verskil maak</string>
 
     <!-- Volunteer testimonials -->
-    <string name="eyebrow_testimonials">Vrywilligerstories</string>
     <string name="testimonials_heading">Hoor van ons vrywilligers</string>
     <string name="testimonial_1_country">Duitsland</string>
     <string name="testimonial_2_country">VSA</string>
