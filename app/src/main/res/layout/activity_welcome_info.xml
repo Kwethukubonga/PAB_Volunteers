@@ -18,9 +18,9 @@
             android:background="@drawable/bg_gradient_header"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingStart="@dimen/spacing_lg"
+            android:paddingStart="@dimen/screen_gutter"
             android:paddingTop="@dimen/spacing_lg"
-            android:paddingEnd="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
             android:paddingBottom="@dimen/spacing_xl">
 
             <ImageButton
@@ -110,16 +110,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_md" />
 
-            <TextView
-                android:id="@+id/tvFingerprintAs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_sm"
-                android:gravity="center"
-                android:textColor="@color/text_on_purple_muted"
-                android:textSize="@dimen/text_caption"
-                android:visibility="gone" />
-
         </LinearLayout>
 
         <!-- Programmes, as a strip rather than a long grid. -->
@@ -127,7 +117,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/spacing_lg"
+            android:paddingStart="@dimen/screen_gutter"
             android:paddingTop="@dimen/spacing_xl"
             android:paddingBottom="@dimen/spacing_xl">
 
@@ -141,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/programmes_heading"
                 android:textAppearance="@style/TextAppearance.PAB.Title" />
 
@@ -150,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_md"
                 android:clipToPadding="false"
-                android:paddingEnd="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -167,14 +157,14 @@
             android:layout_height="wrap_content"
             android:background="@color/purple_900"
             android:orientation="vertical"
-            android:paddingStart="@dimen/spacing_lg"
+            android:paddingStart="@dimen/screen_gutter"
             android:paddingTop="@dimen/spacing_xl"
             android:paddingBottom="@dimen/spacing_xl">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:letterSpacing="0.08"
                 android:text="@string/eyebrow_testimonials"
                 android:textAllCaps="true"
@@ -186,7 +176,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xs"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:text="@string/testimonials_heading"
                 android:textColor="@color/text_on_purple"
                 android:textSize="@dimen/text_title"
@@ -197,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_md"
                 android:clipToPadding="false"
-                android:paddingEnd="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
                 android:scrollbars="none">
 
                 <LinearLayout
@@ -231,7 +221,10 @@
             android:background="@color/purple_800"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_lg">
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/spacing_lg">
 
             <TextView
                 android:layout_width="wrap_content"

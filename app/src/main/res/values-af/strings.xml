@@ -106,7 +106,6 @@
     <string name="label_phone_caps">TELEFOON</string>
     <string name="label_email_caps">E-POS</string>
     <string name="label_area_caps">GEBIED</string>
-    <string name="action_edit_profile">Wysig profiel</string>
     <string name="action_sign_out">Meld af</string>
     <string name="edit_profile_title">Wysig profiel</string>
     <string name="action_save_changes">Stoor veranderinge</string>
@@ -470,7 +469,6 @@
     <string name="error_google_wrong_account">Kies %1$s, die rekening wat vir vingerafdruk-aanmelding opgestel is.</string>
     <string name="error_google_no_account">Daar is geen Google-rekening op hierdie foon nie. Voeg een by in die foon se instellings, of meld aan met e-pos.</string>
     <string name="fingerprint_welcome_title">Meld aan as %1$s</string>
-    <string name="fingerprint_welcome_hint">Raak die vingerafdruksensor om dadelik in te kom</string>
     <string name="fingerprint_reset_needed">Vingerafdruk-aanmelding is teruggestel omdat die vingerafdrukke op hierdie foon verander het. Meld op \'n ander manier aan en skakel dit weer aan in Instellings.</string>
     <string name="fingerprint_password_changed">Jou wagwoord het verander. Meld aan met die nuwe een en skakel vingerafdruk-aanmelding weer aan in Instellings.</string>
     <string name="settings_fingerprint">Meld aan met vingerafdruk</string>

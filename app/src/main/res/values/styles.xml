@@ -131,7 +131,7 @@
         <item name="cardCornerRadius">@dimen/corner_radius_lg</item>
         <item name="cardElevation">0dp</item>
         <item name="cardBackgroundColor">@color/card_background</item>
-        <item name="contentPadding">@dimen/spacing_lg</item>
+        <item name="contentPadding">@dimen/card_padding</item>
         <item name="strokeColor">@color/divider</item>
         <item name="strokeWidth">1dp</item>
     </style>

@@ -21,7 +21,10 @@
         android:layout_height="match_parent"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:padding="@dimen/spacing_lg">
+        android:paddingStart="@dimen/screen_gutter"
+        android:paddingTop="@dimen/spacing_lg"
+        android:paddingEnd="@dimen/screen_gutter"
+        android:paddingBottom="@dimen/spacing_lg">
 
         <TextView
             android:id="@+id/tvWelcomeQuote"
@@ -38,21 +41,12 @@
             android:textColor="@color/text_on_purple_muted"
             android:textSize="@dimen/text_subtitle" />
 
-        <!-- Only once fingerprint sign-in is set up on this phone. -->
-        <include
-            android:id="@+id/fingerprintCard"
-            layout="@layout/view_fingerprint_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:visibility="gone" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExplore"
             style="@style/Widget.PAB.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_md"
+            android:layout_marginTop="@dimen/spacing_lg"
             android:minHeight="@dimen/button_height"
             android:text="@string/welcome_cta"
             android:textColor="@color/text_on_purple"

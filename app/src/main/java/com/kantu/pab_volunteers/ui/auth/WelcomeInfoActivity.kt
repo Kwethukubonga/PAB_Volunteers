@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityWelcomeInfoBinding
@@ -27,10 +26,10 @@ class WelcomeInfoActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { finish() }
 
-        signInOptions = SignInOptions(this, viewModel, { binding.root }, ::setBusy, ::bindFingerprint)
+        // Google only here; fingerprint sign-in lives on the sign-in screen.
+        signInOptions = SignInOptions(this, viewModel, { binding.root }, ::setBusy) {}
         signInOptions.observe()
         binding.signInOptions.btnGoogle.setOnClickListener { signInOptions.signInWithGoogle() }
-        binding.signInOptions.btnFingerprint.setOnClickListener { signInOptions.signInWithFingerprint() }
 
         binding.btnSignInWithEmail.setOnClickListener {
             AuthNavGraph.goToEmailAuth(this)
@@ -39,19 +38,6 @@ class WelcomeInfoActivity : AppCompatActivity() {
         buildProgrammeStrip()
         bindTestimonials()
         observeViewModel()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        bindFingerprint()
-    }
-
-    /** The fingerprint pill, beside Google, only once fingerprint sign-in is set up on this phone. */
-    private fun bindFingerprint() {
-        val account = signInOptions.fingerprintAccount()
-        binding.signInOptions.btnFingerprint.isVisible = account != null
-        binding.tvFingerprintAs.isVisible = account != null
-        if (account != null) binding.tvFingerprintAs.text = signInOptions.fingerprintLabel(account)
     }
 
     private fun buildProgrammeStrip() {
@@ -79,7 +65,6 @@ class WelcomeInfoActivity : AppCompatActivity() {
 
     private fun setBusy(busy: Boolean) {
         binding.signInOptions.btnGoogle.isEnabled = !busy
-        binding.signInOptions.btnFingerprint.isEnabled = !busy
         binding.btnSignInWithEmail.isEnabled = !busy
     }
 

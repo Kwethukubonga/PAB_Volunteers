@@ -106,7 +106,6 @@
     <string name="label_phone_caps">IFOWUNI</string>
     <string name="label_email_caps">I-IMEYILE</string>
     <string name="label_area_caps">INDAWO</string>
-    <string name="action_edit_profile">Hlela iprofayile</string>
     <string name="action_sign_out">Phuma</string>
     <string name="edit_profile_title">Hlela iprofayile</string>
     <string name="action_save_changes">Gcina utshintsho</string>
@@ -470,7 +469,6 @@
     <string name="error_google_wrong_account">Khetha i-%1$s, i-akhawunti emiselwe ukungena ngomnwe.</string>
     <string name="error_google_no_account">Akukho akhawunti yeGoogle kule foni. Yongeza enye kwiisetingi zefoni, okanye ungene nge-imeyile.</string>
     <string name="fingerprint_welcome_title">Ngena njengo %1$s</string>
-    <string name="fingerprint_welcome_hint">Chukumisa isivamvo somnwe ukuze ungene ngoko nangoko</string>
     <string name="fingerprint_reset_needed">Ukungena ngomnwe kusetwe ngokutsha kuba iminwe ekule foni itshintshile. Ngena ngenye indlela, uze ukuvule kwakhona kwiiSetingi.</string>
     <string name="fingerprint_password_changed">Igama lakho lokugqithisa litshintshile. Ngena ngelitsha, uze uvule ukungena ngomnwe kwakhona kwiiSetingi.</string>
     <string name="settings_fingerprint">Ngena ngomnwe</string>

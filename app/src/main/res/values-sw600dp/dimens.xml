@@ -5,6 +5,8 @@
     <dimen name="spacing_md">20dp</dimen>
     <dimen name="spacing_lg">40dp</dimen>
     <dimen name="spacing_xl">56dp</dimen>
+    <dimen name="screen_gutter">40dp</dimen>
+    <dimen name="card_padding">40dp</dimen>
 
     <dimen name="text_display">38sp</dimen>
     <dimen name="text_title">26sp</dimen>

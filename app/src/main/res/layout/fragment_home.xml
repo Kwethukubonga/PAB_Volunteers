@@ -25,9 +25,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_gradient_header"
                 android:orientation="vertical"
-                android:paddingStart="@dimen/spacing_lg"
+                android:paddingStart="@dimen/screen_gutter"
                 android:paddingTop="@dimen/spacing_lg"
-                android:paddingEnd="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
                 android:paddingBottom="@dimen/home_card_overlap_space">
 
                 <TextView
@@ -54,9 +54,9 @@
                 android:id="@+id/cardNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/home_card_overlap"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardBackgroundColor="@color/home_next_card"
@@ -93,7 +93,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="@dimen/spacing_lg">
+                        android:paddingStart="@dimen/screen_gutter"
+                        android:paddingTop="@dimen/spacing_lg"
+                        android:paddingEnd="@dimen/screen_gutter"
+                        android:paddingBottom="@dimen/spacing_lg">
 
                         <TextView
                             android:id="@+id/tvNextWhen"
@@ -155,7 +158,7 @@
                 style="@style/TextAppearance.PAB.SettingsSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_xl"
                 android:accessibilityHeading="true"
                 android:text="@string/home_this_week" />
@@ -164,9 +167,9 @@
                 android:id="@+id/layoutWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:divider="@drawable/gap_xs"
                 android:showDividers="middle"
                 android:baselineAligned="false"
@@ -177,7 +180,7 @@
                 style="@style/TextAppearance.PAB.SettingsSection"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_md"
                 android:accessibilityHeading="true"
                 tools:text="Today" />
@@ -186,9 +189,9 @@
                 android:id="@+id/layoutDayPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:background="@drawable/bg_card"
                 android:orientation="vertical" />
 
@@ -197,9 +200,9 @@
                 android:id="@+id/tvSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_sm"
                 android:layout_marginTop="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_sm"
                 android:background="?attr/selectableItemBackground"
                 android:drawablePadding="@dimen/spacing_sm"
                 android:gravity="center_vertical"
@@ -213,9 +216,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
                 android:layout_marginTop="@dimen/spacing_xl"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_sm"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -247,20 +250,23 @@
                 layout="@layout/item_plan_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:layout_marginBottom="@dimen/spacing_lg" />
 
             <TextView
                 android:id="@+id/tvEmptyAnnouncements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginEnd="@dimen/spacing_lg"
+                android:layout_marginStart="@dimen/screen_gutter"
+                android:layout_marginEnd="@dimen/screen_gutter"
                 android:layout_marginBottom="@dimen/spacing_lg"
                 android:background="@drawable/bg_card"
                 android:gravity="center"
-                android:padding="@dimen/spacing_lg"
+                android:paddingStart="@dimen/screen_gutter"
+                android:paddingTop="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
+                android:paddingBottom="@dimen/spacing_lg"
                 android:text="@string/empty_no_announcements"
                 android:textAppearance="@style/TextAppearance.PAB.Body"
                 android:visibility="gone" />

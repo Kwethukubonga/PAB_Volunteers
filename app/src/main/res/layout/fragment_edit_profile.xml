@@ -22,7 +22,10 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_gradient_header"
                 android:orientation="vertical"
-                android:padding="@dimen/spacing_lg">
+                android:paddingStart="@dimen/screen_gutter"
+                android:paddingTop="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
+                android:paddingBottom="@dimen/spacing_lg">
 
                 <ImageButton
                     android:id="@+id/btnBack"
@@ -47,7 +50,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="@dimen/spacing_lg">
+                android:paddingStart="@dimen/screen_gutter"
+                android:paddingTop="@dimen/spacing_lg"
+                android:paddingEnd="@dimen/screen_gutter"
+                android:paddingBottom="@dimen/spacing_lg">
 
                 <TextView
                     style="@style/TextAppearance.PAB.FieldLabel"

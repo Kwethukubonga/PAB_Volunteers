@@ -139,7 +139,6 @@
     <string name="label_phone_caps">PHONE</string>
     <string name="label_email_caps">EMAIL</string>
     <string name="label_area_caps">AREA</string>
-    <string name="action_edit_profile">Edit Profile</string>
     <string name="action_sign_out">Sign Out</string>
     <string name="edit_profile_title">Edit Profile</string>
     <string name="action_save_changes">Save Changes</string>
@@ -510,7 +509,6 @@
     <string name="error_google_wrong_account">Choose %1$s, the account set up for fingerprint sign-in.</string>
     <string name="error_google_no_account">There\'s no Google account on this phone. Add one in the phone\'s settings, or sign in with email.</string>
     <string name="fingerprint_welcome_title">Sign in as %1$s</string>
-    <string name="fingerprint_welcome_hint">Touch the fingerprint sensor to come straight in</string>
     <string name="fingerprint_reset_needed">Fingerprint sign-in was reset because the fingerprints on this phone changed. Sign in another way, then turn it on again in Settings.</string>
     <string name="fingerprint_password_changed">Your password has changed. Sign in with the new one, then turn fingerprint sign-in on again in Settings.</string>
     <string name="settings_fingerprint">Sign in with fingerprint</string>
