@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityVolunteerMainBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
@@ -20,6 +21,9 @@ class VolunteerMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityVolunteerMainBinding
     private val notificationPrompt = NotificationPermissionPrompt(this)
 
+    // The bottom bar on phones, a rail down the side on tablets (F10). Same menu, same behaviour.
+    private val navBar: NavigationBarView get() = binding.bottomNav ?: requireNotNull(binding.navRail)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVolunteerMainBinding.inflate(layoutInflater)
@@ -29,11 +33,12 @@ class VolunteerMainActivity : AppCompatActivity() {
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostVolunteer) as NavHostFragment
         val navController = navHost.navController
-        binding.bottomNav.setupWithNavController(navController)
+        navBar.setupWithNavController(navController)
 
-        // The detail screens are pushed on top of a tab, so the bar would look wrong there.
+        // The detail screens are pushed on top of a tab, so the bottom bar would look wrong there.
+        // A tablet's rail stays, as Material expects.
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNav.visibility = if (destination.id in TABS) View.VISIBLE else View.GONE
+            binding.bottomNav?.visibility = if (destination.id in TABS) View.VISIBLE else View.GONE
         }
 
         onBackPressedDispatcher.addCallback(this) {
@@ -43,7 +48,7 @@ class VolunteerMainActivity : AppCompatActivity() {
                 current !in TABS -> navController.popBackStack()
                 // From any other tab, Back returns to Home rather than leaving the app.
                 current != R.id.homeFragment ->
-                    binding.bottomNav.selectedItemId = R.id.homeFragment
+                    navBar.selectedItemId = R.id.homeFragment
                 else -> {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
@@ -74,7 +79,7 @@ class VolunteerMainActivity : AppCompatActivity() {
      * out of sync, which is what broke the "See all" links.
      */
     fun selectTab(itemId: Int) {
-        binding.bottomNav.selectedItemId = itemId
+        navBar.selectedItemId = itemId
     }
 
     private companion object {
