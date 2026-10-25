@@ -169,8 +169,8 @@
             android:id="@+id/tabsMyActivities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
-            android:layout_marginEnd="@dimen/spacing_md"
+            android:layout_marginStart="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/spacing_lg"
             android:background="@color/background_cream"
             app:tabIndicatorColor="@color/accent"
             app:tabMode="fixed"
@@ -181,9 +181,9 @@
             android:id="@+id/layoutMyActivities"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_marginStart="@dimen/spacing_lg"
             android:layout_marginTop="@dimen/spacing_sm"
-            android:layout_marginEnd="@dimen/spacing_md"
+            android:layout_marginEnd="@dimen/spacing_lg"
             android:background="@drawable/bg_card"
             android:orientation="vertical" />
 

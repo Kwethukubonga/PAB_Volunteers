@@ -54,9 +54,9 @@
                 android:id="@+id/cardNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_lg"
                 android:layout_marginTop="@dimen/home_card_overlap"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_lg"
                 android:clickable="true"
                 android:focusable="true"
                 app:cardBackgroundColor="@color/home_next_card"
@@ -153,7 +153,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginTop="@dimen/spacing_xl"
                 android:accessibilityHeading="true"
                 android:text="@string/home_this_week" />
 
@@ -161,9 +161,11 @@
                 android:id="@+id/layoutWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_lg"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_lg"
+                android:divider="@drawable/gap_xs"
+                android:showDividers="middle"
                 android:baselineAligned="false"
                 android:orientation="horizontal" />
 
@@ -173,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginTop="@dimen/spacing_lg"
+                android:layout_marginTop="@dimen/spacing_md"
                 android:accessibilityHeading="true"
                 tools:text="Today" />
 
@@ -181,9 +183,9 @@
                 android:id="@+id/layoutDayPlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_lg"
                 android:layout_marginTop="@dimen/spacing_sm"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginEnd="@dimen/spacing_lg"
                 android:background="@drawable/bg_card"
                 android:orientation="vertical" />
 
@@ -209,7 +211,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_lg"
-                android:layout_marginTop="@dimen/spacing_md"
+                android:layout_marginTop="@dimen/spacing_xl"
                 android:layout_marginEnd="@dimen/spacing_md"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -242,16 +244,16 @@
                 layout="@layout/item_plan_row"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/spacing_lg"
                 android:layout_marginBottom="@dimen/spacing_lg" />
 
             <TextView
                 android:id="@+id/tvEmptyAnnouncements"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_md"
-                android:layout_marginEnd="@dimen/spacing_md"
+                android:layout_marginStart="@dimen/spacing_lg"
+                android:layout_marginEnd="@dimen/spacing_lg"
                 android:layout_marginBottom="@dimen/spacing_lg"
                 android:background="@drawable/bg_card"
                 android:gravity="center"
