@@ -36,11 +36,9 @@
     <string name="profile_saved">Iprofayile igciniwe</string>
 
     <!-- Our Programmes -->
-    <string name="eyebrow_our_programmes">Iinkqubo zethu</string>
     <string name="programmes_heading">Apho amavolontiya enza umahluko</string>
 
     <!-- Volunteer testimonials -->
-    <string name="eyebrow_testimonials">Amabali amavolontiya</string>
     <string name="testimonials_heading">Yiva kumavolontiya ethu</string>
     <string name="testimonial_1_country">EJamani</string>
     <string name="testimonial_2_country">EMelika</string>
