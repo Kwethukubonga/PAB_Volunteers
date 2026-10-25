@@ -2,6 +2,8 @@
 
 Developed by **Team KANTU** for **Philisa Abafazi Bethu**
 
+[![Android CI](https://github.com/Kwethukubonga/PAB_Volunteers/actions/workflows/android.yml/badge.svg)](https://github.com/Kwethukubonga/PAB_Volunteers/actions/workflows/android.yml)
+
 ---
 
 ## Table of Contents
@@ -533,11 +535,11 @@ PAB_Volunteers/
 
 ### 14.2 Continuous Integration
 
-GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **213 automated tests**, and section 3 maps them to the requirements.
+GitHub Actions runs on every push and Pull Request to `develop` and `master`. The project has **219 automated tests**, and section 3 maps them to the requirements.
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (145, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
+| **Unit tests** (151, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast |
 | **Security rules tests** (68, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
@@ -583,7 +585,7 @@ The page offers the APK, says what the app does and walks through installing fro
 |------|:------:|
 | All volunteer and admin features | ✔ Complete |
 | Three languages, light and dark mode, tablet support | ✔ Complete |
-| Security Rules, 213 automated tests and CI | ✔ Complete |
+| Security Rules, 219 automated tests and CI | ✔ Complete |
 | Hosted download page, deployed by the pipeline | ✔ Complete |
 | User Acceptance Testing with PAB | ☐ Planned |
 
