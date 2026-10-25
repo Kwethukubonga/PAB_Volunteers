@@ -18,11 +18,11 @@ class AppLockWatcher(private val app: Application) : Application.ActivityLifecyc
 
     init {
         // A fresh start counts as coming back from away.
-        AppLock.locked = AppLock.isEnabled(app)
+        AppLock.locked = AppLock.isOn(app)
     }
 
     override fun onActivityStarted(activity: Activity) {
-        if (started == 0 && AppLockRules.shouldLock(AppLock.isEnabled(app), AppLock.backgroundedAt, DateUtils.now())) {
+        if (started == 0 && AppLockRules.shouldLock(AppLock.isOn(app), AppLock.backgroundedAt, DateUtils.now())) {
             AppLock.locked = true
         }
         started++

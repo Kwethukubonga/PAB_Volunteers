@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- "Sign in as Thandi" on the Welcome screen, once fingerprint sign-in is set up on this phone.
+     The one tap back in, so it is a solid white card with a chevron; Explore steps back to an
+     outline beside or under it. White in both themes, over the photo. -->
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/corner_radius_md"
+    app:cardElevation="0dp"
+    app:rippleColor="@color/purple_100"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/fingerprint_card_min_height"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_md">
+
+        <ImageView
+            android:layout_width="@dimen/fingerprint_badge_size"
+            android:layout_height="@dimen/fingerprint_badge_size"
+            android:background="@drawable/bg_fingerprint_badge"
+            android:importantForAccessibility="no"
+            android:padding="@dimen/spacing_sm"
+            android:src="@drawable/ic_fingerprint"
+            app:tint="@color/purple_700" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_md"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvFingerprintTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColor="@color/text_on_light"
+                android:textSize="@dimen/text_subtitle"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFingerprintHint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/fingerprint_welcome_hint"
+                android:textColor="@color/text_on_light_muted"
+                android:textSize="@dimen/text_caption" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivFingerprintChevron"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/text_on_light_muted" />
+
+        <ProgressBar
+            android:id="@+id/progressFingerprint"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="@dimen/spacing_sm"
+            android:indeterminateTint="@color/purple_700"
+            android:visibility="gone" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

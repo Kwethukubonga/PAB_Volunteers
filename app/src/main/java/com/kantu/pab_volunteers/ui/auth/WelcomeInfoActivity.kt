@@ -2,9 +2,9 @@ package com.kantu.pab_volunteers.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityWelcomeInfoBinding
@@ -14,25 +14,12 @@ import com.kantu.pab_volunteers.navigation.AuthNavGraph
 import com.kantu.pab_volunteers.ui.profile.programmeOptions
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.ErrorMessages
+import kotlinx.coroutines.launch
 
 class WelcomeInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityWelcomeInfoBinding
     private val viewModel: AuthViewModel by viewModels()
-    private val googleSignIn by lazy { GoogleSignInHelper(this) }
-
-    private val googleLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        googleSignIn.credentialFrom(result.data)
-            .onSuccess { viewModel.signInWithGoogle(it) }
-            .onFailure { error ->
-                setBusy(false)
-                // Backing out of the picker is not an error worth reporting.
-                if ((error as? GoogleSignInError)?.isCancelled == true) return@onFailure
-                AppMessage.show(binding.root, ErrorMessages.textFor(error))
-            }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +28,7 @@ class WelcomeInfoActivity : AppCompatActivity() {
 
         binding.btnBack.setOnClickListener { finish() }
 
-        binding.btnContinueWithGoogle.setOnClickListener {
-            setBusy(true)
-            googleLauncher.launch(googleSignIn.signInIntent)
-        }
+        binding.btnContinueWithGoogle.setOnClickListener { continueWithGoogle() }
 
         binding.btnSignInWithEmail.setOnClickListener {
             AuthNavGraph.goToEmailAuth(this)
@@ -53,6 +37,20 @@ class WelcomeInfoActivity : AppCompatActivity() {
         buildProgrammeStrip()
         bindTestimonials()
         observeViewModel()
+    }
+
+    private fun continueWithGoogle() {
+        setBusy(true)
+        lifecycleScope.launch {
+            GoogleSignIn.credential(this@WelcomeInfoActivity)
+                .onSuccess { viewModel.signInWithGoogle(it) }
+                .onFailure { error ->
+                    setBusy(false)
+                    // Backing out of the picker is not an error worth reporting.
+                    if ((error as? GoogleSignInError)?.isCancelled == true) return@onFailure
+                    AppMessage.show(binding.root, ErrorMessages.textFor(error))
+                }
+        }
     }
 
     private fun buildProgrammeStrip() {

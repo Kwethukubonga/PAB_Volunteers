@@ -4,11 +4,13 @@ import android.content.Context
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_WEAK
 import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 
 /**
- * "Lock with fingerprint" (K13). When it is on, the app asks for the phone's fingerprint, face or
- * screen lock when it is opened, and again when it comes back after being away a little while.
- * Admin phones show every volunteer's phone number and area, so this matters most for them.
+ * "Also lock when the app reopens" (K13), an extra on top of fingerprint sign-in. When it is on,
+ * the app asks for the phone's fingerprint, face or screen lock when it is opened, and again when
+ * it comes back after being away a little while. Admin phones show every volunteer's phone number
+ * and area, so this matters most for them.
  */
 object AppLock {
 
@@ -23,6 +25,19 @@ object AppLock {
     @Volatile var backgroundedAt = 0L
 
     fun isEnabled(context: Context): Boolean = prefs(context).getBoolean(KEY_ENABLED, false)
+
+    /**
+     * Whether it applies right now: switched on, with fingerprint sign-in set up for whoever is
+     * signed in. Someone else signing in on the same phone is not locked out by another person's setting.
+     */
+    fun isOn(context: Context): Boolean =
+        isEnabled(context) && FingerprintSignIn.isSetUpFor(context, FirebaseAuthManager.currentUser?.email)
+
+    /** Signing in has just proved who it is, so there is nothing to unlock straight afterwards. */
+    fun unlockAfterSignIn() {
+        locked = false
+        backgroundedAt = 0L
+    }
 
     fun setEnabled(context: Context, enabled: Boolean) {
         prefs(context).edit().putBoolean(KEY_ENABLED, enabled).apply()

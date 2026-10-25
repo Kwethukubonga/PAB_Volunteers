@@ -236,7 +236,6 @@
     <string name="error_google_incomplete">Google sign in did not complete. Try again.</string>
     <string name="error_google_not_registered">This build is not registered in Firebase. Add this machine\'s debug SHA-1 fingerprint.</string>
     <string name="error_google_cancelled">Sign in cancelled</string>
-    <string name="error_google_failed">Google sign in failed (code %1$d)</string>
     <string name="info_password_reset_sent">If this email has an account with a password, a reset link is on its way. Check your spam folder too. Signed up with Google? Use Continue with Google instead.</string>
 
     <!-- Validation -->
@@ -499,8 +498,8 @@
     <string name="emergency_contact_error_name">Add their name too.</string>
     <string name="emergency_contact_saved">Emergency contact saved.</string>
     <string name="action_save">Save</string>
-    <string name="settings_app_lock">Lock with fingerprint</string>
-    <string name="settings_app_lock_desc">Ask for it when the app reopens</string>
+    <string name="settings_app_lock">Also lock when the app reopens</string>
+    <string name="settings_app_lock_desc">Ask for your fingerprint after 30 seconds away</string>
     <string name="app_lock_confirm">Confirm it\'s you to turn on the lock</string>
     <string name="app_lock_title">Unlock Philisa Volunteers</string>
     <string name="app_lock_body">Use your fingerprint, face or screen lock.</string>
@@ -512,4 +511,21 @@
     <string name="channel_reminders">Reminders</string>
     <string name="channel_reminders_desc">Before an activity you have joined.</string>
     <string name="notify_reminder">Coming up: %1$s</string>
+
+    <!-- Fingerprint sign-in, the reopen lock and Google sign-in through Credential Manager. -->
+    <string name="error_google_wrong_account">Choose %1$s, the account set up for fingerprint sign-in.</string>
+    <string name="error_google_no_account">There\'s no Google account on this phone. Add one in the phone\'s settings, or sign in with email.</string>
+    <string name="fingerprint_welcome_title">Sign in as %1$s</string>
+    <string name="fingerprint_welcome_hint">Touch the fingerprint sensor to come straight in</string>
+    <string name="fingerprint_reset_needed">Fingerprint sign-in was reset because the fingerprints on this phone changed. Sign in another way, then turn it on again in Settings.</string>
+    <string name="fingerprint_password_changed">Your password has changed. Sign in with the new one, then turn fingerprint sign-in on again in Settings.</string>
+    <string name="settings_fingerprint">Sign in with fingerprint</string>
+    <string name="settings_fingerprint_desc">Skip the password: sign in from the Welcome screen with a touch</string>
+    <string name="settings_fingerprint_on">On. Sign in from the Welcome screen with a touch</string>
+    <string name="settings_fingerprint_add_first">Add a fingerprint in your phone\'s settings first. Tap to go there</string>
+    <string name="fingerprint_password_explain">Enter your password once. It stays on this phone, locked with a key only your fingerprint can open.</string>
+    <string name="fingerprint_confirm">Touch the sensor to turn on fingerprint sign-in</string>
+    <string name="fingerprint_turned_on">Fingerprint sign-in is on</string>
+    <string name="fingerprint_turned_off">Fingerprint sign-in is off</string>
+    <string name="fingerprint_failed">Fingerprint sign-in wasn\'t turned on: %1$s</string>
 </resources>

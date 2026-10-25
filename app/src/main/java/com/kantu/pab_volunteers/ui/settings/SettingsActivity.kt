@@ -16,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
@@ -31,6 +32,7 @@ import com.kantu.pab_volunteers.data.repository.ClearanceRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySettingsBinding
 import com.kantu.pab_volunteers.databinding.DialogEmergencyContactBinding
+import com.kantu.pab_volunteers.databinding.DialogFingerprintPasswordBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsRowBinding
 import com.kantu.pab_volunteers.databinding.ItemSettingsSwitchRowBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
@@ -38,6 +40,9 @@ import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.Notifications
 import com.kantu.pab_volunteers.notifications.ReminderLead
 import com.kantu.pab_volunteers.security.AppLock
+import com.kantu.pab_volunteers.security.FingerprintAccount
+import com.kantu.pab_volunteers.security.FingerprintPrompt
+import com.kantu.pab_volunteers.security.FingerprintSignIn
 import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
@@ -102,6 +107,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onResume()
         // The person may have just changed it in the phone's own settings.
         binding.layoutNotificationsBlocked.isVisible = !Notifications.allowedOnPhone(this)
+        // Or added a fingerprint there, after being sent by the fingerprint row.
+        bindFingerprint()
     }
 
     private fun setUpAccount() {
@@ -125,6 +132,8 @@ class SettingsActivity : AppCompatActivity() {
             supporting = getString(R.string.settings_change_password_desc),
             onClick = { sendPasswordLink(email) }
         )
+
+        setUpFingerprint(usesPassword)
     }
 
     /** Sends the same reset link as the sign-in screen, to the address they are signed in with. */
@@ -269,20 +278,11 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     /**
-     * Emergency contact, fingerprint lock, clearance and reporting a concern. Admins only get the
-     * lock: they are checked by the organisation and read concerns rather than send them.
+     * Emergency contact, clearance and reporting a concern, for volunteers. Admins are checked by
+     * the organisation and read concerns rather than send them, so the section is not theirs.
      */
     private fun setUpSafety(isAdmin: Boolean) {
-        val lockAvailable = AppLock.isAvailable(this)
-        binding.rowAppLock.root.isVisible = lockAvailable
-        binding.dividerAppLock.isVisible = lockAvailable && !isAdmin
-        if (lockAvailable) bindAppLock()
-
-        listOf(
-            binding.rowEmergencyContact.root, binding.dividerEmergencyContact,
-            binding.rowClearance.root, binding.dividerClearance, binding.rowReportConcern.root
-        ).forEach { it.isVisible = !isAdmin }
-        binding.sectionSafety.isVisible = !isAdmin || lockAvailable
+        binding.sectionSafety.isVisible = !isAdmin
         if (isAdmin) return
 
         bindEmergencyContact()
@@ -362,11 +362,136 @@ class SettingsActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    /**
+     * "Sign in with fingerprint", with "Also lock when the app reopens" under it while it is on.
+     * Turning it on checks the password (email accounts) and then the fingerprint, so it can never
+     * be on with a password or a fingerprint that doesn't work.
+     */
+    private fun setUpFingerprint(usesPassword: Boolean) {
+        val row = binding.rowFingerprint
+        row.rowIcon.setImageResource(R.drawable.ic_fingerprint)
+        row.rowTitle.setText(R.string.settings_fingerprint)
+        row.root.setOnClickListener { onFingerprintTapped(usesPassword) }
+        row.root.accessibilityDelegate = switchAccessibility(row.rowSwitch)
+        bindAppLock()
+        bindFingerprint()
+    }
+
+    private fun bindFingerprint() {
+        val on = FingerprintSignIn.isSetUpFor(this, FirebaseAuthManager.currentUser?.email)
+        val available = FingerprintSignIn.isAvailable(this)
+        // Shown whenever the phone could do it, even before a fingerprint is added, so it can be found.
+        val possible = on || available || FingerprintSignIn.needsEnrolling(this)
+        binding.rowFingerprint.root.isVisible = possible
+        binding.dividerFingerprint.isVisible = possible
+
+        val row = binding.rowFingerprint
+        row.rowSwitch.isChecked = on
+        row.rowSupporting.setText(
+            when {
+                on -> R.string.settings_fingerprint_on
+                available -> R.string.settings_fingerprint_desc
+                else -> R.string.settings_fingerprint_add_first
+            }
+        )
+        binding.rowAppLock.root.isVisible = on
+        binding.dividerAppLock.isVisible = on
+        binding.rowAppLock.rowSwitch.isChecked = AppLock.isEnabled(this)
+    }
+
+    private fun onFingerprintTapped(usesPassword: Boolean) {
+        val email = FirebaseAuthManager.currentUser?.email ?: return
+        when {
+            FingerprintSignIn.isSetUpFor(this, email) -> {
+                FingerprintSignIn.clear(this)
+                bindFingerprint()
+                AppMessage.show(binding.root, UiText.Res(R.string.fingerprint_turned_off))
+            }
+            !FingerprintSignIn.isAvailable(this) -> openFingerprintSettings()
+            usesPassword -> askPasswordForFingerprint(email)
+            // A Google account needs no secret: Google signs back in to it after the fingerprint.
+            else -> saveFingerprintSignIn(email, secret = email, usesGoogle = true)
+        }
+    }
+
+    /** Straight to adding a fingerprint where the phone allows it, otherwise its security settings. */
+    private fun openFingerprintSettings() {
+        val enrol = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            Intent(Settings.ACTION_BIOMETRIC_ENROLL)
+                .putExtra(Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BIOMETRIC_STRONG)
+        } else {
+            Intent(Settings.ACTION_SECURITY_SETTINGS)
+        }
+        try {
+            startActivity(enrol)
+        } catch (e: ActivityNotFoundException) {
+            runCatching { startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS)) }
+        }
+    }
+
+    /** The password once, checked before it is kept, so a typo never becomes a broken sign-in. */
+    private fun askPasswordForFingerprint(email: String) {
+        val form = DialogFingerprintPasswordBinding.inflate(layoutInflater)
+        val dialog = AlertDialog.Builder(this)
+            .setTitle(R.string.settings_fingerprint)
+            .setView(form.root)
+            .setPositiveButton(R.string.action_continue, null)
+            .setNegativeButton(R.string.action_cancel, null)
+            .create()
+        dialog.setOnShowListener {
+            val confirm = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            confirm.setOnClickListener {
+                val password = form.etPassword.text?.toString().orEmpty()
+                form.tilPassword.error = when {
+                    password.isEmpty() -> getString(R.string.error_enter_password)
+                    !Network.isOnline(this) -> getString(R.string.error_no_connection)
+                    else -> null
+                }
+                if (form.tilPassword.error != null) return@setOnClickListener
+                confirm.isEnabled = false
+                lifecycleScope.launch {
+                    authRepository.confirmPassword(email, password)
+                        .onSuccess {
+                            dialog.dismiss()
+                            saveFingerprintSignIn(email, secret = password, usesGoogle = false)
+                        }
+                        .onFailure {
+                            confirm.isEnabled = true
+                            form.tilPassword.error = ErrorMessages.textFor(it).resolve(this@SettingsActivity)
+                        }
+                }
+            }
+        }
+        dialog.show()
+    }
+
+    /** The last step: a fingerprint check that unlocks a new key, which then guards [secret]. */
+    private fun saveFingerprintSignIn(email: String, secret: String, usesGoogle: Boolean) {
+        FingerprintPrompt.unlock(
+            activity = this,
+            cipher = FingerprintSignIn.cipherForSetUp(),
+            title = getString(R.string.settings_fingerprint),
+            subtitle = getString(R.string.fingerprint_confirm),
+            negativeText = getString(R.string.action_cancel),
+            onUnlocked = { cipher ->
+                lifecycleScope.launch {
+                    val firstName = user?.firstName ?: FirebaseAuthManager.currentUser?.uid
+                        ?.let { uid -> runCatching { userRepository.getUser(uid)?.firstName }.getOrNull() }
+                        .orEmpty()
+                    FingerprintSignIn.save(this@SettingsActivity, cipher, FingerprintAccount(email, firstName, usesGoogle), secret)
+                    bindFingerprint()
+                    AppMessage.show(binding.root, UiText.Res(R.string.fingerprint_turned_on))
+                }
+            },
+            onError = { message -> showMessage(UiText.Res(R.string.fingerprint_failed, listOf(message.toString()))) }
+        )
+    }
+
     /** Turning it on asks for the fingerprint first, so nobody locks themselves out by accident. */
     private fun bindAppLock() {
         val row = binding.rowAppLock
-        row.rowIcon.setImageResource(R.drawable.ic_lock)
-        row.rowIcon.setColorFilter(ContextCompat.getColor(this, R.color.accent))
+        // No icon of its own: the gap lines it up under "Sign in with fingerprint", which it depends on.
+        row.rowIcon.visibility = View.INVISIBLE
         row.rowTitle.setText(R.string.settings_app_lock)
         row.rowSupporting.setText(R.string.settings_app_lock_desc)
         row.rowSwitch.isChecked = AppLock.isEnabled(this)

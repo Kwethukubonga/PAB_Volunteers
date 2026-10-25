@@ -192,7 +192,6 @@
     <string name="error_google_incomplete">Ukungena ngeGoogle akugqitywanga. Zama kwakhona.</string>
     <string name="error_google_not_registered">Le build ayibhaliswanga kwiFirebase. Yongeza i-debug SHA-1 fingerprint yalo matshini.</string>
     <string name="error_google_cancelled">Ukungena kurhoxisiwe</string>
-    <string name="error_google_failed">Ukungena ngeGoogle kuhlulekile (ikhowudi %1$d)</string>
     <string name="info_password_reset_sent">Ukuba le imeyile inegama lokugqithisa, ikhonkco lokulitshintsha liyeza. Jonga nakwifolda ye-spam. Ubhalise ngeGoogle? Sebenzisa u-Qhubeka ngeGoogle.</string>
 
     <!-- Validation -->
@@ -459,8 +458,8 @@
     <string name="emergency_contact_error_name">Yongeza negama labo.</string>
     <string name="emergency_contact_saved">Umntu wexesha likaxakeka ugciniwe.</string>
     <string name="action_save">Gcina</string>
-    <string name="settings_app_lock">Tshixa ngomnwe</string>
-    <string name="settings_app_lock_desc">Ziceliwe xa i-app ivulwa kwakhona</string>
+    <string name="settings_app_lock">Kwakhona tshixa xa i-app ivulwa kwakhona</string>
+    <string name="settings_app_lock_desc">Cela umnwe wakho emva kwemizuzwana engama-30 ungekho</string>
     <string name="app_lock_confirm">Qinisekisa ukuba nguwe ukuze uvule isitshixo</string>
     <string name="app_lock_title">Vula iPhilisa Volunteers</string>
     <string name="app_lock_body">Sebenzisa umnwe wakho, ubuso okanye isitshixo sesikrini.</string>
@@ -472,4 +471,21 @@
     <string name="channel_reminders">Izikhumbuzi</string>
     <string name="channel_reminders_desc">Phambi komsebenzi owungenileyo.</string>
     <string name="notify_reminder">Kuyeza: %1$s</string>
+
+    <!-- Fingerprint sign-in, the reopen lock and Google sign-in through Credential Manager. -->
+    <string name="error_google_wrong_account">Khetha i-%1$s, i-akhawunti emiselwe ukungena ngomnwe.</string>
+    <string name="error_google_no_account">Akukho akhawunti yeGoogle kule foni. Yongeza enye kwiisetingi zefoni, okanye ungene nge-imeyile.</string>
+    <string name="fingerprint_welcome_title">Ngena njengo %1$s</string>
+    <string name="fingerprint_welcome_hint">Chukumisa isivamvo somnwe ukuze ungene ngoko nangoko</string>
+    <string name="fingerprint_reset_needed">Ukungena ngomnwe kusetwe ngokutsha kuba iminwe ekule foni itshintshile. Ngena ngenye indlela, uze ukuvule kwakhona kwiiSetingi.</string>
+    <string name="fingerprint_password_changed">Igama lakho lokugqithisa litshintshile. Ngena ngelitsha, uze uvule ukungena ngomnwe kwakhona kwiiSetingi.</string>
+    <string name="settings_fingerprint">Ngena ngomnwe</string>
+    <string name="settings_fingerprint_desc">Akudingeki gama lokugqithisa: ngena kwiscreen sokwamkela ngokuchukumisa</string>
+    <string name="settings_fingerprint_on">Kuvuliwe. Ngena kwiscreen sokwamkela ngokuchukumisa</string>
+    <string name="settings_fingerprint_add_first">Qala ngokongeza umnwe kwiisetingi zefoni yakho. Cofa ukuya apho</string>
+    <string name="fingerprint_password_explain">Faka igama lakho lokugqithisa kanye. Lihlala kule foni, litshixwe ngesitshixo esinokuvulwa ngumnwe wakho kuphela.</string>
+    <string name="fingerprint_confirm">Chukumisa isivamvo ukuze uvule ukungena ngomnwe</string>
+    <string name="fingerprint_turned_on">Ukungena ngomnwe kuvuliwe</string>
+    <string name="fingerprint_turned_off">Ukungena ngomnwe kuvaliwe</string>
+    <string name="fingerprint_failed">Ukungena ngomnwe akuvulwanga: %1$s</string>
 </resources>

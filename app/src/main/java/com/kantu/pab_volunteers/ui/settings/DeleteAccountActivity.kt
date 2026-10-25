@@ -5,7 +5,6 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.addCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.PluralsRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -21,8 +20,9 @@ import com.kantu.pab_volunteers.data.repository.AccountRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.databinding.ActivityDeleteAccountBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
+import com.kantu.pab_volunteers.security.FingerprintSignIn
+import com.kantu.pab_volunteers.ui.auth.GoogleSignIn
 import com.kantu.pab_volunteers.ui.auth.GoogleSignInError
-import com.kantu.pab_volunteers.ui.auth.GoogleSignInHelper
 import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.ErrorMessages
@@ -43,28 +43,11 @@ class DeleteAccountActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDeleteAccountBinding
     private val accountRepository = AccountRepository()
     private val signupRepository = SignupRepository()
-    private val googleSignIn by lazy { GoogleSignInHelper(this) }
 
     private lateinit var method: SignInMethod
     private lateinit var confirmWord: String
     private var googleCredential: AuthCredential? = null
     private var busy = false
-
-    private val pickGoogleAccount = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        googleSignIn.credentialFrom(result.data)
-            .onSuccess {
-                googleCredential = it
-                binding.btnConfirmGoogle.setText(R.string.delete_account_google_confirmed)
-                hideMessage()
-                updateDeleteButton()
-            }
-            .onFailure { error ->
-                if (error is GoogleSignInError && error.isCancelled) return@onFailure
-                showMessage(ErrorMessages.textFor(error))
-            }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,8 +89,24 @@ class DeleteAccountActivity : AppCompatActivity() {
 
         binding.etPassword.doAfterTextChanged { updateDeleteButton() }
         binding.etConfirmWord.doAfterTextChanged { updateDeleteButton() }
-        binding.btnConfirmGoogle.setOnClickListener { pickGoogleAccount.launch(googleSignIn.signInIntent) }
+        binding.btnConfirmGoogle.setOnClickListener { pickGoogleAccount() }
         binding.btnDelete.setOnClickListener { deleteAccount() }
+    }
+
+    private fun pickGoogleAccount() {
+        lifecycleScope.launch {
+            GoogleSignIn.credential(this@DeleteAccountActivity)
+                .onSuccess {
+                    googleCredential = it
+                    binding.btnConfirmGoogle.setText(R.string.delete_account_google_confirmed)
+                    hideMessage()
+                    updateDeleteButton()
+                }
+                .onFailure { error ->
+                    if (error is GoogleSignInError && error.isCancelled) return@onFailure
+                    showMessage(ErrorMessages.textFor(error))
+                }
+        }
     }
 
     private fun showConfirmStep(show: Boolean) {
@@ -159,11 +158,16 @@ class DeleteAccountActivity : AppCompatActivity() {
             return
         }
         val credential = credential() ?: return
+        val email = FirebaseAuthManager.currentUser?.email
         setBusy(true)
         lifecycleScope.launch {
             accountRepository.deleteCurrentAccount(credential)
                 .onSuccess {
                     Toast.makeText(this@DeleteAccountActivity, R.string.account_deleted, Toast.LENGTH_LONG).show()
+                    // Nothing left to sign in to, so a fingerprint sign-in saved for it goes too.
+                    if (FingerprintSignIn.isSetUpFor(this@DeleteAccountActivity, email)) {
+                        FingerprintSignIn.clear(this@DeleteAccountActivity)
+                    }
                     Session.signOut(this@DeleteAccountActivity)
                     AppNavGraph.goToWelcome(this@DeleteAccountActivity)
                 }

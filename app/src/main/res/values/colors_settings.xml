@@ -11,4 +11,6 @@
     <color name="safety_bg">#FEF3C7</color>
     <color name="safety_line">#FDE68A</color>
     <color name="safety_text">#92400E</color>
+    <!-- Supporting text on the white Welcome sign-in card, which stays white in dark mode. -->
+    <color name="text_on_light_muted">#4B5563</color>
 </resources>

@@ -85,10 +85,30 @@
                     <include
                         android:id="@+id/rowChangePassword"
                         layout="@layout/item_settings_row" />
+
+                    <!-- Hidden only on phones without a fingerprint sensor that can guard a key. -->
+                    <View
+                        android:id="@+id/dividerFingerprint"
+                        style="@style/Widget.PAB.SettingsDivider" />
+
+                    <!-- Adds "Sign in as …" to the Welcome screen, so coming back is one touch. -->
+                    <include
+                        android:id="@+id/rowFingerprint"
+                        layout="@layout/item_settings_switch_row" />
+
+                    <!-- Only while fingerprint sign-in is on. Suggested for admins: their phones
+                         show volunteers' details. -->
+                    <View
+                        android:id="@+id/dividerAppLock"
+                        style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
+                        android:id="@+id/rowAppLock"
+                        layout="@layout/item_settings_switch_row" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Safety: emergency contact, fingerprint lock, clearance and reporting a concern. -->
+            <!-- Safety: emergency contact, clearance and reporting a concern. Volunteers only. -->
             <LinearLayout
                 android:id="@+id/sectionSafety"
                 android:layout_width="match_parent"
@@ -122,15 +142,6 @@
 
                         <View
                             android:id="@+id/dividerEmergencyContact"
-                            style="@style/Widget.PAB.SettingsDivider" />
-
-                        <!-- Everyone, and suggested for admins: their phones show volunteers' details. -->
-                        <include
-                            android:id="@+id/rowAppLock"
-                            layout="@layout/item_settings_switch_row" />
-
-                        <View
-                            android:id="@+id/dividerAppLock"
                             style="@style/Widget.PAB.SettingsDivider" />
 
                         <include

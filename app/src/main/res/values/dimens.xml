@@ -39,4 +39,9 @@
     <!-- A standard top bar on detail screens (E10). -->
     <dimen name="top_bar_height">56dp</dimen>
     <dimen name="details_photo_height">160dp</dimen>
+    <!-- "Sign in as Thandi" on the Welcome screen: a large, obvious target with room for two lines. -->
+    <dimen name="fingerprint_card_min_height">72dp</dimen>
+    <dimen name="fingerprint_badge_size">44dp</dimen>
+    <!-- The column of ways in on the landscape Welcome screen. -->
+    <dimen name="welcome_actions_width">320dp</dimen>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -37,15 +38,25 @@
             android:textColor="@color/text_on_purple_muted"
             android:textSize="@dimen/text_subtitle" />
 
+        <!-- Only once fingerprint sign-in is set up on this phone. -->
+        <include
+            android:id="@+id/fingerprintCard"
+            layout="@layout/view_fingerprint_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:visibility="gone" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExplore"
             style="@style/Widget.PAB.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginTop="@dimen/spacing_md"
             android:minHeight="@dimen/button_height"
             android:text="@string/welcome_cta"
-            android:textColor="@color/text_on_purple" />
+            android:textColor="@color/text_on_purple"
+            app:strokeColor="@color/text_on_purple_muted" />
 
     </LinearLayout>
 </FrameLayout>

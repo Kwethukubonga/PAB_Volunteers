@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Landscape has far less height, so the quote and the button no longer fit stacked.
-  The text scrolls on the left and the button stays put on the right, which keeps the
-  way in reachable no matter how short the screen is.
+  Landscape has far less height, so the quote and the buttons no longer fit stacked.
+  The text scrolls on the left and the ways in stay put on the right, which keeps them
+  reachable no matter how short the screen is.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -57,17 +58,32 @@
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnExplore"
-            style="@style/Widget.PAB.Button.Secondary"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="@dimen/welcome_actions_width"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_lg"
-            android:minHeight="@dimen/button_height"
-            android:minWidth="200dp"
-            android:text="@string/welcome_cta"
-            android:textColor="@color/text_on_purple"
-            tools:ignore="RtlSymmetry" />
+            android:orientation="vertical"
+            tools:ignore="RtlSymmetry">
+
+            <!-- Only once fingerprint sign-in is set up on this phone. -->
+            <include
+                android:id="@+id/fingerprintCard"
+                layout="@layout/view_fingerprint_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_md"
+                android:visibility="gone" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnExplore"
+                style="@style/Widget.PAB.Button.Secondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/button_height"
+                android:text="@string/welcome_cta"
+                android:textColor="@color/text_on_purple"
+                app:strokeColor="@color/text_on_purple_muted" />
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

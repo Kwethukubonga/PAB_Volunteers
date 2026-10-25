@@ -38,7 +38,7 @@ class LockActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this) { moveTaskToBack(true) }
 
         // The lock can be turned off on another phone or by clearing data; never trap anyone.
-        if (!AppLock.isEnabled(this) || !AppLock.isAvailable(this)) {
+        if (!AppLock.isOn(this) || !AppLock.isAvailable(this)) {
             AppLock.locked = false
             finish()
             return
