@@ -276,6 +276,8 @@
     <string name="settings_notifications">Notifications</string>
     <string name="settings_notify_activities">New activities</string>
     <string name="settings_notify_activities_desc">When a new activity is posted.</string>
+    <string name="settings_notify_my_programmes">Only my programmes</string>
+    <string name="settings_notify_my_programmes_desc">Only tell me about new activities in the programmes I chose</string>
     <string name="settings_notify_announcements">Announcements</string>
     <string name="settings_notify_announcements_desc">When the Philisa team posts an update.</string>
     <string name="settings_notify_full">Activity full</string>

@@ -226,6 +226,8 @@
     <string name="settings_notifications">Izaziso zefowuni</string>
     <string name="settings_notify_activities">Imisebenzi emitsha</string>
     <string name="settings_notify_activities_desc">Xa kuthunyelwa umsebenzi omtsha.</string>
+    <string name="settings_notify_my_programmes">Iinkqubo zam kuphela</string>
+    <string name="settings_notify_my_programmes_desc">Ndazise kuphela ngemisebenzi emitsha kwiinkqubo endizikhethileyo</string>
     <string name="settings_notify_announcements">Izaziso</string>
     <string name="settings_notify_announcements_desc">Xa iqela lePhilisa lithumela isaziso.</string>
     <string name="settings_notify_full">Umsebenzi ugcwele</string>

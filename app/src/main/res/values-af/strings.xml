@@ -226,6 +226,8 @@
     <string name="settings_notifications">Kennisgewings</string>
     <string name="settings_notify_activities">Nuwe aktiwiteite</string>
     <string name="settings_notify_activities_desc">Wanneer \'n nuwe aktiwiteit geplaas word.</string>
+    <string name="settings_notify_my_programmes">Net my programme</string>
+    <string name="settings_notify_my_programmes_desc">Vertel my net van nuwe aktiwiteite in die programme wat ek gekies het</string>
     <string name="settings_notify_announcements">Aankondigings</string>
     <string name="settings_notify_announcements_desc">Wanneer die Philisa-span \'n boodskap plaas.</string>
     <string name="settings_notify_full">Aktiwiteit vol</string>

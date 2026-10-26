@@ -294,6 +294,10 @@
                         layout="@layout/item_settings_switch_row" />
 
                     <include
+                        android:id="@+id/rowNotifyMyProgrammes"
+                        layout="@layout/item_settings_switch_row" />
+
+                    <include
                         android:id="@+id/rowNotifyAnnouncements"
                         layout="@layout/item_settings_switch_row" />
 

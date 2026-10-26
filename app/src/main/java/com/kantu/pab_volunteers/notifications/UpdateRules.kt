@@ -16,6 +16,17 @@ object UpdateRules {
     fun freshActivities(published: List<Activity>, startedAt: Long, now: Long): List<Activity> =
         published.filter { it.publishedAt > startedAt && it.endsAtMillis > now }
 
+    /**
+     * The activities in one of the programmes the volunteer chose. Choosing none means
+     * nothing in particular rather than nothing at all, so those volunteers keep hearing
+     * about everything.
+     */
+    fun inChosenProgrammes(activities: List<Activity>, interests: List<String>): List<Activity> {
+        val chosen = interests.map { it.trim().lowercase() }.filter { it.isNotEmpty() }.toSet()
+        if (chosen.isEmpty()) return activities
+        return activities.filter { it.programme.trim().lowercase() in chosen }
+    }
+
     /** Announcements published since checks began. */
     fun freshAnnouncements(published: List<Announcement>, startedAt: Long): List<Announcement> =
         published.filter { it.publishedAt > startedAt }

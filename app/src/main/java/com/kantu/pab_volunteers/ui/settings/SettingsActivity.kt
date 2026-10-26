@@ -229,6 +229,7 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setUpNotifications(isAdmin: Boolean) {
         binding.rowNotifyActivities.root.isVisible = !isAdmin
+        binding.rowNotifyMyProgrammes.root.isVisible = !isAdmin
         binding.rowNotifyAnnouncements.root.isVisible = !isAdmin
         binding.rowNotifyFull.root.isVisible = isAdmin
 
@@ -236,6 +237,13 @@ class SettingsActivity : AppCompatActivity() {
             R.string.settings_notify_activities,
             R.string.settings_notify_activities_desc,
             NotificationSettings.NEW_ACTIVITIES
+        )
+        // Off unless asked for: switching it on narrows what a volunteer hears about.
+        binding.rowNotifyMyProgrammes.bind(
+            R.string.settings_notify_my_programmes,
+            R.string.settings_notify_my_programmes_desc,
+            NotificationSettings.ONLY_MY_PROGRAMMES,
+            whenUnset = false
         )
         binding.rowNotifyAnnouncements.bind(
             R.string.settings_notify_announcements,
@@ -708,10 +716,15 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     /** A switch row: a tap anywhere flips it, and TalkBack hears one switch with its title and state. */
-    private fun ItemSettingsSwitchRowBinding.bind(@StringRes title: Int, @StringRes supporting: Int, key: String) {
+    private fun ItemSettingsSwitchRowBinding.bind(
+        @StringRes title: Int,
+        @StringRes supporting: Int,
+        key: String,
+        whenUnset: Boolean = true
+    ) {
         rowTitle.setText(title)
         rowSupporting.setText(supporting)
-        rowSwitch.isChecked = NotificationSettings.isOn(this@SettingsActivity, key)
+        rowSwitch.isChecked = NotificationSettings.isOn(this@SettingsActivity, key, whenUnset)
         root.setOnClickListener {
             val on = !rowSwitch.isChecked
             rowSwitch.isChecked = on

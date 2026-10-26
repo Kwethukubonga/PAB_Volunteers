@@ -9,6 +9,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
+import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
@@ -36,7 +37,7 @@ class UpdatesWorker(
             when {
                 user.isAdmin -> checkFullActivities(state)
                 user.profileComplete -> {
-                    checkNewPosts(state)
+                    checkNewPosts(user, state)
                     checkReminders(uid, state)
                 }
             }
@@ -48,7 +49,7 @@ class UpdatesWorker(
         }
     }
 
-    private suspend fun checkNewPosts(state: UpdateState) {
+    private suspend fun checkNewPosts(user: User, state: UpdateState) {
         val now = DateUtils.now()
         // The first check only records the starting point, so nothing old shows up as new.
         if (state.startedAt == 0L) {
@@ -68,9 +69,16 @@ class UpdatesWorker(
         )
 
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.NEW_ACTIVITIES)) {
+            // Everything is still marked as seen below, so turning this off later does not
+            // bring back a pile of activities the volunteer has already missed.
+            val wanted = if (onlyMyProgrammes()) {
+                UpdateRules.inChosenProgrammes(activities, user.programmeInterests)
+            } else {
+                activities
+            }
             Notifications.showNewActivities(
                 applicationContext,
-                UpdateRules.notShownYet(activities, state.seenActivities) { it.id }
+                UpdateRules.notShownYet(wanted, state.seenActivities) { it.id }
             )
         }
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.ANNOUNCEMENTS)) {
@@ -84,6 +92,10 @@ class UpdatesWorker(
         state.seenAnnouncements = announcements.map { it.id }.toSet()
         state.lastCheck = now
     }
+
+    private fun onlyMyProgrammes(): Boolean = NotificationSettings.isOn(
+        applicationContext, NotificationSettings.ONLY_MY_PROGRAMMES, whenUnset = false
+    )
 
     /**
      * Reminds a volunteer before an activity they joined, at the time chosen in Settings. Uses
