@@ -523,4 +523,18 @@
         <item quantity="one">Indawo e-%d ithathiwe</item>
         <item quantity="other">Iindawo ezi-%d zithathiwe</item>
     </plurals>
+    <string name="settings_privacy">Ubumfihlo</string>
+    <string name="settings_privacy_desc">Oko i-app ikugcinayo ngawe</string>
+    <string name="privacy_title">Ubumfihlo</string>
+    <string name="privacy_intro">IPhilisa Abafazi Bethu igcina okuncinane kangangoko ngawe, igcine kuphela oko ikudingayo ukucwangcisa imisebenzi nokukwazisa ngayo.</string>
+    <string name="privacy_what_heading">Oko i-app ikugcinayo</string>
+    <string name="privacy_what">Igama lakho, idilesi ye-imeyile, inombolo yefowuni, indawo ohlala kuyo, iinkqubo ozikhethileyo, nemisebenzi ozibhalisele yona. Akukho nto yimbi.</string>
+    <string name="privacy_who_heading">Ngubani onokukubona</string>
+    <string name="privacy_who">Nguwe, nabalawuli bePhilisa. Amanye amavolontiya akaze azibone iinkcukacha zakho, kwaye akukho luhlu lukawonke-wonke lwamavolontiya. Iindawo zamakhaya akhuselekileyo azikhe ziboniswe kwi-app.</string>
+    <string name="privacy_rights_heading">Onokukwenza</string>
+    <string name="privacy_rights">Ungazilungisa iinkcukacha zakho kwiHlela iprofayile, uthathe ikopi yayo yonke into i-app eyigcinayo, uze ucime iakhawunti yakho kwiiSetingi, oko kubuyisela izithuba zakho kwamanye amavolontiya. Buza ku-admin@philisaabafazi.org nangantoni na enye.</string>
+    <string name="privacy_download">Khuphela idatha yam</string>
+    <string name="privacy_download_desc">Igcina ifayile yombhalo eneprofayile yakho nayo yonke imisebenzi ozibhalisele yona, apho ukhetha khona kwifowuni yakho.</string>
+    <string name="privacy_download_done">Igciniwe.</string>
+    <string name="privacy_download_failed">Ifayile ayikwazanga ukugcinwa. Zama enye ifolda.</string>
 </resources>

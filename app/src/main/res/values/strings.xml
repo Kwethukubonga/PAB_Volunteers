@@ -565,4 +565,19 @@
         <item quantity="one">%d place taken</item>
         <item quantity="other">%d places taken</item>
     </plurals>
+    <!-- Privacy and "Download my data" (I5). -->
+    <string name="settings_privacy">Privacy</string>
+    <string name="settings_privacy_desc">What the app keeps about you</string>
+    <string name="privacy_title">Privacy</string>
+    <string name="privacy_intro">Philisa Abafazi Bethu keeps as little about you as it can, and only what it needs to plan activities and let you know about them.</string>
+    <string name="privacy_what_heading">What the app keeps</string>
+    <string name="privacy_what">Your name, email address, phone number, the area you live in, the programmes you chose, and the activities you have signed up for. Nothing else.</string>
+    <string name="privacy_who_heading">Who can see it</string>
+    <string name="privacy_who">You, and Philisa\'s admins. Other volunteers never see your details, and there is no public list of volunteers. Safe house locations are never shown in the app.</string>
+    <string name="privacy_rights_heading">What you can do</string>
+    <string name="privacy_rights">You can correct your details in Edit profile, take a copy of everything the app holds, and delete your account from Settings, which gives your places back to other volunteers. Ask admin@philisaabafazi.org about anything else.</string>
+    <string name="privacy_download">Download my data</string>
+    <string name="privacy_download_desc">Saves a text file with your profile and every activity you have signed up for, wherever you choose on your phone.</string>
+    <string name="privacy_download_done">Saved.</string>
+    <string name="privacy_download_failed">The file could not be saved. Try another folder.</string>
 </resources>
