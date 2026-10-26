@@ -243,6 +243,9 @@
     <string name="settings_change_password_desc">Ons e-pos vir jou \'n skakel om \'n nuwe een te kies.</string>
     <string name="settings_change_password_sent">Ons het \'n skakel na %1$s gestuur. Kyk ook in jou gemorspos.</string>
     <string name="settings_contact">Kontak Philisa</string>
+    <string name="settings_call">Bel Philisa</string>
+    <string name="settings_whatsapp">WhatsApp Philisa</string>
+    <string name="settings_directions">Aanwysings na Philisa</string>
     <string name="settings_version">Toepassingweergawe</string>
     <string name="error_no_email_app">Daar is geen e-postoepassing op hierdie foon nie.</string>
     <string name="delete_account_title">Skrap jou rekening</string>

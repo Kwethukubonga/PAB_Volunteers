@@ -70,6 +70,8 @@
     <string name="footer_email" translatable="false">admin@philisaabafazi.org</string>
     <string name="footer_address" translatable="false">55 Strauss Road, Steenberg 7965, Cape Town</string>
     <string name="footer_phone" translatable="false">+27 21 565 0668</string>
+    <!-- Philisa has not given a WhatsApp number yet. The Settings row appears once this is filled in. -->
+    <string name="footer_whatsapp" translatable="false"></string>
     <string name="footer_copyright" translatable="false">© 2026 Philisa Abafazi Bethu Women Centre SA</string>
 
     <!-- Profile fields -->
@@ -291,6 +293,9 @@
     <string name="settings_change_password_desc">We\'ll email you a link to choose a new one.</string>
     <string name="settings_change_password_sent">We\'ve sent a link to %1$s. Check your spam folder too.</string>
     <string name="settings_contact">Contact Philisa</string>
+    <string name="settings_call">Call Philisa</string>
+    <string name="settings_whatsapp">WhatsApp Philisa</string>
+    <string name="settings_directions">Directions to Philisa</string>
     <string name="settings_version">App version</string>
     <string name="error_no_email_app">There is no email app on this phone.</string>
     <string name="delete_account_title">Delete your account</string>
