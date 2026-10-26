@@ -537,4 +537,14 @@
     <string name="privacy_download_desc">Stoor \'n tekslêer met jou profiel en elke aktiwiteit waarvoor jy ingeskryf het, waar jy ook al op jou foon kies.</string>
     <string name="privacy_download_done">Gestoor.</string>
     <string name="privacy_download_failed">Die lêer kon nie gestoor word nie. Probeer \'n ander vouer.</string>
+    <string name="settings_show_intro">Wys die inleiding weer</string>
+    <string name="intro_skip">Slaan oor</string>
+    <string name="intro_next">Volgende</string>
+    <string name="intro_get_started">Kom ons begin</string>
+    <string name="intro_one_title">Doen vrywilligerswerk by Philisa</string>
+    <string name="intro_one_body">Philisa Abafazi Bethu werk met vroue, kinders en gesinne in Lavender Hill. Vrywilligers doen die meeste van daardie werk.</string>
+    <string name="intro_two_title">Kry iets wat pas</string>
+    <string name="intro_two_body">Sien wat kom, hoe lank dit neem en waar dit is, en neem dan \'n plek met een tik.</string>
+    <string name="intro_three_title">Bly op hoogte</string>
+    <string name="intro_three_body">Kry \'n herinnering voor die tyd, en hoor wanneer die span iets nuuts plaas.</string>
 </resources>

@@ -580,4 +580,15 @@
     <string name="privacy_download_desc">Saves a text file with your profile and every activity you have signed up for, wherever you choose on your phone.</string>
     <string name="privacy_download_done">Saved.</string>
     <string name="privacy_download_failed">The file could not be saved. Try another folder.</string>
+    <!-- First-run introduction (K8). -->
+    <string name="settings_show_intro">Show the introduction again</string>
+    <string name="intro_skip">Skip</string>
+    <string name="intro_next">Next</string>
+    <string name="intro_get_started">Get started</string>
+    <string name="intro_one_title">Volunteer with Philisa</string>
+    <string name="intro_one_body">Philisa Abafazi Bethu works with women, children and families in Lavender Hill. Volunteers do most of that work.</string>
+    <string name="intro_two_title">Find something that fits</string>
+    <string name="intro_two_body">See what is coming up, how long it takes and where it is, then take a place in one tap.</string>
+    <string name="intro_three_title">Stay in the loop</string>
+    <string name="intro_three_body">Get a reminder before you are due, and hear when the team posts something new.</string>
 </resources>

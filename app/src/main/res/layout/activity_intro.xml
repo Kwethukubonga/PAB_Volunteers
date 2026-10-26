@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Three pages shown once, before Welcome, to someone opening the app for the first time
+     (K8). Skip is always within reach, so nobody is held here. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_cream"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnSkip"
+        style="@style/Widget.PAB.Button.Secondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="@dimen/spacing_sm"
+        android:layout_marginEnd="@dimen/screen_gutter"
+        android:minWidth="@dimen/touch_target_min"
+        android:minHeight="@dimen/touch_target_min"
+        android:text="@string/intro_skip" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/dots"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/spacing_md"
+        app:tabBackground="@drawable/intro_dot"
+        app:tabGravity="center"
+        app:tabIndicatorHeight="0dp"
+        app:tabPaddingEnd="@dimen/spacing_xs"
+        app:tabPaddingStart="@dimen/spacing_xs" />
+
+    <Button
+        android:id="@+id/btnForward"
+        style="@style/Widget.PAB.Button.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_gutter"
+        android:layout_marginEnd="@dimen/screen_gutter"
+        android:layout_marginBottom="@dimen/spacing_xl"
+        android:text="@string/intro_next" />
+</LinearLayout>
