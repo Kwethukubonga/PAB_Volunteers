@@ -243,6 +243,9 @@
     <string name="settings_change_password_desc">Siza kukuthumelela ikhonkco nge-imeyile ukuze ukhethe elitsha.</string>
     <string name="settings_change_password_sent">Sithumele ikhonkco ku-%1$s. Jonga nakwifolda yespam.</string>
     <string name="settings_contact">Qhagamshelana nePhilisa</string>
+    <string name="settings_call">Fowunela iPhilisa</string>
+    <string name="settings_whatsapp">Thumela iPhilisa nge-WhatsApp</string>
+    <string name="settings_directions">Imikhombandlela eya kwaPhilisa</string>
     <string name="settings_version">Inguqulelo ye-app</string>
     <string name="error_no_email_app">Akukho app ye-imeyile kule fowuni.</string>
     <string name="delete_account_title">Cima iakhawunti yakho</string>

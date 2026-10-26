@@ -48,10 +48,12 @@ import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
+import com.kantu.pab_volunteers.utils.ActivityIntents
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
+import com.kantu.pab_volunteers.utils.Directions
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.OfflineBanner
@@ -59,6 +61,7 @@ import com.kantu.pab_volunteers.utils.PhoneFormattingWatcher
 import com.kantu.pab_volunteers.utils.PhoneNumber
 import com.kantu.pab_volunteers.utils.ThemePreference
 import com.kantu.pab_volunteers.utils.UiText
+import com.kantu.pab_volunteers.utils.WhatsApp
 import kotlinx.coroutines.launch
 
 /**
@@ -628,11 +631,40 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setUpAbout() {
         val pabEmail = getString(R.string.footer_email)
+        val pabPhone = getString(R.string.footer_phone)
+        val pabAddress = getString(R.string.footer_address)
+        val pabWhatsApp = getString(R.string.footer_whatsapp)
+
         binding.rowContact.bind(
             R.drawable.ic_email,
             R.string.settings_contact,
             supporting = pabEmail,
             onClick = { emailPab(pabEmail) }
+        )
+        binding.rowCall.bind(
+            R.drawable.ic_phone,
+            R.string.settings_call,
+            supporting = pabPhone,
+            onClick = { ActivityIntents.dial(this, pabPhone) }
+        )
+        // Philisa have not given a WhatsApp number, so the row stays out of the card
+        // until footer_whatsapp holds one, rather than offering something that fails.
+        val hasWhatsApp = pabWhatsApp.isNotBlank()
+        binding.rowWhatsApp.root.isVisible = hasWhatsApp
+        binding.dividerWhatsApp.isVisible = hasWhatsApp
+        if (hasWhatsApp) {
+            binding.rowWhatsApp.bind(
+                R.drawable.ic_sms,
+                R.string.settings_whatsapp,
+                supporting = pabWhatsApp,
+                onClick = { WhatsApp.open(this, pabWhatsApp) }
+            )
+        }
+        binding.rowDirections.bind(
+            R.drawable.ic_directions,
+            R.string.settings_directions,
+            supporting = pabAddress,
+            onClick = { Directions.open(this, pabAddress) }
         )
         binding.rowVersion.bind(R.drawable.ic_info, R.string.settings_version, BuildConfig.VERSION_NAME)
     }
