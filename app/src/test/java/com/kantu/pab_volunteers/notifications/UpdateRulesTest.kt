@@ -105,4 +105,44 @@ class UpdateRulesTest {
 
         assertTrue(UpdateRules.fullActivities(listOf(finished), now).isEmpty())
     }
+
+    // "Only my programmes": which new activities a volunteer hears about (I2).
+
+    private fun inProgramme(id: String, programme: String) =
+        activity(id).copy(programme = programme)
+
+    @Test
+    fun `only activities in the programmes the volunteer chose`() {
+        val all = listOf(
+            inProgramme("a", "Senior Programme"),
+            inProgramme("b", "Youth Programme"),
+            inProgramme("c", "Soup Kitchen")
+        )
+
+        val mine = UpdateRules.inChosenProgrammes(all, listOf("Senior Programme", "Soup Kitchen"))
+
+        assertEquals(listOf("a", "c"), mine.map { it.id })
+    }
+
+    @Test
+    fun `a volunteer who chose no programmes still hears about everything`() {
+        val all = listOf(inProgramme("a", "Senior Programme"), inProgramme("b", "Youth Programme"))
+
+        assertEquals(2, UpdateRules.inChosenProgrammes(all, emptyList()).size)
+        assertEquals(2, UpdateRules.inChosenProgrammes(all, listOf("", "   ")).size)
+    }
+
+    @Test
+    fun `the programme is matched whatever the case and spacing`() {
+        val all = listOf(inProgramme("a", "  senior programme  "))
+
+        assertEquals(1, UpdateRules.inChosenProgrammes(all, listOf("Senior Programme")).size)
+    }
+
+    @Test
+    fun `an activity with no programme is left out once a choice has been made`() {
+        val all = listOf(inProgramme("a", ""), inProgramme("b", "Senior Programme"))
+
+        assertEquals(listOf("b"), UpdateRules.inChosenProgrammes(all, listOf("Senior Programme")).map { it.id })
+    }
 }
