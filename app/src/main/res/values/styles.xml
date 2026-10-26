@@ -65,6 +65,7 @@
     </style>
 
     <style name="TextAppearance.PAB.FieldLabel" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_caption</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textAllCaps">true</item>
@@ -103,26 +104,30 @@
         <item name="android:textSize">@dimen/text_display</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_on_purple</item>
-        <item name="fontFamily">serif</item>
+        <item name="fontFamily">@font/lora</item>
     </style>
 
     <style name="TextAppearance.PAB.Title" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <style name="TextAppearance.PAB.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_subtitle</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
     <style name="TextAppearance.PAB.Body" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_body</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
     <style name="TextAppearance.PAB.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_caption</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
@@ -166,6 +171,7 @@
 
     <!-- The title above each group in Settings, in the brand colour. -->
     <style name="TextAppearance.PAB.SettingsSection" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textStyle">bold</item>
     </style>
