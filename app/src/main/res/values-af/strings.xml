@@ -523,4 +523,18 @@
         <item quantity="one">%d plek gevul</item>
         <item quantity="other">%d plekke gevul</item>
     </plurals>
+    <string name="settings_privacy">Privaatheid</string>
+    <string name="settings_privacy_desc">Wat die toepassing oor jou hou</string>
+    <string name="privacy_title">Privaatheid</string>
+    <string name="privacy_intro">Philisa Abafazi Bethu hou so min as moontlik oor jou, en net wat nodig is om aktiwiteite te beplan en jou daarvan te laat weet.</string>
+    <string name="privacy_what_heading">Wat die toepassing hou</string>
+    <string name="privacy_what">Jou naam, e-posadres, foonnommer, die area waar jy woon, die programme wat jy gekies het, en die aktiwiteite waarvoor jy ingeskryf het. Niks anders nie.</string>
+    <string name="privacy_who_heading">Wie dit kan sien</string>
+    <string name="privacy_who">Jy, en Philisa se administrateurs. Ander vrywilligers sien nooit jou besonderhede nie, en daar is geen openbare lys van vrywilligers nie. Die ligging van veilige huise word nooit in die toepassing gewys nie.</string>
+    <string name="privacy_rights_heading">Wat jy kan doen</string>
+    <string name="privacy_rights">Jy kan jou besonderhede regstel by Wysig profiel, \'n kopie neem van alles wat die toepassing hou, en jou rekening in Instellings skrap, wat jou plekke aan ander vrywilligers teruggee. Vra admin@philisaabafazi.org oor enigiets anders.</string>
+    <string name="privacy_download">Laai my data af</string>
+    <string name="privacy_download_desc">Stoor \'n tekslêer met jou profiel en elke aktiwiteit waarvoor jy ingeskryf het, waar jy ook al op jou foon kies.</string>
+    <string name="privacy_download_done">Gestoor.</string>
+    <string name="privacy_download_failed">Die lêer kon nie gestoor word nie. Probeer \'n ander vouer.</string>
 </resources>

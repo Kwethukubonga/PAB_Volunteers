@@ -387,6 +387,12 @@
                     <View style="@style/Widget.PAB.SettingsDivider" />
 
                     <include
+                        android:id="@+id/rowPrivacy"
+                        layout="@layout/item_settings_row" />
+
+                    <View style="@style/Widget.PAB.SettingsDivider" />
+
+                    <include
                         android:id="@+id/rowVersion"
                         layout="@layout/item_settings_row" />
                 </LinearLayout>

@@ -674,6 +674,12 @@ class SettingsActivity : AppCompatActivity() {
             supporting = pabAddress,
             onClick = { Directions.open(this, pabAddress) }
         )
+        binding.rowPrivacy.bind(
+            R.drawable.ic_shield,
+            R.string.settings_privacy,
+            supporting = getString(R.string.settings_privacy_desc),
+            onClick = { startActivity(Intent(this, PrivacyActivity::class.java)) }
+        )
         binding.rowVersion.bind(R.drawable.ic_info, R.string.settings_version, BuildConfig.VERSION_NAME)
     }
 
