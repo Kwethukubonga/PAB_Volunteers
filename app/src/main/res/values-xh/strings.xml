@@ -537,4 +537,14 @@
     <string name="privacy_download_desc">Igcina ifayile yombhalo eneprofayile yakho nayo yonke imisebenzi ozibhalisele yona, apho ukhetha khona kwifowuni yakho.</string>
     <string name="privacy_download_done">Igciniwe.</string>
     <string name="privacy_download_failed">Ifayile ayikwazanga ukugcinwa. Zama enye ifolda.</string>
+    <string name="settings_show_intro">Bonisa intshayelelo kwakhona</string>
+    <string name="intro_skip">Tsiba</string>
+    <string name="intro_next">Okulandelayo</string>
+    <string name="intro_get_started">Qalisa</string>
+    <string name="intro_one_title">Volontiya nePhilisa</string>
+    <string name="intro_one_body">IPhilisa Abafazi Bethu isebenza nabafazi, abantwana neentsapho eLavender Hill. Amavolontiya enza uninzi lwaloo msebenzi.</string>
+    <string name="intro_two_title">Fumana into ekulungeleyo</string>
+    <string name="intro_two_body">Jonga okuzayo, ixesha elithathayo nendawo ekuyo, uze uthathe isithuba ngokuchukumisa kanye.</string>
+    <string name="intro_three_title">Hlala usazi</string>
+    <string name="intro_three_body">Fumana isikhumbuzo phambi kwexesha lakho, uve xa iqela liposa into entsha.</string>
 </resources>

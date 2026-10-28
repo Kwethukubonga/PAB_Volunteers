@@ -1,6 +1,7 @@
 package com.kantu.pab_volunteers.ui.auth
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.OvershootInterpolator
@@ -12,6 +13,8 @@ import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySplashBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.ui.intro.IntroActivity
+import com.kantu.pab_volunteers.ui.intro.IntroPreference
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.ErrorMessages
@@ -62,7 +65,13 @@ class SplashActivity : AppCompatActivity() {
     private suspend fun routeOnward() {
         val uid = FirebaseAuthManager.currentUser?.uid
         if (uid == null) {
-            AppNavGraph.goToWelcome(this)
+            if (IntroPreference.seen(this)) {
+                AppNavGraph.goToWelcome(this)
+            } else {
+                // Only ever on the very first run, and it goes on to Welcome by itself.
+                startActivity(Intent(this, IntroActivity::class.java))
+                finish()
+            }
             return
         }
 

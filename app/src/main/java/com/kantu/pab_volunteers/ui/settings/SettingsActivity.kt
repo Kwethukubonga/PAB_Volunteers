@@ -46,6 +46,7 @@ import com.kantu.pab_volunteers.security.FingerprintSignIn
 import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
+import com.kantu.pab_volunteers.ui.intro.IntroActivity
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.utils.ActivityIntents
@@ -673,6 +674,11 @@ class SettingsActivity : AppCompatActivity() {
             R.string.settings_directions,
             supporting = pabAddress,
             onClick = { Directions.open(this, pabAddress) }
+        )
+        binding.rowShowIntro.bind(
+            R.drawable.ic_info,
+            R.string.settings_show_intro,
+            onClick = { startActivity(IntroActivity.againFrom(this)) }
         )
         binding.rowPrivacy.bind(
             R.drawable.ic_shield,

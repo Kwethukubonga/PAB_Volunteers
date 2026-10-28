@@ -32,6 +32,10 @@
         </activity>
 
         <activity
+            android:name=".ui.intro.IntroActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.auth.WelcomeActivity"
             android:exported="false" />
 
