@@ -584,10 +584,14 @@
     <string name="intro_skip">Skip</string>
     <string name="intro_next">Next</string>
     <string name="intro_get_started">Get started</string>
+    <string name="intro_welcome_title">Welcome to Philisa Volunteers</string>
+    <string name="intro_welcome_body">Just a quick tour around the app. It takes a minute, and you can skip it.</string>
     <string name="intro_one_title">Home is where you start</string>
-    <string name="intro_one_body">It shows your week a day at a time, what you have coming up next, and the latest from Philisa.</string>
+    <string name="intro_one_body">Your week a day at a time, what is coming up next, and the latest from Philisa.</string>
     <string name="intro_two_title">Find work that fits your week</string>
-    <string name="intro_two_body">See what is coming up, how long it takes and where it is, then take a place in one tap.</string>
-    <string name="intro_three_title">Never miss the day you are needed</string>
-    <string name="intro_three_body">Get a reminder before you are due, and hear when the team posts something new.</string>
+    <string name="intro_two_body">Search what is open, see the time and the place, and take a spot in one tap.</string>
+    <string name="intro_four_title">Everything you joined, in one list</string>
+    <string name="intro_four_body">What is still coming and what you have finished, with the hours you have given.</string>
+    <string name="intro_three_title">Hear it from the team</string>
+    <string name="intro_three_body">Updates from Philisa, and a thumbs up when something goes well.</string>
 </resources>

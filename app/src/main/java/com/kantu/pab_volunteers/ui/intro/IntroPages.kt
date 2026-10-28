@@ -5,11 +5,14 @@ import androidx.annotation.StringRes
 import com.kantu.pab_volunteers.R
 
 /**
- * The three pages shown once, to a volunteer who has just finished setting up their account
- * (K8): where to look, how to take a place, and how they will be reminded. Somebody who has
- * not signed up yet has nothing to be shown round, so it does not run before then.
+ * The tour shown once, to a volunteer who has just finished setting up their account (K8).
+ * Somebody who has not signed up yet has nothing to be shown round, so it does not run
+ * before then.
  *
- * Each is a photograph of Philisa's own work rather than an illustration of a phone.
+ * It opens on a photograph of Philisa's own work and says what is about to happen, then
+ * walks through the four tabs in the order a volunteer meets them. The pages after the
+ * first are the app's own screens rather than drawings of them, so the tab being described
+ * is the one that will be there afterwards.
  *
  * Kept apart from the screen so what is shown, and which button goes with which page, can be
  * checked without a phone.
@@ -23,17 +26,18 @@ data class IntroPage(
 object IntroPages {
 
     val pages: List<IntroPage> = listOf(
-        // Where the app opens, how to join something, and what arrives afterwards.
-        IntroPage(R.drawable.img_programme_after_school, R.string.intro_one_title, R.string.intro_one_body),
-        IntroPage(R.drawable.img_programme_community_feeding, R.string.intro_two_title, R.string.intro_two_body),
-        IntroPage(R.drawable.img_programme_youth, R.string.intro_three_title, R.string.intro_three_body)
+        IntroPage(R.drawable.img_programme_seniors, R.string.intro_welcome_title, R.string.intro_welcome_body),
+        IntroPage(R.drawable.img_tour_home, R.string.intro_one_title, R.string.intro_one_body),
+        IntroPage(R.drawable.img_tour_activities, R.string.intro_two_title, R.string.intro_two_body),
+        IntroPage(R.drawable.img_tour_schedule, R.string.intro_four_title, R.string.intro_four_body),
+        IntroPage(R.drawable.img_tour_community, R.string.intro_three_title, R.string.intro_three_body)
     )
 
     val last: Int get() = pages.lastIndex
 
     fun isLast(page: Int): Boolean = page >= last
 
-    /** The last page finishes the introduction, so its button says so. */
+    /** The last page finishes the tour, so its button says so. */
     @StringRes
     fun forwardLabel(page: Int): Int =
         if (isLast(page)) R.string.intro_get_started else R.string.intro_next

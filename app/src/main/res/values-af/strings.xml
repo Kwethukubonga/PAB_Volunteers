@@ -540,10 +540,14 @@
     <string name="intro_skip">Slaan oor</string>
     <string name="intro_next">Volgende</string>
     <string name="intro_get_started">Kom ons begin</string>
+    <string name="intro_welcome_title">Welkom by Philisa Volunteers</string>
+    <string name="intro_welcome_body">Net \'n vinnige toer deur die toepassing. Dit vat \'n minuut, en jy kan dit oorslaan.</string>
     <string name="intro_one_title">Tuis is waar jy begin</string>
-    <string name="intro_one_body">Dit wys jou week dag vir dag, wat volgende kom, en die nuutste van Philisa.</string>
+    <string name="intro_one_body">Jou week dag vir dag, wat volgende kom, en die nuutste van Philisa.</string>
     <string name="intro_two_title">Kry werk wat by jou week pas</string>
-    <string name="intro_two_body">Sien wat kom, hoe lank dit neem en waar dit is, en neem dan \'n plek met een tik.</string>
-    <string name="intro_three_title">Mis nooit die dag waarop jy nodig is nie</string>
-    <string name="intro_three_body">Kry \'n herinnering voor die tyd, en hoor wanneer die span iets nuuts plaas.</string>
+    <string name="intro_two_body">Soek wat oop is, sien die tyd en die plek, en neem \'n plek met een tik.</string>
+    <string name="intro_four_title">Alles waarby jy aangesluit het, in een lys</string>
+    <string name="intro_four_body">Wat nog kom en wat jy klaar gedoen het, met die ure wat jy gegee het.</string>
+    <string name="intro_three_title">Hoor dit van die span</string>
+    <string name="intro_three_body">Opdaterings van Philisa, en \'n duim op wanneer iets goed gaan.</string>
 </resources>
