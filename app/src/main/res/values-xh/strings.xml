@@ -540,8 +540,8 @@
     <string name="intro_skip">Tsiba</string>
     <string name="intro_next">Okulandelayo</string>
     <string name="intro_get_started">Qalisa</string>
-    <string name="intro_one_title">Iveki yakho ngephanyazo</string>
-    <string name="intro_one_body">Ikhaya livula kwiintsuku ozibhalisele nakoko kusafuna amavolontiya kule veki.</string>
+    <string name="intro_one_title">Uqala ekhaya</string>
+    <string name="intro_one_body">Likubonisa iveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
     <string name="intro_two_title">Fumana umsebenzi olingana neveki yakho</string>
     <string name="intro_two_body">Jonga okuzayo, ixesha elithathayo nendawo ekuyo, uze uthathe isithuba ngokuchukumisa kanye.</string>
     <string name="intro_three_title">Ungaze uphose usuku ofunwa ngalo</string>
