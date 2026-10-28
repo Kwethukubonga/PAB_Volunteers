@@ -14,7 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityIntroBinding
 import com.kantu.pab_volunteers.databinding.ItemIntroPageBinding
-import com.kantu.pab_volunteers.navigation.AppNavGraph
+import com.kantu.pab_volunteers.navigation.AuthNavGraph
 
 /**
  * Three pages explaining what the app is for, shown once before the Welcome screen and
@@ -74,7 +74,7 @@ class IntroActivity : AppCompatActivity() {
 
     private fun done() {
         IntroPreference.markSeen(this)
-        if (askedFor) finish() else AppNavGraph.goToWelcome(this)
+        if (askedFor) finish() else AuthNavGraph.goToVolunteerHome(this)
     }
 
     private class PagesAdapter : RecyclerView.Adapter<PagesAdapter.PageHolder>() {

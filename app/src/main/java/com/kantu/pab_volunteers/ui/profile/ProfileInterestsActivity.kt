@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityProfileInterestsBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.ui.intro.IntroActivity
+import com.kantu.pab_volunteers.ui.intro.IntroPreference
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.OfflineBanner
@@ -67,7 +70,14 @@ class ProfileInterestsActivity : AppCompatActivity() {
         viewModel.saved.observe(this) { saved ->
             if (saved) {
                 AppMessage.showOnNextScreen(UiText.Res(R.string.profile_saved))
-                AuthNavGraph.goToVolunteerHome(this)
+                // The run-through comes once, between finishing the profile and landing on
+                // Home. It carries on there itself.
+                if (IntroPreference.seen(this)) {
+                    AuthNavGraph.goToVolunteerHome(this)
+                } else {
+                    startActivity(Intent(this, IntroActivity::class.java))
+                    finish()
+                }
             }
         }
     }

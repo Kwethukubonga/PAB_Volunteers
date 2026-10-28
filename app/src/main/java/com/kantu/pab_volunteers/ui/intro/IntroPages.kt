@@ -5,9 +5,11 @@ import androidx.annotation.StringRes
 import com.kantu.pab_volunteers.R
 
 /**
- * The three pages shown once, before the Welcome screen, to someone opening the app for the
- * first time (K8). Each is a photograph of Philisa's own work, so the introduction shows what
- * volunteering here looks like rather than describing it.
+ * The three pages shown once, to a volunteer who has just finished setting up their account
+ * (K8): where to look, how to take a place, and how they will be reminded. Somebody who has
+ * not signed up yet has nothing to be shown round, so it does not run before then.
+ *
+ * Each is a photograph of Philisa's own work rather than an illustration of a phone.
  *
  * Kept apart from the screen so what is shown, and which button goes with which page, can be
  * checked without a phone.
@@ -21,10 +23,8 @@ data class IntroPage(
 object IntroPages {
 
     val pages: List<IntroPage> = listOf(
-        // Why the work matters, then the work itself, then who is waiting on you. The rally
-        // photograph is deliberately left for the Welcome screen, so arriving there is not
-        // the same picture over again.
-        IntroPage(R.drawable.img_programme_seniors, R.string.intro_one_title, R.string.intro_one_body),
+        // Where the app opens, how to join something, and what arrives afterwards.
+        IntroPage(R.drawable.img_programme_after_school, R.string.intro_one_title, R.string.intro_one_body),
         IntroPage(R.drawable.img_programme_community_feeding, R.string.intro_two_title, R.string.intro_two_body),
         IntroPage(R.drawable.img_programme_youth, R.string.intro_three_title, R.string.intro_three_body)
     )
