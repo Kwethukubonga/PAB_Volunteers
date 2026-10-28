@@ -10,10 +10,13 @@ import com.kantu.pab_volunteers.R
  * before then.
  *
  * It walks the four tabs a volunteer works in, in the order they meet them, holding up the
- * screen itself the way an app's own store listing does. The screenshots come from a demo
- * account rather than anyone's real one, and the status bar is cropped off them, so nothing
- * ships that belongs to the phone they were taken on. Profile is left out: the bottom of it
- * is an email address and a telephone number, and no tour needs those.
+ * screen itself the way an app's own store listing does.
+ *
+ * The screenshots are staged, not simply taken: a demo account, the status bar cropped off,
+ * Activities scrolled so the soup kitchen and the men's cafe lead rather than whatever was
+ * newest, and Community opened on the march and the tutoring appeal. Replacing one means
+ * setting the screen up again, not just capturing the tab. Profile is left out: the bottom
+ * of it is an email address and a telephone number, and no tour needs those.
  *
  * Kept apart from the screen so what is shown, and which button goes with which page, can be
  * checked without a phone.
