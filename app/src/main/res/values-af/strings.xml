@@ -169,7 +169,7 @@
     <string name="action_remove">Verwyder</string>
     <string name="action_cancel">Kanselleer</string>
     <string name="error_generic">Iets het verkeerd geloop. Probeer asseblief weer.</string>
-    <string name="error_no_connection">Kon nie koppel nie. Kontroleer jou internetverbinding.</string>
+    <string name="error_no_connection">Kon nie by Philisa uitkom nie. Kontroleer jou verbinding, en enige VPN of blokkeerder wat in die pad is.</string>
     <string name="error_too_many_tries">Te veel pogings. Wag \'n oomblik en probeer weer.</string>
     <string name="error_weak_password">Kies \'n sterker wagwoord.</string>
     <string name="error_email_in_use">Daardie e-pos het reeds \'n rekening. Meld eerder aan.</string>
@@ -508,7 +508,6 @@
     <string name="community_month_expanded">Wys</string>
     <string name="community_month_collapsed">Toegevou</string>
     <string name="overview_at_a_glance">Oorsig</string>
-    <string name="overview_signups">Inskrywings</string>
     <string name="overview_activities_value">%1$d gepubliseer, %2$d konsepte</string>
     <string name="nav_settings">Instellings</string>
     <plurals name="community_month_count">
@@ -519,9 +518,9 @@
         <item quantity="one">%d geregistreer</item>
         <item quantity="other">%d geregistreer</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">%d plek gevul</item>
-        <item quantity="other">%d plekke gevul</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d geplaas</item>
+        <item quantity="other">%d geplaas</item>
     </plurals>
     <string name="settings_privacy">Privaatheid</string>
     <string name="settings_privacy_desc">Wat die toepassing oor jou hou</string>
@@ -541,10 +540,12 @@
     <string name="intro_skip">Slaan oor</string>
     <string name="intro_next">Volgende</string>
     <string name="intro_get_started">Kom ons begin</string>
-    <string name="intro_one_title">Doen vrywilligerswerk by Philisa</string>
-    <string name="intro_one_body">Philisa Abafazi Bethu werk met vroue, kinders en gesinne in Lavender Hill. Vrywilligers doen die meeste van daardie werk.</string>
-    <string name="intro_two_title">Kry iets wat pas</string>
-    <string name="intro_two_body">Sien wat kom, hoe lank dit neem en waar dit is, en neem dan \'n plek met een tik.</string>
-    <string name="intro_three_title">Bly op hoogte</string>
-    <string name="intro_three_body">Kry \'n herinnering voor die tyd, en hoor wanneer die span iets nuuts plaas.</string>
+    <string name="intro_one_title">Tuis is waar jy begin</string>
+    <string name="intro_one_body">\'n Vinnige toer, een minuut. Tuis open op jou week dag vir dag, wat volgende kom, en die nuutste van Philisa.</string>
+    <string name="intro_two_title">Kry werk wat by jou week pas</string>
+    <string name="intro_two_body">Soek wat oop is, sien die tyd en die plek, en neem \'n plek met een tik.</string>
+    <string name="intro_four_title">Alles waarby jy aangesluit het, in een lys</string>
+    <string name="intro_four_body">Wat nog kom en wat jy klaar gedoen het, met die ure wat jy gegee het.</string>
+    <string name="intro_three_title">Hoor dit van die span</string>
+    <string name="intro_three_body">Opdaterings van Philisa, en \'n duim op wanneer iets goed gaan.</string>
 </resources>

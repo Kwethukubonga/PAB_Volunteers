@@ -169,7 +169,7 @@
     <string name="action_remove">Susa</string>
     <string name="action_cancel">Rhoxisa</string>
     <string name="error_generic">Kukho into engahambanga kakuhle. Nceda uzame kwakhona.</string>
-    <string name="error_no_connection">Asikwazanga ukudibanisa. Jonga uqhagamshelo lwakho lwe-intanethi.</string>
+    <string name="error_no_connection">Asikwazanga ukufikelela kwiPhilisa. Jonga uqhagamshelo lwakho, nayo nayiphi na i-VPN okanye isithinteli esisendleleni.</string>
     <string name="error_too_many_tries">Uzame kaninzi kakhulu. Linda umzuzwana uze uzame kwakhona.</string>
     <string name="error_weak_password">Khetha igama lokugqithisa elomeleleyo.</string>
     <string name="error_email_in_use">Le imeyile sele inayo iakhawunti. Ngena endaweni yoko.</string>
@@ -508,7 +508,6 @@
     <string name="community_month_expanded">Kuyabonakala</string>
     <string name="community_month_collapsed">Kufihliwe</string>
     <string name="overview_at_a_glance">Ngokukhawuleza</string>
-    <string name="overview_signups">Ababhalisileyo</string>
     <string name="overview_activities_value">%1$d epapashiweyo, %2$d esezidrafti</string>
     <string name="nav_settings">Iisetingi</string>
     <plurals name="community_month_count">
@@ -519,9 +518,9 @@
         <item quantity="one">%d ubhalisile</item>
         <item quantity="other">%d babhalisile</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">Indawo e-%d ithathiwe</item>
-        <item quantity="other">Iindawo ezi-%d zithathiwe</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d ithunyelwe</item>
+        <item quantity="other">ezi-%d zithunyelwe</item>
     </plurals>
     <string name="settings_privacy">Ubumfihlo</string>
     <string name="settings_privacy_desc">Oko i-app ikugcinayo ngawe</string>
@@ -541,10 +540,12 @@
     <string name="intro_skip">Tsiba</string>
     <string name="intro_next">Okulandelayo</string>
     <string name="intro_get_started">Qalisa</string>
-    <string name="intro_one_title">Volontiya nePhilisa</string>
-    <string name="intro_one_body">IPhilisa Abafazi Bethu isebenza nabafazi, abantwana neentsapho eLavender Hill. Amavolontiya enza uninzi lwaloo msebenzi.</string>
-    <string name="intro_two_title">Fumana into ekulungeleyo</string>
-    <string name="intro_two_body">Jonga okuzayo, ixesha elithathayo nendawo ekuyo, uze uthathe isithuba ngokuchukumisa kanye.</string>
-    <string name="intro_three_title">Hlala usazi</string>
-    <string name="intro_three_body">Fumana isikhumbuzo phambi kwexesha lakho, uve xa iqela liposa into entsha.</string>
+    <string name="intro_one_title">Uqala ekhaya</string>
+    <string name="intro_one_body">Ukhenketho olufutshane, umzuzu omnye. Ikhaya livula kwiveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
+    <string name="intro_two_title">Fumana umsebenzi olingana neveki yakho</string>
+    <string name="intro_two_body">Khangela okuvulekileyo, ubone ixesha nendawo, uze uthathe isithuba ngokuchukumisa kanye.</string>
+    <string name="intro_four_title">Konke ozibhalisele kuko, kuluhlu olunye</string>
+    <string name="intro_four_body">Okusezayo nokugqityiweyo, kunye neeyure ozinikeleyo.</string>
+    <string name="intro_three_title">Yiva kwiqela</string>
+    <string name="intro_three_body">Izibuyekezo ezivela kwiPhilisa, nobhontsi xa into ihambe kakuhle.</string>
 </resources>

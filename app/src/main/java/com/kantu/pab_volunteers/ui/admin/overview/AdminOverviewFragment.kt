@@ -54,7 +54,9 @@ class AdminOverviewFragment : Fragment() {
         bindGlance(binding.rowActivities, R.drawable.ic_activities, R.string.nav_activities) {
             (activity as? AdminMainActivity)?.selectTab(R.id.manageActivitiesFragment)
         }
-        bindGlance(binding.rowSignups, R.drawable.ic_people, R.string.overview_signups, onClick = null)
+        bindGlance(binding.rowAnnouncements, R.drawable.ic_admin_posts, R.string.announcements_heading) {
+            (activity as? AdminMainActivity)?.selectTab(R.id.manageAnnouncementsFragment)
+        }
 
         setUpQuickAction(
             binding.actionCreateActivity.root,
@@ -126,9 +128,10 @@ class AdminOverviewFragment : Fragment() {
                 R.string.overview_activities_value, published, activities.size - published
             )
         }
-        viewModel.totalSignups.observe(viewLifecycleOwner) {
-            binding.rowSignups.rowSupporting.text =
-                resources.getQuantityString(R.plurals.overview_signups_value, it, it)
+        viewModel.announcements.observe(viewLifecycleOwner) { announcements ->
+            binding.rowAnnouncements.rowSupporting.text = resources.getQuantityString(
+                R.plurals.overview_announcements_value, announcements.size, announcements.size
+            )
         }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it

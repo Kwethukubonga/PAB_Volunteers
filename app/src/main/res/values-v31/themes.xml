@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        From Android 12 the system draws the first frame itself, and it ignores the window
+        background unless that background is a plain colour. Ours was a shape, so the system
+        fell back to a colour of its own choosing, which is why the launch screen opened in a
+        purple that is not Philisa's. These say exactly what to draw instead.
+    -->
+    <style name="Theme.PAB_Volunteers.Splash" parent="Theme.PAB_Volunteers">
+        <item name="android:windowSplashScreenBackground">@color/purple_700</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="android:windowBackground">@color/purple_700</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+</resources>

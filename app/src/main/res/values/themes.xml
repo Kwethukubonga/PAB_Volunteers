@@ -36,8 +36,10 @@
 
     <style name="Theme.PAB_Volunteers" parent="Base.Theme.PAB" />
 
+    <!-- A plain colour rather than the header shape: Android can only reuse the window
+         background for its own launch screen when it is a colour it can read (see values-v31). -->
     <style name="Theme.PAB_Volunteers.Splash">
-        <item name="android:windowBackground">@drawable/bg_gradient_header</item>
+        <item name="android:windowBackground">@color/purple_700</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 

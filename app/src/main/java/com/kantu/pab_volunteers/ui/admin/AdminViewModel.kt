@@ -56,9 +56,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val _announcements = MutableLiveData<List<Announcement>>(emptyList())
     val announcements: LiveData<List<Announcement>> = _announcements
 
-    private val _totalSignups = MutableLiveData(0)
-    val totalSignups: LiveData<Int> = _totalSignups
-
     private val _signupsForActivity = MutableLiveData<List<ActivitySignup>>(emptyList())
     val signupsForActivity: LiveData<List<ActivitySignup>> = _signupsForActivity
 
@@ -102,7 +99,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
                 _recentVolunteers.value = registered.sortedByDescending { it.joinedDate }
                 _activities.value = activityRepository.getAllActivities()
                 _announcements.value = announcementRepository.getAllAnnouncements()
-                _totalSignups.value = _activities.value.orEmpty().sumOf { it.filledSpots }
                 _listsFailed.value = null
             } catch (e: CancellationException) {
                 throw e

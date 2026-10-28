@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- One page of the first-run introduction. Centred, with room for long text in isiXhosa
-     and Afrikaans and at larger text sizes. -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- One page of the tour, laid out the way an app's own store listing does it: what the
+     screen is for across the top, and the screen itself held up underneath.
+
+     The phone runs off the bottom of the page rather than sitting in it. That is deliberate.
+     It reads as a screen that carries on past the edge, and it means the part a volunteer
+     sees is the top of each tab, which is the part that identifies it.
+
+     No background of its own: the pager behind it is the brand purple, so swiping between
+     pages does not show a seam. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/intro_controls_room">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="200dp"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/screen_gutter"
-        android:paddingTop="@dimen/spacing_xl"
-        android:paddingEnd="@dimen/screen_gutter"
-        android:paddingBottom="@dimen/spacing_xl">
+        android:layout_marginStart="@dimen/screen_gutter"
+        android:layout_marginTop="@dimen/intro_title_top"
+        android:layout_marginEnd="@dimen/screen_gutter"
+        android:accessibilityHeading="true"
+        android:textAppearance="@style/TextAppearance.PAB.Display" />
 
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:background="@drawable/bg_interest_icon"
-            android:contentDescription="@null"
-            android:padding="@dimen/spacing_lg"
-            app:tint="@color/accent" />
+    <TextView
+        android:id="@+id/tvBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/screen_gutter"
+        android:layout_marginTop="@dimen/spacing_md"
+        android:layout_marginEnd="@dimen/screen_gutter"
+        android:textColor="@color/text_on_purple_muted"
+        android:textSize="@dimen/text_subtitle" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:accessibilityHeading="true"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.PAB.Title"
-            android:textSize="@dimen/text_title" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipChildren="true">
 
-        <TextView
-            android:id="@+id/tvBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.PAB.Body" />
-    </LinearLayout>
-</ScrollView>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="@dimen/intro_phone_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/spacing_xl"
+            app:cardCornerRadius="@dimen/intro_phone_radius"
+            app:cardElevation="16dp">
+
+            <!-- Scaled to the width of the card and pinned to its top in code, so whatever
+                 room the page has left the phone fills it and runs off the bottom. -->
+            <ImageView
+                android:id="@+id/ivPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:scaleType="matrix" />
+        </com.google.android.material.card.MaterialCardView>
+    </FrameLayout>
+</LinearLayout>

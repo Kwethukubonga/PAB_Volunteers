@@ -215,7 +215,7 @@
     <string name="action_remove">Remove</string>
     <string name="action_cancel">Cancel</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
-    <string name="error_no_connection">Couldn\'t connect. Check your internet connection.</string>
+    <string name="error_no_connection">Couldn\'t reach Philisa. Check your connection, and any VPN or blocker that might be in the way.</string>
     <string name="error_too_many_tries">Too many tries. Wait a moment and try again.</string>
     <string name="error_weak_password">Choose a stronger password.</string>
     <string name="error_email_in_use">That email already has an account. Sign in instead.</string>
@@ -550,7 +550,6 @@
     <string name="community_month_expanded">Showing</string>
     <string name="community_month_collapsed">Folded away</string>
     <string name="overview_at_a_glance">At a glance</string>
-    <string name="overview_signups">Sign-ups</string>
     <string name="overview_activities_value">%1$d published, %2$d drafts</string>
     <string name="nav_settings">Settings</string>
     <plurals name="community_month_count">
@@ -561,9 +560,9 @@
         <item quantity="one">%d registered</item>
         <item quantity="other">%d registered</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">%d place taken</item>
-        <item quantity="other">%d places taken</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d posted</item>
+        <item quantity="other">%d posted</item>
     </plurals>
     <!-- Privacy and "Download my data" (I5). -->
     <string name="settings_privacy">Privacy</string>
@@ -585,10 +584,12 @@
     <string name="intro_skip">Skip</string>
     <string name="intro_next">Next</string>
     <string name="intro_get_started">Get started</string>
-    <string name="intro_one_title">Volunteer with Philisa</string>
-    <string name="intro_one_body">Philisa Abafazi Bethu works with women, children and families in Lavender Hill. Volunteers do most of that work.</string>
-    <string name="intro_two_title">Find something that fits</string>
-    <string name="intro_two_body">See what is coming up, how long it takes and where it is, then take a place in one tap.</string>
-    <string name="intro_three_title">Stay in the loop</string>
-    <string name="intro_three_body">Get a reminder before you are due, and hear when the team posts something new.</string>
+    <string name="intro_one_title">Home is where you start</string>
+    <string name="intro_one_body">A quick tour, one minute. Home opens on your week a day at a time, what is coming up next, and the latest from Philisa.</string>
+    <string name="intro_two_title">Find work that fits your week</string>
+    <string name="intro_two_body">Search what is open, see the time and the place, and take a spot in one tap.</string>
+    <string name="intro_four_title">Everything you joined, in one list</string>
+    <string name="intro_four_body">What is still coming and what you have finished, with the hours you have given.</string>
+    <string name="intro_three_title">Hear it from the team</string>
+    <string name="intro_three_body">Updates from Philisa, and a thumbs up when something goes well.</string>
 </resources>

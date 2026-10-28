@@ -43,6 +43,17 @@
         <item name="elevation">0dp</item>
     </style>
 
+    <!-- Skip, sitting on the photograph at the top of the introduction. No fill or stroke,
+         so it reads as a way out rather than the thing to press. -->
+    <style name="Widget.PAB.Button.Skip" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/text_on_purple</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:minWidth">@dimen/touch_target_min</item>
+        <item name="android:minHeight">@dimen/touch_target_min</item>
+        <item name="rippleColor">@color/text_on_purple_muted</item>
+    </style>
+
     <style name="Widget.PAB.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/divider</item>
         <item name="android:textColor">@color/text_primary</item>

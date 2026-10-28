@@ -82,7 +82,7 @@
                     <View style="@style/Widget.PAB.SettingsDivider" />
 
                     <include
-                        android:id="@+id/rowSignups"
+                        android:id="@+id/rowAnnouncements"
                         layout="@layout/item_settings_row" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
