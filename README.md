@@ -209,6 +209,7 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 | Backend | Firebase Authentication and Cloud Firestore, with Security Rules |
 | Pictures | Cloudinary uploads, Glide loading |
 | Notifications | WorkManager |
+| Typefaces | Lora and Source Sans 3, the website's own, bundled under the Open Font Licence (see `licenses/`) |
 | Testing and CI | JUnit, Firestore emulator rules tests (Node.js), Android Lint, GitHub Actions |
 
 **Why Firebase:** it works offline in areas with weak signal, enforces security in the database itself, handles Google sign-in and password resets, and stays within the free tier at PAB's size.
