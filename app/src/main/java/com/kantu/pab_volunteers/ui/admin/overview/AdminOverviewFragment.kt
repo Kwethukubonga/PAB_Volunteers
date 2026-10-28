@@ -54,11 +54,10 @@ class AdminOverviewFragment : Fragment() {
         bindGlance(binding.rowActivities, R.drawable.ic_activities, R.string.nav_activities) {
             (activity as? AdminMainActivity)?.selectTab(R.id.manageActivitiesFragment)
         }
-        // Every sign-up belongs to an activity, and opening one is the only way to read it,
-        // so this lands on the activities list rather than sitting there as the one row in the
-        // card that does nothing when it is tapped.
+        // There is no screen listing every sign-up, so this opens the volunteers list: the
+        // people behind the count, and where an admin goes to look one of them up.
         bindGlance(binding.rowSignups, R.drawable.ic_people, R.string.overview_signups) {
-            (activity as? AdminMainActivity)?.selectTab(R.id.manageActivitiesFragment)
+            (activity as? AdminMainActivity)?.selectTab(R.id.manageVolunteersFragment)
         }
 
         setUpQuickAction(
