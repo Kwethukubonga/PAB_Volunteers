@@ -1,11 +1,11 @@
 # Handover: what's done and what's left
 
-PAB Volunteers (Android) and the Help Centre (web). Updated 25 October 2026.
+PAB Volunteers (Android) and the Help Centre (web). Updated 29 October 2026.
 
 Task 2 got 176/270 (65%). Most marks were lost on the **web app** (APIs, Database, Data Flow, Security, CI/CD). Most of that is now fixed on web `develop`. Railway is gone: the site runs on Render's free plan with Postgres on Neon (Nuha, PRs #14 and #15), and CI deploys `main` there once the `RENDER_DEPLOY_HOOK` secret is set (W1).
 
 **Repos:** Android `Kwethukubonga/PAB_Volunteers` · Web `Kwethukubonga/PAB_WebApp`. Clone both into the same folder.
-**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (108 items: 75 done, 12 part done; section 8 lists what's left on Android, in order). Each item says how to do it and how to know it's finished.
+**Full checklist:** [`IMPROVEMENT_PLAN.md`](IMPROVEMENT_PLAN.md) in this folder (108 items: 82 done, 11 part done; section 8 lists what's left on Android, in order). Each item says how to do it and how to know it's finished.
 
 > ⚠️ **These notes live only on the `changes_final_POE` branch**, which exists in both repos with the same `handover/` folder and a `changes_POE.md` project guide. They are for the team only, never go into `develop`, `main` or `master`, and **both `changes_final_POE` branches are deleted before the final submission** (section 5).
 
@@ -41,14 +41,14 @@ Each repo's `changes_final_POE` branch has `changes_POE.md`: what the project is
 | Repo | Branch | State |
 |---|---|---|
 | Web | `main` | Old version (4 Oct). CI deploys `main` to Render (https://philisa-abafazi-bethu-web.onrender.com/) once `RENDER_DEPLOY_HOOK` is set. |
-| Web | `develop` | All the new work, on Postgres (Neon). 271 tests (six need Postgres and run in CI), coverage reported. Ready to go to `main` once W1 is done. |
-| Web | `feature/ash/lighthouse` | H4, PR #20 (Ash). Checks pass; review and merge. |
-| Web | PR #18, `feature/unathi/programmes-content` → `main` | Opened into `main` by mistake; the same branch went into `develop` as PR #19. Close it. |
+| Web | `develop` | All the new work, on Postgres (Neon), and the fixes from the 26 October edge-case test (issues #22–#27, PRs #29–#31) and README update (PR #32). 362 tests (six need Postgres and run in CI), coverage reported. Ready to go to `main` once W1 is done. |
+| Web | `feature/ash/lighthouse`, `feature/ash/threat-model` | H4, PR #20, and J2, PR #21 (Ash). Open since 25 October; review and merge. |
+| Web | Issue #28 | README out of date: fixed by Nuha's PR #32, which didn't link it. Close it. |
 | Both | `changes_final_POE` | These notes and `changes_POE.md`. Never merge; delete before the final submission. |
 | Web | `revert-7-feature/api` | Made with GitHub's Revert button on PR #7, never opened as a PR. **Don't merge it**: it would undo all the new web work. Delete it if nobody needs it. |
 | Web | `feature/database-persistence`, `feature/update-programme-images`, `unathi` | Old, and they carry a stray `.claude/launch.json`. Delete if finished with. |
-| Android | `develop` | All 17 requirements (PV-FR01–17), the requirements table (PR #17), the deploy pipeline, Dependabot and PR template (PR #19, Kwethu), the shared palette (PR #20, Kwethu) and the Settings rebuild (PR #21). CI green. |
-| Android | `feature/tlhogi/collective-features` → `feature/tlhogi/mockup-screens` | PR them into `develop` next, in that order. Both already include `develop`. The mockup branch has six "UI:" commits (Home planner, activity details, Profile tabs, fingerprint lock, emergency contact and reminders). |
+| Android | `develop` | Everything: all requirements and the requirements table, the pipeline, palette and Settings (PRs #17–#21), Tlhogi's Collective features, mockup screens, P1 work and Explore fingerprint (PRs #22–#24, #34), and Kwethu's P2 work (PRs #25–#33, #35). 189 unit tests and 68 rules tests. CI green. |
+| Android | `master` | Old version (5 Oct). Merge `develop` in, then push `v1.1.0` (plan, section 8.2). |
 
 ### Done on web `develop`
 
@@ -61,7 +61,8 @@ Each repo's `changes_final_POE` branch has `changes_POE.md`: what the project is
 - **Accessibility:** AA contrast, 44px touch targets, focus moves between form steps, step name shown on phones, `autocomplete`/`required` on fields
 - **Safety/UX:** quick exit button (or Esc twice), loading state on Submit, confirmation page with "Copy reference", emergency numbers work offline
 - **CI/CD:** tests, coverage, CSS-matches-tokens check, Docker build, deploy to Render from `main` (once its secret is set), `/health` and `/alive` checks, Dependabot
-- **Docs:** README section 2 maps every requirement to its page, code and test
+- **Docs:** README section 2 maps every requirement to its page, code and test; brought up to date by Nuha (PR #32)
+- **Edge-case fixes** (issues #22–#27, Unathi, PRs #29–#31): the rate limit follows the page or endpoint reached, so a trailing slash can't get round it; Enter moves to the next step; the confirmation only shows after a real save; unknown programmes give a 404; the Privacy page is translated; more phone formats and landlines accepted, names need letters; full step 3 summary; South African time on the confirmation; Leave this site in the header on phones
 
 ### Done on Android
 
@@ -69,6 +70,8 @@ Each repo's `changes_final_POE` branch has `changes_POE.md`: what the project is
 - Rules tests for joining and leaving (the sign-up and the spot counter must change together; no overbooking, no signing others up)
 - Requirements table in the README (PR #17); Settings as list rows, change password, two-step delete, offline bar (PR #21)
 - Colours from the shared `design/tokens.json` (PR #20); download page live at https://pab-volunteers.web.app, deployed with the rules by the pipeline on a merge into `master`, Dependabot and a PR template, admin passwords out of the README (PR #19)
+- Collective features, mockup screens and P1 work (PRs #22–#24, Tlhogi), fingerprint on the Explore page (PR #34, Tlhogi)
+- Eyebrows gone, CI badge, release tag job (PR #25), edge-case tests (PR #26), version 1.1 (PR #27), contact PAB (PR #28), only my programmes (PR #29), privacy and download my data (PR #30), the introduction (PRs #31, #35), the web's fonts (PR #32) and Material 3 (PR #33), all Kwethu
 
 ---
 
@@ -100,11 +103,13 @@ Check the isiXhosa and Afrikaans text on the new pages, form errors, the 429 pag
 | C1 | P1 | ~~Provision Postgres, set the connection string, turn on backups, test a restore~~ done on Render and Neon (PRs #14, #15). Still: check Neon's server certificate (`Trust Server Certificate=true` today) | Nuha |
 | W8 | P2 | Hosting configuration back in the repo: a `render.yaml` (`railway.json` went with Railway) | |
 | D4 | P2 | Branch protection on web `develop` and `main` (CI must pass + 1 review). Dependabot and the badge are done | |
+| Issues | P1 | ~~Edge-case test findings, issues #22–#27~~ fixed (PRs #29–#31) | Unathi |
+| Issue #28 | P2 | ~~README out of date~~ fixed (PR #32); close the issue | Nuha |
 | W12 | P2 | ~~Staff list: New / In progress / Closed tabs with counts, relative times, confirm before closing~~ done (PR #11) | Unathi |
 | A8 | P2 | ~~Move programmes out of `Data/SiteData.cs` and UI text out of `s.Pick(...)` into content / `.resx` files~~ done (PRs #10, #19) | Unathi |
 | C4 | P2 | Free uptime monitor (e.g. UptimeRobot) on `/alive`, so Neon can still sleep; put the uptime figure in the README | |
 | D5 | P2 | Tag a release (`v1.1.0`) when `develop` goes to `main`, with notes from the merged PRs | |
-| H4 | P3 | Lighthouse CI on PRs, with minimum Performance and Accessibility scores: PR #20 open, checks pass; review and merge | Ash |
+| H4, J2 | P3 | Lighthouse CI (PR #20) and the threat model and diagram (PR #21): open since 25 October; review and merge | Ash |
 | G7 | P2 | ~~Edge cases: very long names, emoji in every field, fast repeated Submit~~ done on web (PR #16) | Unathi |
 | J4 | P2 | ~~PR template for the web repo (what changed, how it was tested, screenshots)~~ done (PR #17) | Unathi |
 
@@ -137,32 +142,34 @@ Merged as PR #20. Still to do on a phone: check the hand-written night colours (
 | ID | Task | Owner |
 |---|---|---|
 | J1 | ~~Requirements table~~ merged into `develop` (PR #17). Still to do: demo video timestamps per requirement, and a slide | Tlhogi |
-| R1 | ~~Hide draft activities in the rules~~ done on `feature/tlhogi/p1-and-spacing`, with 4 rules tests. Publish that rules file only once volunteers have the new APK (plan, section 8.2) | Tlhogi |
+| R1 | ~~Hide draft activities in the rules~~ merged (PR #24), with 4 rules tests. Publish that rules file only once volunteers have the new APK: "live-hosting" first, then the rules (plan, section 8.2) | Tlhogi |
 | R2 | ~~Take the admin passwords out of the README~~ done (PR #19): the details go to the marker privately. Still: change both passwords in Firebase, since they're in the history | Kwethu |
-| F10 | ~~Navigation rail on tablets~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
+| F10 | ~~Navigation rail on tablets~~ done (PR #24) | Tlhogi |
 | F12 | Check large text (1.3×) and dark mode in all 3 languages, fix clipping | |
 | K1–K4 | ~~Settings rows, change password, two-step delete, offline banner~~ merged (PR #21). Still: check on a phone (3 languages, dark mode) | Tlhogi |
-| K19–K26 | ~~Milestones, clearance, report a concern, search, "How did it go?", directions, animated splash, phone spacing~~ built on `feature/tlhogi/collective-features`. Next: PR into `develop` (Settings is in), check on a phone, and **publish the new `firestore.rules`** | Tlhogi |
-| K7, K9–K14, E6, F9, I1, I3 | ~~Solid headers, Home planner, details with top bar, calendar and "I need help", Profile tabs and colour, fingerprint lock, emergency contact and reminders~~ built on `feature/tlhogi/mockup-screens` (on top of collective-features). Next: PR after collective-features, check on a phone, **confirm the crisis line 081 746 9889 with PAB**. Parts left: see the plan, section 8 | Tlhogi |
-| K16 | ~~Google sign-in through Credential Manager~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
-| P1 branch | `feature/tlhogi/p1-and-spacing`: fingerprint sign-in, R1, F10, K6, K16, G1–G3, K5, F11, F14, K13, E7, simpler sign-in, Edit profile in Settings, Community months, milestone grid, admin Settings item, phone-first spacing, seed samples. Checked on a phone 25 Oct. Next: PR after mockup-screens | Tlhogi |
+| K19–K26 | ~~Milestones, clearance, report a concern, search, "How did it go?", directions, animated splash, phone spacing~~ merged (PR #22). Still: **publish the new `firestore.rules`** with the release | Tlhogi |
+| K7, K9–K14, E6, F9, I1, I3 | ~~Solid headers, Home planner, details with top bar, calendar and "I need help", Profile tabs and colour, fingerprint lock, emergency contact and reminders~~ merged (PR #23). Still: **confirm the crisis line 081 746 9889 with PAB**. Parts left: see the plan, section 8 | Tlhogi |
+| K16 | ~~Google sign-in through Credential Manager~~ done (PR #24) | Tlhogi |
+| P1 work | ~~Fingerprint sign-in, R1, F10, K6, K16, G1–G3, K5, F11, F14, K13, E7, simpler sign-in, Edit profile in Settings, Community months, milestone grid, admin Settings item, phone-first spacing, seed samples~~ merged (PR #24); fingerprint back on the Explore page (PR #34). Still: check sign-in on a phone under Material 3 | Tlhogi |
+| Release | Merge `develop` → `master`, push `v1.1.0` (plan, section 8.2) | |
 | Pictures | Announcement pictures need the Cloudinary details in `local.properties` and the CI secrets (plan, section 8.2) | Kwethu |
 
 **P2:**
 
 | ID | Task | Owner |
 |---|---|---|
-| E3, E4 | Same fonts as the web (Lora + Source Sans 3 in `res/font`), remove eyebrow labels | |
-| E9, K7 | Material 3, tinted neutrals (the solid header is done) | |
-| G1, G2, K5, K6 | ~~Snackbars, buttons on empty screens, Retry, Save pinned at the bottom~~ done on `feature/tlhogi/p1-and-spacing` | Tlhogi |
-| F13 | TalkBack pass (F11 predictive Back and F14 row updates are done on `feature/tlhogi/p1-and-spacing`) | |
-| I2, I4, I5, K8, K10 | "Only my programmes", contact PAB (call, WhatsApp, directions), privacy/POPIA, intro screens, Upcoming/Past tabs on Schedule | |
-| D4 | Branch protection on Android `develop` and `master`, CI badge (Dependabot done, PR #19) | |
-| D5 | Tag releases and attach the APK to a GitHub Release | |
+| E3, E4, E9 | ~~Same fonts as the web, eyebrow labels gone, Material 3~~ done (PRs #25, #32, #33) | Kwethu |
+| K7 | Tinted neutrals (the solid header is done) | |
+| G1, G2, K5, K6 | ~~Snackbars, buttons on empty screens, Retry, Save pinned at the bottom~~ done (PR #24) | Tlhogi |
+| F13 | TalkBack pass (F11 predictive Back and F14 row updates are done, PR #24) | |
+| I2, I4, I5, K8 | ~~"Only my programmes", contact PAB, privacy and download my data, intro screens~~ done (PRs #28–#31, #35) | Kwethu |
+| K10 | Upcoming/Past tabs on Schedule, newest/oldest toggle | |
+| D4 | Branch protection on Android `develop` and `master` (Dependabot, PR #19, and the badge, PR #25, are done) | |
+| D5 | ~~Tag job: a `v*` tag builds the APK and makes a GitHub Release~~ built (PR #25). Still: push `v1.1.0` after the release merge | Kwethu |
 | C4 | Uptime monitor on the download page | |
-| G7 | Edge cases on Android: long names, emoji, 200+ activities and volunteers, airplane mode, fast repeated taps (web done, PR #16). The PR template is done (J4, PR #19) | |
+| G7 | ~~Edge-case unit tests~~ done (PR #26, Kwethu). Still, on a phone: airplane mode with Retry, fast repeated taps on Join and Save | |
 
-**P3:** E10 (other sub-screens), I6, I7 (needs Firebase's paid Blaze plan), K11 (admin lists), K15, K17, K18. See the plan for details.
+**P3:** E10 (other sub-screens), I6, I7 (needs Firebase's paid Blaze plan), K11 (admin lists), K15, K17, K18. **J2** Android part is P1. See the plan, section 8.
 
 ---
 
