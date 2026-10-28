@@ -508,7 +508,6 @@
     <string name="community_month_expanded">Kuyabonakala</string>
     <string name="community_month_collapsed">Kufihliwe</string>
     <string name="overview_at_a_glance">Ngokukhawuleza</string>
-    <string name="overview_signups">Ababhalisileyo</string>
     <string name="overview_activities_value">%1$d epapashiweyo, %2$d esezidrafti</string>
     <string name="nav_settings">Iisetingi</string>
     <plurals name="community_month_count">
@@ -519,9 +518,9 @@
         <item quantity="one">%d ubhalisile</item>
         <item quantity="other">%d babhalisile</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">Indawo e-%d ithathiwe</item>
-        <item quantity="other">Iindawo ezi-%d zithathiwe</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d ithunyelwe</item>
+        <item quantity="other">ezi-%d zithunyelwe</item>
     </plurals>
     <string name="settings_privacy">Ubumfihlo</string>
     <string name="settings_privacy_desc">Oko i-app ikugcinayo ngawe</string>

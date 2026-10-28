@@ -508,7 +508,6 @@
     <string name="community_month_expanded">Wys</string>
     <string name="community_month_collapsed">Toegevou</string>
     <string name="overview_at_a_glance">Oorsig</string>
-    <string name="overview_signups">Inskrywings</string>
     <string name="overview_activities_value">%1$d gepubliseer, %2$d konsepte</string>
     <string name="nav_settings">Instellings</string>
     <plurals name="community_month_count">
@@ -519,9 +518,9 @@
         <item quantity="one">%d geregistreer</item>
         <item quantity="other">%d geregistreer</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">%d plek gevul</item>
-        <item quantity="other">%d plekke gevul</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d geplaas</item>
+        <item quantity="other">%d geplaas</item>
     </plurals>
     <string name="settings_privacy">Privaatheid</string>
     <string name="settings_privacy_desc">Wat die toepassing oor jou hou</string>

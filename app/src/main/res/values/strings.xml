@@ -550,7 +550,6 @@
     <string name="community_month_expanded">Showing</string>
     <string name="community_month_collapsed">Folded away</string>
     <string name="overview_at_a_glance">At a glance</string>
-    <string name="overview_signups">Sign-ups</string>
     <string name="overview_activities_value">%1$d published, %2$d drafts</string>
     <string name="nav_settings">Settings</string>
     <plurals name="community_month_count">
@@ -561,9 +560,9 @@
         <item quantity="one">%d registered</item>
         <item quantity="other">%d registered</item>
     </plurals>
-    <plurals name="overview_signups_value">
-        <item quantity="one">%d place taken</item>
-        <item quantity="other">%d places taken</item>
+    <plurals name="overview_announcements_value">
+        <item quantity="one">%d posted</item>
+        <item quantity="other">%d posted</item>
     </plurals>
     <!-- Privacy and "Download my data" (I5). -->
     <string name="settings_privacy">Privacy</string>
