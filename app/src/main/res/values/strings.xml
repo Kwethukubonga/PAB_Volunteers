@@ -584,10 +584,8 @@
     <string name="intro_skip">Skip</string>
     <string name="intro_next">Next</string>
     <string name="intro_get_started">Get started</string>
-    <string name="intro_welcome_title">Welcome to Philisa Volunteers</string>
-    <string name="intro_welcome_body">Just a quick tour around the app. It takes a minute, and you can skip it.</string>
     <string name="intro_one_title">Home is where you start</string>
-    <string name="intro_one_body">Your week a day at a time, what is coming up next, and the latest from Philisa.</string>
+    <string name="intro_one_body">A quick tour, one minute. Home opens on your week a day at a time, what is coming up next, and the latest from Philisa.</string>
     <string name="intro_two_title">Find work that fits your week</string>
     <string name="intro_two_body">Search what is open, see the time and the place, and take a spot in one tap.</string>
     <string name="intro_four_title">Everything you joined, in one list</string>

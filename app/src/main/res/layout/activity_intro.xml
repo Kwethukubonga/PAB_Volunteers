@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Three pages shown once, before Welcome, to someone opening the app for the first time
-     (K8). The pager fills the screen; Skip sits over the photograph at the top and the dots
-     and the button sit over the cream at the bottom, so neither moves as the pages change. -->
+<!-- The tour shown once after signing up (K8). The pager fills the screen on a field of
+     brand purple; Skip sits top right and the dots and the button sit at the bottom, so
+     neither moves as the pages change. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream">
+    android:background="@color/purple_700">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pager"
@@ -26,7 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/background_cream"
         android:orientation="vertical"
         android:paddingStart="@dimen/screen_gutter"
         android:paddingTop="@dimen/spacing_md"
@@ -44,9 +44,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnForward"
-            style="@style/Widget.PAB.Button.Primary"
+            style="@style/Widget.PAB.Button.Secondary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/intro_next" />
+            android:minHeight="@dimen/button_height"
+            android:text="@string/intro_next"
+            android:textColor="@color/text_on_purple"
+            app:strokeColor="@color/text_on_purple_muted" />
     </LinearLayout>
 </FrameLayout>

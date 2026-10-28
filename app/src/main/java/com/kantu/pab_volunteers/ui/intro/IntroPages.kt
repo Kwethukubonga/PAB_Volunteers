@@ -9,10 +9,11 @@ import com.kantu.pab_volunteers.R
  * Somebody who has not signed up yet has nothing to be shown round, so it does not run
  * before then.
  *
- * It says what is about to happen, then walks the four tabs in the order a volunteer meets
- * them. Screenshots were tried here and taken out again: they carried whichever name and
- * test records happened to be on the phone they were captured from, which is not something
- * to ship. Philisa's own photographs carry the page instead, and the words name the tab.
+ * It walks the four tabs a volunteer works in, in the order they meet them, holding up the
+ * screen itself the way an app's own store listing does. The screenshots come from a demo
+ * account rather than anyone's real one, and the status bar is cropped off them, so nothing
+ * ships that belongs to the phone they were taken on. Profile is left out: the bottom of it
+ * is an email address and a telephone number, and no tour needs those.
  *
  * Kept apart from the screen so what is shown, and which button goes with which page, can be
  * checked without a phone.
@@ -26,11 +27,10 @@ data class IntroPage(
 object IntroPages {
 
     val pages: List<IntroPage> = listOf(
-        IntroPage(R.drawable.img_programme_seniors, R.string.intro_welcome_title, R.string.intro_welcome_body),
-        IntroPage(R.drawable.img_programme_after_school, R.string.intro_one_title, R.string.intro_one_body),
-        IntroPage(R.drawable.img_programme_community_feeding, R.string.intro_two_title, R.string.intro_two_body),
-        IntroPage(R.drawable.img_programme_youth, R.string.intro_four_title, R.string.intro_four_body),
-        IntroPage(R.drawable.img_programme_social_work, R.string.intro_three_title, R.string.intro_three_body)
+        IntroPage(R.drawable.img_tour_home, R.string.intro_one_title, R.string.intro_one_body),
+        IntroPage(R.drawable.img_tour_activities, R.string.intro_two_title, R.string.intro_two_body),
+        IntroPage(R.drawable.img_tour_schedule, R.string.intro_four_title, R.string.intro_four_body),
+        IntroPage(R.drawable.img_tour_community, R.string.intro_three_title, R.string.intro_three_body)
     )
 
     val last: Int get() = pages.lastIndex

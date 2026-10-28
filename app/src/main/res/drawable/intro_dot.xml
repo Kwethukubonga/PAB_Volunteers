@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A dot under the introduction pages, sitting on the cream background beside the button. -->
+<!-- A dot under the tour pages. They sit on the brand purple, so the current one is white
+     and the rest are the same white turned down. -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:state_selected="true">
         <shape android:shape="oval">
-            <solid android:color="@color/accent" />
+            <solid android:color="@color/text_on_purple" />
         </shape>
     </item>
 
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/divider" />
+            <solid android:color="#59FFFFFF" />
         </shape>
     </item>
 </selector>

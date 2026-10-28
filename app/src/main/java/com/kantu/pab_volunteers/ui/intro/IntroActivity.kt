@@ -2,12 +2,14 @@ package com.kantu.pab_volunteers.ui.intro
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Matrix
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -89,9 +91,19 @@ class IntroActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: PageHolder, position: Int) {
             val page = IntroPages.pages[position]
-            holder.binding.ivPhoto.setImageResource(page.photo)
             holder.binding.tvTitle.setText(page.title)
             holder.binding.tvBody.setText(page.body)
+            holder.binding.ivPhoto.apply {
+                setImageResource(page.photo)
+                // Fill the card's width and start at its top, so the screen runs off the
+                // bottom however much room the page has. centerCrop would show the middle of
+                // the screenshot, which is the part that says least about which tab it is.
+                doOnLayout {
+                    val shot = drawable ?: return@doOnLayout
+                    val scale = width.toFloat() / shot.intrinsicWidth
+                    imageMatrix = Matrix().apply { setScale(scale, scale) }
+                }
+            }
         }
     }
 

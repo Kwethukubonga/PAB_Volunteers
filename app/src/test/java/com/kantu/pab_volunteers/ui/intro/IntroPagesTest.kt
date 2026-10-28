@@ -12,8 +12,8 @@ class IntroPagesTest {
     private val last = IntroPages.last
 
     @Test
-    fun `a welcome page and one for each of the four tabs`() {
-        assertEquals(5, IntroPages.pages.size)
+    fun `one page for each of the four tabs a volunteer works in`() {
+        assertEquals(4, IntroPages.pages.size)
     }
 
     @Test

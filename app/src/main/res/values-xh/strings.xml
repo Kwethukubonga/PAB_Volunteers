@@ -540,10 +540,8 @@
     <string name="intro_skip">Tsiba</string>
     <string name="intro_next">Okulandelayo</string>
     <string name="intro_get_started">Qalisa</string>
-    <string name="intro_welcome_title">Wamkelekile kwiPhilisa Volunteers</string>
-    <string name="intro_welcome_body">Nanku nje ukhenketho olufutshane kwi-app. Kuthatha umzuzu, kwaye ungakutsiba.</string>
     <string name="intro_one_title">Uqala ekhaya</string>
-    <string name="intro_one_body">Iveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
+    <string name="intro_one_body">Ukhenketho olufutshane, umzuzu omnye. Ikhaya livula kwiveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
     <string name="intro_two_title">Fumana umsebenzi olingana neveki yakho</string>
     <string name="intro_two_body">Khangela okuvulekileyo, ubone ixesha nendawo, uze uthathe isithuba ngokuchukumisa kanye.</string>
     <string name="intro_four_title">Konke ozibhalisele kuko, kuluhlu olunye</string>

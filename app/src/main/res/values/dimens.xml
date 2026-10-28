@@ -28,8 +28,15 @@
 
     <!-- The introduction draws its dots and button over the photograph, so each page keeps
          this much clear at the bottom for them. -->
-    <dimen name="intro_photo_height">320dp</dimen>
-    <dimen name="intro_controls_room">152dp</dimen>
+    <!-- The phone the tour holds up. The image height is the width divided by the shape of
+         a 1080x2400 screen, so it fills the card edge to edge and the card clips the rest. -->
+    <dimen name="intro_phone_width">240dp</dimen>
+    <dimen name="intro_phone_radius">28dp</dimen>
+    <!-- The dots and the button are drawn over the pager, so each page keeps this much
+         clear at the bottom and the phone is cut off above them rather than behind them. -->
+    <dimen name="intro_controls_room">150dp</dimen>
+    <!-- Clears the Skip button in the top corner, so a long heading cannot run into it. -->
+    <dimen name="intro_title_top">72dp</dimen>
     <dimen name="intro_dot_size">8dp</dimen>
     <dimen name="intro_dot_gap">5dp</dimen>
     <!-- Smallest a tappable thing may be, from the Android accessibility guidance. -->
