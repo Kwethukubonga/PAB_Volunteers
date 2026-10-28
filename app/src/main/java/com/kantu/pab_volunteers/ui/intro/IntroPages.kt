@@ -6,11 +6,14 @@ import com.kantu.pab_volunteers.R
 
 /**
  * The three pages shown once, before the Welcome screen, to someone opening the app for the
- * first time (K8). Kept apart from the screen so what is shown, and which button goes with
- * which page, can be checked without a phone.
+ * first time (K8). Each is a photograph of Philisa's own work, so the introduction shows what
+ * volunteering here looks like rather than describing it.
+ *
+ * Kept apart from the screen so what is shown, and which button goes with which page, can be
+ * checked without a phone.
  */
 data class IntroPage(
-    @DrawableRes val icon: Int,
+    @DrawableRes val photo: Int,
     @StringRes val title: Int,
     @StringRes val body: Int
 )
@@ -18,9 +21,12 @@ data class IntroPage(
 object IntroPages {
 
     val pages: List<IntroPage> = listOf(
-        IntroPage(R.drawable.ic_people, R.string.intro_one_title, R.string.intro_one_body),
-        IntroPage(R.drawable.ic_activities, R.string.intro_two_title, R.string.intro_two_body),
-        IntroPage(R.drawable.ic_notification, R.string.intro_three_title, R.string.intro_three_body)
+        // Why the work matters, then the work itself, then who is waiting on you. The rally
+        // photograph is deliberately left for the Welcome screen, so arriving there is not
+        // the same picture over again.
+        IntroPage(R.drawable.img_programme_seniors, R.string.intro_one_title, R.string.intro_one_body),
+        IntroPage(R.drawable.img_programme_community_feeding, R.string.intro_two_title, R.string.intro_two_body),
+        IntroPage(R.drawable.img_programme_youth, R.string.intro_three_title, R.string.intro_three_body)
     )
 
     val last: Int get() = pages.lastIndex

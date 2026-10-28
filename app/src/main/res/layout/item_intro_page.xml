@@ -1,48 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- One page of the first-run introduction. Centred, with room for long text in isiXhosa
-     and Afrikaans and at larger text sizes. -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<!-- One page of the first-run introduction: a photograph of Philisa's own work across the
+     top, then the words underneath.
+
+     The photographs are all landscape and none is much wider than 550px, so running one
+     edge to edge up a portrait screen would crop away most of the picture and blow up what
+     was left. A band across the top shows them close to the shape they were taken in. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/background_cream"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/ivPhoto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="200dp"
-        android:orientation="vertical"
-        android:paddingStart="@dimen/screen_gutter"
-        android:paddingTop="@dimen/spacing_xl"
-        android:paddingEnd="@dimen/screen_gutter"
-        android:paddingBottom="@dimen/spacing_xl">
+        android:layout_height="@dimen/intro_photo_height"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:background="@drawable/bg_interest_icon"
-            android:contentDescription="@null"
-            android:padding="@dimen/spacing_lg"
-            app:tint="@color/accent" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:accessibilityHeading="true"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.PAB.Title"
-            android:textSize="@dimen/text_title" />
+            android:orientation="vertical"
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_xl"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/intro_controls_room">
 
-        <TextView
-            android:id="@+id/tvBody"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_sm"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.PAB.Body" />
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:textAppearance="@style/TextAppearance.PAB.Display"
+                android:textColor="@color/text_primary" />
+
+            <TextView
+                android:id="@+id/tvBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_md"
+                android:textColor="@color/text_secondary"
+                android:textSize="@dimen/text_subtitle" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

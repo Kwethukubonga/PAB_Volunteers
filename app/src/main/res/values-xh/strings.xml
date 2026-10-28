@@ -541,10 +541,10 @@
     <string name="intro_skip">Tsiba</string>
     <string name="intro_next">Okulandelayo</string>
     <string name="intro_get_started">Qalisa</string>
-    <string name="intro_one_title">Volontiya nePhilisa</string>
+    <string name="intro_one_title">Sibuyisa ilavenda ezindulini</string>
     <string name="intro_one_body">IPhilisa Abafazi Bethu isebenza nabafazi, abantwana neentsapho eLavender Hill. Amavolontiya enza uninzi lwaloo msebenzi.</string>
-    <string name="intro_two_title">Fumana into ekulungeleyo</string>
+    <string name="intro_two_title">Fumana umsebenzi olingana neveki yakho</string>
     <string name="intro_two_body">Jonga okuzayo, ixesha elithathayo nendawo ekuyo, uze uthathe isithuba ngokuchukumisa kanye.</string>
-    <string name="intro_three_title">Hlala usazi</string>
+    <string name="intro_three_title">Ungaze uphose usuku ofunwa ngalo</string>
     <string name="intro_three_body">Fumana isikhumbuzo phambi kwexesha lakho, uve xa iqela liposa into entsha.</string>
 </resources>

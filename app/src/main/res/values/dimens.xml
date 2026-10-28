@@ -25,6 +25,13 @@
     <dimen name="avatar_size_lg">88dp</dimen>
     <dimen name="avatar_size_sm">44dp</dimen>
     <dimen name="button_height">52dp</dimen>
+
+    <!-- The introduction draws its dots and button over the photograph, so each page keeps
+         this much clear at the bottom for them. -->
+    <dimen name="intro_photo_height">320dp</dimen>
+    <dimen name="intro_controls_room">152dp</dimen>
+    <dimen name="intro_dot_size">8dp</dimen>
+    <dimen name="intro_dot_gap">5dp</dimen>
     <!-- Smallest a tappable thing may be, from the Android accessibility guidance. -->
     <dimen name="touch_target_min">48dp</dimen>
     <dimen name="offline_banner_min_height">32dp</dimen>

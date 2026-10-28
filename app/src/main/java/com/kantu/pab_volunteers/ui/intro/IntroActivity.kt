@@ -4,23 +4,27 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayoutMediator
+import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityIntroBinding
 import com.kantu.pab_volunteers.databinding.ItemIntroPageBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 
 /**
  * Three pages explaining what the app is for, shown once before the Welcome screen and
- * again whenever someone asks for it from Settings, About (K8).
+ * again whenever someone asks for it from Settings, About (K8). Each page is one of
+ * Philisa's own photographs, laid out the way the Welcome screen is.
  */
 class IntroActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityIntroBinding
+    private val dots = mutableListOf<View>()
 
     /** Opened from Settings it goes back there; opened on first run it carries on to Welcome. */
     private val askedFor: Boolean get() = intent.getBooleanExtra(EXTRA_ASKED_FOR, false)
@@ -31,12 +35,12 @@ class IntroActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.pager.adapter = PagesAdapter()
-        TabLayoutMediator(binding.dots, binding.pager) { _, _ -> }.attach()
+        addDots()
 
         binding.pager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) = showButtonsFor(position)
+            override fun onPageSelected(position: Int) = showPage(position)
         })
-        showButtonsFor(0)
+        showPage(0)
 
         binding.btnSkip.setOnClickListener { done() }
         binding.btnForward.setOnClickListener {
@@ -45,9 +49,27 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
-    private fun showButtonsFor(page: Int) {
+    /** One dot per page, built from the pages themselves so the two cannot drift apart. */
+    private fun addDots() {
+        val size = resources.getDimensionPixelSize(R.dimen.intro_dot_size)
+        val gap = resources.getDimensionPixelSize(R.dimen.intro_dot_gap)
+        IntroPages.pages.indices.forEach { _ ->
+            val dot = View(this).apply {
+                layoutParams = LinearLayout.LayoutParams(size, size).apply {
+                    marginStart = gap
+                    marginEnd = gap
+                }
+                setBackgroundResource(R.drawable.intro_dot)
+            }
+            dots += dot
+            binding.dots.addView(dot)
+        }
+    }
+
+    private fun showPage(page: Int) {
         binding.btnForward.setText(IntroPages.forwardLabel(page))
         binding.btnSkip.isVisible = IntroPages.showSkip(page)
+        dots.forEachIndexed { index, dot -> dot.isSelected = index == page }
     }
 
     private fun done() {
@@ -67,7 +89,7 @@ class IntroActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: PageHolder, position: Int) {
             val page = IntroPages.pages[position]
-            holder.binding.ivIcon.setImageResource(page.icon)
+            holder.binding.ivPhoto.setImageResource(page.photo)
             holder.binding.tvTitle.setText(page.title)
             holder.binding.tvBody.setText(page.body)
         }
