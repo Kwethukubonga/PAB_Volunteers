@@ -169,7 +169,7 @@
     <string name="action_remove">Verwyder</string>
     <string name="action_cancel">Kanselleer</string>
     <string name="error_generic">Iets het verkeerd geloop. Probeer asseblief weer.</string>
-    <string name="error_no_connection">Kon nie koppel nie. Kontroleer jou internetverbinding.</string>
+    <string name="error_no_connection">Kon nie by Philisa uitkom nie. Kontroleer jou verbinding, en enige VPN of blokkeerder wat in die pad is.</string>
     <string name="error_too_many_tries">Te veel pogings. Wag \'n oomblik en probeer weer.</string>
     <string name="error_weak_password">Kies \'n sterker wagwoord.</string>
     <string name="error_email_in_use">Daardie e-pos het reeds \'n rekening. Meld eerder aan.</string>

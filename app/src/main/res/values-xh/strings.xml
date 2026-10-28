@@ -169,7 +169,7 @@
     <string name="action_remove">Susa</string>
     <string name="action_cancel">Rhoxisa</string>
     <string name="error_generic">Kukho into engahambanga kakuhle. Nceda uzame kwakhona.</string>
-    <string name="error_no_connection">Asikwazanga ukudibanisa. Jonga uqhagamshelo lwakho lwe-intanethi.</string>
+    <string name="error_no_connection">Asikwazanga ukufikelela kwiPhilisa. Jonga uqhagamshelo lwakho, nayo nayiphi na i-VPN okanye isithinteli esisendleleni.</string>
     <string name="error_too_many_tries">Uzame kaninzi kakhulu. Linda umzuzwana uze uzame kwakhona.</string>
     <string name="error_weak_password">Khetha igama lokugqithisa elomeleleyo.</string>
     <string name="error_email_in_use">Le imeyile sele inayo iakhawunti. Ngena endaweni yoko.</string>
