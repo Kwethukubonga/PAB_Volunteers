@@ -142,6 +142,10 @@ jobs:
     runs-on: ubuntu-latest
     # Only worth building once the checks above are green.
     needs: [test, lint, rules]
+    env:
+      # A step's `if` cannot read `secrets`, only `env`, so the question "do we have a
+      # keystore" gets answered once here and the steps below read the answer.
+      HAS_RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -182,7 +186,7 @@ jobs:
       # the repo could sign one that installs straight over it.
       - name: Put the release keystore in place
         id: signing
-        if: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
+        if: env.HAS_RELEASE_KEYSTORE == 'true'
         env:
           KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
           STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
