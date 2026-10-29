@@ -236,7 +236,10 @@ jobs:
             exit 1
           fi
 
-          actual=$(sed -n 's/^Signer #1 certificate SHA-1 digest: //p' verify.txt)
+          # Build-tools word this differently between versions: "Signer #1 certificate
+          # SHA-1 digest" on 34, "V2 Signer: certificate SHA-1 digest" on 37. Take the
+          # fingerprint off whichever line carries it rather than matching the wording.
+          actual=$(grep -i 'certificate SHA-1 digest:' verify.txt | awk '{print $NF}' | sort -u)
           if [ -z "$actual" ]; then
             echo "::error::No fingerprint in apksigner output: $(tr '\n' ' ' < verify.txt | head -c 400)"
             exit 1
