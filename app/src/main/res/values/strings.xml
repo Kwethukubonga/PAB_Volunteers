@@ -118,6 +118,9 @@
     <string name="my_activities_title">Activities</string>
     <string name="tab_upcoming">Upcoming</string>
     <string name="tab_completed">Completed</string>
+    <!-- The button on Schedule says which way the list runs, not what tapping will do. -->
+    <string name="sort_earliest_first">Earliest first</string>
+    <string name="sort_latest_first">Latest first</string>
     <string name="status_open">Open</string>
     <string name="label_date_time">DATE &amp; TIME</string>
     <string name="label_location">LOCATION</string>

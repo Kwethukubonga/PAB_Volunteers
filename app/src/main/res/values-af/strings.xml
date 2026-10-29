@@ -83,6 +83,8 @@
     <string name="my_activities_title">Aktiwiteite</string>
     <string name="tab_upcoming">Komende</string>
     <string name="tab_completed">Voltooi</string>
+    <string name="sort_earliest_first">Vroegste eerste</string>
+    <string name="sort_latest_first">Jongste eerste</string>
     <string name="status_open">Oop</string>
     <string name="label_date_time">DATUM &amp; TYD</string>
     <string name="label_location">LIGGING</string>

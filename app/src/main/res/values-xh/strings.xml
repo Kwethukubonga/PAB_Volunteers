@@ -83,6 +83,8 @@
     <string name="my_activities_title">Imisebenzi</string>
     <string name="tab_upcoming">Ezizayo</string>
     <string name="tab_completed">Egqityiweyo</string>
+    <string name="sort_earliest_first">Ezokuqala kuqala</string>
+    <string name="sort_latest_first">Ezamva kuqala</string>
     <string name="status_open">Ivulekile</string>
     <string name="label_date_time">UMHLA &amp; IXESHA</string>
     <string name="label_location">INDAWO</string>

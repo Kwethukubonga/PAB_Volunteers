@@ -35,6 +35,11 @@ class ScheduleFragment : Fragment() {
     private var upcomingRows: List<ActivityRow> = emptyList()
     private var completedRows: List<ActivityRow> = emptyList()
 
+    // Each tab opens the way it is usually read: Upcoming on the soonest, Completed on the
+    // most recent. This remembers only whether the volunteer has turned one of them around,
+    // one tab at a time, so flipping Completed leaves Upcoming as it was.
+    private val turnedAround = booleanArrayOf(false, false)
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -57,6 +62,10 @@ class ScheduleFragment : Fragment() {
         emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_schedule)
 
         setUpTabs()
+        binding.btnSort.setOnClickListener {
+            turnedAround[selectedTab] = !turnedAround[selectedTab]
+            render()
+        }
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
         viewModel.mySchedule.observe(viewLifecycleOwner) { rows ->
@@ -93,8 +102,19 @@ class ScheduleFragment : Fragment() {
         if (_binding == null) return
 
         val showingUpcoming = selectedTab == TAB_UPCOMING
-        val rows = if (showingUpcoming) upcomingRows else completedRows
+        val inOrder = if (showingUpcoming) upcomingRows else completedRows
+        // The view model hands each list over already sorted by date, so turning the list
+        // around is all the other order is.
+        val rows = if (turnedAround[selectedTab]) inOrder.reversed() else inOrder
         val failed = viewModel.loadFailed.value
+
+        // Completed arrives most recent first, Upcoming soonest first, so the same flag
+        // means opposite things on the two tabs.
+        val latestFirst = (selectedTab == TAB_COMPLETED) != turnedAround[selectedTab]
+        binding.btnSort.setText(
+            if (latestFirst) R.string.sort_latest_first else R.string.sort_earliest_first
+        )
+        binding.btnSort.isVisible = rows.size > 1
 
         adapter.submitList(rows)
         binding.rvSchedule.isVisible = rows.isNotEmpty()
@@ -123,5 +143,6 @@ class ScheduleFragment : Fragment() {
 
     private companion object {
         const val TAB_UPCOMING = 0
+        const val TAB_COMPLETED = 1
     }
 }
