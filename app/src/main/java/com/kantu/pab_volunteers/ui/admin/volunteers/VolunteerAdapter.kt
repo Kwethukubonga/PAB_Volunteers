@@ -1,10 +1,12 @@
 package com.kantu.pab_volunteers.ui.admin.volunteers
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.ItemVolunteerBinding
+import com.kantu.pab_volunteers.utils.AvatarColors
 import com.kantu.pab_volunteers.utils.diffUpdate
 
 /** Read-only: tapping opens the profile, and there is no action to remove anyone. */
@@ -26,6 +28,10 @@ class VolunteerAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = items[position]
         holder.binding.tvInitial.text = user.firstName.take(1).uppercase()
+        // Same colour as the volunteer sees on their own profile, and the same one they carry
+        // in an activity's sign-up list, so a face is recognisable across the admin's screens.
+        holder.binding.tvInitial.backgroundTintList =
+            ColorStateList.valueOf(AvatarColors.forId(user.uid))
         holder.binding.tvName.text = user.fullName
         holder.binding.tvArea.text = listOf(user.area, user.volunteerId)
             .filter { it.isNotBlank() }

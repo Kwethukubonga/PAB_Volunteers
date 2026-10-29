@@ -118,6 +118,9 @@
     <string name="my_activities_title">Activities</string>
     <string name="tab_upcoming">Upcoming</string>
     <string name="tab_completed">Completed</string>
+    <!-- The button on Schedule says which way the list runs, not what tapping will do. -->
+    <string name="sort_earliest_first">Earliest first</string>
+    <string name="sort_latest_first">Latest first</string>
     <string name="status_open">Open</string>
     <string name="label_date_time">DATE &amp; TIME</string>
     <string name="label_location">LOCATION</string>
@@ -154,6 +157,7 @@
     <string name="empty_no_signups">Nobody has signed up for this activity yet.</string>
     <string name="activity_signups_title">Sign-Ups</string>
     <string name="signups_summary">%1$d signed up · %2$d spots remaining</string>
+    <string name="signup_volunteer_gone">That volunteer is no longer on the list.</string>
     <string name="volunteer_profile_title">Volunteer Profile</string>
     <string name="action_view_signups_short">Sign-ups</string>
     <string name="label_publish_now">Publish now</string>
@@ -584,8 +588,8 @@
     <string name="intro_skip">Skip</string>
     <string name="intro_next">Next</string>
     <string name="intro_get_started">Get started</string>
-    <string name="intro_one_title">Home is where you start</string>
-    <string name="intro_one_body">A quick tour, one minute. Home opens on your week a day at a time, what is coming up next, and the latest from Philisa.</string>
+    <string name="intro_one_title">Welcome — a quick tour</string>
+    <string name="intro_one_body">One minute, and you can skip it. Home opens on your week a day at a time, what is coming up next, and the latest from Philisa.</string>
     <string name="intro_two_title">Find work that fits your week</string>
     <string name="intro_two_body">Search what is open, see the time and the place, and take a spot in one tap.</string>
     <string name="intro_four_title">Everything you joined, in one list</string>

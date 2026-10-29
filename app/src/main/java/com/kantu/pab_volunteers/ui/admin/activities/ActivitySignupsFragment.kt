@@ -15,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.ActivityFeedback
 import com.kantu.pab_volunteers.databinding.FragmentActivitySignupsBinding
+import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
 import com.kantu.pab_volunteers.ui.safety.FeedbackSummary
 import com.kantu.pab_volunteers.utils.AppLanguage
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.EmptyState
+import com.kantu.pab_volunteers.utils.UiText
 import com.kantu.pab_volunteers.utils.observeMessages
 
 class ActivitySignupsFragment : Fragment() {
@@ -49,7 +52,16 @@ class ActivitySignupsFragment : Fragment() {
 
         binding.btnBack.setOnClickListener { findNavController().popBackStack() }
 
-        adapter = SignupAdapter(emptyList())
+        adapter = SignupAdapter(emptyList()) { signup ->
+            // The sign-up keeps the name it was made under, so it outlives the account. Only
+            // open the details for someone still on the volunteer list; otherwise the screen
+            // would come up blank with nothing to explain it.
+            if (viewModel.volunteerById(signup.userId) != null) {
+                AdminNavGraph.toVolunteerDetails(findNavController(), signup.userId)
+            } else {
+                AppMessage.show(binding.root, UiText.Res(R.string.signup_volunteer_gone))
+            }
+        }
         binding.rvSignups.layoutManager = LinearLayoutManager(requireContext())
         binding.rvSignups.adapter = adapter
 

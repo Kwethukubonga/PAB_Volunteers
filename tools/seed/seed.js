@@ -3,6 +3,11 @@
  * activities today, tomorrow and in the past (for the Home planner, the Past tab, milestones
  * and "How did it go?") and one draft that only admins see.
  *
+ * It also adds ten sample volunteers with their places on those activities, the feedback they
+ * left and the clearances an admin would be working through, so the admin's Volunteers list
+ * and an activity's sign-up sheet have people in them. They are database records only: there
+ * are no sign-in accounts behind them, and nothing can be sent to them.
+ *
  *   cd tools/seed
  *   npm install
  *   node seed.js --dry-run                          shows what would be added, touches nothing
@@ -243,6 +248,173 @@ const plannerSamples = [
   },
 ];
 
+/*
+ * Sample volunteers, so the admin's Volunteers list and an activity's sign-ups have people in
+ * them rather than one row. These are database records only: there are no sign-in accounts
+ * behind them, the addresses are on example.com, which exists to be used in writing like this
+ * and reaches nobody, and the telephone numbers are a counting sequence for the same reason.
+ *
+ * `joins` are activity keys from the two lists above. `rated` leaves feedback on one of them,
+ * which is what the admin's "How did it go?" summary reads. Between them they fill the
+ * Community Soup Kitchen, the Seniors tea and the homework afternoon enough to look like a
+ * real sign-up sheet without taking the last place on any of them.
+ */
+const sampleVolunteers = [
+  {
+    first: 'Nosipho', last: 'Mabaso', area: 'Lavender Hill', joinedDaysAgo: 412,
+    interests: ['Community Feeding', 'Afterschool Programmes'],
+    joins: ['community-feeding', 'today', 'past-week'],
+    rated: { key: 'past-week', rating: 5, comment: 'Busy morning, but we got through every box before lunch.' },
+    clearance: 'cleared',
+    emergency: { name: 'Thembisa Mabaso', phone: '071 000 0030' },
+  },
+  {
+    first: 'Charmaine', last: 'Fortuin', area: 'Steenberg', joinedDaysAgo: 365,
+    interests: ['Senior Programme', 'Women Empowerment'],
+    joins: ['seniors', 'womens-empowerment'],
+    clearance: 'cleared',
+    emergency: { name: 'Elton Fortuin', phone: '071 000 0031' },
+  },
+  {
+    first: 'Sipho', last: 'Ngcobo', area: 'Retreat', joinedDaysAgo: 280,
+    interests: ["Men's Café", 'Youth Programme'],
+    joins: ['mens-cafe', 'past-month'],
+    rated: { key: 'past-month', rating: 4, comment: 'Good turnout. We could do with one more coach next time.' },
+  },
+  {
+    first: 'Fagrieyah', last: 'Isaacs', area: 'Grassy Park', joinedDaysAgo: 240,
+    interests: ['Baby Saver', 'Women Empowerment'],
+    joins: ['baby-saver', 'womens-empowerment', 'today'],
+    clearance: 'requested',
+  },
+  {
+    first: 'Lerato', last: 'Molefe', area: 'Seawinds', joinedDaysAgo: 190,
+    interests: ['Youth Programme', 'Afterschool Programmes'],
+    joins: ['after-school', 'youth', 'tomorrow'],
+    emergency: { name: 'Palesa Molefe', phone: '071 000 0032' },
+  },
+  {
+    first: 'Ashwin', last: 'Petersen', area: 'Muizenberg', joinedDaysAgo: 150,
+    interests: ['Community Feeding', 'Emergency Safe Houses'],
+    joins: ['community-feeding', 'safe-houses', 'past-week'],
+    rated: { key: 'past-week', rating: 5, comment: 'Well run. Everyone knew what they were doing by the second hour.' },
+  },
+  {
+    first: 'Zanele', last: 'Khumalo', area: 'Lavender Hill', joinedDaysAgo: 120,
+    interests: ['Women Empowerment', 'Senior Programme'],
+    joins: ['seniors', 'womens-empowerment', 'tomorrow'],
+    clearance: 'cleared',
+  },
+  {
+    first: 'Riyaad', last: 'Davids', area: 'Capricorn Park', joinedDaysAgo: 95,
+    interests: ["Men's Café", 'Community Feeding'],
+    joins: ['mens-cafe', 'community-feeding'],
+    emergency: { name: 'Shanaaz Davids', phone: '071 000 0033' },
+  },
+  {
+    first: 'Thandiwe', last: 'Mkhize', area: 'Steenberg', joinedDaysAgo: 60,
+    interests: ['Baby Saver', 'Afterschool Programmes'],
+    joins: ['after-school', 'baby-saver'],
+    clearance: 'requested',
+  },
+  {
+    first: 'Denise', last: 'Arendse', area: 'Lavender Hill', joinedDaysAgo: 21,
+    interests: ['Senior Programme', 'Community Feeding'],
+    joins: ['seniors', 'community-feeding', 'after-school'],
+  },
+];
+
+const DAY = 24 * 60 * 60 * 1000;
+
+/**
+ * The sample volunteers, their places on the sample activities, the feedback they left and
+ * the clearances an admin would be looking at. Keyed off the activities already built, so a
+ * volunteer can never be signed up to something that is not there.
+ */
+function buildPeopleDocs(docs) {
+  const now = Date.now();
+  const activities = Object.fromEntries(
+    docs.filter((d) => d.collection === 'activities').map((d) => [d.id, d.data])
+  );
+
+  return sampleVolunteers.flatMap((person, i) => {
+    const uid = `seed-volunteer-${String(i + 1).padStart(2, '0')}`;
+    const name = `${person.first} ${person.last}`;
+    const out = [{
+      collection: 'users',
+      id: uid,
+      data: {
+        firstName: person.first,
+        lastName: person.last,
+        email: `${person.first}.${person.last}@example.com`.toLowerCase(),
+        phone: `071 000 00${String(i + 10)}`,
+        area: person.area,
+        programmeInterests: person.interests,
+        favouriteActivityIds: [],
+        role: 'volunteer',
+        volunteerId: `VOL-2026-${101 + i}`,
+        profileComplete: true,
+        joinedDate: now - person.joinedDaysAgo * DAY,
+        emergencyContactName: person.emergency ? person.emergency.name : '',
+        emergencyContactPhone: person.emergency ? person.emergency.phone : '',
+      },
+    }];
+
+    person.joins.forEach((key, n) => {
+      const activityId = `seed-activity-${key}`;
+      const a = activities[activityId];
+      if (!a) return;
+      out.push({
+        collection: 'activitySignups',
+        id: `${activityId}_${uid}`,
+        activityId,
+        data: {
+          activityId, userId: uid, volunteerName: name,
+          activityTitle: a.title, programme: a.programme, date: a.date, dateMillis: a.dateMillis,
+          startTime: a.startTime, endTime: a.endTime, location: a.location,
+          // Spread out, so the sign-up sheet does not read as ten people at the same second.
+          signedUpDate: now - (i + n + 2) * DAY,
+        },
+      });
+    });
+
+    if (person.rated) {
+      const activityId = `seed-activity-${person.rated.key}`;
+      out.push({
+        collection: 'activityFeedback',
+        id: `${activityId}_${uid}`,
+        data: {
+          activityId, userId: uid, volunteerName: name,
+          rating: person.rated.rating, comment: person.rated.comment,
+          createdAt: now - (i + 1) * DAY,
+        },
+      });
+    }
+
+    if (person.clearance === 'requested') {
+      out.push({
+        collection: 'clearances',
+        id: uid,
+        // Marked, so --remove takes away only what the seed put there.
+        data: { volunteerName: name, status: 'requested', requestedAt: now - (i + 1) * DAY, seeded: true },
+      });
+    } else if (person.clearance === 'cleared') {
+      const clearedAt = now - (i + 30) * DAY;
+      out.push({
+        collection: 'clearances',
+        id: uid,
+        data: {
+          volunteerName: name, status: 'cleared',
+          requestedAt: clearedAt - 7 * DAY, clearedAt,
+          expiresAt: clearedAt + 365 * DAY, checkedBy: 'Philisa office', seeded: true,
+        },
+      });
+    }
+
+    return out;
+  });
+}
+
 function buildDocs(notify) {
   const now = Date.now();
   // Only set when asked, because the app notifies volunteers about anything with a new publishedAt.
@@ -391,12 +563,22 @@ async function remove(db, docs) {
 
 async function main() {
   const docs = buildDocs(has('--notify'));
+  // After the activities, because every sample volunteer is signed up to one of them.
+  docs.push(...buildPeopleDocs(docs));
 
   if (has('--dry-run')) {
     for (const doc of docs) {
       const d = doc.data;
-      const when = doc.collection === 'activities' ? `${d.date} ${d.startTime}-${d.endTime}` : '';
-      console.log(`${doc.collection.padEnd(13)} ${doc.id.padEnd(40)} ${d.title} ${when}`);
+      // Each kind keeps something different worth reading back before anything is written.
+      const says = {
+        activities: () => `${d.title} ${d.date} ${d.startTime}-${d.endTime}`,
+        users: () => `${d.firstName} ${d.lastName} · ${d.area} · ${d.volunteerId}`,
+        activitySignups: () => `${d.volunteerName} → ${d.activityTitle}`,
+        activityFeedback: () => `${d.volunteerName} rated ${d.activityId.replace('seed-activity-', '')} ${d.rating}/5`,
+        clearances: () => `${d.volunteerName} · ${d.status}`,
+        concerns: () => `${d.reporterName} · ${d.activityTitle}`,
+      }[doc.collection];
+      console.log(`${doc.collection.padEnd(17)} ${doc.id.padEnd(42)} ${says ? says() : d.title}`);
     }
     const own = valueOf('--volunteer') ? buildVolunteerDocs(docs, '<uid>', valueOf('--volunteer')) : [];
     for (const doc of own) console.log(`${doc.collection.padEnd(17)} ${doc.id}`);

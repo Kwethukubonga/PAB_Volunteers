@@ -83,6 +83,8 @@
     <string name="my_activities_title">Imisebenzi</string>
     <string name="tab_upcoming">Ezizayo</string>
     <string name="tab_completed">Egqityiweyo</string>
+    <string name="sort_earliest_first">Ezokuqala kuqala</string>
+    <string name="sort_latest_first">Ezamva kuqala</string>
     <string name="status_open">Ivulekile</string>
     <string name="label_date_time">UMHLA &amp; IXESHA</string>
     <string name="label_location">INDAWO</string>
@@ -119,6 +121,7 @@
     <string name="empty_no_signups">Akukho mntu ubhalisele lo msebenzi okwangoku.</string>
     <string name="activity_signups_title">Ababhalisileyo</string>
     <string name="signups_summary">%1$d babhalisile · iindawo ezi-%2$d zisele</string>
+    <string name="signup_volunteer_gone">Elo volontiya alisekho kuluhlu.</string>
     <string name="volunteer_profile_title">Iprofayile yevolontiya</string>
     <string name="action_view_signups_short">Ababhalisile</string>
     <string name="label_publish_now">Papasha ngoku</string>
@@ -540,8 +543,8 @@
     <string name="intro_skip">Tsiba</string>
     <string name="intro_next">Okulandelayo</string>
     <string name="intro_get_started">Qalisa</string>
-    <string name="intro_one_title">Uqala ekhaya</string>
-    <string name="intro_one_body">Ukhenketho olufutshane, umzuzu omnye. Ikhaya livula kwiveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
+    <string name="intro_one_title">Wamkelekile — ukhenketho olufutshane</string>
+    <string name="intro_one_body">Umzuzu omnye, kwaye ungakutsiba. Ikhaya livula kwiveki yakho usuku ngosuku, okulandelayo kuwe, nezona zintsha zivela kwiPhilisa.</string>
     <string name="intro_two_title">Fumana umsebenzi olingana neveki yakho</string>
     <string name="intro_two_body">Khangela okuvulekileyo, ubone ixesha nendawo, uze uthathe isithuba ngokuchukumisa kanye.</string>
     <string name="intro_four_title">Konke ozibhalisele kuko, kuluhlu olunye</string>

@@ -83,6 +83,8 @@
     <string name="my_activities_title">Aktiwiteite</string>
     <string name="tab_upcoming">Komende</string>
     <string name="tab_completed">Voltooi</string>
+    <string name="sort_earliest_first">Vroegste eerste</string>
+    <string name="sort_latest_first">Jongste eerste</string>
     <string name="status_open">Oop</string>
     <string name="label_date_time">DATUM &amp; TYD</string>
     <string name="label_location">LIGGING</string>
@@ -119,6 +121,7 @@
     <string name="empty_no_signups">Niemand het nog vir hierdie aktiwiteit ingeskryf nie.</string>
     <string name="activity_signups_title">Inskrywings</string>
     <string name="signups_summary">%1$d ingeskryf · %2$d plekke oor</string>
+    <string name="signup_volunteer_gone">Daardie vrywilliger is nie meer op die lys nie.</string>
     <string name="volunteer_profile_title">Vrywilligerprofiel</string>
     <string name="action_view_signups_short">Inskrywings</string>
     <string name="label_publish_now">Publiseer nou</string>
@@ -540,8 +543,8 @@
     <string name="intro_skip">Slaan oor</string>
     <string name="intro_next">Volgende</string>
     <string name="intro_get_started">Kom ons begin</string>
-    <string name="intro_one_title">Tuis is waar jy begin</string>
-    <string name="intro_one_body">\'n Vinnige toer, een minuut. Tuis open op jou week dag vir dag, wat volgende kom, en die nuutste van Philisa.</string>
+    <string name="intro_one_title">Welkom — \'n vinnige toer</string>
+    <string name="intro_one_body">Een minuut, en jy kan dit oorslaan. Tuis open op jou week dag vir dag, wat volgende kom, en die nuutste van Philisa.</string>
     <string name="intro_two_title">Kry werk wat by jou week pas</string>
     <string name="intro_two_body">Soek wat oop is, sien die tyd en die plek, en neem \'n plek met een tik.</string>
     <string name="intro_four_title">Alles waarby jy aangesluit het, in een lys</string>
