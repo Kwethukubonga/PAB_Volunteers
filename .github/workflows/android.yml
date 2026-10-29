@@ -212,14 +212,40 @@ jobs:
       - name: Check the APK carries the key people already have
         if: steps.signing.outputs.ready == 'true'
         run: |
-          apksigner=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          actual=$("$apksigner" verify --print-certs app/build/outputs/apk/release/app-release.apk \
-            | sed -n 's/^Signer #1 certificate SHA-1 digest: //p')
-          echo "signed with $actual"
+          apk=app/build/outputs/apk/release/app-release.apk
+          echo "::notice::release outputs: $(ls app/build/outputs/apk/release/ | tr '\n' ' ')"
+
+          # An unsigned APK means Gradle never saw the keystore, and it cannot be
+          # installed at all. Catch that before blaming the fingerprint.
+          if [ ! -f "$apk" ]; then
+            echo "::error::No $apk. Gradle built the release unsigned, so keystore.properties did not reach it."
+            exit 1
+          fi
+
+          apksigner=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | sort -V | tail -1)
+          if [ -z "$apksigner" ]; then
+            echo "::error::No apksigner under $ANDROID_HOME/build-tools, so the signature cannot be checked."
+            exit 1
+          fi
+          echo "::notice::apksigner: $apksigner"
+
+          # Keep apksigner's own words: without this a failure here just leaves an empty
+          # fingerprint, which reads as the wrong key rather than as a broken check.
+          if ! "$apksigner" verify --print-certs "$apk" > verify.txt 2> verify.err; then
+            echo "::error::apksigner could not verify the APK: $(tr '\n' ' ' < verify.err | head -c 400)"
+            exit 1
+          fi
+
+          actual=$(sed -n 's/^Signer #1 certificate SHA-1 digest: //p' verify.txt)
+          if [ -z "$actual" ]; then
+            echo "::error::No fingerprint in apksigner output: $(tr '\n' ' ' < verify.txt | head -c 400)"
+            exit 1
+          fi
           if [ "$actual" != "$RELEASE_CERT_SHA1" ]; then
             echo "::error::Signed with $actual, expected $RELEASE_CERT_SHA1. A phone with the app installed could not update to this build."
             exit 1
           fi
+          echo "::notice::signed with $actual, which matches"
 
       - name: Publish the release APK
         if: steps.signing.outputs.ready == 'true'
