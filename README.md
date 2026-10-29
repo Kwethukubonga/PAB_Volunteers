@@ -563,7 +563,19 @@ The app is shared through a download page on **Firebase Hosting**, so PAB can se
 
 - **Download page:** **https://pab-volunteers.web.app**
 
-The page offers the APK, says what the app does and walks through installing from outside the Play Store. It is deployed by the pipeline: merging into `master` publishes the page, that build's APK and `firestore.rules` in one step, so the download is never older than `master` and the live rules are always the tested ones. The deploy needs one repository secret, `FIREBASE_SERVICE_ACCOUNT`, holding a service account key with the Firebase Hosting Admin and Firebase Rules Admin roles.
+The page offers the APK, says what the app does and walks through installing from outside the Play Store. It is deployed by the pipeline: merging into `master` publishes the page, that build's APK and `firestore.rules` in one step, so the download is never older than `master` and the live rules are always the tested ones. The deploy needs these repository secrets:
+
+| Secret | What it holds |
+|--------|---------------|
+| `FIREBASE_SERVICE_ACCOUNT` | A service account key with the Firebase Hosting Admin and Firebase Rules Admin roles |
+| `RELEASE_KEYSTORE_BASE64` | `keystore/release.jks`, base64-encoded |
+| `RELEASE_STORE_PASSWORD` | The keystore password |
+| `RELEASE_KEY_ALIAS` | The key alias inside it |
+| `RELEASE_KEY_PASSWORD` | That key's password |
+
+The four signing secrets are what lets the pipeline publish a **release** build. Without them the build job makes no release APK and the deploy stops and says so, because a debug build cannot install over a release-signed one: a phone refuses an update signed by a different key. The build also checks the APK it just signed carries certificate `59838b45d466c910453d79c1d3f5bf29ab012d48` before anything is published, so the wrong keystore fails the run rather than stranding everyone who already has the app.
+
+Both that certificate and the committed `keystore/debug.keystore` have to be registered as SHA-1 fingerprints on the Firebase Android app. Google sign-in checks the signing key of the app asking, so a build signed with a key Firebase does not know returns a developer error at sign-in.
 
 The workflow can also be started by hand from the Actions tab, which is how a deploy gets checked before it matters:
 
@@ -585,7 +597,7 @@ git tag v1.1.0
 git push origin v1.1.0
 ```
 
-The attached APK is the debug build, the same one the download page offers, because release signing is not set up yet.
+The attached APK is the signed release build, the same one the download page offers.
 
 ---
 
