@@ -316,6 +316,16 @@ describe('activities and sign-ups', () => {
     await assertFails(getDocs(activities));
   });
 
+  // Narrowing by date is not the same as narrowing by status: the rule asks the query itself
+  // to say published, so a date range on its own is refused however few drafts it would match.
+  it('refuses a volunteer a date range that does not also ask for published', async () => {
+    const activities = collection(asVolunteer(), 'activities');
+    await assertFails(getDocs(query(activities, where('dateMillis', '>=', 0))));
+    await assertSucceeds(
+      getDocs(query(activities, where('status', '==', 'published'))),
+    );
+  });
+
   it('lets an admin list every activity, drafts included', async () => {
     const all = await assertSucceeds(getDocs(collection(asAdmin(), 'activities')));
     assert.strictEqual(all.size, 3);

@@ -111,13 +111,19 @@ class ActivityRepository {
             .filter { it.publishedAt > since }
     }
 
-    // Activities on or after [dayStart], used to spot ones that have just filled up.
+    /**
+     * Activities on or after [dayStart], used to spot ones that have just filled up. Asks by
+     * status and checks the date here, for the same reason as [getPublishedSince]: a volunteer
+     * may only list published activities, and a query cannot both match the status and range
+     * over the date without a composite index.
+     */
     suspend fun getActivitiesFrom(dayStart: Long): List<Activity> {
         return activitiesCollection()
-            .whereGreaterThanOrEqualTo("dateMillis", dayStart)
+            .whereEqualTo("status", Activity.STATUS_PUBLISHED)
             .get()
             .await()
             .toObjects(Activity::class.java)
+            .filter { it.dateMillis >= dayStart }
     }
 
     suspend fun getAllActivities(): List<Activity> {
