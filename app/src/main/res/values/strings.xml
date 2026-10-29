@@ -157,6 +157,7 @@
     <string name="empty_no_signups">Nobody has signed up for this activity yet.</string>
     <string name="activity_signups_title">Sign-Ups</string>
     <string name="signups_summary">%1$d signed up · %2$d spots remaining</string>
+    <string name="signup_volunteer_gone">That volunteer is no longer on the list.</string>
     <string name="volunteer_profile_title">Volunteer Profile</string>
     <string name="action_view_signups_short">Sign-ups</string>
     <string name="label_publish_now">Publish now</string>

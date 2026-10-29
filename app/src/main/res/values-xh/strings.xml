@@ -121,6 +121,7 @@
     <string name="empty_no_signups">Akukho mntu ubhalisele lo msebenzi okwangoku.</string>
     <string name="activity_signups_title">Ababhalisileyo</string>
     <string name="signups_summary">%1$d babhalisile · iindawo ezi-%2$d zisele</string>
+    <string name="signup_volunteer_gone">Elo volontiya alisekho kuluhlu.</string>
     <string name="volunteer_profile_title">Iprofayile yevolontiya</string>
     <string name="action_view_signups_short">Ababhalisile</string>
     <string name="label_publish_now">Papasha ngoku</string>
