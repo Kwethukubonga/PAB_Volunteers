@@ -25,10 +25,8 @@ import androidx.lifecycle.lifecycleScope
 import com.kantu.pab_volunteers.BuildConfig
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
-import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.AuthRepository
-import com.kantu.pab_volunteers.data.repository.ClearanceRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.databinding.ActivitySettingsBinding
 import com.kantu.pab_volunteers.databinding.DialogEmergencyContactBinding
@@ -44,7 +42,6 @@ import com.kantu.pab_volunteers.security.FingerprintAccount
 import com.kantu.pab_volunteers.security.FingerprintPrompt
 import com.kantu.pab_volunteers.security.FingerprintSignIn
 import com.kantu.pab_volunteers.ui.auth.Session
-import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.safety.EmergencyContactRules
 import com.kantu.pab_volunteers.ui.intro.IntroActivity
 import com.kantu.pab_volunteers.ui.safety.ReportConcernActivity
@@ -53,7 +50,6 @@ import com.kantu.pab_volunteers.utils.ActivityIntents
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
-import com.kantu.pab_volunteers.utils.DateUtils
 import com.kantu.pab_volunteers.utils.Directions
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
@@ -69,13 +65,13 @@ import kotlinx.coroutines.launch
  * Shared by volunteers and admins: rows grouped into Account, Appearance, Notifications and About,
  * with Sign out and Delete account at the bottom. Admins do not get the delete account option.
  */
+private const val GOOGLE_ACCOUNT_SECURITY_URL = "https://myaccount.google.com/security"
+
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingsBinding
     private val authRepository = AuthRepository()
-    private val clearanceRepository = ClearanceRepository()
     private val userRepository = UserRepository()
-    private var clearance: Clearance? = null
     private var user: User? = null
 
     private val askNotifications = registerForActivityResult(
@@ -129,14 +125,14 @@ class SettingsActivity : AppCompatActivity() {
             supporting = email
         )
 
-        // Google accounts change their password at Google, so the row is only for email accounts.
-        binding.dividerChangePassword.isVisible = usesPassword
-        binding.rowChangePassword.root.isVisible = usesPassword
+        // Google accounts have no password here to reset, so they are sent to Google to change it.
         binding.rowChangePassword.bind(
             R.drawable.ic_lock,
             R.string.settings_change_password,
-            supporting = getString(R.string.settings_change_password_desc),
-            onClick = { sendPasswordLink(email) }
+            supporting = getString(
+                if (usesPassword) R.string.settings_change_password_desc else R.string.settings_change_password_google_desc
+            ),
+            onClick = { if (usesPassword) sendPasswordLink(email) else explainGooglePassword() }
         )
 
         setUpFingerprint(usesPassword)
@@ -183,10 +179,29 @@ class SettingsActivity : AppCompatActivity() {
             result
                 .onSuccess {
                     hideMessage()
-                    AppMessage.show(binding.root, UiText.Res(R.string.settings_change_password_sent, listOf(email)))
+                    AlertDialog.Builder(this@SettingsActivity)
+                        .setTitle(R.string.settings_change_password_sent_title)
+                        .setMessage(getString(R.string.settings_change_password_sent, email))
+                        .setPositiveButton(R.string.action_ok, null)
+                        .show()
                 }
                 .onFailure { showMessage(ErrorMessages.textFor(it)) }
         }
+    }
+
+    private fun explainGooglePassword() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.settings_change_password)
+            .setMessage(R.string.settings_change_password_google_explain)
+            .setPositiveButton(R.string.settings_change_password_google_open) { _, _ ->
+                try {
+                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(GOOGLE_ACCOUNT_SECURITY_URL)))
+                } catch (e: ActivityNotFoundException) {
+                    AppMessage.show(binding.root, UiText.Res(R.string.settings_change_password_google_explain))
+                }
+            }
+            .setNegativeButton(R.string.action_cancel, null)
+            .show()
     }
 
     // Changing the theme or language redraws the screen, which is what makes the change show straight away.
@@ -315,8 +330,8 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     /**
-     * Emergency contact, clearance and reporting a concern, for volunteers. Admins are checked by
-     * the organisation and read concerns rather than send them, so the section is not theirs.
+     * Emergency contact and reporting a concern, for volunteers. Admins read concerns rather than
+     * send them, so the section is not theirs.
      */
     private fun setUpSafety(isAdmin: Boolean) {
         binding.sectionSafety.isVisible = !isAdmin
@@ -329,15 +344,12 @@ class SettingsActivity : AppCompatActivity() {
             supporting = getString(R.string.settings_report_concern_desc),
             onClick = { startActivity(Intent(this, ReportConcernActivity::class.java)) }
         )
-        bindClearance()
-        loadClearance()
+        loadEmergencyContact()
     }
 
-    private fun loadClearance() {
+    private fun loadEmergencyContact() {
         val uid = FirebaseAuthManager.currentUser?.uid ?: return
         lifecycleScope.launch {
-            clearance = runCatching { clearanceRepository.get(uid) }.getOrNull()
-            bindClearance()
             user = runCatching { userRepository.getUser(uid) }.getOrNull()
             bindEmergencyContact()
         }
@@ -561,81 +573,6 @@ class SettingsActivity : AppCompatActivity() {
                 .setAllowedAuthenticators(AppLock.AUTHENTICATORS)
                 .build()
         )
-    }
-
-    private fun bindClearance() {
-        val state = ClearanceState.of(clearance, DateUtils.now())
-        val status = when (state) {
-            ClearanceState.NONE -> getString(R.string.clearance_none)
-            ClearanceState.REQUESTED -> getString(R.string.clearance_requested)
-            ClearanceState.CLEARED ->
-                getString(R.string.clearance_cleared_until, DateUtils.formatDate(clearance?.expiresAt ?: 0L))
-            ClearanceState.EXPIRED -> getString(R.string.clearance_expired)
-        }
-        binding.rowClearance.bind(
-            R.drawable.ic_shield,
-            R.string.settings_clearance,
-            supporting = status,
-            onClick = { showClearance(state) }
-        )
-    }
-
-    /** Explains the check and offers the one thing the volunteer can do at each stage. */
-    private fun showClearance(state: ClearanceState) {
-        val dialog = AlertDialog.Builder(this).setTitle(R.string.settings_clearance)
-        when (state) {
-            ClearanceState.NONE, ClearanceState.EXPIRED -> dialog
-                .setMessage(R.string.clearance_explain)
-                .setPositiveButton(R.string.clearance_ask) { _, _ -> requestClearance() }
-                .setNegativeButton(R.string.action_cancel, null)
-            ClearanceState.REQUESTED -> dialog
-                .setMessage(R.string.clearance_waiting_explain)
-                .setPositiveButton(R.string.action_close, null)
-                .setNegativeButton(R.string.clearance_withdraw) { _, _ -> withdrawClearance() }
-            ClearanceState.CLEARED -> dialog
-                .setMessage(
-                    getString(
-                        R.string.clearance_cleared_explain,
-                        DateUtils.formatDate(clearance?.expiresAt ?: 0L)
-                    )
-                )
-                .setPositiveButton(R.string.action_close, null)
-        }
-        dialog.show()
-    }
-
-    private fun requestClearance() {
-        val uid = FirebaseAuthManager.currentUser?.uid ?: return
-        if (!Network.isOnline(this)) {
-            showMessage(ErrorMessages.OFFLINE)
-            return
-        }
-        lifecycleScope.launch {
-            val name = runCatching { userRepository.getUser(uid)?.fullName }.getOrNull().orEmpty()
-            clearanceRepository.request(uid, name)
-                .onSuccess {
-                    hideMessage()
-                    AppMessage.show(binding.root, UiText.Res(R.string.clearance_asked))
-                    loadClearance()
-                }
-                .onFailure { showMessage(ErrorMessages.textFor(it)) }
-        }
-    }
-
-    private fun withdrawClearance() {
-        val uid = FirebaseAuthManager.currentUser?.uid ?: return
-        if (!Network.isOnline(this)) {
-            showMessage(ErrorMessages.OFFLINE)
-            return
-        }
-        lifecycleScope.launch {
-            clearanceRepository.remove(uid)
-                .onSuccess {
-                    hideMessage()
-                    loadClearance()
-                }
-                .onFailure { showMessage(ErrorMessages.textFor(it)) }
-        }
     }
 
     private fun setUpAbout() {

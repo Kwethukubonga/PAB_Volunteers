@@ -64,61 +64,34 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Background check, as recorded by Philisa's admins. -->
+        <!-- How Philisa can reach them. -->
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardClearance"
             style="@style/Widget.PAB.Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/screen_gutter"
             android:layout_marginTop="@dimen/spacing_md"
             android:layout_marginEnd="@dimen/screen_gutter"
-            android:focusable="true"
             app:contentPadding="@dimen/spacing_md">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:divider="?android:attr/listDivider"
+                android:orientation="vertical"
+                android:showDividers="middle">
 
-                <ImageView
-                    android:id="@+id/ivClearance"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:importantForAccessibility="no"
-                    android:src="@drawable/ic_shield" />
+                <include
+                    android:id="@+id/rowEmail"
+                    layout="@layout/item_detail_row" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_md"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                <include
+                    android:id="@+id/rowPhone"
+                    layout="@layout/item_detail_row" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/settings_clearance"
-                        android:textAppearance="@style/TextAppearance.PAB.Subtitle" />
-
-                    <TextView
-                        android:id="@+id/tvClearance"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@style/TextAppearance.PAB.Caption" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvClearancePill"
-                    style="@style/Widget.PAB.StatusPill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_sm"
-                    android:visibility="gone"
-                    tools:text="Cleared"
-                    tools:visibility="visible" />
+                <include
+                    android:id="@+id/rowArea"
+                    layout="@layout/item_detail_row" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -195,37 +168,6 @@
             android:layout_marginEnd="@dimen/screen_gutter"
             android:background="@drawable/bg_card"
             android:orientation="vertical" />
-
-        <com.google.android.material.card.MaterialCardView
-            style="@style/Widget.PAB.Card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/screen_gutter"
-            android:layout_marginTop="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/screen_gutter"
-            android:layout_marginBottom="@dimen/spacing_lg"
-            app:contentPadding="@dimen/spacing_md">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="?android:attr/listDivider"
-                android:orientation="vertical"
-                android:showDividers="middle">
-
-                <include
-                    android:id="@+id/rowEmail"
-                    layout="@layout/item_detail_row" />
-
-                <include
-                    android:id="@+id/rowPhone"
-                    layout="@layout/item_detail_row" />
-
-                <include
-                    android:id="@+id/rowArea"
-                    layout="@layout/item_detail_row" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <!-- Editing the profile and programme interests is in Settings -> Edit profile. -->
         <com.google.android.material.button.MaterialButton

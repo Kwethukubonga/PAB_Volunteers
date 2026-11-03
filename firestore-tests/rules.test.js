@@ -413,51 +413,6 @@ describe('activities and sign-ups', () => {
   });
 });
 
-// Background checks: a volunteer can only ask, and only an admin can clear someone.
-describe('clearances', () => {
-  const request = { volunteerName: 'Nomsa', status: 'requested', requestedAt: 1 };
-
-  it('lets a volunteer ask to be checked', async () => {
-    await assertSucceeds(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), request));
-  });
-
-  it('stops a volunteer clearing themselves', async () => {
-    await assertFails(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), {
-      volunteerName: 'Nomsa', status: 'cleared', expiresAt: 9999999999999,
-    }));
-  });
-
-  it('stops a volunteer sneaking an expiry date into a request', async () => {
-    await assertFails(setDoc(doc(asVolunteer(), 'clearances', VOLUNTEER), { ...request, expiresAt: 9999999999999 }));
-  });
-
-  it('stops a volunteer asking on someone else behalf', async () => {
-    await assertFails(setDoc(doc(asVolunteer(), 'clearances', OTHER), request));
-  });
-
-  it('lets an admin mark a volunteer as cleared', async () => {
-    await assertSucceeds(setDoc(doc(asAdmin(), 'clearances', VOLUNTEER), {
-      volunteerName: 'Nomsa', status: 'cleared', clearedAt: 1, expiresAt: 2, checkedBy: 'Admin',
-    }));
-  });
-
-  it('lets a volunteer see their own record but not anyone else', async () => {
-    await testEnv.withSecurityRulesDisabled(async (context) => {
-      await setDoc(doc(context.firestore(), 'clearances', OTHER), request);
-    });
-    await assertSucceeds(getDoc(doc(asVolunteer(), 'clearances', VOLUNTEER)));
-    await assertFails(getDoc(doc(asVolunteer(), 'clearances', OTHER)));
-    await assertSucceeds(getDoc(doc(asAdmin(), 'clearances', OTHER)));
-  });
-
-  it('lets a volunteer take their own record away, for example when deleting their account', async () => {
-    await testEnv.withSecurityRulesDisabled(async (context) => {
-      await setDoc(doc(context.firestore(), 'clearances', VOLUNTEER), request);
-    });
-    await assertSucceeds(deleteDoc(doc(asVolunteer(), 'clearances', VOLUNTEER)));
-  });
-});
-
 // Concerns go to the admins only, and nobody can pretend to be someone else.
 describe('concerns', () => {
   const concern = (overrides = {}) => ({

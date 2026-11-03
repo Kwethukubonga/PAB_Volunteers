@@ -12,13 +12,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayout
 import com.kantu.pab_volunteers.R
-import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.databinding.FragmentProfileBinding
 import com.kantu.pab_volunteers.databinding.ItemMilestoneBinding
 import com.kantu.pab_volunteers.databinding.ItemPlanRowBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
-import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
@@ -28,7 +26,7 @@ import com.kantu.pab_volunteers.utils.RelativeDay
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /**
- * The volunteer's own page: who they are, their clearance, milestones, and their places as
+ * The volunteer's own page: who they are, milestones, and their places as
  * Upcoming and Past tabs with when each one is (K10), then their details and Settings.
  */
 class ProfileFragment : Fragment() {
@@ -63,7 +61,6 @@ class ProfileFragment : Fragment() {
         setUpTabs()
 
         viewModel.user.observe(viewLifecycleOwner) { user -> user?.let { bindUser(it) } }
-        viewModel.clearance.observe(viewLifecycleOwner) { bindClearance(it) }
         viewModel.milestones.observe(viewLifecycleOwner) { milestones ->
             val slots = listOf(binding.milestone1, binding.milestone2, binding.milestone3, binding.milestone4)
             milestones.zip(slots).forEach { (milestone, slot) -> bindMilestone(slot, milestone) }
@@ -141,37 +138,6 @@ class ProfileFragment : Fragment() {
             item.root.setOnClickListener { VolunteerNavGraph.toActivityDetails(findNavController(), row.activity.id) }
             binding.layoutMyActivities.addView(item.root)
         }
-    }
-
-    private fun bindClearance(clearance: Clearance?) {
-        val state = ClearanceState.of(clearance, DateUtils.now())
-        binding.tvClearance.text = when (state) {
-            ClearanceState.NONE -> getString(R.string.clearance_none_profile)
-            ClearanceState.REQUESTED -> getString(R.string.clearance_requested)
-            ClearanceState.CLEARED ->
-                getString(R.string.clearance_cleared_until, DateUtils.formatDate(clearance?.expiresAt ?: 0L))
-            ClearanceState.EXPIRED -> getString(R.string.clearance_expired)
-        }
-        val tint = if (state == ClearanceState.CLEARED) R.color.status_success_text else R.color.text_secondary
-        binding.ivClearance.setColorFilter(ContextCompat.getColor(requireContext(), tint))
-
-        // A pill only once something has happened: Cleared, Waiting or Expired.
-        val pill = when (state) {
-            ClearanceState.CLEARED -> Triple(R.string.clearance_pill_cleared, R.color.status_success_bg, R.color.status_success_text)
-            ClearanceState.REQUESTED -> Triple(R.string.clearance_pill_waiting, R.color.status_info_bg, R.color.status_info_text)
-            ClearanceState.EXPIRED -> Triple(R.string.clearance_pill_expired, R.color.status_neutral_bg, R.color.status_neutral_text)
-            ClearanceState.NONE -> null
-        }
-        binding.tvClearancePill.isVisible = pill != null
-        if (pill != null) {
-            binding.tvClearancePill.setText(pill.first)
-            binding.tvClearancePill.background = binding.tvClearancePill.background?.mutate()?.apply {
-                setTint(ContextCompat.getColor(requireContext(), pill.second))
-            }
-            binding.tvClearancePill.setTextColor(ContextCompat.getColor(requireContext(), pill.third))
-        }
-        binding.cardClearance.contentDescription =
-            getString(R.string.settings_clearance) + ". " + binding.tvClearance.text
     }
 
     /** Earned ones are in the brand colour; the rest are grey with how far along they are. */

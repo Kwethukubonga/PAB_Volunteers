@@ -10,8 +10,8 @@
  *   node seed.js --key <path to key file> --notify  adds them so phones get notified
  *   node seed.js --key <path to key file> --volunteer <email>
  *                                                   also signs that volunteer up to the planner
- *                                                   samples, rates one past activity, asks for a
- *                                                   clearance and sends a sample concern
+ *                                                   samples, rates one past activity and sends a
+ *                                                   sample concern
  *   node seed.js --key <path to key file> --remove  takes every sample out again
  *
  * The key file comes from Firebase console > Project settings > Service accounts >
@@ -296,8 +296,8 @@ function buildDocs(notify) {
 /**
  * A volunteer's own sample records, so the screens that need them have something to show:
  * places on the planner samples (today, tomorrow and the past three) and one upcoming
- * activity, feedback on one past activity (the other two still ask "How did it go?"), a
- * clearance request and a concern for admins. Ids start with "seed-" like everything else.
+ * activity, feedback on one past activity (the other two still ask "How did it go?") and a
+ * concern for admins. Ids start with "seed-" like everything else.
  */
 function buildVolunteerDocs(docs, uid, name) {
   const now = Date.now();
@@ -327,12 +327,6 @@ function buildVolunteerDocs(docs, uid, name) {
         activityId: 'seed-activity-past-week', userId: uid, volunteerName: name, rating: 5,
         comment: 'Well organised, and the team made newcomers feel welcome.', createdAt: now,
       },
-    },
-    {
-      collection: 'clearances',
-      id: uid,
-      // Marked, so --remove takes away only a request the seed made.
-      data: { volunteerName: name, status: 'requested', requestedAt: now, seeded: true },
     },
     {
       collection: 'concerns',
@@ -378,7 +372,7 @@ async function remove(db, docs) {
     }
     batch.delete(db.collection(doc.collection).doc(doc.id));
   }
-  // Feedback on the samples, sample concerns and clearance requests the seed made.
+  // Feedback on the samples, sample concerns, and clearance requests from before that feature went.
   const feedback = await db.collection('activityFeedback').where('activityId', '>=', 'seed-').where('activityId', '<', 'seed.').get();
   feedback.forEach((d) => batch.delete(d.ref));
   const concerns = (await db.collection('concerns').get()).docs.filter((d) => d.id.startsWith('seed-'));
@@ -428,10 +422,7 @@ async function main() {
     const account = await getAuth().getUserByEmail(email);
     const profile = (await db.collection('users').doc(account.uid).get()).data() || {};
     const name = `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || email;
-    // A clearance the volunteer already has is left alone.
-    const own = buildVolunteerDocs(docs, account.uid, name);
-    const existing = await db.collection('clearances').doc(account.uid).get();
-    await add(db, own.filter((d) => !(d.collection === 'clearances' && existing.exists)));
+    await add(db, buildVolunteerDocs(docs, account.uid, name));
     console.log(`Samples for ${name} (${email}) added.`);
   }
 }

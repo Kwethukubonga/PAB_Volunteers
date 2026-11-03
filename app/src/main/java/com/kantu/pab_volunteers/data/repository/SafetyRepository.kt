@@ -3,50 +3,10 @@ package com.kantu.pab_volunteers.data.repository
 import com.google.firebase.firestore.Query
 import com.kantu.pab_volunteers.data.firebase.FirestoreManager
 import com.kantu.pab_volunteers.data.model.ActivityFeedback
-import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.Concern
 import com.kantu.pab_volunteers.utils.Constants
 import com.kantu.pab_volunteers.utils.DateUtils
 import kotlinx.coroutines.tasks.await
-
-/** Volunteer clearances. firestore.rules lets a volunteer only ask to be checked; admins decide. */
-class ClearanceRepository {
-
-    private fun clearances() = FirestoreManager.db.collection(Constants.COLLECTION_CLEARANCES)
-
-    suspend fun get(userId: String): Clearance? =
-        clearances().document(userId).get().await().toObject(Clearance::class.java)
-
-    suspend fun request(userId: String, volunteerName: String): Result<Unit> = runCatching {
-        val fields = mapOf(
-            "volunteerName" to volunteerName,
-            "status" to Clearance.STATUS_REQUESTED,
-            "requestedAt" to DateUtils.now()
-        )
-        clearances().document(userId).set(fields).await()
-        Unit
-    }
-
-    /** Withdraws a request, or (for an admin) removes a clearance. */
-    suspend fun remove(userId: String): Result<Unit> = runCatching {
-        clearances().document(userId).delete().await()
-        Unit
-    }
-
-    suspend fun approve(userId: String, volunteerName: String, adminName: String, months: Int): Result<Unit> =
-        runCatching {
-            val now = DateUtils.now()
-            val fields = mapOf(
-                "volunteerName" to volunteerName,
-                "status" to Clearance.STATUS_CLEARED,
-                "clearedAt" to now,
-                "expiresAt" to DateUtils.addMonths(now, months),
-                "checkedBy" to adminName
-            )
-            clearances().document(userId).set(fields).await()
-            Unit
-        }
-}
 
 /** Concerns reported by volunteers. Anyone signed in can send one; only admins can read them. */
 class ConcernRepository {

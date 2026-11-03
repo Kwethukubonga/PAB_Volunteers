@@ -298,6 +298,11 @@
     <string name="settings_change_password">Change password</string>
     <string name="settings_change_password_desc">We\'ll email you a link to choose a new one.</string>
     <string name="settings_change_password_sent">We\'ve sent a link to %1$s. Check your spam folder too.</string>
+    <string name="settings_change_password_sent_title">Check your email</string>
+    <string name="settings_change_password_google_desc">You sign in with Google, so this is done at Google.</string>
+    <string name="settings_change_password_google_explain">You sign in with Google, so Philisa doesn\'t keep a password for you. You can change it in your Google account.</string>
+    <string name="settings_change_password_google_open">Open Google account</string>
+    <string name="action_ok">OK</string>
     <string name="settings_contact">Contact Philisa</string>
     <string name="settings_call">Call Philisa</string>
     <string name="settings_whatsapp">WhatsApp Philisa</string>
@@ -341,7 +346,7 @@
     <string name="notify_activity_full">Activity full: %1$s</string>
     <string name="notify_open_to_see">Open the app to see them.</string>
 
-    <!-- Search, directions, "How did it go?", concerns, clearance and milestones. -->
+    <!-- Search, directions, "How did it go?", concerns and milestones. -->
     <string name="search_activities_hint">Search by activity, place or programme</string>
     <string name="search_volunteers_hint">Search by name, area or volunteer ID</string>
     <string name="search_no_activities">No activities match “%1$s”.</string>
@@ -366,7 +371,6 @@
     <string name="feedback_admin_comment">“%1$s” (%2$s, %3$d/5)</string>
     <string name="action_report_concern">Report a concern</string>
     <string name="concern_title">Report a concern</string>
-    <string name="concern_emergency">If you or someone else is in danger right now, call 112 or 10111. This form is not watched around the clock.</string>
     <string name="concern_intro">Tell Philisa\'s team what is worrying you. Only the admins can read it, and it is sent under your name so they can follow up.</string>
     <string name="concern_about">About: %1$s</string>
     <string name="concern_hint">What happened, or what are you worried about?</string>
@@ -390,26 +394,6 @@
     <string name="concerns_handled_by">Handled by %1$s on %2$s</string>
     <string name="concerns_mark_handled">Mark as handled</string>
     <string name="concerns_mark_handled_confirm">Only mark it as handled once someone has followed it up. It stays on this list as a record.</string>
-    <string name="settings_clearance">Volunteer clearance</string>
-    <string name="clearance_none">Not checked yet. Tap to find out more.</string>
-    <string name="clearance_none_profile">Not checked yet. Ask for a check in Settings.</string>
-    <string name="clearance_requested">Waiting for Philisa to check your documents</string>
-    <string name="clearance_cleared_until">Cleared until %1$s</string>
-    <string name="clearance_expired">Expired. Ask for a new check.</string>
-    <string name="clearance_explain">Some programmes, like work with children, need a police clearance check. Ask to be checked here, then bring your ID and your clearance certificate to the Philisa Centre. An admin will look at them in person; nothing is uploaded.</string>
-    <string name="clearance_ask">Ask to be checked</string>
-    <string name="clearance_asked">Thanks. Bring your documents to the Philisa Centre so an admin can check them.</string>
-    <string name="clearance_waiting_explain">Bring your ID and your clearance certificate to the Philisa Centre. An admin will check them and update this. You can withdraw the request if you change your mind.</string>
-    <string name="clearance_withdraw">Withdraw request</string>
-    <string name="clearance_cleared_explain">Philisa has checked your documents. Your clearance is valid until %1$s.</string>
-    <string name="clearance_admin_none">Not checked. The volunteer hasn\'t asked yet.</string>
-    <string name="clearance_admin_requested">Asked to be checked on %1$s. Mark them as cleared once you\'ve seen their documents.</string>
-    <string name="clearance_admin_cleared">Cleared until %1$s. Checked by %2$s.</string>
-    <string name="clearance_admin_approve">Mark as cleared</string>
-    <string name="clearance_admin_approve_confirm">Only do this after seeing %1$s\'s ID and clearance certificate in person. It lasts %2$d months.</string>
-    <string name="clearance_admin_approved">%1$s is now cleared.</string>
-    <string name="clearance_admin_remove">Remove clearance</string>
-    <string name="clearance_admin_remove_confirm">Remove this volunteer\'s clearance? They will need to be checked again.</string>
     <string name="milestones_heading">Milestones</string>
     <string name="milestone_first_shift">First shift</string>
     <string name="milestone_ten_activities">10 activities</string>
@@ -489,12 +473,9 @@
     <string name="profile_my_activities">My activities</string>
     <string name="profile_tab_upcoming">Upcoming (%1$d)</string>
     <string name="profile_tab_past">Past (%1$d)</string>
-    <string name="clearance_pill_cleared">Cleared</string>
-    <string name="clearance_pill_waiting">Waiting</string>
-    <string name="clearance_pill_expired">Expired</string>
     <string name="settings_emergency_contact">Emergency contact</string>
-    <string name="emergency_contact_none">Not set. Who should \"I need help\" text?</string>
-    <string name="emergency_contact_explain">On the day of an activity, \"I need help\" can text this person where you are. Only you see it.</string>
+    <string name="emergency_contact_none">Not set. Add someone to text if you need help.</string>
+    <string name="emergency_contact_explain">Choose someone you trust. If you tap \"I need help\" on the day of an activity, your phone writes them a message saying where you are. You send it yourself.</string>
     <string name="emergency_contact_name">Their name</string>
     <string name="emergency_contact_phone">Their phone number</string>
     <string name="emergency_contact_error_name">Add their name too.</string>
