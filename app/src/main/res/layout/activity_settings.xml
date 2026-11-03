@@ -92,7 +92,7 @@
                         android:id="@+id/rowEditProfile"
                         layout="@layout/item_settings_row" />
 
-                    <!-- Only for accounts with a password; Google accounts change theirs at Google. -->
+                    <!-- Email accounts get a reset link; Google accounts are sent to Google. -->
                     <View
                         android:id="@+id/dividerChangePassword"
                         style="@style/Widget.PAB.SettingsDivider" />
@@ -123,7 +123,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Safety: emergency contact, clearance and reporting a concern. Volunteers only. -->
+            <!-- Safety: emergency contact and reporting a concern. Volunteers only. -->
             <LinearLayout
                 android:id="@+id/sectionSafety"
                 android:layout_width="match_parent"
@@ -157,14 +157,6 @@
 
                         <View
                             android:id="@+id/dividerEmergencyContact"
-                            style="@style/Widget.PAB.SettingsDivider" />
-
-                        <include
-                            android:id="@+id/rowClearance"
-                            layout="@layout/item_settings_row" />
-
-                        <View
-                            android:id="@+id/dividerClearance"
                             style="@style/Widget.PAB.SettingsDivider" />
 
                         <include

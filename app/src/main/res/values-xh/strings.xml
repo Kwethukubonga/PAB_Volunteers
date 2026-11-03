@@ -247,6 +247,11 @@
     <string name="settings_change_password">Tshintsha igama lokugqithisa</string>
     <string name="settings_change_password_desc">Siza kukuthumelela ikhonkco nge-imeyile ukuze ukhethe elitsha.</string>
     <string name="settings_change_password_sent">Sithumele ikhonkco ku-%1$s. Jonga nakwifolda yespam.</string>
+    <string name="settings_change_password_sent_title">Jonga i-imeyile yakho</string>
+    <string name="settings_change_password_google_desc">Ungena ngeGoogle, ngoko oku kwenziwa kuGoogle.</string>
+    <string name="settings_change_password_google_explain">Ungena ngeGoogle, ngoko iPhilisa ayikugcineli igama lokugqithisa. Ungalitshintsha kwi-akhawunti yakho yeGoogle.</string>
+    <string name="settings_change_password_google_open">Vula i-akhawunti yeGoogle</string>
+    <string name="action_ok">Kulungile</string>
     <string name="settings_contact">Qhagamshelana nePhilisa</string>
     <string name="settings_call">Fowunela iPhilisa</string>
     <string name="settings_whatsapp">Thumela iPhilisa nge-WhatsApp</string>
@@ -301,7 +306,7 @@
     <string name="error_image_preset">Inkonzo yemifanekiso ayikamiselwa ukuthumela kusuka kwi-app.</string>
     <string name="error_image_upload">Umfanekiso awukwazanga kuthunyelwa (ikhowudi %1$d).</string>
 
-    <!-- Search, directions, "How did it go?", concerns, clearance and milestones. -->
+    <!-- Search, directions, "How did it go?", concerns and milestones. -->
     <string name="search_activities_hint">Khangela ngomsebenzi, indawo okanye inkqubo</string>
     <string name="search_volunteers_hint">Khangela ngegama, indawo okanye i-ID yevolontiya</string>
     <string name="search_no_activities">Akukho msebenzi uhambelana no-“%1$s”.</string>
@@ -326,7 +331,6 @@
     <string name="feedback_admin_comment">“%1$s” (%2$s, %3$d/5)</string>
     <string name="action_report_concern">Xela inkxalabo</string>
     <string name="concern_title">Xela inkxalabo</string>
-    <string name="concern_emergency">Ukuba wena okanye omnye umntu usengozini ngoku, tsalela u-112 okanye u-10111. Le fomu ayijongwa imini nobusuku.</string>
     <string name="concern_intro">Xelela iqela lePhilisa into ekukhathazayo. Ngabaphathi kuphela abanokuyifunda, kwaye ithunyelwa ngegama lakho ukuze bakwazi ukulandelela.</string>
     <string name="concern_about">Malunga: %1$s</string>
     <string name="concern_hint">Kwenzeke ntoni, okanye ukhathazwa yintoni?</string>
@@ -350,26 +354,6 @@
     <string name="concerns_handled_by">Isonjululwe ngu-%1$s ngo-%2$s</string>
     <string name="concerns_mark_handled">Phawula njengesonjululweyo</string>
     <string name="concerns_mark_handled_confirm">Yiphawule njengesonjululweyo kuphela xa umntu eyilandelele. Iya kuhlala kolu luhlu njengerekhodi.</string>
-    <string name="settings_clearance">Ukuhlolwa kwevolontiya</string>
-    <string name="clearance_none">Akukahlolwa. Cofa ukuze ufumane ulwazi.</string>
-    <string name="clearance_none_profile">Akukahlolwa. Cela ukuhlolwa kwiiSetingi.</string>
-    <string name="clearance_requested">Ilinde iPhilisa ukuba ihlole amaxwebhu akho</string>
-    <string name="clearance_cleared_until">Uvunyiwe kude kube ngu-%1$s</string>
-    <string name="clearance_expired">Iphelelwe lixesha. Cela ukuhlolwa kwakhona.</string>
-    <string name="clearance_explain">Ezinye iinkqubo, ezifana nomsebenzi nabantwana, zifuna isiqinisekiso samapolisa. Cela ukuhlolwa apha, emva koko uzise i-ID yakho nesatifikethi sakho kwiZiko lePhilisa. Umphathi uya kuzijonga ngokwakhe; akukho nto ifakwayo kwi-app.</string>
-    <string name="clearance_ask">Cela ukuhlolwa</string>
-    <string name="clearance_asked">Enkosi. Zisa amaxwebhu akho kwiZiko lePhilisa ukuze umphathi awahlole.</string>
-    <string name="clearance_waiting_explain">Zisa i-ID yakho nesatifikethi sakho kwiZiko lePhilisa. Umphathi uya kuzihlola aze ahlaziye oku. Ungasirhoxisa isicelo ukuba utshintsha ingqondo.</string>
-    <string name="clearance_withdraw">Rhoxisa isicelo</string>
-    <string name="clearance_cleared_explain">IPhilisa izihlolile amaxwebhu akho. Uvunyiwe kude kube ngu-%1$s.</string>
-    <string name="clearance_admin_none">Akahlolwanga. Ivolontiya alikaceli.</string>
-    <string name="clearance_admin_requested">Licele ukuhlolwa ngo-%1$s. Liphawule njengovunyiweyo emva kokubona amaxwebhu alo.</string>
-    <string name="clearance_admin_cleared">Uvunyiwe kude kube ngu-%1$s. Uhlolwe ngu-%2$s.</string>
-    <string name="clearance_admin_approve">Phawula njengovunyiweyo</string>
-    <string name="clearance_admin_approve_confirm">Yenza oku kuphela emva kokubona i-ID nesatifikethi sika-%1$s ngokwakho. Kuhlala iinyanga ezili-%2$d.</string>
-    <string name="clearance_admin_approved">U-%1$s ngoku uvunyiwe.</string>
-    <string name="clearance_admin_remove">Susa ukuvunywa</string>
-    <string name="clearance_admin_remove_confirm">Susa ukuvunywa kweli volontiya? Kuya kufuneka lihlolwe kwakhona.</string>
     <string name="milestones_heading">Iimpumelelo</string>
     <string name="milestone_first_shift">Ishifti yokuqala</string>
     <string name="milestone_ten_activities">Imisebenzi eli-10</string>
@@ -446,12 +430,9 @@
     <string name="profile_my_activities">Imisebenzi yam</string>
     <string name="profile_tab_upcoming">Ezizayo (%1$d)</string>
     <string name="profile_tab_past">Ezidlulileyo (%1$d)</string>
-    <string name="clearance_pill_cleared">Uvunyiwe</string>
-    <string name="clearance_pill_waiting">Iyalinda</string>
-    <string name="clearance_pill_expired">Iphelelwe</string>
     <string name="settings_emergency_contact">Umntu wexesha likaxakeka</string>
-    <string name="emergency_contact_none">Akumiselwanga. Ngubani ekufuneka \"Ndifuna uncedo\" lumthumelele?</string>
-    <string name="emergency_contact_explain">Ngomhla womsebenzi, \"Ndifuna uncedo\" lungathumela lo mntu umyalezo othi uphi. Nguwe kuphela obonayo.</string>
+    <string name="emergency_contact_none">Akumiselwanga. Yongeza umntu oza kuthunyelwa umyalezo xa ufuna uncedo.</string>
+    <string name="emergency_contact_explain">Khetha umntu omthembayo. Xa ucofa \"Ndifuna uncedo\" ngomhla womsebenzi, ifowuni yakho ibhala umyalezo othi uphi. Uwuthumela ngokwakho.</string>
     <string name="emergency_contact_name">Igama labo</string>
     <string name="emergency_contact_phone">Inombolo yabo yefowuni</string>
     <string name="emergency_contact_error_name">Yongeza negama labo.</string>

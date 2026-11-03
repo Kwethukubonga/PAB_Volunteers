@@ -247,6 +247,11 @@
     <string name="settings_change_password">Verander wagwoord</string>
     <string name="settings_change_password_desc">Ons e-pos vir jou \'n skakel om \'n nuwe een te kies.</string>
     <string name="settings_change_password_sent">Ons het \'n skakel na %1$s gestuur. Kyk ook in jou gemorspos.</string>
+    <string name="settings_change_password_sent_title">Kyk in jou e-pos</string>
+    <string name="settings_change_password_google_desc">Jy meld aan met Google, so dit word by Google gedoen.</string>
+    <string name="settings_change_password_google_explain">Jy meld aan met Google, so Philisa hou nie \'n wagwoord vir jou nie. Jy kan dit in jou Google-rekening verander.</string>
+    <string name="settings_change_password_google_open">Maak Google-rekening oop</string>
+    <string name="action_ok">OK</string>
     <string name="settings_contact">Kontak Philisa</string>
     <string name="settings_call">Bel Philisa</string>
     <string name="settings_whatsapp">WhatsApp Philisa</string>
@@ -301,7 +306,7 @@
     <string name="error_image_preset">Die prentdiens is nog nie vir oplaai vanaf die app opgestel nie.</string>
     <string name="error_image_upload">Die prent kon nie opgelaai word nie (kode %1$d).</string>
 
-    <!-- Search, directions, "How did it go?", concerns, clearance and milestones. -->
+    <!-- Search, directions, "How did it go?", concerns and milestones. -->
     <string name="search_activities_hint">Soek volgens aktiwiteit, plek of program</string>
     <string name="search_volunteers_hint">Soek volgens naam, area of vrywilliger-ID</string>
     <string name="search_no_activities">Geen aktiwiteite pas by “%1$s” nie.</string>
@@ -326,7 +331,6 @@
     <string name="feedback_admin_comment">“%1$s” (%2$s, %3$d/5)</string>
     <string name="action_report_concern">Rapporteer \'n bekommernis</string>
     <string name="concern_title">Rapporteer \'n bekommernis</string>
-    <string name="concern_emergency">As jy of iemand anders nou in gevaar is, bel 112 of 10111. Hierdie vorm word nie dag en nag dopgehou nie.</string>
     <string name="concern_intro">Vertel Philisa se span wat jou bekommer. Net die administrateurs kan dit lees, en dit word onder jou naam gestuur sodat hulle kan opvolg.</string>
     <string name="concern_about">Oor: %1$s</string>
     <string name="concern_hint">Wat het gebeur, of waaroor is jy bekommerd?</string>
@@ -350,26 +354,6 @@
     <string name="concerns_handled_by">Hanteer deur %1$s op %2$s</string>
     <string name="concerns_mark_handled">Merk as hanteer</string>
     <string name="concerns_mark_handled_confirm">Merk dit eers as hanteer wanneer iemand dit opgevolg het. Dit bly op hierdie lys as \'n rekord.</string>
-    <string name="settings_clearance">Vrywilliger-klaring</string>
-    <string name="clearance_none">Nog nie nagegaan nie. Tik om meer uit te vind.</string>
-    <string name="clearance_none_profile">Nog nie nagegaan nie. Vra vir \'n nagaan in Instellings.</string>
-    <string name="clearance_requested">Wag vir Philisa om jou dokumente na te gaan</string>
-    <string name="clearance_cleared_until">Geklaar tot %1$s</string>
-    <string name="clearance_expired">Verval. Vra vir \'n nuwe nagaan.</string>
-    <string name="clearance_explain">Sommige programme, soos werk met kinders, vereis \'n polisieklaring. Vra hier om nagegaan te word en bring dan jou ID en jou klaringsertifikaat na die Philisa-sentrum. \'n Administrateur sal dit persoonlik bekyk; niks word opgelaai nie.</string>
-    <string name="clearance_ask">Vra om nagegaan te word</string>
-    <string name="clearance_asked">Dankie. Bring jou dokumente na die Philisa-sentrum sodat \'n administrateur dit kan nagaan.</string>
-    <string name="clearance_waiting_explain">Bring jou ID en jou klaringsertifikaat na die Philisa-sentrum. \'n Administrateur sal dit nagaan en dit hier bywerk. Jy kan die versoek terugtrek as jy van plan verander.</string>
-    <string name="clearance_withdraw">Trek versoek terug</string>
-    <string name="clearance_cleared_explain">Philisa het jou dokumente nagegaan. Jou klaring is geldig tot %1$s.</string>
-    <string name="clearance_admin_none">Nie nagegaan nie. Die vrywilliger het nog nie gevra nie.</string>
-    <string name="clearance_admin_requested">Het op %1$s gevra om nagegaan te word. Merk as geklaar sodra jy hul dokumente gesien het.</string>
-    <string name="clearance_admin_cleared">Geklaar tot %1$s. Nagegaan deur %2$s.</string>
-    <string name="clearance_admin_approve">Merk as geklaar</string>
-    <string name="clearance_admin_approve_confirm">Doen dit net nadat jy %1$s se ID en klaringsertifikaat persoonlik gesien het. Dit geld vir %2$d maande.</string>
-    <string name="clearance_admin_approved">%1$s is nou geklaar.</string>
-    <string name="clearance_admin_remove">Verwyder klaring</string>
-    <string name="clearance_admin_remove_confirm">Verwyder hierdie vrywilliger se klaring? Hulle sal weer nagegaan moet word.</string>
     <string name="milestones_heading">Mylpale</string>
     <string name="milestone_first_shift">Eerste skof</string>
     <string name="milestone_ten_activities">10 aktiwiteite</string>
@@ -446,12 +430,9 @@
     <string name="profile_my_activities">My aktiwiteite</string>
     <string name="profile_tab_upcoming">Komende (%1$d)</string>
     <string name="profile_tab_past">Verby (%1$d)</string>
-    <string name="clearance_pill_cleared">Geklaar</string>
-    <string name="clearance_pill_waiting">Wag</string>
-    <string name="clearance_pill_expired">Verval</string>
     <string name="settings_emergency_contact">Noodkontak</string>
-    <string name="emergency_contact_none">Nie gestel nie. Vir wie moet \"Ek het hulp nodig\" \'n boodskap stuur?</string>
-    <string name="emergency_contact_explain">Op die dag van \'n aktiwiteit kan \"Ek het hulp nodig\" hierdie persoon laat weet waar jy is. Net jy sien dit.</string>
+    <string name="emergency_contact_none">Nie gestel nie. Voeg iemand by om te laat weet as jy hulp nodig het.</string>
+    <string name="emergency_contact_explain">Kies iemand wat jy vertrou. As jy op die dag van \'n aktiwiteit op \"Ek het hulp nodig\" tik, skryf jou foon vir hulle \'n boodskap wat sê waar jy is. Jy stuur dit self.</string>
     <string name="emergency_contact_name">Hul naam</string>
     <string name="emergency_contact_phone">Hul foonnommer</string>
     <string name="emergency_contact_error_name">Voeg ook hul naam by.</string>

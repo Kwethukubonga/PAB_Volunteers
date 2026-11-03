@@ -120,7 +120,7 @@ All 17 requirements are implemented. Each one below names the screen it lives on
 | PV-FR19 | Get directions to an activity. | Volunteer | Activity details → Directions | `utils/Directions` | `DirectionsTest`; the maps app opening is checked by hand |
 | PV-FR20 | Say how an activity went; admins see the ratings and comments. | Both | Activity details (after it); Admin → Sign-ups | `FeedbackRepository`, `FeedbackRules`, `FeedbackSummary` | `SafetyRulesTest` (rating 1 to 5, length, average to one decimal); **Rules** *only someone who was signed up*, *not before the day*, *not in someone else name* |
 | PV-FR21 | Report a concern to Philisa's admins, who mark it handled. | Both | Activity details, Settings → Safety; Admin → Concerns | `ReportConcernActivity`, `ConcernsFragment`, `ConcernRepository` | `SafetyRulesTest` (empty, too long); **Rules** *only admins read concerns*, *not in someone else name*, *never deleted* |
-| PV-FR22 | Ask for a clearance check; admins record it after seeing documents in person. | Both | Settings → Safety, Profile; Admin → Volunteer | `ClearanceRepository`, `ClearanceState` | `SafetyRulesTest` (requested, cleared, expired, lasts a year); **Rules** *a volunteer can only ask*, *can't clear themselves* |
+| PV-FR22 | *Withdrawn: the clearance check was taken out of the app.* | | | | |
 | PV-FR23 | See milestones for time given. | Volunteer | Profile | `Milestone` | `MilestonesTest` (first shift, 10 activities, 25 hours, 3 programmes, progress) |
 | PV-FR24 | Get help on the day of an activity: call 112, 10111 or Philisa, or text an emergency contact where you are. | Volunteer | Activity details → "I need help"; Settings → Safety → Emergency contact | `NeedHelpSheet`, `ActivityIntents`, `EmergencyContactRules` | `SafetyRulesTest` (emergency contact needs a name and a working number); **Rules** *only on your own record*. Dialling and texting open the phone's own apps and are checked by hand |
 | PV-FR25 | Be reminded before a joined activity, an hour or a day before. | Volunteer | Settings → Notifications → Reminders | `ReminderRules`, `UpdatesWorker` | `PlannerHelpersTest` (due inside the chosen time, not when off, not twice, not once started) |
@@ -176,7 +176,7 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 | **Activities** | Search, browse or save favourites, see spots left, and join or leave in one tap. Activity details give directions, and afterwards ask "How did it go?" |
 | **Schedule** | Upcoming and completed activities. Completed ones count towards hours. |
 | **Community** | Announcements from PAB, with pictures and a thumbs up |
-| **Profile** | A colour of their own, volunteer ID and time volunteering, clearance status, milestones (first shift, 10 activities, 25 hours, 3 programmes), and their activities as Upcoming and Past with "in 3 days" style times. Edit any time; the phone number is spaced as you type. |
+| **Profile** | A colour of their own, volunteer ID and time volunteering, how Philisa can reach them, milestones (first shift, 10 activities, 25 hours, 3 programmes), and their activities as Upcoming and Past with "in 3 days" style times. Edit any time; the phone number is spaced as you type. |
 
 ### 6.2 Administrators
 
@@ -184,16 +184,16 @@ Both roles use the same sign-in and are taken to their own area. These permissio
 |-----|--------------|
 | **Overview** | Totals, recent volunteers and quick actions, including **Concerns** reported by volunteers |
 | **Activities** | Create, edit, publish, hide or delete activities, and see who signed up and how it went |
-| **Volunteers** | Search and view everyone's details, and record a volunteer's clearance after seeing their documents. Admins can't remove volunteers. |
+| **Volunteers** | Search and view everyone's details. Admins can't remove volunteers. |
 | **Posts** | Create and publish announcements, with an optional picture |
 
 ### 6.3 Everyone
 
 - **Sign-in:** Google or email, with password reset.
-- **Settings:** rows grouped into Account (how you signed in, change password for email accounts), Appearance (theme and language as lists), Notifications (tap anywhere on a row to switch it), and About (contact Philisa, app version). Sign out and Delete account sit at the bottom, away from everyday settings.
+- **Settings:** rows grouped into Account (how you signed in, change password: a reset link for email accounts, Google's own page for Google accounts), Appearance (theme and language as lists), Notifications (tap anywhere on a row to switch it), and About (contact Philisa, app version). Sign out and Delete account sit at the bottom, away from everyday settings.
 - **Notifications:** a background check about every 15 minutes. Volunteers hear about new activities and announcements, and get a reminder an hour or a day before an activity they joined. Admins hear when an activity is full.
 - **Fingerprint sign-in:** turned on in Settings → Account, it puts "Sign in as Thandi" on the Welcome screen, so coming back is one touch. An email account's password is kept on the phone only, encrypted with an Android Keystore key that just a fresh fingerprint check can open, and that Android destroys if a fingerprint is added. A Google account needs no secret: Google signs back in after the fingerprint. Under it, "Also lock when the app reopens" asks for the fingerprint again after 30 seconds away (suggested for admins, whose phones show volunteers' details).
-- **Safety:** an emergency contact for "I need help" on the day of an activity, a clearance check, and reporting a concern. Emergency numbers are shown first.
+- **Safety:** an emergency contact for "I need help" on the day of an activity, and reporting a concern.
 - **Offline:** a slim bar across the top of every screen says when there is no connection, before anything is tapped. Recently loaded data stays readable; joining or saving needs a connection.
 
 ---
@@ -397,14 +397,6 @@ erDiagram
         list thumbsUpBy FK
     }
 
-    CLEARANCES {
-        string userId PK "and FK to USERS"
-        string status "requested or cleared"
-        long requestedAt
-        long expiresAt
-        string checkedBy
-    }
-
     CONCERNS {
         string id PK
         string reportedBy FK
@@ -422,7 +414,6 @@ erDiagram
         string comment
     }
 
-    USERS ||--o| CLEARANCES : "is checked"
     USERS ||--o{ CONCERNS : "reports"
     ACTIVITIES ||--o{ ACTIVITY_FEEDBACK : "gets"
     USERS ||--o{ ACTIVITY_FEEDBACK : "gives"
@@ -435,7 +426,6 @@ erDiagram
 | Users → Activities / Announcements | One to many | An admin creates many of each |
 | Users ↔ Announcements | Many to many | Thumbs up, stored in `thumbsUpBy` |
 | Users ↔ Activities | Many to many | Favourites, stored in `favouriteActivityIds` |
-| Users → Clearances | One to zero or one | A volunteer's background check, kept apart from their profile so a profile save can never overwrite an admin's decision |
 | Users → Concerns | One to many | Concerns a volunteer has reported; only admins can read them |
 | Activities → Feedback | One to many | One rating per volunteer who was there, saved as `activityId_userId` |
 
@@ -462,7 +452,6 @@ erDiagram
 - Joining changes the spot count by exactly one, together with the volunteer's own sign-up, and never above the total.
 - Volunteers can only add or remove their own thumbs up.
 - An emergency contact is two fields on the volunteer's own record, which only they and admins can read.
-- A volunteer can only **ask** for a clearance check; only an admin can mark someone as cleared.
 - **Concerns** can be sent by anyone signed in, as themselves, and read only by admins. They are never deleted.
 - **Feedback** only comes from someone who was signed up, once the activity's day has come, rated 1 to 5.
 
@@ -500,7 +489,7 @@ Open the folder in Android Studio, let Gradle sync, and press **Run**.
 
 **Making an admin:** sign up in the app, change that user's `role` in the Firestore `users` collection from `volunteer` to `admin`, and sign in again.
 
-**Sample data:** `tools/seed/seed.js` adds one activity and one announcement per programme, plus activities today, tomorrow and in the past and one draft. With `--volunteer <email>` it also signs that volunteer up, rates a past activity, asks for a clearance and sends a sample concern, so every screen has something to show. `--remove` takes all of it out again. Instructions are at the top of the file. It needs a Firebase service account key, which must never be committed.
+**Sample data:** `tools/seed/seed.js` adds one activity and one announcement per programme, plus activities today, tomorrow and in the past and one draft. With `--volunteer <email>` it also signs that volunteer up, rates a past activity and sends a sample concern, so every screen has something to show. `--remove` takes all of it out again. Instructions are at the top of the file. It needs a Firebase service account key, which must never be committed.
 
 ---
 
@@ -540,8 +529,8 @@ GitHub Actions runs on every push and Pull Request to `develop` and `master`. Th
 
 | Job | What It Proves |
 |-----|----------------|
-| **Unit tests** (189, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, clearance and feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast, and awkward input: names longer than any real name, emoji in a phone field, hundreds of activities at once |
-| **Security rules tests** (68, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, clearances, concerns and feedback |
+| **Unit tests** (185, JUnit) | Dates and hours, spots left, when an activity has finished, error messages, SA phone numbers, password rules, where sign-in leads, what counts as a new notification, what deleting an account would lose, search, milestones, feedback rules, phone spacing, the week planner, reminders, the app lock, fingerprint sign-in, avatar colour contrast, and awkward input: names longer than any real name, emoji in a phone field, hundreds of activities at once |
+| **Security rules tests** (62, Firestore emulator) | Drafts hidden from volunteers, no overbooking, no joining twice, joining and leaving keep the spot count right, no editing other people's data or favourites, no self-promotion to admin, only admins see who signed up, concerns and feedback |
 | **Lint** | Code problems and missing translations |
 | **Build APK** | Runs only when the three checks above pass. The APK can be downloaded for 30 days. |
 | **Deploy** | On a merge into `master`: puts that build's APK and the download page on Firebase Hosting, and publishes `firestore.rules`, so the live rules are the ones the tests above just passed against (section 14.3) |

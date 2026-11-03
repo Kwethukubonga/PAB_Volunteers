@@ -11,17 +11,14 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.data.model.ActivityFeedback
 import com.kantu.pab_volunteers.data.model.ActivitySignup
 import com.kantu.pab_volunteers.data.model.Announcement
-import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.data.model.Concern
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
-import com.kantu.pab_volunteers.data.repository.ClearanceRepository
 import com.kantu.pab_volunteers.data.repository.ConcernRepository
 import com.kantu.pab_volunteers.data.repository.FeedbackRepository
 import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
-import com.kantu.pab_volunteers.ui.safety.ClearanceState
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.Network
 import com.kantu.pab_volunteers.utils.UiText
@@ -39,7 +36,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val activityRepository = ActivityRepository()
     private val announcementRepository = AnnouncementRepository()
     private val signupRepository = SignupRepository()
-    private val clearanceRepository = ClearanceRepository()
     private val concernRepository = ConcernRepository()
     private val feedbackRepository = FeedbackRepository()
 
@@ -62,8 +58,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
     private val _feedbackForActivity = MutableLiveData<List<ActivityFeedback>>(emptyList())
     val feedbackForActivity: LiveData<List<ActivityFeedback>> = _feedbackForActivity
 
-    private val _clearance = MutableLiveData<Clearance?>()
-    val clearance: LiveData<Clearance?> = _clearance
 
     private val _concerns = MutableLiveData<List<Concern>>(emptyList())
     val concerns: LiveData<List<Concern>> = _concerns
@@ -230,38 +224,6 @@ class AdminViewModel(app: Application) : AndroidViewModel(app) {
             announcementRepository.deleteAnnouncement(announcementId)
                 .onFailure { _message.value = ErrorMessages.textFor(it) }
             refresh()
-        }
-    }
-
-    // ---- clearances ------------------------------------------------------
-
-    fun loadClearance(uid: String) {
-        _clearance.value = null
-        viewModelScope.launch {
-            runCatching { clearanceRepository.get(uid) }
-                .onSuccess { _clearance.value = it }
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
-        }
-    }
-
-    /** After seeing the documents in person. Lasts [ClearanceState.VALID_MONTHS] months. */
-    fun approveClearance(volunteer: User) {
-        if (offline()) return
-        val admin = FirebaseAuthManager.currentUser?.email.orEmpty()
-        viewModelScope.launch {
-            clearanceRepository.approve(volunteer.uid, volunteer.fullName, admin, ClearanceState.VALID_MONTHS)
-                .onSuccess { _message.value = UiText.Res(R.string.clearance_admin_approved, listOf(volunteer.firstName)) }
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
-            loadClearance(volunteer.uid)
-        }
-    }
-
-    fun removeClearance(uid: String) {
-        if (offline()) return
-        viewModelScope.launch {
-            clearanceRepository.remove(uid)
-                .onFailure { _message.value = ErrorMessages.textFor(it) }
-            loadClearance(uid)
         }
     }
 

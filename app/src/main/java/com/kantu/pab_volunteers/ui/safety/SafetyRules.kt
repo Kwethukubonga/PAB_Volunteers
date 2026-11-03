@@ -3,29 +3,7 @@ package com.kantu.pab_volunteers.ui.safety
 import androidx.annotation.StringRes
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.ActivityFeedback
-import com.kantu.pab_volunteers.data.model.Clearance
 import com.kantu.pab_volunteers.utils.PhoneNumber
-
-/** Where a volunteer's background check stands, as Settings, Profile and the admin show it. */
-enum class ClearanceState {
-    NONE,
-    REQUESTED,
-    CLEARED,
-    EXPIRED;
-
-    companion object {
-        /** How long a clearance lasts once an admin has checked the documents. */
-        const val VALID_MONTHS = 12
-
-        fun of(clearance: Clearance?, now: Long): ClearanceState = when {
-            clearance == null -> NONE
-            clearance.status == Clearance.STATUS_REQUESTED -> REQUESTED
-            clearance.status == Clearance.STATUS_CLEARED && clearance.expiresAt > now -> CLEARED
-            clearance.status == Clearance.STATUS_CLEARED -> EXPIRED
-            else -> NONE
-        }
-    }
-}
 
 /** Checks on a concern before it is sent. The rules check the same length limit on the server. */
 object ConcernRules {

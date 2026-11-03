@@ -13,7 +13,6 @@ class AccountRepository {
 
     private val db = FirestoreManager.db
     private val signupRepository = SignupRepository()
-    private val clearanceRepository = ClearanceRepository()
     private val feedbackRepository = FeedbackRepository()
 
     /**
@@ -33,9 +32,8 @@ class AccountRepository {
                 signupRepository.leave(signup).getOrThrow()
             }
 
-            // Their own clearance and feedback go too. Best effort: neither can exist unless the
-            // rules allowing them are published, and a refusal must not stop the account going.
-            runCatching { clearanceRepository.remove(user.uid) }
+            // Their own feedback goes too. Best effort: it can't exist unless the rules allowing it
+            // are published, and a refusal must not stop the account going.
             runCatching {
                 feedbackRepository.getMineAll(user.uid).forEach { feedbackRepository.delete(it.id) }
             }
