@@ -68,7 +68,7 @@ jobs:
 
       - name: Keep the test report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: unit-test-report
           path: app/build/reports/tests/testDebugUnitTest/
@@ -105,7 +105,7 @@ jobs:
 
       - name: Keep the lint report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lint-report
           path: app/build/reports/lint-results-debug.html
@@ -172,7 +172,7 @@ jobs:
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Publish the debug APK
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pab-volunteers-debug
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -252,7 +252,7 @@ jobs:
 
       - name: Publish the release APK
         if: steps.signing.outputs.ready == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pab-volunteers-release
           path: app/build/outputs/apk/release/app-release.apk
