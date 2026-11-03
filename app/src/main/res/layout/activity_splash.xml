@@ -8,6 +8,7 @@
     android:padding="@dimen/spacing_xl">
 
     <ImageView
+        android:id="@+id/ivLogo"
         android:layout_width="132dp"
         android:layout_height="132dp"
         android:adjustViewBounds="true"
@@ -15,6 +16,7 @@
         android:src="@drawable/logo_philisa" />
 
     <TextView
+        android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_lg"
@@ -26,6 +28,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/tvSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_xs"

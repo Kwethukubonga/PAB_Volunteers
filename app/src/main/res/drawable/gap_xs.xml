@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An empty gap between children of a row, so the first and last line up with the screen edge. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <size
+        android:width="@dimen/spacing_xs"
+        android:height="@dimen/spacing_xs" />
+    <solid android:color="@android:color/transparent" />
+</shape>

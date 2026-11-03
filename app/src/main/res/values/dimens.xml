@@ -6,6 +6,11 @@
     <dimen name="spacing_lg">24dp</dimen>
     <dimen name="spacing_xl">32dp</dimen>
 
+    <!-- The phone comes first: a 16dp edge, as Material sets for phones, and 16dp inside cards,
+         so text gets the width. Tablets keep their wider values (values-sw600dp). -->
+    <dimen name="screen_gutter">16dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+
     <dimen name="corner_radius_sm">12dp</dimen>
     <dimen name="corner_radius_md">18dp</dimen>
     <dimen name="corner_radius_lg">26dp</dimen>
@@ -20,15 +25,43 @@
     <dimen name="avatar_size_lg">88dp</dimen>
     <dimen name="avatar_size_sm">44dp</dimen>
     <dimen name="button_height">52dp</dimen>
+
+    <!-- The introduction draws its dots and button over the photograph, so each page keeps
+         this much clear at the bottom for them. -->
+    <!-- The phone the tour holds up. The image height is the width divided by the shape of
+         a 1080x2400 screen, so it fills the card edge to edge and the card clips the rest. -->
+    <dimen name="intro_phone_width">240dp</dimen>
+    <dimen name="intro_phone_radius">28dp</dimen>
+    <!-- The dots and the button are drawn over the pager, so each page keeps this much
+         clear at the bottom and the phone is cut off above them rather than behind them. -->
+    <dimen name="intro_controls_room">150dp</dimen>
+    <!-- Clears the Skip button in the top corner, so a long heading cannot run into it. -->
+    <dimen name="intro_title_top">72dp</dimen>
+    <dimen name="intro_dot_size">8dp</dimen>
+    <dimen name="intro_dot_gap">5dp</dimen>
     <!-- Smallest a tappable thing may be, from the Android accessibility guidance. -->
     <dimen name="touch_target_min">48dp</dimen>
-    <!-- Widest a content column gets. Phones are narrower than this, so it only
-         takes effect on tablets, where a full width row looks stretched. -->
-    <dimen name="content_max_width">640dp</dimen>
+    <dimen name="offline_banner_min_height">32dp</dimen>
+    <!-- One row in Settings: tall enough for a title and a value on two lines. -->
+    <dimen name="settings_row_min_height">56dp</dimen>
+    <!-- Lines a choice up under its row title: the row padding, the icon and the gap after it. -->
+    <dimen name="settings_choice_inset">56dp</dimen>
     <!-- Breathing room either side of a card. Only matters once cards sit two abreast. -->
     <dimen name="card_gutter">0dp</dimen>
     <!-- Picture on an announcement. Tall enough to read at a glance. -->
     <dimen name="announcement_image_height">280dp</dimen>
     <dimen name="stroke_normal">1dp</dimen>
     <dimen name="stroke_selected">2dp</dimen>
+    <!-- The Home header leaves this much room for the next-activity card to sit over it. -->
+    <dimen name="home_card_overlap_space">40dp</dimen>
+    <dimen name="home_card_overlap">-24dp</dimen>
+    <!-- The soft circles in the corner of the Home card; larger on tablets so they keep scale. -->
+    <dimen name="home_circle_large">110dp</dimen>
+    <dimen name="home_circle_small">60dp</dimen>
+    <!-- A milestone badge on Profile, two to a row, all the same height. -->
+    <dimen name="milestone_min_height">72dp</dimen>
+    <dimen name="milestone_icon_size">40dp</dimen>
+    <!-- A standard top bar on detail screens (E10). -->
+    <dimen name="top_bar_height">56dp</dimen>
+    <dimen name="details_photo_height">160dp</dimen>
 </resources>

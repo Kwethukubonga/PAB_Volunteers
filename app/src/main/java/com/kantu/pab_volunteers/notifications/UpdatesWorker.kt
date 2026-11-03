@@ -9,9 +9,10 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
-import com.kantu.pab_volunteers.data.model.Activity
+import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.ActivityRepository
 import com.kantu.pab_volunteers.data.repository.AnnouncementRepository
+import com.kantu.pab_volunteers.data.repository.SignupRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
 import com.kantu.pab_volunteers.utils.DateUtils
 import kotlinx.coroutines.CancellationException
@@ -35,7 +36,10 @@ class UpdatesWorker(
             val state = UpdateState(applicationContext, uid)
             when {
                 user.isAdmin -> checkFullActivities(state)
-                user.profileComplete -> checkNewPosts(state)
+                user.profileComplete -> {
+                    checkNewPosts(user, state)
+                    checkReminders(uid, state)
+                }
             }
             Result.success()
         } catch (e: CancellationException) {
@@ -45,7 +49,7 @@ class UpdatesWorker(
         }
     }
 
-    private suspend fun checkNewPosts(state: UpdateState) {
+    private suspend fun checkNewPosts(user: User, state: UpdateState) {
         val now = DateUtils.now()
         // The first check only records the starting point, so nothing old shows up as new.
         if (state.startedAt == 0L) {
@@ -56,22 +60,31 @@ class UpdatesWorker(
 
         // Looks back a little further than the last check, in case the admin's phone clock is
         // behind. The seen lists stop anything being announced twice.
-        val since = state.lastCheck - OVERLAP_MILLIS
-        val activities = ActivityRepository().getPublishedSince(since)
-            .filter { it.publishedAt > state.startedAt && it.endsAtMillis > now }
-        val announcements = AnnouncementRepository().getPublishedSince(since)
-            .filter { it.publishedAt > state.startedAt }
+        val since = state.lastCheck - UpdateRules.OVERLAP_MILLIS
+        val activities = UpdateRules.freshActivities(
+            ActivityRepository().getPublishedSince(since), state.startedAt, now
+        )
+        val announcements = UpdateRules.freshAnnouncements(
+            AnnouncementRepository().getPublishedSince(since), state.startedAt
+        )
 
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.NEW_ACTIVITIES)) {
+            // Everything is still marked as seen below, so turning this off later does not
+            // bring back a pile of activities the volunteer has already missed.
+            val wanted = if (onlyMyProgrammes()) {
+                UpdateRules.inChosenProgrammes(activities, user.programmeInterests)
+            } else {
+                activities
+            }
             Notifications.showNewActivities(
                 applicationContext,
-                activities.filter { it.id !in state.seenActivities }
+                UpdateRules.notShownYet(wanted, state.seenActivities) { it.id }
             )
         }
         if (NotificationSettings.isOn(applicationContext, NotificationSettings.ANNOUNCEMENTS)) {
             Notifications.showAnnouncements(
                 applicationContext,
-                announcements.filter { it.id !in state.seenAnnouncements }
+                UpdateRules.notShownYet(announcements, state.seenAnnouncements) { it.id }
             )
         }
 
@@ -80,15 +93,31 @@ class UpdatesWorker(
         state.lastCheck = now
     }
 
+    private fun onlyMyProgrammes(): Boolean = NotificationSettings.isOn(
+        applicationContext, NotificationSettings.ONLY_MY_PROGRAMMES, whenUnset = false
+    )
+
+    /**
+     * Reminds a volunteer before an activity they joined, at the time chosen in Settings. Uses
+     * the details saved with the sign-up, so it still works if the activity is later hidden.
+     */
+    private suspend fun checkReminders(uid: String, state: UpdateState) {
+        val lead = NotificationSettings.reminderLead(applicationContext)
+        if (lead == ReminderLead.OFF) return
+        val joined = SignupRepository().getMySignups(uid).map { it.asActivity() }
+        val now = DateUtils.now()
+        val due = ReminderRules.due(joined, now, lead, state.remindedActivities)
+        Notifications.showReminders(applicationContext, due)
+        // Only what is still to come is kept, so the list doesn't grow for ever.
+        val stillToCome = joined.filter { it.startsAtMillis > now }.map { it.id }.toSet()
+        state.remindedActivities = (state.remindedActivities + due.map { it.id }).intersect(stillToCome)
+    }
+
     private suspend fun checkFullActivities(state: UpdateState) {
         val now = DateUtils.now()
-        val full = ActivityRepository().getActivitiesFrom(DateUtils.startOfDay(now))
-            .filter {
-                it.status == Activity.STATUS_PUBLISHED &&
-                    it.totalSpots > 0 &&
-                    it.filledSpots >= it.totalSpots &&
-                    it.endsAtMillis > now
-            }
+        val full = UpdateRules.fullActivities(
+            ActivityRepository().getActivitiesFrom(DateUtils.startOfDay(now)), now
+        )
 
         // Activities already full on the first check are the starting point, not news.
         if (state.fullChecked &&
@@ -96,7 +125,7 @@ class UpdatesWorker(
         ) {
             Notifications.showFullActivities(
                 applicationContext,
-                full.filter { it.id !in state.fullActivities }
+                UpdateRules.notShownYet(full, state.fullActivities) { it.id }
             )
         }
         state.fullActivities = full.map { it.id }.toSet()
@@ -105,7 +134,6 @@ class UpdatesWorker(
 
     companion object {
         private const val WORK_NAME = "pab_updates"
-        private const val OVERLAP_MILLIS = 6L * 60 * 60 * 1000
 
         /** Called when a signed in person opens the app. Does nothing if already scheduled. */
         fun schedule(context: Context) {
@@ -154,4 +182,8 @@ private class UpdateState(context: Context, uid: String) {
     var fullChecked: Boolean
         get() = prefs.getBoolean("full_checked", false)
         set(value) = prefs.edit().putBoolean("full_checked", value).apply()
+
+    var remindedActivities: Set<String>
+        get() = prefs.getStringSet("reminded_activities", emptySet()).orEmpty()
+        set(value) = prefs.edit().putStringSet("reminded_activities", value).apply()
 }

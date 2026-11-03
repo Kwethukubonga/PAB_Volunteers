@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.ItemAdminActivityBinding
+import com.kantu.pab_volunteers.utils.diffUpdate
 
 class ManageActivityAdapter(
     private var items: List<Activity>,
@@ -60,7 +61,8 @@ class ManageActivityAdapter(
     override fun getItemCount(): Int = items.size
 
     fun submitList(newItems: List<Activity>) {
+        val old = items
         items = newItems
-        notifyDataSetChanged()
+        diffUpdate(old, newItems) { a, b -> a.id == b.id }
     }
 }

@@ -12,14 +12,31 @@ object NotificationSettings {
     const val NEW_ACTIVITIES = "notify_new_activities"
     const val ANNOUNCEMENTS = "notify_announcements"
     const val ACTIVITY_FULL = "notify_activity_full"
+    const val ONLY_MY_PROGRAMMES = "notify_only_my_programmes"
 
     private const val PREFS = "pab_settings"
     private const val KEY_PERMISSION_ASKED = "notification_permission_asked"
+    private const val KEY_REMINDER_LEAD = "reminder_lead"
 
-    fun isOn(context: Context, key: String): Boolean = prefs(context).getBoolean(key, true)
+    /**
+     * Whether a kind of notification is wanted. Most start switched on, so [whenUnset] is
+     * true unless a setting would take something away by default.
+     */
+    fun isOn(context: Context, key: String, whenUnset: Boolean = true): Boolean =
+        prefs(context).getBoolean(key, whenUnset)
 
     fun set(context: Context, key: String, on: Boolean) {
         prefs(context).edit().putBoolean(key, on).apply()
+    }
+
+    /** How long before a joined activity the reminder comes. A day before, until changed. */
+    fun reminderLead(context: Context): ReminderLead {
+        val saved = prefs(context).getString(KEY_REMINDER_LEAD, ReminderLead.DAY.name)
+        return ReminderLead.values().firstOrNull { it.name == saved } ?: ReminderLead.DAY
+    }
+
+    fun setReminderLead(context: Context, lead: ReminderLead) {
+        prefs(context).edit().putString(KEY_REMINDER_LEAD, lead.name).apply()
     }
 
     /** Android 13 and newer need the person's permission before any notification shows. */

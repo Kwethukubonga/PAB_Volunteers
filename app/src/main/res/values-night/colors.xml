@@ -9,7 +9,9 @@
     <color name="divider">#34303D</color>
 
     <color name="text_primary">#F4F4F5</color>
-    <color name="text_secondary">#A1A1AA</color>
+    <!-- Carries the brand's hue rather than a blue-grey one: 256° against the purple's 263°,
+         where the plain zinc it replaced sat at 240°. 6.96:1 on a card. -->
+    <color name="text_secondary">#A8A2B8</color>
 
     <color name="status_success_bg">#0F3D2E</color>
     <color name="status_success_text">#6EE7B7</color>
@@ -17,7 +19,8 @@
     <color name="status_info_bg">#0C3440</color>
     <color name="status_info_text">#67E8F9</color>
     <color name="status_neutral_bg">#2A2730</color>
-    <color name="status_neutral_text">#D1D5DB</color>
+    <!-- Tinted to match its own background, which was already lavender. 9.73:1 on it. -->
+    <color name="status_neutral_text">#D5D0E0</color>
 
     <color name="tile_lavender">#2E2350</color>
 </resources>

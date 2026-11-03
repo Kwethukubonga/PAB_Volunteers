@@ -1,12 +1,11 @@
 package com.kantu.pab_volunteers.data.repository
 
+import com.google.firebase.auth.AuthCredential
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.firebase.FirestoreManager
 import com.kantu.pab_volunteers.utils.AppError
 import com.kantu.pab_volunteers.utils.Constants
-import com.kantu.pab_volunteers.utils.DateUtils
-import com.kantu.pab_volunteers.utils.RecentSignInRequired
 import kotlinx.coroutines.tasks.await
 
 /** Removing an account means clearing the person's own data, then the sign-in itself. */
@@ -14,22 +13,29 @@ class AccountRepository {
 
     private val db = FirestoreManager.db
     private val signupRepository = SignupRepository()
+    private val feedbackRepository = FeedbackRepository()
 
-    suspend fun deleteCurrentAccount(): Result<Unit> {
+    /**
+     * Firebase only deletes a sign-in that was confirmed in the last few minutes. [credential] is
+     * the password or Google account the person has just given, so it is checked first and
+     * nothing is removed unless the final step is going to be allowed.
+     */
+    suspend fun deleteCurrentAccount(credential: AuthCredential): Result<Unit> {
         val user = FirebaseAuthManager.currentUser
             ?: return Result.failure(AppError(R.string.error_not_signed_in))
 
-        // Firebase only deletes a sign-in made in the last few minutes. Checking first means
-        // nothing is removed unless the final step is going to be allowed.
-        val lastSignIn = user.metadata?.lastSignInTimestamp ?: 0L
-        if (DateUtils.now() - lastSignIn > RECENT_SIGN_IN_MILLIS) {
-            return Result.failure(RecentSignInRequired(R.string.delete_account_recent_login))
-        }
-
         return try {
+            user.reauthenticate(credential).await()
+
             // Leaving each activity properly gives the spot back to other volunteers.
             signupRepository.getMySignups(user.uid).forEach { signup ->
                 signupRepository.leave(signup).getOrThrow()
+            }
+
+            // Their own feedback goes too. Best effort: it can't exist unless the rules allowing it
+            // are published, and a refusal must not stop the account going.
+            runCatching {
+                feedbackRepository.getMineAll(user.uid).forEach { feedbackRepository.delete(it.id) }
             }
 
             db.collection(Constants.COLLECTION_USERS).document(user.uid).delete().await()
@@ -40,9 +46,5 @@ class AccountRepository {
         } catch (e: Exception) {
             Result.failure(e)
         }
-    }
-
-    private companion object {
-        const val RECENT_SIGN_IN_MILLIS = 5L * 60 * 1000
     }
 }

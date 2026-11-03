@@ -1,15 +1,20 @@
 package com.kantu.pab_volunteers.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityProfileInterestsBinding
 import com.kantu.pab_volunteers.navigation.AuthNavGraph
+import com.kantu.pab_volunteers.ui.intro.IntroActivity
+import com.kantu.pab_volunteers.ui.intro.IntroPreference
+import com.kantu.pab_volunteers.utils.AppMessage
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
+import com.kantu.pab_volunteers.utils.UiText
 
 class ProfileInterestsActivity : AppCompatActivity() {
 
@@ -21,6 +26,7 @@ class ProfileInterestsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileInterestsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnBackStep.setOnClickListener { finish() }
@@ -47,7 +53,7 @@ class ProfileInterestsActivity : AppCompatActivity() {
         viewModel.user.observe(this) { user ->
             if (user == null || selected.isNotEmpty()) return@observe
             selected.addAll(user.programmeInterests)
-            binding.rvInterests.adapter?.notifyDataSetChanged()
+            binding.rvInterests.adapter?.let { it.notifyItemRangeChanged(0, it.itemCount) }
         }
         viewModel.isLoading.observe(this) { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
@@ -63,8 +69,15 @@ class ProfileInterestsActivity : AppCompatActivity() {
         }
         viewModel.saved.observe(this) { saved ->
             if (saved) {
-                Toast.makeText(this, R.string.profile_saved, Toast.LENGTH_SHORT).show()
-                AuthNavGraph.goToVolunteerHome(this)
+                AppMessage.showOnNextScreen(UiText.Res(R.string.profile_saved))
+                // The run-through comes once, between finishing the profile and landing on
+                // Home. It carries on there itself.
+                if (IntroPreference.seen(this)) {
+                    AuthNavGraph.goToVolunteerHome(this)
+                } else {
+                    startActivity(Intent(this, IntroActivity::class.java))
+                    finish()
+                }
             }
         }
     }

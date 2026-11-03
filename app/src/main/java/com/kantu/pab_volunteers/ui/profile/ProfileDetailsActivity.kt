@@ -10,6 +10,8 @@ import com.kantu.pab_volunteers.databinding.ActivityProfileDetailsBinding
 import com.kantu.pab_volunteers.navigation.AppNavGraph
 import com.kantu.pab_volunteers.ui.auth.Session
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
+import com.kantu.pab_volunteers.utils.PhoneFormattingWatcher
 
 class ProfileDetailsActivity : AppCompatActivity() {
 
@@ -20,6 +22,8 @@ class ProfileDetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
+        PhoneFormattingWatcher.attach(binding.etPhone)
 
         binding.btnBack.setOnClickListener { finish() }
         binding.btnContinue.setOnClickListener { goToInterests() }

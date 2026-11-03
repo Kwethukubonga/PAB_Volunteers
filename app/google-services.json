@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "423569547664-hpi6bdjom3enhr87kvl8dnhl40tunj7m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kantu.pab_volunteers",
+            "certificate_hash": "59838b45d466c910453d79c1d3f5bf29ab012d48"
+          }
+        },
+        {
           "client_id": "423569547664-hfjhdqmg39o8rt2ndldg5r6nm2i2p7ak.apps.googleusercontent.com",
           "client_type": 3
         }

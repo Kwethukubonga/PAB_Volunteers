@@ -60,6 +60,14 @@ class UserRepository {
         }
     }
 
+    /** Only these two fields, so it can never overwrite anything else on the record. */
+    suspend fun setEmergencyContact(uid: String, name: String, phone: String): Result<Unit> = runCatching {
+        usersCollection().document(uid).update(
+            mapOf("emergencyContactName" to name, "emergencyContactPhone" to phone)
+        ).await()
+        Unit
+    }
+
     // Used by the admin volunteers page.
     suspend fun getAllVolunteers(): List<User> {
         return usersCollection()

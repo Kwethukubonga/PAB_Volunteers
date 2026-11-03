@@ -1,35 +1,56 @@
 package com.kantu.pab_volunteers.ui.admin
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityAdminMainBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
+import com.kantu.pab_volunteers.notifications.NotificationSettings
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
+import com.kantu.pab_volunteers.security.FingerprintSuggestion
+import com.kantu.pab_volunteers.ui.settings.SettingsActivity
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
 
 class AdminMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAdminMainBinding
     private val notificationPrompt = NotificationPermissionPrompt(this)
 
+    // The bottom bar on phones, a rail down the side on tablets (F10). Same menu, same behaviour.
+    private val navBar: NavigationBarView get() = binding.bottomNav ?: requireNotNull(binding.navRail)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdminMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostAdmin) as NavHostFragment
         val navController = navHost.navController
-        binding.bottomNav.setupWithNavController(navController)
+        navBar.setupWithNavController(navController)
+        // The fifth item opens Settings over the tabs; the others switch tab as usual.
+        navBar.setOnItemSelectedListener { item ->
+            if (item.itemId == R.id.adminSettings) {
+                startActivity(Intent(this, SettingsActivity::class.java).putExtra(Constants.EXTRA_IS_ADMIN, true))
+                false
+            } else {
+                NavigationUI.onNavDestinationSelected(item, navController)
+            }
+        }
 
-        // Editors and detail screens sit on top of a tab, so the bar is hidden there.
+        // Editors and detail screens sit on top of a tab, so the bottom bar is hidden there.
+        // A tablet's rail stays, as Material expects.
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNav.visibility = when (destination.id) {
+            binding.bottomNav?.visibility = when (destination.id) {
                 R.id.adminOverviewFragment,
                 R.id.manageActivitiesFragment,
                 R.id.manageVolunteersFragment,
@@ -44,7 +65,17 @@ class AdminMainActivity : AppCompatActivity() {
             intent.getStringExtra(Constants.EXTRA_ACTIVITY_ID)?.let {
                 AdminNavGraph.toActivitySignups(navController, it)
             }
+            // One question at a time: the fingerprint suggestion waits until notifications were
+            // asked about on an earlier visit.
+            val notificationsAskedBefore = NotificationSettings.wasPermissionAsked(this) ||
+                !NotificationSettings.needsPermission(this)
             notificationPrompt.askOnce()
+            if (notificationsAskedBefore) FingerprintSuggestion.offerOnce(this)
         }
+    }
+
+    /** Switches tab exactly as tapping the bar does, for the Overview's at-a-glance rows. */
+    fun selectTab(itemId: Int) {
+        navBar.selectedItemId = itemId
     }
 }

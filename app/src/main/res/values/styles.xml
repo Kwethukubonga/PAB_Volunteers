@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Widget.PAB.Button.Primary" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.PAB.Button.Primary" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/purple_700</item>
         <item name="cornerRadius">@dimen/corner_radius_pill</item>
         <item name="android:textAllCaps">false</item>
@@ -13,7 +13,7 @@
 
     <!-- Three of these sit side by side in a card, so the default padding is trimmed
          to stop longer labels like "Unpublish" wrapping onto a second line. -->
-    <style name="Widget.PAB.Button.CardAction" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Widget.PAB.Button.CardAction" parent="Widget.Material3.Button.TextButton">
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textSize">@dimen/text_body</item>
@@ -31,7 +31,7 @@
         <item name="iconPadding">0dp</item>
     </style>
 
-    <style name="Widget.PAB.Button.Google" parent="Widget.MaterialComponents.Button">
+    <style name="Widget.PAB.Button.Google" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/white</item>
         <item name="android:textColor">@color/text_on_light</item>
         <item name="cornerRadius">@dimen/corner_radius_pill</item>
@@ -43,7 +43,18 @@
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="Widget.PAB.Button.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <!-- Skip, sitting on the photograph at the top of the introduction. No fill or stroke,
+         so it reads as a way out rather than the thing to press. -->
+    <style name="Widget.PAB.Button.Skip" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/text_on_purple</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:minWidth">@dimen/touch_target_min</item>
+        <item name="android:minHeight">@dimen/touch_target_min</item>
+        <item name="rippleColor">@color/text_on_purple_muted</item>
+    </style>
+
+    <style name="Widget.PAB.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/divider</item>
         <item name="android:textColor">@color/text_primary</item>
         <item name="cornerRadius">@dimen/corner_radius_pill</item>
@@ -54,7 +65,7 @@
         <item name="android:minHeight">@dimen/button_height</item>
     </style>
 
-    <style name="Widget.PAB.Button.Destructive" parent="Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="Widget.PAB.Button.Destructive" parent="Widget.Material3.Button.OutlinedButton">
         <item name="strokeColor">@color/status_error_text</item>
         <item name="android:textColor">@color/status_error_text</item>
         <item name="cornerRadius">@dimen/corner_radius_pill</item>
@@ -64,20 +75,8 @@
         <item name="android:minHeight">@dimen/button_height</item>
     </style>
 
-    <!-- One segment of a Settings choice. Three share a row, so the padding is kept small. -->
-    <style name="Widget.PAB.Button.Toggle" parent="Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="backgroundTint">@color/toggle_background</item>
-        <item name="android:textColor">@color/toggle_text</item>
-        <item name="strokeColor">@color/divider</item>
-        <item name="android:textAllCaps">false</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:paddingStart">4dp</item>
-        <item name="android:paddingEnd">4dp</item>
-        <item name="android:minWidth">0dp</item>
-        <item name="android:minHeight">48dp</item>
-    </style>
-
-    <style name="TextAppearance.PAB.FieldLabel" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="TextAppearance.PAB.FieldLabel" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_caption</item>
         <item name="android:textColor">@color/accent</item>
         <item name="android:textAllCaps">true</item>
@@ -85,7 +84,7 @@
         <item name="android:letterSpacing">0.08</item>
     </style>
 
-    <style name="Widget.PAB.TextInputLayout.Filled" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.PAB.TextInputLayout.Filled" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/card_background</item>
         <item name="boxCornerRadiusTopStart">@dimen/corner_radius_sm</item>
         <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_sm</item>
@@ -96,7 +95,7 @@
         <item name="hintEnabled">false</item>
     </style>
 
-    <style name="Widget.PAB.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="Widget.PAB.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxCornerRadiusTopStart">@dimen/corner_radius_sm</item>
         <item name="boxCornerRadiusTopEnd">@dimen/corner_radius_sm</item>
         <item name="boxCornerRadiusBottomStart">@dimen/corner_radius_sm</item>
@@ -105,56 +104,131 @@
         <item name="hintTextColor">@color/text_secondary</item>
     </style>
 
-    <style name="Widget.PAB.BottomNavigation" parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="Widget.PAB.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
         <item name="android:background">@color/card_background</item>
         <item name="itemIconTint">@color/accent</item>
         <item name="itemTextColor">@color/accent</item>
         <item name="elevation">8dp</item>
     </style>
 
-    <style name="TextAppearance.PAB.Display" parent="TextAppearance.MaterialComponents.Headline5">
+    <style name="TextAppearance.PAB.Display" parent="TextAppearance.Material3.HeadlineSmall">
         <item name="android:textSize">@dimen/text_display</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_on_purple</item>
-        <item name="fontFamily">serif</item>
+        <item name="fontFamily">@font/lora</item>
     </style>
 
-    <style name="TextAppearance.PAB.Title" parent="TextAppearance.MaterialComponents.Headline6">
+    <style name="TextAppearance.PAB.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_title</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="TextAppearance.PAB.Subtitle" parent="TextAppearance.MaterialComponents.Subtitle1">
+    <style name="TextAppearance.PAB.Subtitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_subtitle</item>
         <item name="android:textColor">@color/text_primary</item>
     </style>
 
-    <style name="TextAppearance.PAB.Body" parent="TextAppearance.MaterialComponents.Body2">
+    <style name="TextAppearance.PAB.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_body</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="TextAppearance.PAB.Caption" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="TextAppearance.PAB.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="fontFamily">@font/source_sans_3</item>
         <item name="android:textSize">@dimen/text_caption</item>
         <item name="android:textColor">@color/text_secondary</item>
     </style>
 
-    <style name="Widget.PAB.Card" parent="Widget.MaterialComponents.CardView">
+    <style name="Widget.PAB.Card" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">@dimen/corner_radius_lg</item>
         <item name="cardElevation">0dp</item>
         <item name="cardBackgroundColor">@color/card_background</item>
-        <item name="contentPadding">@dimen/spacing_lg</item>
+        <item name="contentPadding">@dimen/card_padding</item>
         <item name="strokeColor">@color/divider</item>
         <item name="strokeWidth">1dp</item>
     </style>
 
-    <style name="Widget.PAB.StatusPill" parent="TextAppearance.MaterialComponents.Caption">
+    <style name="Widget.PAB.StatusPill" parent="TextAppearance.Material3.BodySmall">
         <item name="android:background">@drawable/bg_pill_status</item>
         <item name="android:paddingStart">10dp</item>
         <item name="android:paddingEnd">10dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Sign out at the bottom of Settings: filled, so it stands apart from Delete. -->
+    <style name="Widget.PAB.Button.DestructiveFilled" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/status_error_text</item>
+        <item name="android:textColor">@color/on_destructive</item>
+        <item name="cornerRadius">@dimen/corner_radius_pill</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_subtitle</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="elevation">0dp</item>
+    </style>
+
+    <!-- A group of Settings rows. The rows bring their own padding, so the card has none. -->
+    <style name="Widget.PAB.Card.Settings" parent="Widget.PAB.Card">
+        <item name="cardBackgroundColor">@color/settings_surface</item>
+        <item name="contentPadding">0dp</item>
+    </style>
+
+    <!-- The title above each group in Settings, in the brand colour. -->
+    <style name="TextAppearance.PAB.SettingsSection" parent="TextAppearance.Material3.TitleSmall">
+        <item name="fontFamily">@font/source_sans_3</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- One choice in a Settings list, such as a language. The whole row is the target. -->
+    <style name="Widget.PAB.SettingsRadio" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="android:minHeight">@dimen/settings_row_min_height</item>
+        <item name="android:paddingStart">@dimen/spacing_md</item>
+        <item name="android:textAppearance">@style/TextAppearance.PAB.Subtitle</item>
+        <item name="buttonTint">@color/accent</item>
+    </style>
+
+    <!-- A line between Settings rows, starting where the row titles start. -->
+    <style name="Widget.PAB.SettingsDivider" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/stroke_normal</item>
+        <item name="android:layout_marginStart">@dimen/settings_choice_inset</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <!-- One line of what deleting an account takes away. -->
+    <style name="Widget.PAB.LossListItem" parent="">
+        <item name="android:textAppearance">@style/TextAppearance.PAB.Body</item>
+        <item name="android:drawableStart">@drawable/bullet_dot</item>
+        <item name="android:drawablePadding">@dimen/spacing_md</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">@dimen/spacing_xs</item>
+        <item name="android:paddingBottom">@dimen/spacing_xs</item>
+    </style>
+
+    <!-- Google and fingerprint side by side on the sign-in screens: a white pill that stays white
+         in dark mode and on the purple Explore page, so it always reads as a button. -->
+    <style name="Widget.PAB.Button.SignInOption" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/white</item>
+        <item name="strokeColor">@color/divider</item>
+        <item name="android:textColor">@color/text_on_light</item>
+        <item name="cornerRadius">@dimen/corner_radius_pill</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:paddingStart">@dimen/spacing_sm</item>
+        <item name="android:paddingEnd">@dimen/spacing_sm</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/spacing_sm</item>
+        <item name="iconSize">20dp</item>
     </style>
 </resources>

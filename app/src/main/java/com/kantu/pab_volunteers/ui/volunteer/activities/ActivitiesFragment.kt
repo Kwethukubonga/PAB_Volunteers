@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,7 +15,9 @@ import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentActivitiesBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
+import com.kantu.pab_volunteers.utils.Search
 import com.kantu.pab_volunteers.utils.observeMessages
 
 /** Opportunities to join, with a second tab for the ones a volunteer has saved. */
@@ -25,10 +28,12 @@ class ActivitiesFragment : Fragment() {
     private val viewModel: VolunteerViewModel by activityViewModels()
 
     private lateinit var adapter: ActivityAdapter
+    private lateinit var emptyState: EmptyState
 
     private var showingFavourites = false
     private var openRows: List<ActivityRow> = emptyList()
     private var favouriteRows: List<ActivityRow> = emptyList()
+    private var query = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,6 +63,13 @@ class ActivitiesFragment : Fragment() {
 
         setUpTabs()
 
+        binding.search.etSearch.hint = getString(R.string.search_activities_hint)
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_activities)
+        binding.search.etSearch.doAfterTextChanged {
+            query = it?.toString().orEmpty()
+            render()
+        }
+
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
         viewModel.openActivities.observe(viewLifecycleOwner) { rows ->
@@ -68,6 +80,7 @@ class ActivitiesFragment : Fragment() {
             favouriteRows = rows
             render()
         }
+        viewModel.loadFailed.observe(viewLifecycleOwner) { render() }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
@@ -92,19 +105,28 @@ class ActivitiesFragment : Fragment() {
 
     private fun render() {
         if (_binding == null) return
-        val rows = if (showingFavourites) favouriteRows else openRows
+        val allRows = if (showingFavourites) favouriteRows else openRows
+        val rows = allRows.filter { Search.matches(it.activity, query) }
         adapter.submitList(rows)
         binding.rvActivities.isVisible = rows.isNotEmpty()
-        binding.layoutEmpty.isVisible = rows.isEmpty()
-
-        if (showingFavourites) {
-            binding.tvSubtitle.text =
-                resources.getQuantityString(R.plurals.favourites_saved, rows.size, rows.size)
-            binding.tvEmptyMessage.setText(R.string.empty_favourites)
+        binding.tvSubtitle.text = if (showingFavourites) {
+            resources.getQuantityString(R.plurals.favourites_saved, allRows.size, allRows.size)
         } else {
-            binding.tvSubtitle.text =
-                resources.getQuantityString(R.plurals.opportunities_open, rows.size, rows.size)
-            binding.tvEmptyMessage.setText(R.string.empty_no_open_activities)
+            resources.getQuantityString(R.plurals.opportunities_open, allRows.size, allRows.size)
+        }
+
+        val failed = viewModel.loadFailed.value
+        when {
+            rows.isNotEmpty() -> emptyState.hide()
+            // Nothing matched the search, as opposed to nothing there at all.
+            allRows.isNotEmpty() -> emptyState.showEmpty(
+                getString(R.string.search_no_activities, query.trim()), R.string.action_clear_search
+            ) { binding.search.etSearch.text?.clear() }
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            showingFavourites -> emptyState.showEmpty(getString(R.string.empty_favourites), R.string.action_find_opportunities) {
+                binding.tabs.getTabAt(0)?.select()
+            }
+            else -> emptyState.showEmpty(getString(R.string.empty_no_open_activities))
         }
     }
 

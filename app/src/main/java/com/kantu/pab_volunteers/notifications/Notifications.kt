@@ -25,6 +25,7 @@ object Notifications {
     private const val CHANNEL_ACTIVITIES = "new_activities"
     private const val CHANNEL_ANNOUNCEMENTS = "announcements"
     private const val CHANNEL_FULL = "activity_full"
+    private const val CHANNEL_REMINDERS = "reminders"
 
     // More than this at once becomes one summary instead of a pile of separate notifications.
     private const val MAX_SEPARATE = 3
@@ -40,7 +41,8 @@ object Notifications {
             listOf(
                 channel(text, CHANNEL_ACTIVITIES, R.string.channel_activities, R.string.channel_activities_desc),
                 channel(text, CHANNEL_ANNOUNCEMENTS, R.string.channel_announcements, R.string.channel_announcements_desc),
-                channel(text, CHANNEL_FULL, R.string.channel_full, R.string.channel_full_desc)
+                channel(text, CHANNEL_FULL, R.string.channel_full, R.string.channel_full_desc),
+                channel(text, CHANNEL_REMINDERS, R.string.channel_reminders, R.string.channel_reminders_desc)
             )
         )
     }
@@ -109,6 +111,20 @@ object Notifications {
                     .setContentTitle(announcement.title)
                     .setContentText(announcement.messageBody)
                     .setStyle(NotificationCompat.BigTextStyle().bigText(announcement.messageBody))
+            )
+        }
+    }
+
+    /** For volunteers: a joined activity coming up soon. Tapping opens it. */
+    fun showReminders(context: Context, activities: List<Activity>) {
+        val text = AppLanguage.localized(context)
+        activities.forEach { activity ->
+            val id = "reminder:${activity.id}".hashCode()
+            post(
+                context, id,
+                builder(text, CHANNEL_REMINDERS, bundleOf(Constants.EXTRA_ACTIVITY_ID to activity.id), id)
+                    .setContentTitle(text.getString(R.string.notify_reminder, activity.title))
+                    .setContentText(listOf(activity.dateTimeLabel, activity.location).filter { it.isNotBlank() }.joinToString(" · "))
             )
         }
     }

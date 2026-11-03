@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- One milestone on the Profile screen, two to a row. The icon sits beside the words so a long
+     title wraps in a wide column instead of a narrow one, and every badge in a row is the same
+     height. Read by TalkBack as one item, with its progress. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/bg_card"
+    android:baselineAligned="false"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/milestone_min_height"
+    android:orientation="horizontal"
+    android:padding="@dimen/spacing_md">
+
+    <ImageView
+        android:id="@+id/ivMilestone"
+        android:layout_width="@dimen/milestone_icon_size"
+        android:layout_height="@dimen/milestone_icon_size"
+        android:background="@drawable/bg_chip_soft"
+        android:importantForAccessibility="no"
+        android:padding="@dimen/spacing_sm" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/spacing_sm"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMilestoneTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:importantForAccessibility="no"
+            android:maxLines="2"
+            android:textColor="@color/text_primary"
+            android:textSize="@dimen/text_body"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMilestoneProgress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:importantForAccessibility="no"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.PAB.Caption" />
+    </LinearLayout>
+</LinearLayout>

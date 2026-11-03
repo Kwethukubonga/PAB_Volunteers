@@ -15,6 +15,7 @@ import com.kantu.pab_volunteers.data.model.Activity
 import com.kantu.pab_volunteers.databinding.FragmentManageActivitiesBinding
 import com.kantu.pab_volunteers.navigation.AdminNavGraph
 import com.kantu.pab_volunteers.ui.admin.AdminViewModel
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
@@ -25,6 +26,8 @@ class ManageActivitiesFragment : Fragment() {
     private val viewModel: AdminViewModel by activityViewModels()
 
     private lateinit var adapter: ManageActivityAdapter
+    private lateinit var emptyState: EmptyState
+    private var activities: List<Activity> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,10 +58,12 @@ class ManageActivitiesFragment : Fragment() {
         }
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
-        viewModel.activities.observe(viewLifecycleOwner) { activities ->
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_activities)
+        viewModel.listsFailed.observe(viewLifecycleOwner) { render() }
+        viewModel.activities.observe(viewLifecycleOwner) {
+            activities = it
             adapter.submitList(activities)
-            binding.rvItems.isVisible = activities.isNotEmpty()
-            binding.layoutEmpty.isVisible = activities.isEmpty()
+            render()
             val published = activities.count { it.status == Activity.STATUS_PUBLISHED }
             binding.tvSubtitle.text = getString(
                 R.string.published_drafts_summary, published, activities.size - published
@@ -73,11 +78,24 @@ class ManageActivitiesFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.delete_activity_confirm_title)
             .setMessage(R.string.delete_activity_confirm_message)
-            .setPositiveButton(R.string.action_remove) { _, _ ->
+            .setPositiveButton(R.string.action_delete_activity) { _, _ ->
                 viewModel.deleteActivity(activity.id)
             }
             .setNegativeButton(R.string.action_cancel, null)
             .show()
+    }
+
+    private fun render() {
+        if (_binding == null) return
+        binding.rvItems.isVisible = activities.isNotEmpty()
+        val failed = viewModel.listsFailed.value
+        when {
+            activities.isNotEmpty() -> emptyState.hide()
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            else -> emptyState.showEmpty(getString(R.string.empty_no_activities_yet), R.string.action_create_activity) {
+                AdminNavGraph.toActivityEditor(findNavController())
+            }
+        }
     }
 
     override fun onResume() {

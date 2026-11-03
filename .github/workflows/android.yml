@@ -5,14 +5,37 @@ name: Android CI
 on:
   push:
     branches: [master, develop]
+    # A version tag builds the APK and makes a release out of it.
+    tags: ['v*']
   pull_request:
     branches: [master, develop]
+  # Started by hand. "preview" puts the page on a temporary URL and leaves the live one
+  # alone, which is how the deploy gets proven before it matters. "live-hosting" puts the
+  # page and the APK out for real but leaves the rules alone, so a rules change that the
+  # older APK cannot satisfy can wait until people have updated.
   workflow_dispatch:
+    inputs:
+      deploy:
+        description: What this run should deploy
+        type: choice
+        default: nothing
+        options:
+          - nothing
+          - preview
+          - live-hosting
+          - live
 
 concurrency:
   # A new push replaces a run that is still going for the same branch.
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+# The certificate every published APK has to carry. A phone refuses an update signed by
+# a different key, so this is what stands between a wrong keystore and a volunteer who
+# can no longer update. Not a secret: it is the public half, readable out of any copy of
+# the APK with `apksigner verify --print-certs`.
+env:
+  RELEASE_CERT_SHA1: 59838b45d466c910453d79c1d3f5bf29ab012d48
 
 jobs:
   test:
@@ -119,6 +142,10 @@ jobs:
     runs-on: ubuntu-latest
     # Only worth building once the checks above are green.
     needs: [test, lint, rules]
+    env:
+      # A step's `if` cannot read `secrets`, only `env`, so the question "do we have a
+      # keystore" gets answered once here and the steps below read the answer.
+      HAS_RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE_BASE64 != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -144,9 +171,224 @@ jobs:
       - name: Build the debug APK
         run: ./gradlew assembleDebug --no-daemon
 
-      - name: Publish the APK
+      - name: Publish the debug APK
         uses: actions/upload-artifact@v4
         with:
           name: pab-volunteers-debug
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 30
+
+      # The release keystore is not in the repo. It arrives as secrets, is written where
+      # .gitignore already covers it, and goes when the runner does. Without the secrets
+      # there is no release signing, so these steps are skipped and the deploy job stops
+      # rather than the download page quietly falling back to a debug build. A debug build
+      # is signed with keystore/debug.keystore, which is committed, so anyone who can read
+      # the repo could sign one that installs straight over it.
+      - name: Put the release keystore in place
+        id: signing
+        if: env.HAS_RELEASE_KEYSTORE == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
+        run: |
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > keystore/release.jks
+          {
+            echo "storeFile=keystore/release.jks"
+            echo "storePassword=$STORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+          echo "ready=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build the release APK
+        if: steps.signing.outputs.ready == 'true'
+        run: ./gradlew assembleRelease --no-daemon
+
+      # The wrong keystore would not fail the build. It would strand everyone who already
+      # has the app, because their phone will not take an update signed by another key.
+      # So the run stops here instead, before anything reaches the download page.
+      - name: Check the APK carries the key people already have
+        if: steps.signing.outputs.ready == 'true'
+        run: |
+          apk=app/build/outputs/apk/release/app-release.apk
+          echo "::notice::release outputs: $(ls app/build/outputs/apk/release/ | tr '\n' ' ')"
+
+          # An unsigned APK means Gradle never saw the keystore, and it cannot be
+          # installed at all. Catch that before blaming the fingerprint.
+          if [ ! -f "$apk" ]; then
+            echo "::error::No $apk. Gradle built the release unsigned, so keystore.properties did not reach it."
+            exit 1
+          fi
+
+          apksigner=$(ls "$ANDROID_HOME"/build-tools/*/apksigner 2>/dev/null | sort -V | tail -1)
+          if [ -z "$apksigner" ]; then
+            echo "::error::No apksigner under $ANDROID_HOME/build-tools, so the signature cannot be checked."
+            exit 1
+          fi
+          echo "::notice::apksigner: $apksigner"
+
+          # Keep apksigner's own words: without this a failure here just leaves an empty
+          # fingerprint, which reads as the wrong key rather than as a broken check.
+          if ! "$apksigner" verify --print-certs "$apk" > verify.txt 2> verify.err; then
+            echo "::error::apksigner could not verify the APK: $(tr '\n' ' ' < verify.err | head -c 400)"
+            exit 1
+          fi
+
+          # Build-tools word this differently between versions: "Signer #1 certificate
+          # SHA-1 digest" on 34, "V2 Signer: certificate SHA-1 digest" on 37. Take the
+          # fingerprint off whichever line carries it rather than matching the wording.
+          actual=$(grep -i 'certificate SHA-1 digest:' verify.txt | awk '{print $NF}' | sort -u)
+          if [ -z "$actual" ]; then
+            echo "::error::No fingerprint in apksigner output: $(tr '\n' ' ' < verify.txt | head -c 400)"
+            exit 1
+          fi
+          if [ "$actual" != "$RELEASE_CERT_SHA1" ]; then
+            echo "::error::Signed with $actual, expected $RELEASE_CERT_SHA1. A phone with the app installed could not update to this build."
+            exit 1
+          fi
+          echo "::notice::signed with $actual, which matches"
+
+      - name: Publish the release APK
+        if: steps.signing.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pab-volunteers-release
+          path: app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+
+  deploy:
+    name: Deploy download page and rules
+    runs-on: ubuntu-latest
+    # Everything has to be green first: this needs `build`, which needs the unit tests,
+    # lint and the rules tests. So the rules that go live are always the ones the tests
+    # in this same run passed against.
+    needs: [build]
+    # A merge into master deploys for real. Otherwise nothing deploys unless someone
+    # asks for it by hand, and publishing for real is limited to master and develop so
+    # a feature branch can never put its own rules on the live project.
+    if: >
+      (github.event_name == 'push' && github.ref == 'refs/heads/master')
+      || (github.event_name == 'workflow_dispatch' && inputs.deploy == 'preview')
+      || (github.event_name == 'workflow_dispatch'
+          && (inputs.deploy == 'live' || inputs.deploy == 'live-hosting')
+          && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/develop'))
+    permissions:
+      contents: read
+    # Two merges close together queue instead of racing, and a deploy already running
+    # is never cancelled half-way, unlike the workflow-wide group above.
+    concurrency:
+      group: deploy-live
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # Without the keystore the build job made no release APK, and the download would
+      # fail on a missing artifact partway into the deploy. Say why up front instead.
+      - name: Check release signing is set up
+        env:
+          KEYSTORE_BASE64: ${{ secrets.RELEASE_KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "::error::No release keystore, so there is no signed APK to publish. Add RELEASE_KEYSTORE_BASE64, RELEASE_STORE_PASSWORD, RELEASE_KEY_ALIAS and RELEASE_KEY_PASSWORD to the repository secrets."
+            exit 1
+          fi
+
+      # The APK the build job just made, not whatever is committed in public/, so the
+      # download page always offers the current build.
+      - name: Take the APK from the build job
+        uses: actions/download-artifact@v4
+        with:
+          name: pab-volunteers-release
+          path: ${{ runner.temp }}/apk
+
+      # firebase.json serves this .bin with the APK content type and renames it to
+      # philisa-volunteers.apk on the way down, so the file keeps that name here.
+      - name: Put the APK on the download page
+        run: cp "${{ runner.temp }}/apk/app-release.apk" public/philisa-volunteers.bin
+
+      # Writes the service account key to a file outside the checkout and points the
+      # Firebase CLI at it through GOOGLE_APPLICATION_CREDENTIALS. The key only ever
+      # exists as a repository secret; it is never in the repo and never printed.
+      - name: Sign in to Firebase
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+
+      # A trial run on a temporary channel that expires in a week. It proves the key,
+      # its roles and the APK wiring all work without changing what volunteers see.
+      # Rules are global and have no preview, so they are left for a real deploy.
+      - name: Deploy to a preview channel
+        if: inputs.deploy == 'preview'
+        run: >
+          npx --yes firebase-tools@13 hosting:channel:deploy "trial-${{ github.run_id }}"
+          --project pab-volunteers
+          --expires 7d
+          --non-interactive
+
+      - name: Deploy the download page, leaving the rules alone
+        if: inputs.deploy == 'live-hosting'
+        run: >
+          npx --yes firebase-tools@13 deploy
+          --only hosting
+          --project pab-volunteers
+          --non-interactive
+          --message "${{ github.sha }}"
+
+      - name: Deploy the download page and publish the rules
+        if: github.event_name == 'push' || inputs.deploy == 'live'
+        run: >
+          npx --yes firebase-tools@13 deploy
+          --only hosting,firestore:rules
+          --project pab-volunteers
+          --non-interactive
+          --message "${{ github.sha }}"
+
+      # Proves the deploy actually took: the page answers and the APK is still served
+      # as an APK. A deploy that silently did nothing fails the run instead of sitting
+      # there unnoticed.
+      - name: Check the download page is up
+        if: github.event_name == 'push' || inputs.deploy == 'live' || inputs.deploy == 'live-hosting'
+        run: |
+          curl -fsS -o /dev/null https://pab-volunteers.web.app/
+          curl -fsS -I https://pab-volunteers.web.app/philisa-volunteers.bin             | grep -i 'content-type: application/vnd.android.package-archive'
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    # A tag only becomes a release once the tests, lint, the rules tests and the build
+    # have all passed on that exact commit.
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Take the APK from the build job
+        uses: actions/download-artifact@v4
+        with:
+          name: pab-volunteers-release
+          path: ${{ runner.temp }}/apk
+
+      # Named after the tag, so a downloaded file still says which version it is once
+      # it is sitting in someone's downloads folder.
+      - name: Name the APK after the tag
+        run: cp "${{ runner.temp }}/apk/app-release.apk" "philisa-volunteers-${{ github.ref_name }}.apk"
+
+      # --generate-notes builds the notes from the pull requests merged since the last
+      # tag, so the release reads as the work the team actually did.
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "${{ github.ref_name }}"
+          "philisa-volunteers-${{ github.ref_name }}.apk"
+          --title "${{ github.ref_name }}"
+          --generate-notes

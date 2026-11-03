@@ -17,7 +17,10 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_gradient_header"
             android:orientation="vertical"
-            android:padding="@dimen/spacing_lg">
+            android:paddingStart="@dimen/screen_gutter"
+            android:paddingTop="@dimen/spacing_lg"
+            android:paddingEnd="@dimen/screen_gutter"
+            android:paddingBottom="@dimen/spacing_lg">
 
             <ImageButton
                 android:id="@+id/btnBack"
@@ -57,7 +60,10 @@
             android:id="@+id/tvBody"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginTop="@dimen/spacing_lg"
+            android:layout_marginEnd="@dimen/screen_gutter"
+            android:layout_marginBottom="@dimen/spacing_lg"
             android:lineSpacingMultiplier="1.4"
             android:textColor="@color/text_primary"
             android:textSize="@dimen/text_body"
@@ -69,8 +75,8 @@
             app:contentPadding="0dp"
             android:layout_width="match_parent"
             android:layout_height="@dimen/announcement_image_height"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:layout_marginBottom="@dimen/spacing_lg"
             android:visibility="gone"
             tools:visibility="visible">
@@ -87,8 +93,8 @@
             android:id="@+id/layoutThumbsUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_lg"
-            android:layout_marginEnd="@dimen/spacing_lg"
+            android:layout_marginStart="@dimen/screen_gutter"
+            android:layout_marginEnd="@dimen/screen_gutter"
             android:layout_marginBottom="@dimen/spacing_xl"
             android:background="@drawable/bg_chip_soft"
             android:clickable="true"

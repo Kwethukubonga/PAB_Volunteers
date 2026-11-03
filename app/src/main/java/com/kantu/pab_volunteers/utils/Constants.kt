@@ -5,6 +5,8 @@ object Constants {
     const val COLLECTION_ACTIVITIES = "activities"
     const val COLLECTION_ANNOUNCEMENTS = "announcements"
     const val COLLECTION_SIGNUPS = "activitySignups"
+    const val COLLECTION_CONCERNS = "concerns"
+    const val COLLECTION_FEEDBACK = "activityFeedback"
 
     const val EXTRA_FIRST_NAME = "extra_first_name"
     const val EXTRA_LAST_NAME = "extra_last_name"
@@ -15,4 +17,6 @@ object Constants {
     const val EXTRA_ANNOUNCEMENT_ID = "extra_announcement_id"
     const val EXTRA_VOLUNTEER_ID = "extra_volunteer_id"
     const val EXTRA_IS_ADMIN = "extra_is_admin"
+    // Settings -> Edit profile: the volunteer screens open straight on the profile form.
+    const val EXTRA_OPEN_EDIT_PROFILE = "extra_open_edit_profile"
 }

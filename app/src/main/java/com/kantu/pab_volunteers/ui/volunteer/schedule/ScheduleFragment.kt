@@ -13,9 +13,11 @@ import com.google.android.material.tabs.TabLayout
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.FragmentScheduleBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
+import com.kantu.pab_volunteers.ui.volunteer.VolunteerMainActivity
 import com.kantu.pab_volunteers.ui.volunteer.VolunteerViewModel
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityAdapter
 import com.kantu.pab_volunteers.ui.volunteer.activities.ActivityRow
+import com.kantu.pab_volunteers.utils.EmptyState
 import com.kantu.pab_volunteers.utils.ListLayout
 import com.kantu.pab_volunteers.utils.observeMessages
 
@@ -27,10 +29,16 @@ class ScheduleFragment : Fragment() {
     private val viewModel: VolunteerViewModel by activityViewModels()
 
     private lateinit var adapter: ActivityAdapter
+    private lateinit var emptyState: EmptyState
 
     private var selectedTab = TAB_UPCOMING
     private var upcomingRows: List<ActivityRow> = emptyList()
     private var completedRows: List<ActivityRow> = emptyList()
+
+    // Each tab opens the way it is usually read: Upcoming on the soonest, Completed on the
+    // most recent. This remembers only whether the volunteer has turned one of them around,
+    // one tab at a time, so flipping Completed leaves Upcoming as it was.
+    private val turnedAround = booleanArrayOf(false, false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,8 +59,13 @@ class ScheduleFragment : Fragment() {
         }
         binding.rvSchedule.layoutManager = ListLayout.forCards(requireContext())
         binding.rvSchedule.adapter = adapter
+        emptyState = EmptyState(binding.layoutEmpty, R.drawable.ic_schedule)
 
         setUpTabs()
+        binding.btnSort.setOnClickListener {
+            turnedAround[selectedTab] = !turnedAround[selectedTab]
+            render()
+        }
         binding.swipeRefresh.setOnRefreshListener { viewModel.refresh() }
 
         viewModel.mySchedule.observe(viewLifecycleOwner) { rows ->
@@ -63,6 +76,7 @@ class ScheduleFragment : Fragment() {
             completedRows = rows
             render()
         }
+        viewModel.loadFailed.observe(viewLifecycleOwner) { render() }
         viewModel.isLoading.observe(viewLifecycleOwner) {
             binding.swipeRefresh.isRefreshing = it
         }
@@ -88,17 +102,31 @@ class ScheduleFragment : Fragment() {
         if (_binding == null) return
 
         val showingUpcoming = selectedTab == TAB_UPCOMING
-        val rows = if (showingUpcoming) upcomingRows else completedRows
-        val emptyMessage = if (showingUpcoming) {
-            R.string.empty_no_schedule
-        } else {
-            R.string.empty_nothing_completed
-        }
+        val inOrder = if (showingUpcoming) upcomingRows else completedRows
+        // The view model hands each list over already sorted by date, so turning the list
+        // around is all the other order is.
+        val rows = if (turnedAround[selectedTab]) inOrder.reversed() else inOrder
+        val failed = viewModel.loadFailed.value
+
+        // Completed arrives most recent first, Upcoming soonest first, so the same flag
+        // means opposite things on the two tabs.
+        val latestFirst = (selectedTab == TAB_COMPLETED) != turnedAround[selectedTab]
+        binding.btnSort.setText(
+            if (latestFirst) R.string.sort_latest_first else R.string.sort_earliest_first
+        )
+        binding.btnSort.isVisible = rows.size > 1
 
         adapter.submitList(rows)
         binding.rvSchedule.isVisible = rows.isNotEmpty()
-        binding.layoutEmpty.isVisible = rows.isEmpty()
-        binding.tvEmptyMessage.setText(emptyMessage)
+        when {
+            rows.isNotEmpty() -> emptyState.hide()
+            failed != null -> emptyState.showFailed(failed) { viewModel.refresh() }
+            // Nothing booked yet: straight to where there is something to join.
+            showingUpcoming -> emptyState.showEmpty(getString(R.string.empty_no_schedule), R.string.action_browse_activities) {
+                (activity as? VolunteerMainActivity)?.selectTab(R.id.activitiesFragment)
+            }
+            else -> emptyState.showEmpty(getString(R.string.empty_nothing_completed))
+        }
         binding.tvSubtitle.text =
             getString(R.string.schedule_summary, upcomingRows.size, completedRows.size)
     }
@@ -115,5 +143,6 @@ class ScheduleFragment : Fragment() {
 
     private companion object {
         const val TAB_UPCOMING = 0
+        const val TAB_COMPLETED = 1
     }
 }

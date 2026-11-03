@@ -1,5 +1,6 @@
 package com.kantu.pab_volunteers.ui.volunteer
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.addCallback
@@ -7,31 +8,39 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.navigation.NavigationBarView
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.databinding.ActivityVolunteerMainBinding
 import com.kantu.pab_volunteers.navigation.VolunteerNavGraph
 import com.kantu.pab_volunteers.notifications.NotificationPermissionPrompt
 import com.kantu.pab_volunteers.notifications.UpdatesWorker
 import com.kantu.pab_volunteers.utils.Constants
+import com.kantu.pab_volunteers.utils.OfflineBanner
 
 class VolunteerMainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVolunteerMainBinding
+    private lateinit var navController: NavController
     private val notificationPrompt = NotificationPermissionPrompt(this)
+
+    // The bottom bar on phones, a rail down the side on tablets (F10). Same menu, same behaviour.
+    private val navBar: NavigationBarView get() = binding.bottomNav ?: requireNotNull(binding.navRail)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVolunteerMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        OfflineBanner.attach(this, binding.offlineBanner.root)
 
         val navHost = supportFragmentManager
             .findFragmentById(R.id.navHostVolunteer) as NavHostFragment
-        val navController = navHost.navController
-        binding.bottomNav.setupWithNavController(navController)
+        navController = navHost.navController
+        navBar.setupWithNavController(navController)
 
-        // The detail screens are pushed on top of a tab, so the bar would look wrong there.
+        // The detail screens are pushed on top of a tab, so the bottom bar would look wrong there.
+        // A tablet's rail stays, as Material expects.
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bottomNav.visibility = if (destination.id in TABS) View.VISIBLE else View.GONE
+            binding.bottomNav?.visibility = if (destination.id in TABS) View.VISIBLE else View.GONE
         }
 
         onBackPressedDispatcher.addCallback(this) {
@@ -41,7 +50,7 @@ class VolunteerMainActivity : AppCompatActivity() {
                 current !in TABS -> navController.popBackStack()
                 // From any other tab, Back returns to Home rather than leaving the app.
                 current != R.id.homeFragment ->
-                    binding.bottomNav.selectedItemId = R.id.homeFragment
+                    navBar.selectedItemId = R.id.homeFragment
                 else -> {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
@@ -56,8 +65,20 @@ class VolunteerMainActivity : AppCompatActivity() {
         }
     }
 
+    // Settings -> Edit profile, while the volunteer screens are already open underneath.
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.getBooleanExtra(Constants.EXTRA_OPEN_EDIT_PROFILE, false)) {
+            VolunteerNavGraph.toEditProfile(navController)
+        }
+    }
+
     // Opened by tapping a notification: go straight to the activity or announcement it was about.
+    // Or from Settings -> Edit profile, when the volunteer screens weren't open.
     private fun openFromNotification(navController: NavController) {
+        if (intent.getBooleanExtra(Constants.EXTRA_OPEN_EDIT_PROFILE, false)) {
+            VolunteerNavGraph.toEditProfile(navController)
+        }
         intent.getStringExtra(Constants.EXTRA_ACTIVITY_ID)?.let {
             VolunteerNavGraph.toActivityDetails(navController, it)
         }
@@ -72,7 +93,7 @@ class VolunteerMainActivity : AppCompatActivity() {
      * out of sync, which is what broke the "See all" links.
      */
     fun selectTab(itemId: Int) {
-        binding.bottomNav.selectedItemId = itemId
+        navBar.selectedItemId = itemId
     }
 
     private companion object {

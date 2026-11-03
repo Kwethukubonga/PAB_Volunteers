@@ -6,12 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.kantu.pab_volunteers.R
 import com.kantu.pab_volunteers.data.firebase.FirebaseAuthManager
 import com.kantu.pab_volunteers.data.model.User
 import com.kantu.pab_volunteers.data.repository.AuthRepository
 import com.kantu.pab_volunteers.data.repository.UserRepository
+import com.kantu.pab_volunteers.security.AppLock
 import com.kantu.pab_volunteers.utils.AppLanguage
 import com.kantu.pab_volunteers.utils.ErrorMessages
 import com.kantu.pab_volunteers.utils.UiText
@@ -36,16 +39,38 @@ class AuthViewModel : ViewModel() {
     private val _signedInUser = MutableLiveData<User?>()
     val signedInUser: LiveData<User?> = _signedInUser
 
+    // Set when a password saved for fingerprint sign-in no longer works, so the screen can forget it.
+    private val _savedSignInRejected = MutableLiveData(false)
+    val savedSignInRejected: LiveData<Boolean> = _savedSignInRejected
+
     fun signInWithEmail(email: String, password: String) {
         if (!validate(email, password)) return
         run(authAction = { authRepository.signInWithEmail(email, password) })
     }
 
+    /**
+     * Fingerprint sign-in for an email account, with the password the fingerprint just unlocked.
+     * If it has been changed since (or the account removed), the saved one is useless: the screen
+     * is told to forget it and the person signs in with the new password once.
+     */
+    fun signInWithSavedPassword(email: String, password: String) {
+        run(
+            authAction = { authRepository.signInWithEmail(email, password) },
+            onRejected = { error ->
+                val stale = error is FirebaseAuthInvalidCredentialsException || error is FirebaseAuthInvalidUserException
+                if (stale) {
+                    _savedSignInRejected.value = true
+                    _errorMessage.value = UiText.Res(R.string.fingerprint_password_changed)
+                }
+                stale
+            }
+        )
+    }
+
     fun createAccount(email: String, password: String, confirmPassword: String) {
         if (!validate(email, password)) return
-        if (!validateNewPassword(password)) return
-        if (password != confirmPassword) {
-            _errorMessage.value = UiText.Res(R.string.error_passwords_mismatch)
+        PasswordRules.problemWithNewPassword(password, confirmPassword)?.let {
+            _errorMessage.value = UiText.Res(it)
             return
         }
         run(authAction = { authRepository.createAccountWithEmail(email, password) })
@@ -74,13 +99,17 @@ class AuthViewModel : ViewModel() {
         }
     }
 
-    private fun run(authAction: suspend () -> Result<FirebaseUser>) {
+    /** [onRejected] may explain a failure itself; it returns true when it has. */
+    private fun run(
+        authAction: suspend () -> Result<FirebaseUser>,
+        onRejected: (Throwable) -> Boolean = { false }
+    ) {
         viewModelScope.launch {
             _isLoading.value = true
             _errorMessage.value = null
             authAction()
                 .onSuccess { firebaseUser -> loadRecordFor(firebaseUser) }
-                .onFailure { _errorMessage.value = ErrorMessages.textFor(it) }
+                .onFailure { if (!onRejected(it)) _errorMessage.value = ErrorMessages.textFor(it) }
             _isLoading.value = false
         }
     }
@@ -99,6 +128,7 @@ class AuthViewModel : ViewModel() {
                 FirebaseAuthManager.signOut()
                 _errorMessage.value = UiText.Res(R.string.error_account_load)
             } else {
+                AppLock.unlockAfterSignIn()
                 _signedInUser.value = user
             }
         } catch (e: CancellationException) {
@@ -125,29 +155,8 @@ class AuthViewModel : ViewModel() {
         return true
     }
 
-    /**
-     * Only new passwords are judged this hard. Signing in must not re-check strength, or
-     * anyone who joined before this rule could never get back in. These match the policy
-     * Firebase enforces, so the person is told here instead of being refused afterwards.
-     */
-    private fun validateNewPassword(password: String): Boolean {
-        if (password.length < MIN_PASSWORD_LENGTH) {
-            _errorMessage.value = UiText.Res(R.string.error_password_short)
-            return false
-        }
-        if (password.none { !it.isLetterOrDigit() }) {
-            _errorMessage.value = UiText.Res(R.string.error_password_symbol)
-            return false
-        }
-        return true
-    }
-
     fun clearMessages() {
         _errorMessage.value = null
         _infoMessage.value = null
-    }
-
-    private companion object {
-        const val MIN_PASSWORD_LENGTH = 8
     }
 }
