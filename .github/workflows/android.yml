@@ -303,7 +303,7 @@ jobs:
       # The APK the build job just made, not whatever is committed in public/, so the
       # download page always offers the current build.
       - name: Take the APK from the build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: pab-volunteers-release
           path: ${{ runner.temp }}/apk
@@ -372,7 +372,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Take the APK from the build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: pab-volunteers-release
           path: ${{ runner.temp }}/apk
