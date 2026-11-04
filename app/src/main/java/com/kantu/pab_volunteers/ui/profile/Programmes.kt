@@ -13,7 +13,7 @@ data class ProgrammeOption(
 
 val programmeOptions = listOf(
     ProgrammeOption(
-        R.string.programme_after_school,
+        R.string.programme_holiday,
         R.drawable.ic_schedule,
         R.drawable.img_programme_after_school
     ),
@@ -27,15 +27,17 @@ val programmeOptions = listOf(
         R.drawable.ic_profile,
         R.drawable.img_programme_womens_empowerment
     ),
+    // Noordkaap, the ECD Centre and Internship have no photos of their own yet, so they
+    // borrow the closest ones until Philisa sends some.
     ProgrammeOption(
-        R.string.programme_baby_saver,
+        R.string.programme_noordkaap,
         R.drawable.ic_check_circle,
-        R.drawable.img_programme_baby_saver
+        R.drawable.img_programme_youth
     ),
     ProgrammeOption(
-        R.string.programme_safe_houses,
+        R.string.programme_ecd,
         R.drawable.ic_home,
-        R.drawable.img_programme_safe_houses
+        R.drawable.img_hero_lavender
     ),
     ProgrammeOption(
         R.string.programme_seniors,
@@ -48,18 +50,13 @@ val programmeOptions = listOf(
         R.drawable.img_programme_community_feeding
     ),
     ProgrammeOption(
-        R.string.programme_mens_cafe,
-        R.drawable.ic_people,
-        R.drawable.img_programme_mens_cafe
-    ),
-    ProgrammeOption(
-        R.string.programme_search_rescue,
-        R.drawable.ic_location,
-        R.drawable.img_programme_search_rescue
-    ),
-    ProgrammeOption(
         R.string.programme_social_work,
         R.drawable.ic_admin_volunteers,
+        R.drawable.img_programme_social_work
+    ),
+    ProgrammeOption(
+        R.string.programme_internship,
+        R.drawable.ic_location,
         R.drawable.img_programme_social_work
     )
 )

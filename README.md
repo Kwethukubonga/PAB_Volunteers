@@ -60,15 +60,15 @@ anyone who happens to read this page.
 
 ## 2. Background
 
-PAB, meaning *"Heal Our Women"* in isiXhosa, was founded in 2008 in Lavender Hill and is now based in Steenberg, Cape Town. It supports women, children and families through ten programmes:
+PAB, meaning *"Heal Our Women"* in isiXhosa, was founded in 2008 in Lavender Hill and is now based in Steenberg, Cape Town. It supports women, children and families through nine programmes:
 
 | # | Programme | # | Programme |
 |---|-----------|---|-----------|
-| 1 | Afterschool Programmes | 6 | Senior Programme |
+| 1 | Holiday Programme | 6 | Senior Programme |
 | 2 | Youth Programme | 7 | Community Feeding |
-| 3 | Women Empowerment | 8 | Men's Café |
-| 4 | Baby Saver | 9 | Search and Rescue Team |
-| 5 | Emergency Safe Houses | 10 | Social Work Services |
+| 3 | Women Empowerment | 8 | Social Work / Internship |
+| 4 | Noordkaap - Afterschool Programme | 9 | Internship |
+| 5 | ECD Centre (Early Childhood Development) | | |
 
 ### 2.1 How the Requirements Were Gathered
 
@@ -460,7 +460,6 @@ erDiagram
 - **Tested:** 68 rules tests run against the Firestore emulator on every push.
 - **Delete my account** removes the volunteer's data and gives their spots back, in line with POPIA. It takes two steps: a page listing what will be lost (hours, upcoming places, history), then confirming with their password or Google account and typing the confirmation word. Firebase needs that fresh confirmation before it deletes a sign-in, and nothing is removed until it succeeds.
 - **Passwords** need at least 8 characters, including a symbol.
-- **Safe house locations** are never shown in the app.
 - **Secrets** (Cloudinary details, release signing keys, Firebase admin keys) are kept out of Git.
 
 ---

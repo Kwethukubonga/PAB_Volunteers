@@ -47,9 +47,7 @@
     <!-- Our Programmes -->
     <string name="programmes_heading">Where Volunteers Make Their Mark</string>
     <string name="programme_seniors" translatable="false">Senior Programme</string>
-    <string name="programme_mens_cafe" translatable="false">Men\'s Café</string>
-    <string name="programme_baby_saver" translatable="false">Baby Saver</string>
-    <string name="programme_search_rescue" translatable="false">Search and Rescue Team</string>
+    <string name="programme_noordkaap" translatable="false">Noordkaap - Afterschool Programme</string>
 
     <!-- Volunteer testimonials -->
     <string name="testimonials_heading">Hear from Our Volunteers</string>
@@ -68,8 +66,8 @@
 
     <!-- Footer -->
     <string name="footer_email" translatable="false">admin@philisaabafazi.org</string>
-    <string name="footer_address" translatable="false">55 Strauss Road, Steenberg 7965, Cape Town</string>
-    <string name="footer_phone" translatable="false">+27 21 565 0668</string>
+    <string name="footer_address" translatable="false">55 - 57 Strauss Road, Steenberg</string>
+    <string name="footer_phone" translatable="false">081 746 9889</string>
     <!-- Philisa has not given a WhatsApp number yet. The Settings row appears once this is filled in. -->
     <string name="footer_whatsapp" translatable="false"></string>
     <string name="footer_copyright" translatable="false">© 2026 Philisa Abafazi Bethu Women Centre SA</string>
@@ -91,10 +89,11 @@
     <string name="programme_interest_subheading">Select all the programmes you\'d like to be considered for</string>
     <string name="programme_womens_empowerment" translatable="false">Women Empowerment</string>
     <string name="programme_youth" translatable="false">Youth Programme</string>
-    <string name="programme_after_school" translatable="false">Afterschool Programmes</string>
+    <string name="programme_holiday" translatable="false">Holiday Programme</string>
     <string name="programme_community_feeding" translatable="false">Community Feeding</string>
-    <string name="programme_safe_houses" translatable="false">Emergency Safe Houses</string>
-    <string name="programme_social_work" translatable="false">Social Work Services</string>
+    <string name="programme_ecd" translatable="false">ECD Centre (Early Childhood Development)</string>
+    <string name="programme_social_work" translatable="false">Social Work / Internship</string>
+    <string name="programme_internship" translatable="false">Internship</string>
 
     <!-- Login -->
     <string name="label_password">Password</string>
@@ -557,7 +556,7 @@
     <string name="privacy_what_heading">What the app keeps</string>
     <string name="privacy_what">Your name, email address, phone number, the area you live in, the programmes you chose, and the activities you have signed up for. Nothing else.</string>
     <string name="privacy_who_heading">Who can see it</string>
-    <string name="privacy_who">You, and Philisa\'s admins. Other volunteers never see your details, and there is no public list of volunteers. Safe house locations are never shown in the app.</string>
+    <string name="privacy_who">You, and Philisa\'s admins. Other volunteers never see your details, and there is no public list of volunteers.</string>
     <string name="privacy_rights_heading">What you can do</string>
     <string name="privacy_rights">You can correct your details in Edit profile, take a copy of everything the app holds, and delete your account from Settings, which gives your places back to other volunteers. Ask admin@philisaabafazi.org about anything else.</string>
     <string name="privacy_download">Download my data</string>

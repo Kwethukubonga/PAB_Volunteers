@@ -50,18 +50,18 @@ function daysFromToday(offset) {
 // Programme names must match the app exactly, because they are matched as text.
 const programmes = [
   {
-    key: 'after-school',
-    programme: 'Afterschool Programmes',
+    key: 'holiday',
+    programme: 'Holiday Programme',
     activity: {
-      title: 'Homework Help Afternoon',
-      days: 3, startTime: '14:00', endTime: '16:30',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
-      volunteerRole: 'Homework tutor', totalSpots: 8,
-      description: 'Help primary school learners with reading, maths and homework after school. Patience matters more than being a teacher.',
+      title: 'Holiday Club Morning',
+      days: 3, startTime: '09:00', endTime: '12:00',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
+      volunteerRole: 'Activity helper', totalSpots: 8,
+      description: 'Help run games, reading and crafts for children during the school holidays. Energy matters more than experience.',
     },
     announcement: {
-      title: 'Afterschool tutors needed',
-      messageBody: 'We are looking for volunteers who can give two afternoons a month to help learners with their homework. Join a Homework Help Afternoon from the Activities tab.',
+      title: 'Holiday helpers needed',
+      messageBody: 'We are looking for volunteers who can give a few mornings during the school holidays. Join a Holiday Club Morning from the Activities tab.',
     },
   },
   {
@@ -70,7 +70,7 @@ const programmes = [
     activity: {
       title: 'Youth Life Skills Workshop',
       days: 5, startTime: '10:00', endTime: '13:00',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       volunteerRole: 'Workshop assistant', totalSpots: 6,
       description: 'Support a session for teenagers on setting goals, building confidence and staying safe online. You will help run the group activities.',
     },
@@ -85,7 +85,7 @@ const programmes = [
     activity: {
       title: 'Sewing and Skills Circle',
       days: 6, startTime: '09:30', endTime: '12:30',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       volunteerRole: 'Skills helper', totalSpots: 6,
       description: 'Assist women learning sewing and small business skills. Help set up, hand out materials and encourage everyone taking part.',
     },
@@ -95,34 +95,33 @@ const programmes = [
     },
   },
   {
-    key: 'baby-saver',
-    programme: 'Baby Saver',
+    key: 'noordkaap',
+    programme: 'Noordkaap - Afterschool Programme',
     activity: {
-      title: 'Baby Pack Assembly',
-      days: 8, startTime: '10:00', endTime: '13:00',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
-      volunteerRole: 'Packing volunteer', totalSpots: 10,
-      description: 'Sort donated clothing, nappies and blankets into care packs for newborns supported through the Baby Saver programme.',
+      title: 'Homework Help Afternoon',
+      days: 8, startTime: '14:00', endTime: '16:30',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
+      volunteerRole: 'Homework tutor', totalSpots: 8,
+      description: 'Help primary school learners with reading, maths and homework after school. Patience matters more than being a teacher.',
     },
     announcement: {
-      title: 'Baby pack donations',
-      messageBody: 'We are collecting newborn nappies, baby clothes and warm blankets for the Baby Saver care packs. Drop them off at the centre any weekday.',
+      title: 'Afterschool tutors needed',
+      messageBody: 'We are looking for volunteers who can give two afternoons a month to help learners with their homework. Join a Homework Help Afternoon from the Activities tab.',
     },
   },
   {
-    key: 'safe-houses',
-    programme: 'Emergency Safe Houses',
+    key: 'ecd',
+    programme: 'ECD Centre (Early Childhood Development)',
     activity: {
-      title: 'Safe House Supplies Drive',
-      days: 10, startTime: '09:00', endTime: '12:00',
-      // Packing happens at the centre. Safe house addresses are never shown in the app.
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
-      volunteerRole: 'Sorting and packing', totalSpots: 8,
-      description: 'Sort and pack toiletries, bedding and food for the emergency safe houses. Packing happens at the centre, and safe house locations are kept private.',
+      title: 'ECD Classroom Helper',
+      days: 10, startTime: '08:30', endTime: '12:00',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
+      volunteerRole: 'Classroom helper', totalSpots: 6,
+      description: 'Help the ECD teachers with story time, play and snacks for young children. A teacher is always in the room.',
     },
     announcement: {
-      title: 'Supplies for the safe houses',
-      messageBody: 'Toiletries, bedding and non-perishable food are always needed. Thank you for keeping safe house locations private whenever you help.',
+      title: 'Toys and books for the ECD Centre',
+      messageBody: 'Clean toys, picture books and art supplies are always needed for the ECD Centre. Drop them off at the centre any weekday.',
     },
   },
   {
@@ -131,7 +130,7 @@ const programmes = [
     activity: {
       title: 'Seniors Tea and Chat',
       days: 12, startTime: '10:00', endTime: '12:00',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       volunteerRole: 'Companion', totalSpots: 8,
       description: 'Spend a morning with older members of the community over tea, games and conversation. Help with serving and setting up.',
     },
@@ -146,7 +145,7 @@ const programmes = [
     activity: {
       title: 'Community Soup Kitchen',
       days: 13, startTime: '09:00', endTime: '13:00',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       volunteerRole: 'Kitchen helper', totalSpots: 12,
       description: 'Help prepare, cook and serve a warm meal for families in the community. Closed shoes are required in the kitchen.',
     },
@@ -156,48 +155,33 @@ const programmes = [
     },
   },
   {
-    key: 'mens-cafe',
-    programme: 'Men\'s Café',
-    activity: {
-      title: 'Men\'s Café Evening',
-      days: 15, startTime: '17:30', endTime: '19:30',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
-      volunteerRole: 'Host and set-up', totalSpots: 6,
-      description: 'Help set up and host a relaxed evening where men meet to talk and support each other. Includes set-up, making tea and cleaning up.',
-    },
-    announcement: {
-      title: 'Men\'s Café meets every month',
-      messageBody: 'The Men\'s Café is a safe space for men to talk and support each other. Volunteers help with set-up, tea and a warm welcome.',
-    },
-  },
-  {
-    key: 'search-rescue',
-    programme: 'Search and Rescue Team',
-    activity: {
-      title: 'Search and Rescue Awareness Day',
-      days: 17, startTime: '09:00', endTime: '13:00',
-      location: 'Lavender Hill',
-      volunteerRole: 'Community outreach', totalSpots: 10,
-      description: 'Hand out safety information and help the team run an awareness stall on missing persons and child safety.',
-    },
-    announcement: {
-      title: 'Awareness day in Lavender Hill',
-      messageBody: 'Help us share safety information with families in Lavender Hill. Sign up for the Search and Rescue Awareness Day from the Activities tab.',
-    },
-  },
-  {
     key: 'social-work',
-    programme: 'Social Work Services',
+    programme: 'Social Work / Internship',
     activity: {
       title: 'Office and Intake Support',
       days: 20, startTime: '09:00', endTime: '13:00',
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       volunteerRole: 'Admin assistant', totalSpots: 4,
       description: 'Help the social work team with filing, preparing information packs and welcoming visitors. Everything you see and hear stays confidential.',
     },
     announcement: {
       title: 'Confidentiality at Philisa',
-      messageBody: 'Volunteers supporting Social Work Services must keep everything they see and hear private. Speak to the team if you have any questions.',
+      messageBody: 'Volunteers supporting Social Work / Internship must keep everything they see and hear private. Speak to the team if you have any questions.',
+    },
+  },
+  {
+    key: 'internship',
+    programme: 'Internship',
+    activity: {
+      title: 'Intern Welcome Morning',
+      days: 22, startTime: '09:00', endTime: '12:00',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
+      volunteerRole: 'Intern', totalSpots: 4,
+      description: 'Meet the team, see how the centre runs and find out how an internship at Philisa works.',
+    },
+    announcement: {
+      title: 'Internships at Philisa',
+      messageBody: 'Students who need practical hours can intern at Philisa. Join the Intern Welcome Morning from the Activities tab to find out more.',
     },
   },
 ];
@@ -212,22 +196,22 @@ const plannerSamples = [
     description: 'Pack food parcels for families on the Community Feeding list. On the day, "I need help" appears on this activity for anyone signed up.',
   },
   {
-    key: 'tomorrow', programme: 'Afterschool Programmes', days: 1,
+    key: 'tomorrow', programme: 'Noordkaap - Afterschool Programme', days: 1,
     title: 'Reading Buddies', startTime: '14:30', endTime: '16:00',
     volunteerRole: 'Reading buddy', totalSpots: 6,
     description: 'Read one-on-one with a learner who is building confidence. Books are provided.',
   },
   {
-    key: 'past-recent', programme: 'Social Work Services', days: -3,
+    key: 'past-recent', programme: 'Social Work / Internship', days: -3,
     title: 'Centre Spring Clean', startTime: '09:00', endTime: '12:00',
     volunteerRole: 'Cleaning team', totalSpots: 8,
     description: 'Clean and tidy the rooms at the centre before the new term.',
   },
   {
-    key: 'past-week', programme: 'Emergency Safe Houses', days: -10,
+    key: 'past-week', programme: 'Community Feeding', days: -10,
     title: 'Blanket Drive Sorting', startTime: '10:00', endTime: '13:00',
     volunteerRole: 'Sorting and packing', totalSpots: 8,
-    description: 'Sort donated blankets for the safe houses. Packing happens at the centre.',
+    description: 'Sort donated blankets for families in need. Packing happens at the centre.',
   },
   {
     key: 'past-month', programme: 'Youth Programme', days: -24,
@@ -236,7 +220,7 @@ const plannerSamples = [
     description: 'Help run a friendly soccer morning for teenagers, with water breaks and a team talk.',
   },
   {
-    key: 'draft', programme: 'Afterschool Programmes', days: 25, status: 'draft',
+    key: 'draft', programme: 'Holiday Programme', days: 25, status: 'draft',
     title: 'Holiday Club Planning', startTime: '10:00', endTime: '12:00',
     volunteerRole: 'Planner', totalSpots: 5,
     description: 'Still being planned. Only admins see drafts until they are published.',
@@ -282,7 +266,7 @@ function buildDocs(notify) {
     id: `seed-activity-${key}`,
     data: {
       ...activity,
-      location: 'Philisa Centre, 55 Strauss Road, Steenberg',
+      location: 'Philisa Centre, 55 - 57 Strauss Road, Steenberg',
       ...daysFromToday(days),
       filledSpots: 0,
       status,
@@ -304,7 +288,7 @@ function buildVolunteerDocs(docs, uid, name) {
   const activities = Object.fromEntries(docs.filter((d) => d.collection === 'activities').map((d) => [d.id, d.data]));
   const joined = ['today', 'tomorrow', 'past-recent', 'past-week', 'past-month']
     .map((key) => `seed-activity-${key}`)
-    .concat('seed-activity-after-school');
+    .concat('seed-activity-noordkaap');
   const signups = joined.map((activityId) => {
     const a = activities[activityId];
     return {
@@ -361,10 +345,16 @@ async function add(db, docs) {
   console.log(`Added ${added}, skipped ${skipped} that already existed.`);
 }
 
+// Samples for programmes Philisa no longer runs, so --remove still clears them.
+const retiredDocs = ['after-school', 'baby-saver', 'safe-houses', 'mens-cafe', 'search-rescue'].flatMap((key) => [
+  { collection: 'activities', id: `seed-activity-${key}` },
+  { collection: 'announcements', id: `seed-announcement-${key}` },
+]);
+
 async function remove(db, docs) {
   const batch = db.batch();
   let signups = 0;
-  for (const doc of docs) {
+  for (const doc of docs.concat(retiredDocs)) {
     if (doc.collection === 'activities') {
       const taken = await db.collection('activitySignups').where('activityId', '==', doc.id).get();
       taken.forEach((s) => batch.delete(s.ref));

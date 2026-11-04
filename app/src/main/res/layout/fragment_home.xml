@@ -148,7 +148,7 @@
                             android:textColor="@color/text_on_purple"
                             android:textSize="@dimen/text_body"
                             app:drawableStartCompat="@drawable/ic_location_small"
-                            tools:text="Philisa Centre, 55 Strauss Rd" />
+                            tools:text="Philisa Centre, 55 - 57 Strauss Rd" />
                     </LinearLayout>
                 </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
